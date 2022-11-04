@@ -1,0 +1,17 @@
+server:
+  port: 9005
+
+#mysql
+spring:
+  datasource:
+   driver-class-name: com.mysql.cj.jdbc.Driver
+   url: jdbc:mysql://localhost:3306/bitcamp?serverTimezone=Asia/Seoul
+   username: angel
+   password: 1234
+
+
+#mybatis
+mybatis:
+  type-aliases-package: data
+  mapper-locations:
+    - /mapper/**/*.xml
