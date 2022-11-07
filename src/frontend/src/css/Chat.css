@@ -1,0 +1,35 @@
+
+div.main-box{
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border: 1px solid gray;
+
+}
+div.chatroom-list{
+    width: 100%;
+    height: 100%;
+    border: 1px solid gray;
+
+}
+div#chat-message{
+    width: 100%;
+    height: 100%;
+    border: 1px solid gray;
+
+}
+span.cr_wdate{
+    color: gray;
+    float:right;
+    margin-right: 20px;
+}
+li.crlist{
+    list-style: none;
+    background-color: darkseagreen;
+    border: 1px solid green;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+}

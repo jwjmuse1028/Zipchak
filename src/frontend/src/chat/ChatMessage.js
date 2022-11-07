@@ -1,12 +1,22 @@
 import { useRef, useState, useEffect } from 'react';
 import * as StompJs from '@stomp/stompjs';
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
-function CreateReadChat() {
+function ChatMessage(props) {
     const [chatList, setChatList] = useState([]);
     const [chat, setChat] = useState('');
+    const {cr_num, ur_num}=props;
 
     const { apply_id } = 1;
     const client = useRef({});
+
+    const getChatMessage=()=>{
+        let url="http://localhost:9005/chat/cm?cr_num="+cr_num;
+        axios.get(url).then(res=>{
+            setChatList(res.data);
+        })
+    }
 
     const connect = () => {
         client.current = new StompJs.Client({
@@ -52,26 +62,33 @@ function CreateReadChat() {
 
     const handleSubmit = (event, chat) => { // 보내기 버튼 눌렀을 때 publish
         event.preventDefault();
-
         publish(chat);
     };
 
     useEffect(() => {
         connect();
-
+        getChatMessage();
         return () => disconnect();
     }, []);
 
     return (
         <div>
-            <div className={'chat-list'}>{chatList}</div>
+            <div className={'chat-list'}>
+                {
+                    chatList &&
+                    chatList.map((cl,i)=>
+                    <div>
+                        {cl.msg}
+                    </div>)
+                }
+            </div>
             <form onSubmit={(event) => handleSubmit(event, chat)}>
                 <div>
                     <input type={'text'} name={'chatInput'} onChange={handleChange} value={chat} />
                 </div>
-                <input type={'submit'} value={'의견 보내기'} />
+                <input type={'submit'} value={'보내기'} />
             </form>
         </div>
     );
 }
-export default CreateReadChat;
+export default ChatMessage;

@@ -3,6 +3,8 @@ import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import MemberList from "./member/MemberList";
+import ChatRoom from "./chat/ChatRoom";
+import Chat from "./chat/Chat";
 
 function RouteMain(props) {
     return (
@@ -16,6 +18,10 @@ function RouteMain(props) {
                 <Route path='/member'>
                     {/*<Route path='form' element={<MemberForm/>}/>*/}
                     <Route path='list' element={<MemberList/>}/>
+                </Route>
+                <Route path='/chat/:ur_num' element={<Chat/>}>
+                    <Route path='list' element={<ChatRoom/>}/>
+
                 </Route>
                 {/*<Route path='/board'>*/}
                 {/*    <Route path='form' element={<BoardForm/>}/>*/}
