@@ -1,11 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {DeleteForeverRounded} from "@material-ui/icons";
 
 function MemberList(props) {
     const [memberlist,setMemberlist]=useState([]);
-
-    localStorage.url="http://localhost:9005"
 
     const list=()=>{
         let listUrl=localStorage.url+"/member/list";
@@ -67,6 +66,7 @@ function MemberList(props) {
                                           deleteMember(mem.num);
                                       }
                                   }}>
+                                <DeleteForeverRounded/>
                             </span>
                             </td>
                         </tr>
