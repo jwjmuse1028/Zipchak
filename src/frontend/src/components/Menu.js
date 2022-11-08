@@ -19,12 +19,13 @@ function Menu(props) {
 
                 <NavLink to={"/market/list"}>중고</NavLink>
             </li>
-
+            <li>
                 <NavLink to={"/chat/"}>채팅</NavLink>
             </li>
             {/*<li>*/}
             {/*    <NavLink to={"/board/list"}>게시판</NavLink>*/}
             {/*</li>*/}
+            <li>
                 <NavLink to={"/feed/list"}>피드목록</NavLink>
             </li>
             <li>

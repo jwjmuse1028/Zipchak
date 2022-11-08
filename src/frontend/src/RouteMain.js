@@ -28,13 +28,10 @@ function RouteMain(props) {
                 <Route path={'/register'} element={<RegisterForm/>}/>
                 <Route path={'/login'} element={<LoginForm/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
-                <Route path='/member'>
-                    {/*<Route path='form' element={<MemberForm/>}/>*/}
-                    <Route path='list' element={<MemberList/>}/>
-                </Route>
 
                 <Route path='/market'>
                     <Route path='list' element={<MarketList/>}/>
+                </Route>
 
                 <Route path='/chat' element={<Chat/>}>
                     <Route path='list/' element={<ChatRoomList/>}/>
