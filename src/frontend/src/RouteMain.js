@@ -3,6 +3,9 @@ import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import MemberList from "./member/MemberList";
+import MarketList from "./market/MarketList";
+import LoginForm from "./member/LoginForm";
+import RegisterForm from "./member/RegisterForm";
 
 function RouteMain(props) {
     return (
@@ -12,10 +15,15 @@ function RouteMain(props) {
             <br style={{clear:'both'}}/><br/>
             <Routes>
                 <Route path='/' element={<Home/>}/>
+                <Route path={'/register'} element={<RegisterForm/>}/>
+                <Route path={'/login'} element={<LoginForm/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
                 <Route path='/member'>
                     {/*<Route path='form' element={<MemberForm/>}/>*/}
                     <Route path='list' element={<MemberList/>}/>
+                </Route>
+                <Route path='/market'>
+                    <Route path='list' element={<MarketList/>}/>
                 </Route>
                 {/*<Route path='/board'>*/}
                 {/*    <Route path='form' element={<BoardForm/>}/>*/}
