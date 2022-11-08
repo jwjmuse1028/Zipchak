@@ -3,6 +3,8 @@ import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import MemberList from "./member/MemberList";
+import FeedInsertForm from "./feed/FeedInsertForm";
+import FeedList from "./feed/FeedList";
 
 function RouteMain(props) {
     return (
@@ -17,11 +19,11 @@ function RouteMain(props) {
                     {/*<Route path='form' element={<MemberForm/>}/>*/}
                     <Route path='list' element={<MemberList/>}/>
                 </Route>
-                {/*<Route path='/board'>*/}
-                {/*    <Route path='form' element={<BoardForm/>}/>*/}
-                {/*    <Route path='list' element={<BoardList/>}/>*/}
-                {/*    <Route path='list/:currentPage' element={<BoardList/>}/>*/}
-                {/*</Route>*/}
+                <Route path='/feed'>
+                    <Route path='insertform' element={<FeedInsertForm/>}/>
+                    <Route path='list' element={<FeedList/>}/>
+                    {/*<Route path='list/:currentPage' element={<BoardList/>}/>*/}
+                </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}
                 <Route path='*' element={
                     <div>
