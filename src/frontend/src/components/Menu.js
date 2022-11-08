@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
+import '../css/Menu.css';
 
 function Menu(props) {
     return (
@@ -13,9 +14,12 @@ function Menu(props) {
             <li>
                 <NavLink to={"/member/list"}>회원목록</NavLink>
             </li>
-            {/*<li>*/}
-            {/*    <NavLink to={"/board/list"}>게시판</NavLink>*/}
-            {/*</li>*/}
+            <li>
+                <NavLink to={"/feed/list"}>피드목록</NavLink>
+            </li>
+            <li>
+                <NavLink to={"/feed/insertform"}>피드글쓰기</NavLink>
+            </li>
             {/*{*/}
             {/*    localStorage.loginok==null?*/}
             {/*        <li>*/}
