@@ -57,6 +57,7 @@ function FeedInsertForm(props) {
                             <option value="어류">어류</option>
                             <option value="조류">조류</option>
                             <option value="파충류">파충류</option>
+                            <option value="파충류">진아</option>
                             <option value="기타">기타</option>
                         </select>
                     </div>

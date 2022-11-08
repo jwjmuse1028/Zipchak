@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import MemberList from "./member/MemberList";
+import MemberList from "./user/MemberList";
 
 function App() {
   return (

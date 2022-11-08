@@ -2,11 +2,10 @@ import React from 'react';
 import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
-import MemberList from "./member/MemberList";
 
 import MarketList from "./market/MarketList";
-import LoginForm from "./member/LoginForm";
-import RegisterForm from "./member/RegisterForm";
+import LoginForm from "./user/LoginForm";
+import RegisterForm from "./user/RegisterForm";
 
 import ChatRoomList from "./chat/ChatRoomList";
 import ChatMessage from "./chat/ChatMessage";

@@ -22,6 +22,7 @@ public class LoginController {
         if (check==1)
         {
             prf_nick=userMapper.getName(map.get("ur_id"));
+//            System.out.println("prf_nick="+prf_nick);
         }
         Map<String, Object> sendmap=new HashMap<>();
         sendmap.put("check", check);
