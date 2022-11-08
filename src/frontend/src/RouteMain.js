@@ -7,6 +7,10 @@ import ChatRoomList from "./chat/ChatRoomList";
 import ChatMessage from "./chat/ChatMessage";
 import Chat from "./chat/Chat";
 
+import FeedInsertForm from "./feed/FeedInsertForm";
+import FeedList from "./feed/FeedList";
+
+
 function RouteMain(props) {
     return (
         <div>
@@ -29,6 +33,11 @@ function RouteMain(props) {
                 {/*    <Route path='list' element={<BoardList/>}/>*/}
                 {/*    <Route path='list/:currentPage' element={<BoardList/>}/>*/}
                 {/*</Route>*/}
+                <Route path='/feed'>
+                    <Route path='insertform' element={<FeedInsertForm/>}/>
+                    <Route path='list' element={<FeedList/>}/>
+                    {/*<Route path='list/:currentPage' element={<BoardList/>}/>*/}
+                </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}
                 <Route path='*' element={
                     <div>
