@@ -1,11 +1,30 @@
 div.form_container {
     display: block;
     font-family: "Noto Sans KR";
+    width: 60%;
+    max-width: 1000px;
+    margin: auto;
+}
+.form_box {
+    border-radius: 5px !important;
+    border: 1px solid #d2d2d2;
+    box-shadow: inset 0px 0px 2px 1px #f6f6f6;
+    padding: 3% 3% 3% 5%;
+    margin: 5% 0 5% 0;
+}
+.form_title{
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 24px;
+    color: rgb(41, 41, 41);
+    word-break: keep-all;
 }
 .form_row {
     display: flex;
     align-items: flex-start;
     padding: 12px 0px;
+    width: 90%;
+    margin: auto;
 }
 
 .form_row_title {
@@ -32,7 +51,7 @@ div.form_container {
     padding: 0 15px;
     line-height: 40px;
     border-radius: 4px !important;
-    border: 1px solid #dbdbdb;
+    border: 1px solid #d2d2d2;
     background-color: #fff;
     color: #424242;
 }
@@ -44,4 +63,43 @@ div.form_container {
     line-height: 18px;
     font-weight: bold;
     color: rgb(255, 119, 119);
+}
+/* 사진 추가 영역 css */
+/*.css-1wclmit {*/
+/*    display: inline;*/
+/*}*/
+.css-1idkie2 {
+    font-size: 16px;
+    line-height: 24px;
+    color: rgb(47, 52, 56);
+    font-weight: 700;
+    text-align: center;
+    margin-top: 10px;
+}
+.css-fj1jqk {
+    display: inline-block;
+    margin: 24px 0px 0px;
+    padding: 11px 16px;
+    background-color: rgba(33, 38, 41, 0.8);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    border-radius: 4px;
+    transition: background-color 0.1s ease 0s;
+}
+.css-fvirbu {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    width: 60%;
+    margin: auto;
+    padding: 0px;
+    text-align: center;
+    background-color: rgb(247, 248, 250);
+    border: none;
 }
