@@ -3,12 +3,18 @@ import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import MemberList from "./member/MemberList";
+
+import MarketList from "./market/MarketList";
+import LoginForm from "./member/LoginForm";
+import RegisterForm from "./member/RegisterForm";
+
 import ChatRoomList from "./chat/ChatRoomList";
 import ChatMessage from "./chat/ChatMessage";
 import Chat from "./chat/Chat";
 
 import FeedInsertForm from "./feed/FeedInsertForm";
 import FeedList from "./feed/FeedList";
+
 
 
 function RouteMain(props) {
@@ -19,11 +25,17 @@ function RouteMain(props) {
             <br style={{clear:'both'}}/><br/>
             <Routes>
                 <Route path='/' element={<Home/>}/>
+                <Route path={'/register'} element={<RegisterForm/>}/>
+                <Route path={'/login'} element={<LoginForm/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
                 <Route path='/member'>
                     {/*<Route path='form' element={<MemberForm/>}/>*/}
                     <Route path='list' element={<MemberList/>}/>
                 </Route>
+
+                <Route path='/market'>
+                    <Route path='list' element={<MarketList/>}/>
+
                 <Route path='/chat' element={<Chat/>}>
                     <Route path='list/' element={<ChatRoomList/>}/>
 
