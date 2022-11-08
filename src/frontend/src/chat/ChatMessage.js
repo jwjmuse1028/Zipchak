@@ -1,13 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import * as StompJs from '@stomp/stompjs';
-import {useParams} from "react-router-dom";
-import axios from "axios";
 
 function ChatMessage(props) {
     const [msg, setMsg] = useState('');
     const { cr_num, addMsg } = props;
     const client = useRef({});
-    let ur_num=1;
+    let ur_num=sessionStorage.ur_num;
     const connect = () => {
         client.current = new StompJs.Client({
             brokerURL: 'ws://localhost:9005/ws',
@@ -38,9 +36,6 @@ function ChatMessage(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             addMsg(json_body);
-            // setChatList((_chat_list) => [
-            //     ..._chat_list, json_body
-            // ]);
         });
     };
 
@@ -59,7 +54,6 @@ function ChatMessage(props) {
 
     useEffect(() => {
         connect();
-
         return () => disconnect();
     }, []);
 

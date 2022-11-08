@@ -21,9 +21,12 @@ public class ChatRoomDto {
 
     //from ur
     private String ur_id;
+    private int ur_num;
 
     //from cm
     private String msg;
     private int sender;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
+    private Timestamp cm_wdate;
 
 }
