@@ -1,0 +1,78 @@
+div.main-box{
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border: 1px solid gray;
+}
+
+/* 채팅방 관련 */
+div.chatroom-list{
+    width: 100%;
+    height: 80vh;
+    border: 1px solid gray;
+    overflow: scroll
+}
+
+span.cr_wdate{
+    color: gray;
+    float:right;
+    margin-right: 20px;
+}
+li.crlist{
+    list-style: none;
+    border: 1px solid green;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 5px;
+}
+/*메세지창 관련 */
+div#chat-message{
+    width: 100%;
+    height: 80vh;
+    border: 1px solid gray;
+}
+div.msg_list_box{
+    height: 90%;
+}
+div.msg_list{
+    height: 100%;
+    overflow: scroll;
+}
+div.i-msg-box{
+    float: right;
+    margin-right: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 300px;
+    background-color: orange;
+    padding: 5px 15px;
+}
+div.u-msg-box{
+    display: block;
+    margin-left: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 300px;
+    padding: 5px 15px;
+    background-color: lightgray;
+}
+div.chat-input{
+    width: 100%;
+    height: 10%;
+    margin-left: 10px;
+}
+div.message-input{
+    width: 80%;
+}
+div.btn-submit{
+    width: 20%;
+}
+form.form-box{
+    width: 100%;
+}
