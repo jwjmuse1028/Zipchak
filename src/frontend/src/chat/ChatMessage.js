@@ -4,20 +4,10 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 
 function ChatMessage(props) {
-    const [chatList, setChatList] = useState([]);
-    const [chat, setChat] = useState('');
-    const {cr_num, ur_num}=props;
-
-    const { apply_id } = 1;
+    const [msg, setMsg] = useState('');
+    const { cr_num, addMsg } = props;
     const client = useRef({});
-
-    const getChatMessage=()=>{
-        let url="http://localhost:9005/chat/cm?cr_num="+cr_num;
-        axios.get(url).then(res=>{
-            setChatList(res.data);
-        })
-    }
-
+    let ur_num=1;
     const connect = () => {
         client.current = new StompJs.Client({
             brokerURL: 'ws://localhost:9005/ws',
@@ -29,26 +19,28 @@ function ChatMessage(props) {
         client.current.activate();
     };
 
-    const publish = (chat) => {
+    const publish = (msg) => {
         if (!client.current.connected) return;
 
         client.current.publish({
             destination: '/pub/chat',
             body: JSON.stringify({
-                applyId: apply_id,
-                chat: chat,
+                sender : ur_num,
+                cr_num: cr_num,
+                msg:msg,
             }),
         });
-
-        setChat('');
+        setMsg('');
     };
 
     const subscribe = () => {
-        client.current.subscribe('/sub/chat/' + apply_id, (body) => {
+        client.current.subscribe('/sub/chat/' + cr_num, (body) => {
             const json_body = JSON.parse(body.body);
-            setChatList((_chat_list) => [
-                ..._chat_list, json_body
-            ]);
+            //console.dir(json_body);
+            addMsg(json_body);
+            // setChatList((_chat_list) => [
+            //     ..._chat_list, json_body
+            // ]);
         });
     };
 
@@ -57,36 +49,26 @@ function ChatMessage(props) {
     };
 
     const handleChange = (event) => { // 채팅 입력 시 state에 값 설정
-        setChat(event.target.value);
+        setMsg(event.target.value);
     };
 
-    const handleSubmit = (event, chat) => { // 보내기 버튼 눌렀을 때 publish
+    const handleSubmit = (event, msg) => { // 보내기 버튼 눌렀을 때 publish
         event.preventDefault();
-        publish(chat);
+        publish(msg);
     };
 
     useEffect(() => {
         connect();
-        getChatMessage();
+
         return () => disconnect();
     }, []);
 
     return (
-        <div>
-            <div className={'chat-list'}>
-                {
-                    chatList &&
-                    chatList.map((cl,i)=>
-                    <div>
-                        {cl.msg}
-                    </div>)
-                }
-            </div>
-            <form onSubmit={(event) => handleSubmit(event, chat)}>
-                <div>
-                    <input type={'text'} name={'chatInput'} onChange={handleChange} value={chat} />
-                </div>
-                <input type={'submit'} value={'보내기'} />
+        <div className={'chat-input'}>
+            <form onSubmit={(event) => handleSubmit(event, msg)} className={'form-box'}>
+                <input type={'text'} name={'chatInput'} className={'message-input'} onChange={handleChange} value={msg} />
+                <button type={'submit'} className={'btn-submit'}
+                 >보내기 </button>
             </form>
         </div>
     );

@@ -3,10 +3,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import '../css/Chat.css';
 
-function ChatRoom(props) {
+function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
     const {ur_num, cr_click}=props;
-    const navi=useNavigate();
 
     const chatRoomList=()=>{
         let url="http://localhost:9005/chat/list?ur_num="+ur_num;
@@ -28,8 +27,8 @@ function ChatRoom(props) {
                     chatRoom &&
                     chatRoom.map((cr,i)=>
                         //sender 나중에 nickname으로 변경할 것.
-                        <li key={i} className={'crlist'} onClick={cr_click(cr.cr_num)}>
-                            <div><span>{cr.sender}</span><span className={'cr_wdate'}>{cr.cr_wdate}</span></div>
+                        <li key={i} className={'crlist'} onClick={()=>cr_click(cr.cr_num)}>
+                            <div><span>{cr.buyer_num}</span><span className={'cr_wdate'}>{cr.cr_wdate}</span></div>
                             <div>{cr.msg}</div>
                         </li>
                     )
@@ -39,4 +38,4 @@ function ChatRoom(props) {
     );
 }
 
-export default ChatRoom;
+export default ChatRoomList;
