@@ -4,8 +4,12 @@ import '../css/Menu.css';
 
 function Menu(props) {
     const [prf_nick, setPrf_nick]=useState('');
+    const [prf_img, setPrf_img]=useState('');
     useEffect(()=>{
         setPrf_nick(sessionStorage.prf_nick);
+    },[]);
+    useEffect(()=>{
+        setPrf_img(sessionStorage.prf_img);
     },[]);
     return (
         <ul className='menu'>
@@ -59,11 +63,14 @@ function Menu(props) {
                     </div>
                     :
                     <div>
-                        <b>{prf_nick}님이 로그인중</b>
-                        <button type={"button"} onClick={(e)=>{
+                        <img src={"../webapp/image/"+prf_img}/>&nbsp;&nbsp;
+                        <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
+                        <button type={"button"} className={'w-btn w-btn-indigo'}
+                                onClick={(e)=>{
                             sessionStorage.removeItem("loginok");
                             sessionStorage.removeItem("ur_id");
                             sessionStorage.removeItem("prf_nick");
+                            sessionStorage.removeItem("prf_img");
                                     window.location.reload();
                                 }}>로그아웃</button>
                     </div>
