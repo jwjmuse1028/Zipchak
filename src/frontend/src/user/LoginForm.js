@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import "../css/LoginForm.css";
+
 
 function LoginForm(props) {
     const [ur_id, setUr_id]=useState('');
-    const [lg_tp, setLg_tp]=useState('');
+    const [ur_pw, setUr_pw]=useState('');
     const navi = useNavigate();
 
     const onSubmitLogin=(e)=>{
         e.preventDefault();
         let url=sessionStorage.url+"/login/check";
-        axios.post(url,{ur_id,lg_tp})
+        axios.post(url,{ur_id,ur_pw})
             .then(res=>{
                 if (res.data.check===1){
                     sessionStorage.loginok='yes';
@@ -21,37 +23,36 @@ function LoginForm(props) {
                 } else {
                     alert("아이디 또는 비밀번호를 확인해주세요");
                     setUr_id('');
-                    setLg_tp('');
+                    setUr_pw('');
                 }
             })
     }
     return (
         <div>
             <form>
-                <table className={'table table-bordered'} style={{width:'300px'}}>
+                <table className={'table table-bordered'} style={{width:'300px', margin:'auto'}}>
                     <caption align={'top'}><h1>로그인</h1></caption>
                     <tbody>
                     <tr>
-                        <th>아이디</th>
                         <td>
                             <div>
-                                <input type={'text'} required autoFocus value={ur_id}
+                                <input type={'text'} className={'form-control'} style={{boxShadow:'none'}} required autoFocus value={ur_id} placeholder={"ID"}
                                        onChange={(e)=>setUr_id(e.target.value)}/>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th>비밀번호</th>
                         <td>
                             <div>
-                                <input type={'password'} required value={lg_tp}
-                                       onChange={(e)=>setLg_tp(e.target.value)}/>
+                                <input type={'password'} className={'form-control'} style={{boxShadow:'none'}} required value={ur_pw} placeholder={"Password"}
+                                       onChange={(e)=>setUr_pw(e.target.value)}/>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td colSpan={2} align={"center"}>
-                            <button type={"submit"} onClick={onSubmitLogin}>로그인</button>
+                            <button type={"submit"} className={'w-btn w-btn-indigo'}
+                                    onClick={onSubmitLogin}>로그인</button>
                         </td>
                     </tr>
                     </tbody>
