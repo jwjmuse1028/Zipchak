@@ -11,4 +11,10 @@
     <select id="getMsg" parameterType="int" resultType="cmdto">
         select * from cm where cm_num=#{cm_num}
     </select>
+    <select id="getSender" parameterType="int" resultType="int">
+        select sender from cm where cr_num=#{cr_num} order by cm_wdate desc limit 1
+    </select>
+    <update id="updateRead" parameterType="map">
+        update cm set is_read=1 where cr_num=#{cr_num} and sender=#{sender}
+    </update>
 </mapper>
