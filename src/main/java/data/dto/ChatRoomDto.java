@@ -28,5 +28,6 @@ public class ChatRoomDto {
     private int sender;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp cm_wdate;
+    private int is_read;
 
 }

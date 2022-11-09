@@ -2,15 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ChatRoomMapper">
     <select id="getChatRoomByUr" parameterType="int" resultType="crdto">
-        SELECT cr.cr_num, ur.ur_num, cr.buyer_num,pd.pd_name, ur.ur_id, cm.msg, sender, cm.cm_wdate
+        SELECT cr.cr_num, ur.ur_num, cr.buyer_num,pd.pd_name, ur.ur_id, cm.msg, sender, cm.cm_wdate, cm.is_read
         FROM cr
                  join sp on sp.sp_num=cr.sp_num
                  join pd on sp.pd_num=pd.pd_num
                  join ur on sp.ur_num=ur.ur_num
                  join (
-            select cm1.cm_num, cm1.cr_num,cm1.msg, cm1.cm_wdate, cm1.sender from cm as cm1,
-                                                                                 (select msg, cr_num, max(cm_wdate) as max_date from cm group by cr_num) as cm2
+            select cm1.cm_num, cm1.cr_num,cm1.msg, cm1.cm_wdate, cm1.sender, cm1.is_read from cm as cm1,
+             (select msg, cr_num, max(cm_wdate) as max_date from cm group by cr_num) as cm2
             where cm1.cm_wdate = cm2.max_date ) as cm on cr.cr_num=cm.cr_num
         where ur.ur_num=#{ur_num} or cr.buyer_num=#{ur_num} order by cm_wdate desc
+    </select>
+    <insert id="insertRoom" parameterType="crdto">
+        insert into cr values (null, #{sp_num}, #{buyer_num}, now())
+        <selectKey keyProperty="cr_num" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <select id="getSeller" parameterType="int" resultType="int">
+        select ur_num from sp where sp_num=#{sp_num}
+    </select>
+    <select id="getRoomChk" parameterType="crdto" resultType="int">
+        SELECT count(*) from cr where sp_num=#{sp_num} and buyer_num=#{buyer_num}
     </select>
 </mapper>
