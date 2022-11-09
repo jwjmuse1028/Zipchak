@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import noprfpic from '../image/noprofilepicture.webp';
@@ -6,9 +6,10 @@ import {Dialog, DialogContent, DialogTitle, IconButton, styled} from "@mui/mater
 import {Typography} from "@material-ui/core";
 import DaumPostcode from 'react-daum-postcode';
 import CloseIcon from '@mui/icons-material/Close';
+import "../css/RegisterForm.css";
+import {CameraAlt} from "@material-ui/icons";
 
 function RegisterForm(props) {
-    const [ur_num, setUr_num] = useState('');
     const [ur_id, setUr_id] = useState('');
     const [ur_pw, setUr_pw] = useState('');
     const [ur_pw2, setUr_pw2] = useState('');
@@ -23,12 +24,46 @@ function RegisterForm(props) {
     const [btnok2, setBtnok2] = useState(false);
     const [idmsg, setIdmsg] = useState('');
     const [idmsg2, setIdmsg2] = useState('');
-    const [pwmsg, setPwmsg] = useState('');
     const [openPostcode, setOpenPostcode] = useState(false);
     const [open, setOpen] = React.useState(false);
+    const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(''); //비밀번호 확인 메시지
+    const [isPasswordConfirm, setIsPasswordConfirm] = useState(false); //비밀번호 일치
     const navi = useNavigate();
 
+    // 비밀번호 확인
+    const onChangeUr_pw2 = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const ur_pw2Current = e.target.value
+            setUr_pw2(ur_pw2Current);
+
+            if (ur_pw === ur_pw2Current) {
+                setPasswordConfirmMessage('비밀번호가 일치합니다');
+                setIsPasswordConfirm(true);
+            } else {
+                setPasswordConfirmMessage('비밀번호를 확인해주세요');
+                setIsPasswordConfirm(false);
+            }
+        },
+        [ur_pw]
+    )
+
+    const uploadUrl = sessionStorage.url+"/image/upload"
     const imageUrl=sessionStorage.url+"/image/";
+    const photoUploadEvent=(e)=>{
+        const uploadFile=e.target.files[0];
+        const imageFile=new FormData();
+        imageFile.append("uploadFile",uploadFile);
+
+        axios({
+            method:'post',
+            url:uploadUrl,
+            data:imageFile,
+            headers:{'Content-Type':'multipart/form-data'}
+        }).then(res=>{
+            // console.log("이미지먕:"+res.data);
+            setPrf_img(res.data);
+        })
+    }
 
     const handle = {
         // 버튼 클릭 이벤트
@@ -39,11 +74,7 @@ function RegisterForm(props) {
 
         // 주소 선택 이벤트
         selectAddress: (data) => {
-            console.dir(data);
-            // console.log(`
-            //     주소: ${data.info_addr},
-            //     우편번호: ${data.zonecode}
-            // `)
+            // console.dir(data);
             setInfo_addr(`(${data.zonecode}) ${data.roadAddress},${data.buildingName}`);
 
             setOpenPostcode(false);
@@ -60,7 +91,7 @@ function RegisterForm(props) {
         let url = sessionStorage.url + "/user/idcheck?ur_id=" + ur_id;
         axios.get(url)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data === 0) {
                     setIdmsg("사용가능한 ID입니다");
                     setBtnok(true);
@@ -101,9 +132,9 @@ function RegisterForm(props) {
             alert("중복체크를 확인해주세요");
             return;
         }
-        // if (lg_tp !== lg_tp2) {
-        //     return alert('비밀번호와 비밀번호 확인이 같지 않습니다');
-        // }
+        if (ur_pw !== ur_pw2) {
+            return alert('비밀번호를 확인해주세요');
+        }
         let url = sessionStorage.url + "/user/insert";
         axios.post(url, {ur_id, ur_pw, prf_nick, prf_img, info_name, info_sex, info_addr, info_hp, info_email})
             .then(res => {
@@ -153,69 +184,82 @@ function RegisterForm(props) {
             <div>
                 <form onSubmit={onSubmitButton}>
                     <table className={'table table-bordered'} style={{width: '40%', margin:'auto'}}>
-                        <caption align={'top'}><h1>회원가입</h1></caption>
+                        <caption align={'top'}><h1>회원가입</h1><span style={{color:'rgb(255, 119, 119)'}}>*</span>표시는 필수기재 항목입니다</caption>
                         <tbody>
                         <tr>
-                            <th style={{width:'20%'}}>아이디</th>
+                            <th style={{width:'20%'}}>아이디<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'40%%'}}>
                                 <div className={'input-group'}>
                                     <input type={"text"} style={{width: '60%'}} value={ur_id} required autoFocus
                                            onChange={inputIdCheck}/>
                                     <button type={"button"} onClick={btnIdCheck}>중복체크</button>
                                 </div>
-                                <b>{idmsg}</b>
+                                <span style={{color:btnok?"blue":"red"}}>{idmsg}</span>
                             </td>
                             <td rowSpan={5} style={{width:'20%'}} align={"center"}>
-                                <input type={"file"} name={prf_img} value={prf_img} id={'filephoto'}
+                                <input type={"file"}  id={'filephoto'}
                                        style={{visibility: 'hidden'}}
-                                       onChange={(e) => setPrf_img(e.target.value)}/>
+                                       onChange={photoUploadEvent}/>
                                 <img src={imageUrl+prf_img} onError={onErrorImg}
-                                     style={{maxWidth: '300px', borderRadius: '150px'}}/>
+                                     style={{width: '300px',height:'300px', borderRadius: '150px'}}/>
+
                                 <br/><br/>
-                                <span onClick={() => {
-                                    document.getElementById("filephoto").click();
-                                    console.log(imageUrl+prf_img);
-                                }}>
-                                <button type={"button"} style={{justifyContent: 'center'}}>사진선택</button>
-                                </span>
+                                <CameraAlt onClick={()=>{
+                                   document.getElementById('filephoto').click();
+                                }} style={{cursor:'pointer',fontSize:'4em',position:'relative',top:'-80px',left:'80px'}}/>
                             </td>
                         </tr>
                         <tr>
-                            <th>비밀번호</th>
+                            <th>비밀번호<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <input type={"password"} name={ur_pw} required
-                                onChange={(e)=>setUr_pw(e.target.value)}/>
+                                onChange={(e)=>{
+                                    setUr_pw(e.target.value);
+                                    setUr_pw2('');
+                                    setPasswordConfirmMessage('');
+                                }}/>
                             </td>
                         </tr>
                         <tr>
-                            <th>비밀번호 확인</th>
+                            <th>비밀번호 확인<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"password"} name={ur_pw2} required/>
-                                <span>{pwmsg}</span>
+                                <input type={"password"} value={ur_pw2} required
+                                onChange={onChangeUr_pw2}/><br/>
+                                    <span style={{color:ur_pw==ur_pw2?"blue":"red"}} className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</span>
                             </td>
                         </tr>
                         <tr>
-                            <th>회원명</th>
+                            <th>회원명<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"text"} name={info_name} value={info_name} required
+                                <input type={"text"} name={info_name} value={info_name} required maxLength={10}
                                        onChange={(e) => setInfo_name(e.target.value)}/>
                             </td>
                         </tr>
                         <tr>
-                            <th>닉네임</th>
+                            <th>닉네임<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <div className={'input-group'}>
-                                    <input type={"text"} style={{width: '60%'}} value={prf_nick} required
+                                    <input type={"text"} style={{width: '60%'}} value={prf_nick} required maxLength={8}
                                            onChange={inputIdCheck2}/>
                                     <button type={"button"} onClick={btnIdCheck2}>중복체크</button>
                                 </div>
-                                <b>{idmsg2}</b>
+                                <span style={{color:btnok2?"blue":"red"}}>{idmsg2}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>성별</th>
+                            <td colSpan={2}>
+                                <label><input type={"radio"} name={'info_sex'} value={'남자'}
+                                              onChange={(e) => setInfo_sex(e.target.value)}/>남자</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label><input type={"radio"} name={'info_sex'} value={'여자'}
+                                              onChange={(e) => setInfo_sex(e.target.value)}/>여자</label>
                             </td>
                         </tr>
                         <tr>
                             <th>이메일</th>
                             <td colSpan={2}>
-                                <input type={"email"} name={info_email} value={info_email} required
+                                <input type={"email"} name={info_email} value={info_email}
                                        onChange={(e) => setInfo_email(e.target.value)}/>
                                 {/*<select>*/}
                                 {/*    <option selected>gmail.com</option>*/}
@@ -227,19 +271,10 @@ function RegisterForm(props) {
                             </td>
                         </tr>
                         <tr>
-                            <th>성별</th>
-                            <td colSpan={2}>
-                                <label><input type={"radio"} name={'info_sex'} value={'남자'} checked
-                                              onChange={(e) => setInfo_sex(e.target.value)}/>남자</label>
-                                <label><input type={"radio"} name={'info_sex'} value={'여자'}
-                                              onChange={(e) => setInfo_sex(e.target.value)}/>여자</label>
-                            </td>
-                        </tr>
-                        <tr>
                             <th>연락처</th>
                             <td colSpan={2}>
                                 <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-                                       placeholder='xxx-xxxx-xxxx' maxLength={13}
+                                       maxLength={13}
                                        name={info_hp}
                                        value={info_hp}
                                        onChange={(e) => {
@@ -262,7 +297,7 @@ function RegisterForm(props) {
                         </tr>
                         <tr>
                             <td colSpan={3} align={"center"}>
-                                <button>가입하기</button>
+                                <button className={'w-btn w-btn-indigo'}>가입하기</button>
                             </td>
                         </tr>
                         </tbody>

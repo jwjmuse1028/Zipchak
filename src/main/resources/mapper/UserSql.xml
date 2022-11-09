@@ -2,16 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.UserMapper">
     <insert id="insertUser" parameterType="UserDto">-- 회원가입
-    insert into ur (ur_id, ur_pw)
-    values (#{ur_id},#{ur_pw});
+    insert into ur
+    values (null,#{ur_id},#{ur_pw});
+        <selectKey keyProperty="ur_num" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     <insert id="insertUser2" parameterType="UserDto">-- 회원가입2
-    insert into ur_info (info_name, info_sex,info_addr,info_hp,info_email)
-    values (#{info_name},#{info_sex},#{info_addr},#{info_hp},#{info_email});
+    insert into ur_info (ur_num,info_name, info_sex,info_addr,info_hp,info_email)
+    values (#{ur_num},#{info_name},#{info_sex},#{info_addr},#{info_hp},#{info_email});
     </insert>
     <insert id="insertUser3" parameterType="UserDto">-- 회원가입3
-    insert into ur_prf (prf_nick,prf_img,prf_tmp,prf_msg,prf_sdate)
-    values (#{prf_nick},#{prf_img},36.5,#{prf_msg},now())
+    insert into ur_prf (ur_num,prf_nick,prf_img,prf_tmp,prf_msg,prf_sdate)
+    values (#{ur_num},#{prf_nick},#{prf_img},36.5,#{prf_msg},now())
     </insert>
     <select id="getSearchId" parameterType="String" resultType="int">-- 아이디 중복체크 확인
     select count(*) from ur where ur_id=#{ur_id}
@@ -24,5 +27,8 @@
     </select>
     <select id="getName" parameterType="String" resultType="String">-- 닉네임님이 로그인중입니다
        select prf_nick from ur_prf where ur_num = (select ur_num from ur where ur_id=#{ur_id})
+    </select>
+    <select id="getProfile" parameterType="String" resultType="String">-- 닉네임님이 로그인중입니다
+       select prf_img from ur_prf where ur_num = (select ur_num from ur where ur_id=#{ur_id})
     </select>
 </mapper>

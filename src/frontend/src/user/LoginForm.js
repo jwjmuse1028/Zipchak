@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import "../css/LoginForm.css";
+
 
 function LoginForm(props) {
     const [ur_id, setUr_id]=useState('');
@@ -49,7 +51,7 @@ function LoginForm(props) {
                     </tr>
                     <tr>
                         <td colSpan={2} align={"center"}>
-                            <button type={"submit"} className={'btn btn-outline-dark'} style={{boxShadow:'none'}}
+                            <button type={"submit"} className={'w-btn w-btn-indigo'}
                                     onClick={onSubmitLogin}>로그인</button>
                         </td>
                     </tr>

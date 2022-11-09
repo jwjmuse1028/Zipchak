@@ -14,5 +14,6 @@ public interface UserMapper {
     public int getSearchNickname(String prf_nick);
     public int getLogin(Map<String, String>map);
     public String getName(String ur_id);
+    public String getProfile(String ur_id);
 
 }
