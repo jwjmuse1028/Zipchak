@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.FeedMapper">
+    <insert id="insertFeed" parameterType="FeedDto">
+        insert into fd (ur_num,fd_title,fd_txt,fd_img,fd_spc,fd_wdate,fd_lvtp,fd_fml,fd_anm,fd_style)
+        values (#{ur_num},#{fd_title},#{fd_txt},#{fd_img},#{fd_spc},now(),#{fd_lvtp},#{fd_fml},#{fd_anm},#{fd_style});
+    </insert>
+    <!-- order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
+    <select id="getAllFeeds" parameterType="Map" resultType="FeedDto">
+        select * from fd
+        <if test="search_col!=null and search_word!=null">
+            where ${search_col} like concat('%',#{search_word},'%')
+        </if>
+        <if test="order_col!=null">
+            order by ${order_col}
+        </if>
+    </select>
+    <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
+        select * from fd where fd_num=#{fd_num}
+    </select>
+    <delete id="deleteFeed" parameterType="int">
+        delete from fd where fd_num=#{fd_num}
+    </delete>
+    <!-- img는 값이 선택될 경우에만 업데이트. -->
+    <update id="updateFeed" parameterType="FeedDto">
+        update fd set fd_title=#{fd_title},fd_txt=#{fd_txt},fd_spc=#{fd_spc},
+                      fd_udate=now(),fd_lvtp=#{fd_lvtp},fd_fml=#{fd_fml},fd_anm=#{fd_anm},fd_style=#{fd_style}
+        <if test="fd_img!=null">
+            ,fd_img=#{fd_img}
+        </if>
+        where fd_num=#{fd_num}
+    </update>
+</mapper>
