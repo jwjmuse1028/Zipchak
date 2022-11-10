@@ -33,9 +33,10 @@ public class ChatMessageController {
         //System.out.println(chatDto.getSender()+chatDto.getMsg());
         int cm_num=cmmapper.insertChatMessage(chatDto);
         //System.out.println(cm_num);
-        ChatMessageDto sendDto=cmmapper.getMsg(cm_num);
+        //ChatMessageDto sendDto=cmmapper.getMsg(cm_num);
         chatDto.setCm_num(cm_num);
-        chatDto.setCm_wdate(sendDto.getCm_wdate());
+        //System.out.println(sendDto.getCm_wdate());
+        //chatDto.setCm_wdate(sendDto.getCm_wdate());
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatDto.getCr_num(), chatDto);
     }
 
@@ -65,10 +66,7 @@ public class ChatMessageController {
         //업로드할 폴더 구하기
         String path=request.getSession().getServletContext().getRealPath("/image");
         System.out.println(path);
-        //기존 업로드 파일이 있을 경우 삭제 후 다시 업로드
-        if(uploadFileName!=null){
-            FileUtil.deletePhoto(path,uploadFileName);
-        }
+
         //이전 업로드한 사진을 지훈 후 현재 사진 업로드하기
         uploadFileName=FileUtil.getChangeFileName(uploadFile.getOriginalFilename());
         try {
@@ -79,5 +77,4 @@ public class ChatMessageController {
         }
         return "img-"+uploadFileName;
     }
-
 }

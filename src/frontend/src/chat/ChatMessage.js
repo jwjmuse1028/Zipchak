@@ -103,7 +103,7 @@ function ChatMessage(props) {
                 onChange={setMsg}
                 cleanOnEnter
                 onEnter={handleOnEnter}
-                placeholder="메세지를 입력해주세요"
+                placeholder="메시지를 입력해주세요"
             />
             <button className={'btn-img'} onClick={imgclick}><ImageSearchOutlined/></button>
             <input type={'file'} id={'input-img'} style={{display:'none'}} onChange={photoUploadEvent} />

@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
-//import testimg from 'http://localhost:9005/chat/image/20221110112815640.jpg';
-import bae from '../image/bae.jpg';
+import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageList(props) {
     const [chatList, setChatList] = useState([]);
@@ -19,7 +18,9 @@ function ChatMessageList(props) {
     const addMsg=(msgData)=>{
         setChatList(chatList.concat(msgData))
     }
-
+    const onErrorImg = (e) => {
+        e.target.src = noprfpic;
+    }
     useEffect(()=>{
         getChatMessage();
     },[cr_num,chatList])
@@ -54,10 +55,14 @@ function ChatMessageList(props) {
                                     }
                                     {cl.cm_wdate}
                                 </div>
+
                             </div>
                             :
-                            <div className={'u_msg_box_w'}>
-                                <div key={i} className={'u_msg_box'}>
+                            <div className={'u_msg_box_w_prf'}>
+                                <div className={'chat_prf_box'}
+
+                                ></div>
+                                <div className={'u_msg_box'}>
                                     {
                                         cl.msg.startsWith('img-')
                                             ?
