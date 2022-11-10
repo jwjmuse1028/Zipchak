@@ -4,13 +4,16 @@ import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageList(props) {
+    //변수
     const [chatList, setChatList] = useState([]);
-    const [sender, setSender]=useState('');
-    const {cr_num, ur_num, lastReadSign}=props;
-    let imageUrl="http://localhost:9005/image/";
+    const [uInfo,setUinfo]=useState({});
+    const {cr_num, ur_num,u_num}=props;
+    let imageUrl=sessionStorage.url+"/image/";
     const chatendRef=useRef();
+
+    //함수
     const getChatMessage=()=>{
-        let url="http://localhost:9005/chat/cm?cr_num="+cr_num;
+        let url=sessionStorage.url+"/chat/cm?cr_num="+cr_num;
         axios.get(url).then(res=>{
             setChatList(res.data);
         })
@@ -18,9 +21,17 @@ function ChatMessageList(props) {
     const addMsg=(msgData)=>{
         setChatList(chatList.concat(msgData))
     }
-    const onErrorImg = (e) => {
-        e.target.src = noprfpic;
+    const getUInfo=()=>{
+        let uinfoUrl=sessionStorage.url+"/chat/u_info?u_num="+u_num;
+        axios.get(uinfoUrl).then(res=>{
+            setUinfo(res.data);
+        })
     }
+
+    //useEffect
+    useEffect(()=>{
+        getUInfo();
+    },[cr_num])
     useEffect(()=>{
         getChatMessage();
     },[cr_num,chatList])
@@ -29,7 +40,10 @@ function ChatMessageList(props) {
     },[chatList])
     return (
         <div className={'msg_list_box'}>
-            <h1>{}</h1>
+            <div className={'uInfoBox'} style={{margin:"auto"}}>
+                <div className={'prf_box'}
+                    style={{backgroundImage:`url('${imageUrl+uInfo.prf_img}'),url('${noprfpic}')`}}></div>
+                {uInfo.prf_nick}</div>
             <div className={'msg_list'} >
             {
                 chatList &&
@@ -60,7 +74,7 @@ function ChatMessageList(props) {
                             :
                             <div className={'u_msg_box_w_prf'}>
                                 <div className={'chat_prf_box'}
-
+                                     style={{backgroundImage:`url('${imageUrl+uInfo.prf_img}'),url('${noprfpic}')`}}
                                 ></div>
                                 <div className={'u_msg_box'}>
                                     {

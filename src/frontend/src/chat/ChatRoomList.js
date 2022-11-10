@@ -4,8 +4,7 @@ import '../css/Chat.css';
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click,chatList}=props;
-    const ur_nick=sessionStorage.ur_nick;
+    const {ur_num, cr_click}=props;
     const chatRoomList=()=>{
         let url="http://localhost:9005/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -29,7 +28,7 @@ function ChatRoomList(props) {
                         //sender 나중에 nickname으로 변경할 것.
                         <li key={i}  className={'crlist'}
                             onClick={()=>{
-                                cr_click(cr.cr_num)
+                                cr_click(cr.cr_num);
                                 readEvent(i);
                                 }} >
                             <div>
