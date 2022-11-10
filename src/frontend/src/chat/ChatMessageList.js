@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
+import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageList(props) {
     const [chatList, setChatList] = useState([]);
     const [sender, setSender]=useState('');
     const {cr_num, ur_num, lastReadSign}=props;
+    let imageUrl="http://localhost:9005/image/";
     const chatendRef=useRef();
-
-
     const getChatMessage=()=>{
         let url="http://localhost:9005/chat/cm?cr_num="+cr_num;
         axios.get(url).then(res=>{
@@ -18,7 +18,9 @@ function ChatMessageList(props) {
     const addMsg=(msgData)=>{
         setChatList(chatList.concat(msgData))
     }
-
+    const onErrorImg = (e) => {
+        e.target.src = noprfpic;
+    }
     useEffect(()=>{
         getChatMessage();
     },[cr_num,chatList])
@@ -44,15 +46,30 @@ function ChatMessageList(props) {
                                 }
                                 </div>
                                 <div  className={'i_msg_box'}>
-                                    {cl.msg}<br/>
+                                    {
+                                        cl.msg.startsWith('img-')
+                                            ?
+                                            <div className={'chat-img'} style={{backgroundImage:`url('${imageUrl+cl.msg.substring(4,cl.msg.length)}')`}}></div>
+                                            :
+                                        <div>{cl.msg}</div>
+                                    }
                                     {cl.cm_wdate}
                                 </div>
+
                             </div>
                             :
-                            <div className={'u_msg_box_w'}>
-                                <div key={i} className={'u_msg_box'}>
-                                    {cl.msg}
-                                    <br/>
+                            <div className={'u_msg_box_w_prf'}>
+                                <div className={'chat_prf_box'}
+
+                                ></div>
+                                <div className={'u_msg_box'}>
+                                    {
+                                        cl.msg.startsWith('img-')
+                                            ?
+                                            <div className={'chat-img'} style={{backgroundImage:`url('${imageUrl+cl.msg.substring(4,cl.msg.length)}')`}}></div>
+                                            :
+                                            <div>{cl.msg}</div>
+                                    }
                                     {cl.cm_wdate}
                                 </div>
                             </div>

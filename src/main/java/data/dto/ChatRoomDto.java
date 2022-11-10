@@ -23,6 +23,12 @@ public class ChatRoomDto {
     private String ur_id;
     private int ur_num;
 
+    //from ur_prf
+    private String buyer_nick;
+    private String buyer_img;
+    private String seller_nick;
+    private String seller_img;
+
     //from cm
     private String msg;
     private int sender;

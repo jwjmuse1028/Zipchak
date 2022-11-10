@@ -67,6 +67,7 @@ function Menu(props) {
                             sessionStorage.removeItem("ur_id");
                             sessionStorage.removeItem("prf_nick");
                             sessionStorage.removeItem("prf_img");
+                            sessionStorage.removeItem("ur_num");
                                     window.location.reload();
                                 }}>로그아웃</button>
                     </div>
