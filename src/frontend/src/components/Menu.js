@@ -17,10 +17,6 @@ function Menu(props) {
                 <NavLink to={"/"}>Home</NavLink>
             </li>
             <li>
-                <NavLink to={"/member/list"}>회원목록</NavLink>
-            </li>
-            <li>
-
                 <NavLink to={"/market/list"}>중고</NavLink>
             </li>
             <li>

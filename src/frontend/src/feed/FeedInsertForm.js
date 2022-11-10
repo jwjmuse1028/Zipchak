@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "../css/FeedForm.css";
-import {ArrowDropDown} from "@material-ui/icons";
-import axios from "axios";
+import noimg from './noimage.jpg';
 
 function FeedInsertForm(props) {
 
-    // const [img,setImg]=useState('');
+     const [img,setImg]=useState(noimg);
     // const [fname,setFname]=useState('');
     // const [fhp,setFhp]=useState('');
     // const [bookingday,setBookingday]=useState('');
@@ -13,28 +12,37 @@ function FeedInsertForm(props) {
     //
     // //content는 Ref로(입력할때마다 다시 랜더링되는거 방지위해)
     // const contentRef=useRef('');
-    //
-    // const url=localStorage.url;
-    //
-    // //파일 업로드 이벤트
-    // const onUploadChange=(e)=>{
-    //     const uploadFile=e.target.files[0];
-    //     const imageFile=new FormData();
-    //     imageFile.append("uploadFile",uploadFile);
-    //
-    //     let uploadUrl=url+"/food/upload";
-    //     console.log(uploadUrl);
-    //
-    //     axios({
-    //         method:'post',
-    //         url:uploadUrl,
-    //         data:imageFile,
-    //         headers:{'Content-Type':'multipart/form-data'}
-    //     }).then(res=>{
-    //         setFoodPhoto(res.data); //res.data에 업로드된 사진이름이 배열형태로 리턴
-    //     });
-    //
-    // }
+
+    const url=localStorage.url;
+
+    //파일 업로드 이벤트
+    const onUploadChange=(e)=>{
+
+        // const uploadFile=e.target.files[0];
+        // const imageFile=new FormData();
+        // imageFile.append("uploadFile",uploadFile);
+        //
+        // let uploadUrl=url+"/food/upload";
+        // console.log(uploadUrl);
+        //
+        // axios({
+        //     method:'post',
+        //     url:uploadUrl,
+        //     data:imageFile,
+        //     headers:{'Content-Type':'multipart/form-data'}
+        // }).then(res=>{
+        //     setFoodPhoto(res.data); //res.data에 업로드된 사진이름이 배열형태로 리턴
+        // });
+
+    }
+    const photoChange=(e)=>{
+
+
+    }
+    //사진이 없을 경우 이벤트
+    const onErrorImg=(e)=>{
+        e.target.src=noimg;
+    }
     return (
         <div className={"form_container"}>
             <h3>피드 게시글 입력 폼</h3><br/>
@@ -113,19 +121,19 @@ function FeedInsertForm(props) {
                 </div>
             </div>
             {/* 사진 선택 */}
-            {/*<div className={'form_box'} style={{height: '200px', backgroundColor:'#fafafa'}}>*/}
-            {/*    <input type={'file'} id="fileimg" multiple*/}
-            {/*           style={{visibility: 'hidden'}} onChange={onUploadChange}/>*/}
-            {/*    <div className={'css-fvirbu'}>*/}
-            {/*        <p className="css-1idkie2">*/}
-            {/*            <span className="css-1wclmit">추가하기 버튼으로<br/></span>*/}
-            {/*            커버 사진을 업로드해주세요.*/}
-            {/*        </p>*/}
-            {/*        <button className="css-fj1jqk" onClick={()=>{*/}
-            {/*            document.getElementById("fileimg").click();*/}
-            {/*        }}>커버 사진 추가하기</button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div className={'form_img_box'} style={{backgroundImage: `url(${img})`}}>
+                <input type={'file'} id="fileimg" multiple
+                       style={{visibility: 'hidden'}} onChange={photoChange}/>
+                <div className={'css-fvirbu'}>
+                    <p className="css-1idkie2">
+                        <span className="css-1wclmit">추가하기 버튼으로<br/></span>
+                        커버 사진을 업로드해주세요.
+                    </p>
+                    <button className="css-fj1jqk" onClick={()=>{
+                        document.getElementById("fileimg").click();
+                    }}>커버 사진 추가하기</button>
+                </div>
+            </div>
         </div>
     );
 }

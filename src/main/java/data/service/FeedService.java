@@ -3,6 +3,7 @@ package data.service;
 import data.dto.FeedDto;
 import data.mapper.FeedMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import util.FileUtil;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service @Primary
 public class FeedService implements FeedServiceInter{
 
     @Autowired
@@ -45,6 +46,7 @@ public class FeedService implements FeedServiceInter{
 
     @Override
     public FeedDto getFeedByNum(int fd_num) {
+
         return null;
     }
 
