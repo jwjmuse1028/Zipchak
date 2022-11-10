@@ -68,6 +68,18 @@ div.form_container {
 /*.css-1wclmit {*/
 /*    display: inline;*/
 /*}*/
+.form_img_box {
+    border-radius: 5px !important;
+    border: 1px solid #d2d2d2;
+    box-shadow: inset 0px 0px 2px 1px #f6f6f6;
+    padding: 3% 3% 3% 5%;
+    margin: 5% 0 5% 0;
+    height: 250px;
+    background-color:#efefef;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
 .css-1idkie2 {
     font-size: 16px;
     line-height: 24px;
@@ -77,8 +89,6 @@ div.form_container {
     margin-top: 10px;
 }
 .css-fj1jqk {
-    display: inline-block;
-    margin: 24px 0px 0px;
     padding: 11px 16px;
     background-color: rgba(33, 38, 41, 0.8);
     color: rgb(255, 255, 255);
@@ -96,10 +106,8 @@ div.form_container {
     -webkit-box-align: center;
     align-items: center;
     position: relative;
-    width: 60%;
     margin: auto;
     padding: 0px;
     text-align: center;
-    background-color: rgb(247, 248, 250);
     border: none;
 }
