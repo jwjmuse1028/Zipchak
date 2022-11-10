@@ -15,5 +15,6 @@ public interface UserMapper {
     public int getLogin(Map<String, String>map);
     public String getName(String ur_id);
     public String getProfile(String ur_id);
+    public UserDto getUserdata(String ur_id);
 
 }

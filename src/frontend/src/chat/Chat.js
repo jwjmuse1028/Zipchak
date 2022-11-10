@@ -23,7 +23,6 @@ function Chat(props) {
         }
         )
     }
-
     /////////////////////////////////////////////////////////////////////////////////
 
     //console.log(cr_num);
@@ -34,12 +33,14 @@ function Chat(props) {
                     <button onClick={()=>{
                         createRoom();
                         }} >채팅 만들기</button><br/>
+                    {/*
                     <button onClick={()=>{
                         sessionStorage.ur_num=1}} >session1</button>
                     <button onClick={()=>{
                         sessionStorage.ur_num=2}} >session2</button>
                     <button onClick={()=>{
                         sessionStorage.ur_num=3}} >session3</button>
+                        */}
                 </div>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} /></div>
             <div id={'chat-message'}>

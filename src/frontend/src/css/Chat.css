@@ -4,14 +4,17 @@ div.main-box{
     margin: auto;
     display: grid;
     grid-template-columns: 30% 70%;
-    border: 1px solid gray;
+    border: 3px solid #38B9E0;
+    border-radius: 10px;
 }
 
 /* 채팅방 관련 */
 div.chatroom-list{
     width: 100%;
     height: 80vh;
-    overflow: scroll
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 15px;
 }
 span.cm_wdate{
     color: gray;
@@ -25,14 +28,21 @@ li.crlist{
     margin-right: 15px;
     cursor: pointer;
     border-radius: 10px;
-    padding: 5px;
+    padding: 5px 5px 5px 15px;
+    height: 60px;
     width: 100%;
     min-width: 200px;
+    overflow: hidden;
 }
 li.crlist:hover{
     background-color: #38B9E0;
 }
-
+div.msg_sign{
+    display: flex;
+}
+div.cr_msg_box{
+    width: 90%;
+}
 div.read_sign{
     width: 20px;
     height: 20px;
@@ -45,19 +55,23 @@ div.read_sign{
 div#chat-message{
     width: 100%;
     height: 80vh;
+    padding-bottom: 10px;
 }
 div.msg_list_box{
-    height: 90%;
+    height: 87%;
 }
 div.msg_list{
     height: 100%;
     width: 100%;
     overflow: scroll;
+    overflow-x: hidden;
 }
 div.each_msg_box{
     display: block;
     width: 100%;
+    min-height: 70px;
 }
+
 div.i_msg_box_w_read{
     position: relative;
     right: -65%;
@@ -68,11 +82,12 @@ div.i_read{
     bottom: 5px;
     width: 50px;
     text-align: right;
+    color: #38B9E0;
 }
 div.i_msg_box{
     margin-right: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
+    /*border: 1px solid black;*/
+    border-radius: 15px;
     margin-bottom: 5px;
     width: 30%;
     min-width: 200px;
@@ -80,36 +95,89 @@ div.i_msg_box{
     padding: 5px 15px;
     color: white;
 }
-div.u_msg_box_w{
+.i_msg_box:after {
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left:30%;
+    margin-top: -10px;
+    border: 10px solid transparent;
+    border-left: 15px solid #38B9E0;
+}
+div.u_msg_box_w_prf{
     position: relative;
+    margin-left: 10px;
+}
+div.chat_prf_box{
+    position: absolute;
+    bottom:10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid #38B9E0;
 }
 div.u_msg_box{
-    margin-left: 10px;
-    border: 1px solid gray;
-    border-radius: 5px;
+    margin-left: 65px;
+    /*order: 1px solid gray;*/
+    border-radius: 15px;
     margin-bottom: 5px;
     width: 30%;
     min-width: 200px;
     padding: 5px 15px;
     background-color: lightgray;
+
+}
+.u_msg_box:before {
+    margin-left: 65px;
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left: -25px;
+    margin-top: -10px;
+    border: 10px solid transparent;
+    border-right: 15px solid lightgray;
+}
+.chat-img{
+    margin-top:5px;
+    margin-bottom:5px;
+    width: 100px;
+    height: 100px;
+    background: 50% 50% no-repeat;
+    background-size: cover;
+    border-radius: 20px;
 }
 /*메세지 입력 창*/
 div.chat-input{
-    width: 100%;
-    height: 10%;
+    width: 95%;
+    min-height: 50px;
     margin-left: 10px;
     padding-top: 1%;
+    display: flex;
 }
-div.message-input{
-    width: 80%;
+button.btn-img{
+    height: 40px;
+    line-height: 45px;
+    border: 0px;
+    border-radius: 30px;
+    background-color: white;
+    color: gray;
+    display: inline-block;
 }
-div.btn-submit{
-    width: 20%;
-}
-form.form-box{
-    width: 90%;
-}
+/*.message-input{*/
+/*    width: 90%;*/
+/*}*/
+/*.btn-submit{*/
+/*    width: 10%;*/
+/*}*/
+/*.btn-plus{*/
+/*    padding-left: 30px;*/
+/*    width: 10%;*/
+/*    font-size: 2rem*/
+/*}*/
+/*form.form-box{*/
+/*    width: 90%;*/
+/*}*/
 
-input[type=text] {
-    width: 80%;
-}
+/*input[type=text] {*/
+/*    width: 80%;*/
+/*}*/

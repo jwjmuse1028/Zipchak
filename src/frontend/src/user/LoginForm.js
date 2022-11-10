@@ -19,6 +19,7 @@ function LoginForm(props) {
                     sessionStorage.loginok='yes';
                     sessionStorage.ur_id=ur_id;
                     sessionStorage.prf_nick=res.data.prf_nick;
+                    sessionStorage.ur_num=res.data.ur_num;
                     sessionStorage.prf_img=res.data.prf_img;
                     navi("/");
                     window.location.reload();

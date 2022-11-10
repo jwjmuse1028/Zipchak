@@ -6,6 +6,7 @@ import data.mapper.FeedMapper;
 import data.service.FeedService;
 import data.service.FeedServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

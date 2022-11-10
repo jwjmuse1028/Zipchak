@@ -18,11 +18,8 @@ function Menu(props) {
                 <NavLink to={"/"}>Home</NavLink>
             </li>
             <li>
-                <NavLink to={"/member/list"}>회원목록</NavLink>
-            </li>
-            <li>
-
                 <NavLink to={"/shop/list"}>중고</NavLink>
+
             </li>
             <li>
                 <NavLink to={"/chat/"}>채팅</NavLink>
@@ -68,10 +65,11 @@ function Menu(props) {
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                         <button type={"button"} className={'w-btn w-btn-indigo'}
                                 onClick={(e)=>{
-                            sessionStorage.removeItem("loginok");
-                            sessionStorage.removeItem("ur_id");
-                            sessionStorage.removeItem("prf_nick");
-                            sessionStorage.removeItem("prf_img");
+                                    sessionStorage.removeItem("loginok");
+                                    sessionStorage.removeItem("ur_id");
+                                    sessionStorage.removeItem("prf_nick");
+                                    sessionStorage.removeItem("prf_img");
+                                    sessionStorage.removeItem("ur_num");
                                     window.location.reload();
                                 }}>로그아웃</button>
                     </div>
