@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import noprfpic from '../image/noprofilepicture.webp';
-import {Dialog, DialogContent, DialogTitle, IconButton, styled} from "@mui/material";
+import {Button, Dialog, DialogContent, DialogTitle, IconButton, makeStyles, styled, TextField} from "@mui/material";
 import {Typography} from "@material-ui/core";
 import DaumPostcode from 'react-daum-postcode';
 import CloseIcon from '@mui/icons-material/Close';
@@ -181,38 +181,41 @@ function RegisterForm(props) {
     }
 
         return (
+            // <div style={{margin:"auto", width:'50%'}}>
+            //     <TextField id="standard-basic" label={'ID'}/>
+            // </div>
             <div>
                 <form onSubmit={onSubmitButton}>
-                    <table className={'table table-bordered'} style={{width: '40%', margin:'auto'}}>
+                    <table className={'table table-bordered'} style={{width: '50%', margin:'auto', borderColor:'white'}}>
                         <caption align={'top'}><h1>회원가입</h1><span style={{color:'rgb(255, 119, 119)'}}>*</span>표시는 필수기재 항목입니다</caption>
                         <tbody>
                         <tr>
-                            <th style={{width:'20%'}}>아이디<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th style={{width:'20%'}}>아이디&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'40%%'}}>
                                 <div className={'input-group'}>
-                                    <input type={"text"} style={{width: '60%'}} value={ur_id} required autoFocus
+                                    <input className={'form-control'} type={"text"} style={{width: '60%', boxShadow:'none'}} value={ur_id} required autoFocus
                                            onChange={inputIdCheck}/>
-                                    <button type={"button"} onClick={btnIdCheck}>중복체크</button>
+                                    <Button color="info" type={"button"} onClick={btnIdCheck}>중복체크</Button>
                                 </div>
                                 <span style={{color:btnok?"blue":"red"}}>{idmsg}</span>
                             </td>
-                            <td rowSpan={5} style={{width:'20%'}} align={"center"}>
+                            <td colSpan={2} rowSpan={4} style={{width:'40%'}} align={"center"}>
                                 <input type={"file"}  id={'filephoto'}
                                        style={{visibility: 'hidden'}}
                                        onChange={photoUploadEvent}/>
                                 <img src={imageUrl+prf_img} onError={onErrorImg}
-                                     style={{width: '300px',height:'300px', borderRadius: '150px'}}/>
+                                     style={{width: '200px',height:'200px', borderRadius: '150px'}}/>
 
                                 <br/><br/>
                                 <CameraAlt onClick={()=>{
                                    document.getElementById('filephoto').click();
-                                }} style={{cursor:'pointer',fontSize:'4em',position:'relative',top:'-80px',left:'80px'}}/>
+                                }} style={{cursor:'pointer', color:'gray', fontSize:'4em',position:'relative',top:'-80px',left:'80px'}}/>
                             </td>
                         </tr>
                         <tr>
-                            <th>비밀번호<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th>비밀번호&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"password"} name={ur_pw} required
+                                <input className={'form-control'} type={"password"} name={ur_pw} style={{boxShadow:'none'}} required
                                 onChange={(e)=>{
                                     setUr_pw(e.target.value);
                                     setUr_pw2('');
@@ -221,45 +224,46 @@ function RegisterForm(props) {
                             </td>
                         </tr>
                         <tr>
-                            <th>비밀번호 확인<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th>비밀번호 확인&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"password"} value={ur_pw2} required
-                                onChange={onChangeUr_pw2}/><br/>
+                                <div className={'input-group'}>
+                                <input className={'form-control'} type={"password"} value={ur_pw2} style={{boxShadow:'none'}} required
+                                onChange={onChangeUr_pw2}/>&nbsp;&nbsp;
                                     <span style={{color:ur_pw==ur_pw2?"blue":"red"}} className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</span>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <th>회원명<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th>회원명&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"text"} name={info_name} value={info_name} required maxLength={10}
+                                <input className={'form-control'} type={"text"} name={info_name} value={info_name} style={{width:'100%',boxShadow:'none'}} required maxLength={10}
                                        onChange={(e) => setInfo_name(e.target.value)}/>
                             </td>
                         </tr>
                         <tr>
-                            <th>닉네임<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th>닉네임&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <div className={'input-group'}>
-                                    <input type={"text"} style={{width: '60%'}} value={prf_nick} required maxLength={8}
+                                    <input className={'form-control'} type={"text"} style={{width: '60%'}} value={prf_nick} style={{boxShadow:'none'}} required maxLength={8}
                                            onChange={inputIdCheck2}/>
-                                    <button type={"button"} onClick={btnIdCheck2}>중복체크</button>
+                                    <Button color="info" type={"button"} onClick={btnIdCheck2}>중복체크</Button>
                                 </div>
                                 <span style={{color:btnok2?"blue":"red"}}>{idmsg2}</span>
                             </td>
-                        </tr>
-                        <tr>
                             <th>성별</th>
-                            <td colSpan={2}>
+                            <td align={"center"}>
                                 <label><input type={"radio"} name={'info_sex'} value={'남자'}
                                               onChange={(e) => setInfo_sex(e.target.value)}/>남자</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label><input type={"radio"} name={'info_sex'} value={'여자'}
                                               onChange={(e) => setInfo_sex(e.target.value)}/>여자</label>
                             </td>
                         </tr>
+
                         <tr>
                             <th>이메일</th>
-                            <td colSpan={2}>
-                                <input type={"email"} name={info_email} value={info_email}
+                            <td>
+                                <input className={'form-control'} type={"email"} name={info_email} value={info_email} style={{boxShadow:'none'}}
                                        onChange={(e) => setInfo_email(e.target.value)}/>
                                 {/*<select>*/}
                                 {/*    <option selected>gmail.com</option>*/}
@@ -269,11 +273,9 @@ function RegisterForm(props) {
                                 {/*    <option>apple.com</option>*/}
                                 {/*</select>*/}
                             </td>
-                        </tr>
-                        <tr>
                             <th>연락처</th>
                             <td colSpan={2}>
-                                <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                                <input className={'form-control'} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" style={{boxShadow:'none'}}
                                        maxLength={13}
                                        name={info_hp}
                                        value={info_hp}
@@ -287,16 +289,16 @@ function RegisterForm(props) {
                         </tr>
                         <tr>
                             <th>주소</th>
-                            <td colSpan={2}>
+                            <td colSpan={3}>
                                 <div className={'input-group'}>
-                                    <input style={{width: '80%'}} name={info_addr} value={info_addr}
+                                    <input className={'form-control'} style={{width: '80%'}} name={info_addr} value={info_addr} style={{boxShadow:'none'}}
                                            onChange={(e) => setInfo_addr(e.target.value)}/>
-                                    <button type='button' onClick={handle.clickButton}>주소검색</button>
+                                    <Button variant="contained" color="info" type='button' onClick={handle.clickButton}>주소검색</Button>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan={3} align={"center"}>
+                            <td colSpan={4} align={"center"}>
                                 <button className={'w-btn w-btn-indigo'}>가입하기</button>
                             </td>
                         </tr>

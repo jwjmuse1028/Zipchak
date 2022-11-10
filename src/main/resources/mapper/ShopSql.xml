@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.ShopMapper">
+    <select id="getTotalCount" resultType="int">-- 총글개수
+    SELECT count(*) FROM sp
+    </select>
+    <insert id="insertShop" parameterType="ShopDto">-- 상품추가
+        INSERT INTO sp (ur_num,pd_num,sp_title,sp_txt,sp_wdate,sp_rdcnt)
+        VALUES (#{ur_num},#{pd_num},#{sp_title},#{sp_txt},now(),0)
+    </insert>
+    <select id="getPagingList" parameterType="Map" resultType="ShopDto">-- 목록출력
+    SELECT * FROM sp ORDER BY num DESC limit #{startnum}, #{perpage}
+    </select>
+    <select id="getData" parameterType="int" resultType="ShopDto">-- 상세보기
+    SELECT * FROM sp WHERE sp_num=#{sp_num}
+    </select>
+    <update id="updateShop" parameterType="ShopDto">-- 상품수정
+    UPDATE sp SET sp_title=#{sp_title},sp_txt=#{sp_txt}
+    WHERE sp_num=#{sp_num}
+    </update>
+    <delete id="deleteShop" parameterType="int">-- 상품삭제
+    DELETE FROM sp WHERE sp_num=#{sp_num}
+    </delete>
+    <update id="updateReadCount" parameterType="int">-- 조회수증가
+    UPDATE sp SET sp_rdcnt=sp_rdcnt+1 WHERE sp_num=#{sp_num}
+    </update>
+    <select id="getMaxNum" resultType="int">-- 가장최신글번호
+    SELECT MAX(sp_num) FROM sp
+    </select>
+</mapper>

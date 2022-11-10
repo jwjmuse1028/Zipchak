@@ -3,7 +3,7 @@ import Menu from "./components/Menu";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 
-import MarketList from "./market/MarketList";
+import ShopList from "./shop/ShopList";
 import LoginForm from "./user/LoginForm";
 import RegisterForm from "./user/RegisterForm";
 
@@ -13,6 +13,9 @@ import Chat from "./chat/Chat";
 
 import FeedInsertForm from "./feed/FeedInsertForm";
 import FeedList from "./feed/FeedList";
+import ShopInsertForm from "./shop/ShopInsertForm";
+import ShopUpdateForm from "./shop/ShopUpdateForm";
+import ShopDetail from "./shop/ShopDetail";
 
 
 
@@ -28,13 +31,15 @@ function RouteMain(props) {
                 <Route path={'/login'} element={<LoginForm/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
 
-                <Route path='/market'>
-                    <Route path='list' element={<MarketList/>}/>
+                <Route path='/shop'>
+                    <Route path='list' element={<ShopList/>}/>
+                    <Route path='insert' element={<ShopInsertForm/>}/>
+                    <Route path='update' element={<ShopUpdateForm/>}/>
+                    <Route path='detail' element={<ShopDetail/>}/>
                 </Route>
 
                 <Route path='/chat' element={<Chat/>}>
                     <Route path='list/' element={<ChatRoomList/>}/>
-
                 </Route>
                 {/*<Route path='/board'>*/}
                 {/*    <Route path='form' element={<BoardForm/>}/>*/}
@@ -50,8 +55,6 @@ function RouteMain(props) {
                 <Route path='*' element={
                     <div>
                         <h1>잘못된 URL 주소입니다</h1>
-                        {/*<br/>*/}
-                        {/*<img alt='' src={img1} width='400'/>*/}
                     </div>
                 }/>
             </Routes>

@@ -2,6 +2,8 @@ package data.controller;
 
 
 import data.dto.FeedDto;
+import data.mapper.FeedMapper;
+import data.service.FeedService;
 import data.service.FeedServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -17,7 +19,7 @@ import java.util.List;
 public class FeedController {
 
     @Autowired
-    FeedServiceInter feedservice;
+    FeedService feedservice;
 
 
     @PostMapping("/insert")
