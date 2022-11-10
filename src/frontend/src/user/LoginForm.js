@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "../css/LoginForm.css";
+import {Button, TextField} from "@mui/material";
 
 
 function LoginForm(props) {
@@ -18,6 +19,7 @@ function LoginForm(props) {
                     sessionStorage.loginok='yes';
                     sessionStorage.ur_id=ur_id;
                     sessionStorage.prf_nick=res.data.prf_nick;
+                    sessionStorage.prf_img=res.data.prf_img;
                     navi("/");
                     window.location.reload();
                 } else {
@@ -28,37 +30,36 @@ function LoginForm(props) {
             })
     }
     return (
-        <div>
-            <form>
-                <table className={'table table-bordered'} style={{width:'300px', margin:'auto'}}>
-                    <caption align={'top'}><h1>로그인</h1></caption>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div>
-                                <input type={'text'} className={'form-control'} style={{boxShadow:'none'}} required autoFocus value={ur_id} placeholder={"ID"}
-                                       onChange={(e)=>setUr_id(e.target.value)}/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <input type={'password'} className={'form-control'} style={{boxShadow:'none'}} required value={ur_pw} placeholder={"Password"}
-                                       onChange={(e)=>setUr_pw(e.target.value)}/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2} align={"center"}>
-                            <button type={"submit"} className={'w-btn w-btn-indigo'}
-                                    onClick={onSubmitLogin}>로그인</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
+        <div style={{width:'20%', margin:"auto"}}>
+            <h1>로그인</h1>
+            <TextField label={'ID'} name={'ur_id'} value={ur_id} required fullWidth onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
+            <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} required fullWidth onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>
+            <Button type={"submit"} fullWidth variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>
         </div>
+        // <div>
+        //     <table className={'table'} style={{borderColor:'white', margin:"auto", width: '20%'}}>
+        //         <caption align={'top'}><h1>로그인</h1></caption>
+        //         <tbody>
+        //         <tr>
+        //             <td>
+        //                 <TextField label={'ID'} name={'ur_id'} value={ur_id} autoFocus required fullWidth
+        //                            onChange={(e)=>setUr_id(e.target.value)}/>
+        //             </td>
+        //         </tr>
+        //         <tr>
+        //             <td>
+        //                 <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} required fullWidth
+        //                            onChange={(e)=>setUr_pw(e.target.value)}/>
+        //             </td>
+        //         </tr>
+        //         <tr>
+        //             <td>
+        //                 <Button type={"submit"} fullWidth variant={"contained"} onClick={onSubmitLogin}>Sign In</Button>
+        //             </td>
+        //         </tr>
+        //         </tbody>
+        //     </table>
+        // </div>
     );
 }
 

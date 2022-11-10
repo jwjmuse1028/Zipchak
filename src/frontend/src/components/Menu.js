@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import '../css/Menu.css';
+import {Avatar} from "@mui/material";
 
 function Menu(props) {
     const [prf_nick, setPrf_nick]=useState('');
@@ -21,7 +22,7 @@ function Menu(props) {
             </li>
             <li>
 
-                <NavLink to={"/market/list"}>중고</NavLink>
+                <NavLink to={"/shop/list"}>중고</NavLink>
             </li>
             <li>
                 <NavLink to={"/chat/"}>채팅</NavLink>
@@ -63,7 +64,7 @@ function Menu(props) {
                     </div>
                     :
                     <div>
-                        <img src={"../webapp/image/"+prf_img}/>&nbsp;&nbsp;
+                        <Avatar src={"../webapp/image/"+prf_img}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                         <button type={"button"} className={'w-btn w-btn-indigo'}
                                 onClick={(e)=>{
