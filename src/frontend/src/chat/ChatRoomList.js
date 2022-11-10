@@ -37,8 +37,14 @@ function ChatRoomList(props) {
                                 </span>
                                 <span className={'cm_wdate'}>{cr.cm_wdate}</span>
                             </div>
-                            <div className={'msg_sign'}>{cr.msg}
-                                <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div></div>
+                            <div className={'msg_sign'}>
+                                <div className={'cr_msg_box'}>{
+                                    cr.msg.startsWith('img-')?
+                                        `${cr.sender} 님이 사진을 공유했습니다`
+                                        :
+                                    cr.msg}</div>
+                                <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
+                            </div>
                         </li>
                     )
                 }

@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import util.FileUtil;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class ChatMessageController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
     ChatMessageMapper cmmapper;
-
+    String uploadFileName;
     @MessageMapping("/chat")
     public void sendMessage(ChatMessageDto chatDto, SimpMessageHeaderAccessor accessor) {
         //System.out.println(chatDto.getSender()+chatDto.getMsg());
@@ -55,4 +57,27 @@ public class ChatMessageController {
             cmmapper.updateRead(map);
         }
     }
+
+    @PostMapping("/photo/upload")
+    public String imgupload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
+    {
+        System.out.println("React로 부터 이미지 업로드");
+        //업로드할 폴더 구하기
+        String path=request.getSession().getServletContext().getRealPath("/image");
+        System.out.println(path);
+        //기존 업로드 파일이 있을 경우 삭제 후 다시 업로드
+        if(uploadFileName!=null){
+            FileUtil.deletePhoto(path,uploadFileName);
+        }
+        //이전 업로드한 사진을 지훈 후 현재 사진 업로드하기
+        uploadFileName=FileUtil.getChangeFileName(uploadFile.getOriginalFilename());
+        try {
+            uploadFile.transferTo(new File(path+"/"+uploadFileName));
+            System.out.println("업로드 성공");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "img-"+uploadFileName;
+    }
+
 }
