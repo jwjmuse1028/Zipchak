@@ -3,10 +3,10 @@
 <mapper namespace="data.mapper.ChatMessageMapper">
     <select id="getChatMessage" parameterType="int" resultType="cmdto">
         SELECT * from cm
-        where cr_num=#{cr_num}
+        where cm.cr_num=#{cr_num}
     </select>
     <insert id="insertChatMessage" parameterType="cmdto" useGeneratedKeys="true" keyProperty="cm_num" keyColumn="cm_num">
-        insert into cm values (null, #{cr_num},#{sender},#{msg},0,now())
+        insert into cm values (null, #{cr_num},#{sender},#{msg},0,now(3))
     </insert>
     <select id="getMsg" parameterType="int" resultType="cmdto">
         select * from cm where cm_num=#{cm_num}

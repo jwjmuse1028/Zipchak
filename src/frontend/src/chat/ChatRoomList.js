@@ -4,8 +4,9 @@ import '../css/Chat.css';
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click,chatList}=props;
-    const ur_nick=sessionStorage.ur_nick;
+    const {ur_num, cr_click, screenState, screenStatef}=props;
+    const [resize, setResize] = useState();
+
     const chatRoomList=()=>{
         let url="http://localhost:9005/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -15,10 +16,18 @@ function ChatRoomList(props) {
     const readEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
     }
+    const handleResize = () => {
+        setResize(window.innerWidth);
+    };
     useEffect(()=>{
         chatRoomList();
     },[]);
-
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
     return (
         <div >
             <br/>
@@ -26,10 +35,10 @@ function ChatRoomList(props) {
                 {
                     chatRoom &&
                     chatRoom.map((cr,i)=>
-                        //sender 나중에 nickname으로 변경할 것.
                         <li key={i}  className={'crlist'}
                             onClick={()=>{
-                                cr_click(cr.cr_num)
+                                cr_click(cr.cr_num, ur_num!=cr.buyer_num?cr.buyer_num:cr.ur_num);
+                                resize<=800?screenStatef(2):screenStatef(0);
                                 readEvent(i);
                                 }} >
                             <div>
@@ -57,6 +66,7 @@ function ChatRoomList(props) {
                     )
                 }
             </ul>
+
         </div>
     );
 }
