@@ -25,10 +25,9 @@ function ChatRoomList(props) {
                 {
                     chatRoom &&
                     chatRoom.map((cr,i)=>
-                        //sender 나중에 nickname으로 변경할 것.
                         <li key={i}  className={'crlist'}
                             onClick={()=>{
-                                cr_click(cr.cr_num);
+                                cr_click(cr.cr_num, ur_num!=cr.buyer_num?cr.buyer_num:cr.ur_num);
                                 readEvent(i);
                                 }} >
                             <div>

@@ -2,15 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
+import tmp from "../image/tmp.png";
 
 function ChatMessageList(props) {
     //변수
     const [chatList, setChatList] = useState([]);
     const [uInfo,setUinfo]=useState({});
+    const [uTmp,setUTmp]=useState();
+    const [tmpCol,setTmpCol]=useState('green');
+    const [tmpH, setTmpH]=useState('10px');
     const {cr_num, ur_num,u_num}=props;
     let imageUrl=sessionStorage.url+"/image/";
     const chatendRef=useRef();
-
     //함수
     const getChatMessage=()=>{
         let url=sessionStorage.url+"/chat/cm?cr_num="+cr_num;
@@ -25,25 +28,57 @@ function ChatMessageList(props) {
         let uinfoUrl=sessionStorage.url+"/chat/u_info?u_num="+u_num;
         axios.get(uinfoUrl).then(res=>{
             setUinfo(res.data);
+            setUTmp(res.data.prf_tmp);
         })
     }
-
+    const getTmpCol=()=>{
+        if (uInfo.prf_tmp>80)
+        {
+            setTmpCol('red');
+            setTmpH('35px');
+        }else if(uInfo.prf_tmp>60) {
+            setTmpCol('orange');
+            setTmpH('30px');
+        }else if(uInfo.prf_tmp>40) {
+            setTmpCol('gold');
+            setTmpH('25px');
+        }else if(uInfo.prf_tmp>20) {
+            setTmpCol('green');
+            setTmpH('20px');
+        }else if(uInfo.prf_tmp>10) {
+            setTmpCol('dodgerblue');
+            setTmpH('15px');
+        }else {
+            setTmpCol('midnightblue');
+            setTmpH('0px');
+        }
+    }
     //useEffect
     useEffect(()=>{
         getUInfo();
     },[cr_num])
+    useEffect(()=>{
+        getTmpCol();
+    },[uTmp])
     useEffect(()=>{
         getChatMessage();
     },[cr_num,chatList])
     useEffect(()=>{
         chatendRef.current?.scrollIntoView();
     },[chatList])
+
     return (
         <div className={'msg_list_box'}>
-            <div className={'uInfoBox'} style={{margin:"auto"}}>
+            <div className={'uInfoBox'} >
                 <div className={'prf_box'}
                     style={{backgroundImage:`url('${imageUrl+uInfo.prf_img}'),url('${noprfpic}')`}}></div>
-                {uInfo.prf_nick}</div>
+                <div className={'prf_nick'}>{uInfo.prf_nick}님</div>
+                <div className={'prf_temp'}>{uInfo.prf_tmp}℃</div>
+                <img alt={''} src={tmp} className={'tmp_img'}/>
+                <div className={'tmp_circle'} style={{backgroundColor:tmpCol}}></div>
+                <div className={'tmp_rec'} style={{backgroundColor:tmpCol, height:tmpH}}></div>
+            </div>
+            <hr style={{marginTop:'0px'}}/>
             <div className={'msg_list'} >
             {
                 chatList &&

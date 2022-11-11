@@ -2,13 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ChatMessageMapper">
     <select id="getChatMessage" parameterType="int" resultType="cmdto">
-        SELECT cm.cm_num, cm.cr_num, cm.sender, cm.msg, cm.is_read, cm.cm_wdate,
-               seller.ur_num seller_num,seller.prf_nick seller_nick, seller.prf_img seller_img,
-               buyer.ur_num buyer_num, buyer.prf_nick buyer_nick, buyer.prf_img buyer_img from cm
-            join cr on cr.cr_num=cm.cr_num
-            join sp on cr.sp_num=sp.sp_num
-            join ur_prf as seller on seller.ur_num=sp.ur_num
-            join ur_prf as buyer on buyer.ur_num=cr.buyer_num
+        SELECT * from cm
         where cm.cr_num=#{cr_num}
     </select>
     <insert id="insertChatMessage" parameterType="cmdto" useGeneratedKeys="true" keyProperty="cm_num" keyColumn="cm_num">
