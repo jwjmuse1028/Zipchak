@@ -1,0 +1,137 @@
+
+.a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.a:hover{
+    text-decoration: none;
+}
+
+.feed_container {
+    margin-right: auto;
+    margin-left: auto;
+    width: calc(100% - 120px);
+    max-width: 70%;
+    min-width: 400px;
+    box-sizing: border-box;
+    min-height: 1px;
+}
+
+.virtualized-list row {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+}
+
+.col-12 col-md-4 {
+
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.project-feed__item {
+    position: relative;
+    display: block;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.project-feed__item__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.project-feed__item__image {
+    position: relative;
+    padding-bottom: 66.6666666667%;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #ededed;
+}
+
+.project-feed__item__image > .image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    transition: transform .2s;
+}
+
+/* 아이콘 (new),(scrap) */
+.project-feed__item__image__new {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.project-feed__item__image__scrap {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    font-size: 0;
+    transition: opacity .1s;
+}
+
+.project-feed__item__title {
+    margin: 18px 0 8px;
+    line-height: 24px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #424242;
+    word-break: keep-all;
+    word-wrap: break-word;
+}
+
+.project-feed__item__writer {
+    position: relative;
+    display: block;
+    margin: 8px 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: #424242;
+    line-height: 16px;
+    z-index: 2;
+}
+
+.project-feed__item__writer__image {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    border-radius: 100%;
+    background-color: #ededed;
+    vertical-align: -3px;
+}
+
+.project-feed__item__status {
+    margin: 8px 0 0;
+    color: #757575;
+    font-size: 13px;
+    line-height: 17px;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .project-feed__item__link:active ~ .project-feed__item__image > .image, .project-feed__item__link:hover ~ .project-feed__item__image > .image {
+        transform: translate(-50%, -50%) scale(1.05)
+    }
+}
