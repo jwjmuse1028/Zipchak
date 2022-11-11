@@ -4,12 +4,12 @@
     <select id="getTotalCount" resultType="int">-- 총글개수
     SELECT count(*) FROM sp
     </select>
-    <insert id="insertShop" parameterType="ShopDto">-- 상품추가
+    <insert id="insertShop" parameterType="ShopDto">-- 판매글추가
         INSERT INTO sp (ur_num,pd_num,sp_title,sp_txt,sp_wdate,sp_rdcnt)
         VALUES (#{ur_num},#{pd_num},#{sp_title},#{sp_txt},now(),0)
     </insert>
     <select id="getPagingList" parameterType="Map" resultType="ShopDto">-- 목록출력
-    SELECT * FROM sp ORDER BY num DESC limit #{startnum}, #{perpage}
+    SELECT * FROM sp ORDER BY sp_num DESC limit #{startnum}, #{perpage}
     </select>
     <select id="getData" parameterType="int" resultType="ShopDto">-- 상세보기
     SELECT * FROM sp WHERE sp_num=#{sp_num}
