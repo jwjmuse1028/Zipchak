@@ -1,10 +1,8 @@
 package data.controller;
 
 import data.dto.ChatMessageDto;
-import data.dto.ChatRoomDto;
 import data.dto.UserDto;
 import data.mapper.ChatMessageMapper;
-import data.mapper.ChatRoomMapper;
 import data.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

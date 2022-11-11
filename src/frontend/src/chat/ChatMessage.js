@@ -37,6 +37,8 @@ function ChatMessage(props) {
             }),
         });
         setMsg('');
+        //let sendTime=new Date().getTime();
+        //console.log(sendTime);
     };
 
     const subscribe = () => {
@@ -51,15 +53,6 @@ function ChatMessage(props) {
         client.current.deactivate();
         console.log('disconnected');
     };
-
-    // const handleChange = (event) => { // 채팅 입력 시 state에 값 설정
-    //     setMsg(event.target.value);
-    // };
-
-    // const handleSubmit = (event, msg) => { // 보내기 버튼 눌렀을 때 publish
-    //     event.preventDefault();
-    //     publish(msg);
-    // };
 
     useEffect(() => {
         connect();

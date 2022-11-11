@@ -12,15 +12,28 @@ function Chat(props) {
     const [u_num,setU_num]=useState(0);
     const [chatList, setChatList] = useState([]);
     const [resize, setResize] = useState();
+    const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=sessionStorage.ur_num;
     //함수
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);
         setU_num(u_num);
     }
+    const screenStatef=(state)=>{
+        setScreenState(state);
+    }
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+
+    const reactsize=()=>{
+        if(resize>800){
+            setScreenState(0);
+        }
+        else if(resize<=800){
+            setScreenState(2);
+        }
+    }
     //중고 페이지 생성 시 위치 이동 필요
     let sp_num=1;
     const createRoom=()=>{
@@ -39,23 +52,31 @@ function Chat(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-
+    useEffect(()=>{
+        reactsize();
+    },[resize])
+    console.log(screenState);
     return (
-        <div className={'main-box'} style={{width:`${resize<=800?'600px':'80%'}`}}>
-            <div className={resize<=800?"chatroom-list hide":"chatroom-list show"}>
+        <div className={'main-box'} style={{width:`${resize<=800?'600px':'80%'}`,
+            gridTemplateColumns:`${screenState==0?"30% 70%":screenState==1?"100% 0%":"0% 100%"}`}}
+            >
+            <div className={"chatroom-list"}
+            style={{display:`${screenState==0?"block":screenState==1?"block":resize<=800?"none":"block"}`}}>
                 <div>
                     <button onClick={()=>{
                         createRoom();
                         }} >채팅 만들기</button><br/>
                 </div>
-                <ChatRoomList ur_num={ur_num} cr_click={cr_click} /></div>
-            <div id={"chat_message"} style={{width:`${resize<=800?'590px':'100%'}`}}>
+                <ChatRoomList ur_num={ur_num} cr_click={cr_click} screenStatef={screenStatef} screenState={screenState} /></div>
+            <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
+                display:`${screenState==0?"block":screenState==1?"none":"block"}`}}>
                 {
                     cr_num==0
                         ?
                         <div className={'sellect_user'}>채팅할 상대를 선택해주세요</div>
                         :
-                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} chatList={chatList} />
+                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} chatList={chatList}
+                                         screenStatef={screenStatef} screenState={screenState}/>
                 }
 
             </div>

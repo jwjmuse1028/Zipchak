@@ -6,7 +6,7 @@
         where cm.cr_num=#{cr_num}
     </select>
     <insert id="insertChatMessage" parameterType="cmdto" useGeneratedKeys="true" keyProperty="cm_num" keyColumn="cm_num">
-        insert into cm values (null, #{cr_num},#{sender},#{msg},0,now())
+        insert into cm values (null, #{cr_num},#{sender},#{msg},0,now(3))
     </insert>
     <select id="getMsg" parameterType="int" resultType="cmdto">
         select * from cm where cm_num=#{cm_num}
