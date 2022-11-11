@@ -11,6 +11,7 @@ function ChatMessage(props) {
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     let uploadUrl="http://localhost:9005/photo/upload";
+
     const connect = () => {
         client.current = new StompJs.Client({
             brokerURL: 'ws://localhost:9005/ws',
@@ -36,6 +37,8 @@ function ChatMessage(props) {
             }),
         });
         setMsg('');
+        //let sendTime=new Date().getTime();
+        //console.log(sendTime);
     };
 
     const subscribe = () => {
@@ -48,16 +51,8 @@ function ChatMessage(props) {
 
     const disconnect = () => {
         client.current.deactivate();
+        console.log('disconnected');
     };
-
-    // const handleChange = (event) => { // 채팅 입력 시 state에 값 설정
-    //     setMsg(event.target.value);
-    // };
-
-    // const handleSubmit = (event, msg) => { // 보내기 버튼 눌렀을 때 publish
-    //     event.preventDefault();
-    //     publish(msg);
-    // };
 
     useEffect(() => {
         connect();

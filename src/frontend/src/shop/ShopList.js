@@ -30,8 +30,7 @@ function ShopList(props) {
                 <AddIcon />
             </Fab>
             {
-                list &&
-                list.map((row,idx)=>
+                list && list.map((row,idx)=>
                     <div key={idx}>
                         {idx%4===0?<br/>:''}
                         <figure style={{float:"left", cursor:"pointer"}}>

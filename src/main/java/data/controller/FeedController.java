@@ -21,6 +21,11 @@ public class FeedController {
     @Autowired
     FeedService feedservice;
 
+    @PostMapping("/upload")
+    public String fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
+    {
+        return feedservice.fileUpload(uploadFile,request);
+    }
 
     @PostMapping("/insert")
     public void insertFeed(@RequestBody FeedDto dto)

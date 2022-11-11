@@ -15,6 +15,14 @@
                  join ur_prf as ur_prf_seller on ur_prf_seller.ur_num=sp.ur_num
         where ur.ur_num=#{ur_num} or cr.buyer_num=#{ur_num} order by cm_wdate desc
     </select>
+    <select id="getUInfo" resultType="crdto">
+        SELECT cr.cr_num, sp.ur_num, cr.buyer_num, buyer.prf_nick buyer_nick, buyer.prf_img buyer_img, seller.prf_nick seller_nick, seller.prf_img seller_img
+        FROM cr
+                 join sp on cr.sp_num=sp.sp_num
+                 join ur_prf as seller on seller.ur_num=sp.ur_num
+                 join ur_prf as buyer on buyer.ur_num=cr.buyer_num
+        where cr.cr_num=#{cr_num}
+    </select>
     <insert id="insertRoom" parameterType="crdto">
         insert into cr values (null, #{sp_num}, #{buyer_num}, now())
         <selectKey keyProperty="cr_num" resultType="int" order="AFTER">

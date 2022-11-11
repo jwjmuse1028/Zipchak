@@ -34,4 +34,7 @@
     <select id="getUserdata" parameterType="String" resultType="UserDto">-- 닉네임님이 로그인중입니다
     select ur_num,prf_nick,prf_img from ur_prf where ur_num = (select ur_num from ur where ur_id=#{ur_id})
     </select>
+    <select id="getUserdataByUr" parameterType="int" resultType="UserDto">-- 닉네임님이 로그인중입니다
+    select prf_nick,prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
+    </select>
 </mapper>

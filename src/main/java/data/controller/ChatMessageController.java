@@ -1,9 +1,9 @@
 package data.controller;
 
 import data.dto.ChatMessageDto;
-import data.dto.ChatRoomDto;
+import data.dto.UserDto;
 import data.mapper.ChatMessageMapper;
-import data.mapper.ChatRoomMapper;
+import data.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -27,6 +27,8 @@ public class ChatMessageController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
     ChatMessageMapper cmmapper;
+    @Autowired
+    UserMapper umapper;
     String uploadFileName;
     @MessageMapping("/chat")
     public void sendMessage(ChatMessageDto chatDto, SimpMessageHeaderAccessor accessor) {
@@ -58,7 +60,6 @@ public class ChatMessageController {
             cmmapper.updateRead(map);
         }
     }
-
     @PostMapping("/photo/upload")
     public String imgupload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
     {
@@ -76,5 +77,11 @@ public class ChatMessageController {
             throw new RuntimeException(e);
         }
         return "img-"+uploadFileName;
+    }
+
+    @GetMapping("/chat/u_info")
+    public UserDto getUserdataByUr(int u_num)
+    {
+        return umapper.getUserdataByUr(u_num);
     }
 }
