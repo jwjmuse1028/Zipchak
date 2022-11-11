@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import '../css/Chat.css';
 import ChatRoomList from "./ChatRoomList";
-import {useParams} from "react-router-dom";
-import ChatMessage from "./ChatMessage";
 import ChatMessageList from "./ChatMessageList";
 import axios from "axios";
 
