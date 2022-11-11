@@ -1,8 +1,16 @@
 import React, {useState} from 'react';
 import "../css/FeedForm.css";
 import noimg from './noimage.jpg';
+
+import {Editor} from "@toast-ui/react-editor";
+import '@toast-ui/editor/dist/toastui-editor.css'
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
+
 import {useNavigate} from "react-router-dom";
+
 
 function FeedInsertForm(props) {
 
@@ -173,6 +181,47 @@ function FeedInsertForm(props) {
                         </div>
                 }
             </div>
+
+
+            <Editor
+                previewStyle="vertical" // 미리보기 스타일 지정
+                height="500px" // 에디터 창 높이
+                initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+                plugins={[colorSyntax]}
+                hideModeSwitch={true}
+                toolbarItems={[
+                    // 툴바 옵션 설정
+                    ['heading', 'bold', 'italic', 'strike'],
+                    ['hr', 'quote'],
+                    ['ul', 'ol', 'task', 'indent', 'outdent'],
+                    ['table', 'image', 'link'],
+                ]}
+                hooks={{
+                    addImageBlobHook:async (blob,callback)=>{
+
+                        console.log(blob)
+
+                        console.log(blob.name)
+
+                        const formData=new FormData()
+                        formData.append('file',blob)
+
+                        let url=localStorage.url+"/image/insert"
+
+                        axios.post(url,formData,{
+                            header: { "content-type": "multipart/formdata" }
+                        })
+                            .then(res=>{
+                                    alert("이미지 업로드 성공"+res.data)
+
+                                }
+                            )
+
+                        callback(url)
+                    }
+                }}
+            />
+
         </div>
     );
 }
