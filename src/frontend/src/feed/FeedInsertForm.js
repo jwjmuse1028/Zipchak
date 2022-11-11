@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 function FeedInsertForm(props) {
 
-     const [img,setImg]=useState('');
+    const [img,setImg]=useState('');
     const [fd_title,setTitle]=useState('');
     const [fd_spc,setSpc]=useState('');
     const [fd_lvtp,setLvtp]=useState('');
