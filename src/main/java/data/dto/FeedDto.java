@@ -1,9 +1,11 @@
 package data.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.sql.Timestamp;
 
+@Data
 public class FeedDto {
     private int fd_num;
     private int ur_num;
@@ -17,7 +19,7 @@ public class FeedDto {
     private Timestamp fd_udate;
     private int fd_rdcnt;
     private String fd_lvtp;
-    private int fd_fml;
+    private String fd_fml;
     private String fd_anm;
     private String fd_style;
 
