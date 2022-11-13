@@ -4,8 +4,11 @@
     <insert id="insertProduct" parameterType="ProductDto">-- 상품추가
     INSERT INTO pd (pd_name,pd_price,pd_ctg,pd_status)
     VALUES (#{pd_name},#{pd_price},#{pd_ctg},'yes')
+        <selectKey keyProperty="pd_num" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
-    <insert id="insertProductImg" parameterType="ProductDto">-- 상품이미지추가
+    <insert id="insertProductImg" parameterType="ProductImageDto">-- 상품이미지추가
     INSERT INTO pd_img (pd_num,img_name)
     VALUES (#{pd_num},#{img_name})
     </insert>

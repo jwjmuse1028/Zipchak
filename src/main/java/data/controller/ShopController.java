@@ -1,17 +1,20 @@
 package data.controller;
 
+import data.dto.ProductDto;
+import data.dto.ProductImageDto;
 import data.dto.ShopDto;
+import data.mapper.ProductMapper;
 import data.mapper.ShopMapper;
+import data.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -20,11 +23,37 @@ public class ShopController {
 
     @Autowired
     ShopMapper shopMapper;
+    @Autowired
+    ProductMapper productMapper;
+
+    @Autowired
+    UserMapper userMapper;
+
+    List<String> totalImages=new ArrayList<>();
 
     @PostMapping("/insert")
-    public void insertShop(@RequestBody ShopDto dto)
-    {
-        shopMapper.insertShop(dto);
+    public void insertShop(@RequestBody Map<String,Object> map) {
+//        System.out.println("pd_price="+map.get("pd_price"));
+        ProductDto pddto=new ProductDto();
+        pddto.setPd_name((String)map.get("pd_name"));
+        pddto.setPd_ctg((String)map.get("pd_ctg"));
+        pddto.setPd_price(Integer.parseInt((String)map.get("pd_price")));
+        productMapper.insertProduct(pddto);
+
+        ShopDto spdto=new ShopDto();
+        spdto.setSp_title((String)map.get("sp_title"));
+        spdto.setSp_txt((String)map.get("sp_txt"));
+        spdto.setPd_num(pddto.getPd_num());
+        spdto.setUr_num(Integer.parseInt((String)map.get("ur_num")));
+        shopMapper.insertShop(spdto);
+
+
+        for (String sname : totalImages) {
+            ProductImageDto pdto=new ProductImageDto();
+            pdto.setPd_num(pddto.getPd_num());
+            pdto.setImg_name(sname);
+            productMapper.insertProductImg(pdto);
+        }
     }
 
     @GetMapping("/list")
@@ -74,6 +103,55 @@ public class ShopController {
         return smap;
     }
 
+    @PostMapping("/upload")
+    public List<String> fileUpload(@RequestParam List<MultipartFile> uploadFile,
+                                   HttpServletRequest request)
+    {
+//        System.out.println("Shop React로부터 이미지 업로드");
+        //업로드할 폴더 구하기
+        String path = request.getSession().getServletContext().getRealPath("/image");
+
+        int i=0;
+       for(MultipartFile multi:uploadFile) {
+           //이전 업로드한 사진을 지운 후 현재 사진 업로드하기
+           String pname = i++ +"_"+FileUtil.getChangeFileName(multi.getOriginalFilename());
+           try {
+               multi.transferTo(new File(path + "/" + pname));
+               //총사진
+               totalImages.add(pname);
+//            System.out.println("업로드 성공");
+           } catch (IOException e) {
+               throw new RuntimeException(e);
+           }
+       }
+        return totalImages;
+    }
+
+    @DeleteMapping("/imagedelete")
+    public void imageDelete(@RequestParam int idx, HttpServletRequest request)
+    {
+        String path = request.getSession().getServletContext().getRealPath("/image");
+//        System.out.println("shop image delete:"+idx);
+        String fname=totalImages.get(idx);
+        File file=new File(path+"/"+fname);
+        if(file.exists())
+            file.delete();
+        totalImages.remove(idx);
+    }
+
+    @GetMapping("/imageclear")
+    public void imageClear(HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("/image");
+        //이미지 파일에서 쌓이지않게 지워지도록
+        for(String s:totalImages)
+        {
+            File file=new File(path+"/"+s);
+            if(file.exists())
+                file.delete();
+        }
+        totalImages.clear();
+//        System.out.println("이미지 클래스 호출");
+    }
     @GetMapping("/detail")
     public ShopDto select(@RequestParam int sp_num)
     {
