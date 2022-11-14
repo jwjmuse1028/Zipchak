@@ -1,8 +1,6 @@
 package data.controller;
 
-import data.dto.ProductDto;
-import data.dto.ProductImageDto;
-import data.dto.ShopDto;
+import data.dto.*;
 import data.mapper.ProductMapper;
 import data.mapper.ShopMapper;
 import data.mapper.UserMapper;
@@ -59,9 +57,8 @@ public class ShopController {
     @GetMapping("/list")
     public Map<String, Object> getPagingList(@RequestParam(defaultValue = "1") int currentPage)
     {
-        //System.out.println("currentPage="+currentPage);
         int totalCount;
-        int perPage=20;
+        int perPage=16;
         int perBlock=5;
         int startNum;
         int startPage;
@@ -84,7 +81,21 @@ public class ShopController {
         Map<String,Integer>map=new HashMap<>();
         map.put("startnum",startNum);
         map.put("perpage", perPage);
-        List<ShopDto> list=shopMapper.getPagingList(map);
+        List<ShopProductDto> list=shopMapper.getPagingList(map);
+        
+        for(ShopProductDto sdto:list)
+        {
+            List<String> images=productMapper.getImages(sdto.getPd_num());
+            if(images.size()==0){ //등록된 사진이 없는경우
+                sdto.setImg_first("noimage.jpg");
+            }else{
+                sdto.setImg_first(images.get(0)); //첨부된 사진중에 첫번째 사진을 대표이미지로 보낸다
+            }
+            UserDto udto=userMapper.getUserdataByUr(sdto.getUr_num());
+            sdto.setPrf_tmp(udto.getPrf_tmp());
+            sdto.setPrf_nick(udto.getPrf_nick());
+            sdto.setPrf_img(udto.getPrf_img());
+        }
 
         Vector<Integer> parr=new Vector<>();
         for (int i=startPage; i<=endPage; i++){
@@ -110,9 +121,8 @@ public class ShopController {
 //        System.out.println("Shop React로부터 이미지 업로드");
         //업로드할 폴더 구하기
         String path = request.getSession().getServletContext().getRealPath("/image");
-
         int i=0;
-       for(MultipartFile multi:uploadFile) {
+        for(MultipartFile multi:uploadFile) {
            //이전 업로드한 사진을 지운 후 현재 사진 업로드하기
            String pname = i++ +"_"+FileUtil.getChangeFileName(multi.getOriginalFilename());
            try {
@@ -131,7 +141,6 @@ public class ShopController {
     public void imageDelete(@RequestParam int idx, HttpServletRequest request)
     {
         String path = request.getSession().getServletContext().getRealPath("/image");
-//        System.out.println("shop image delete:"+idx);
         String fname=totalImages.get(idx);
         File file=new File(path+"/"+fname);
         if(file.exists())
@@ -142,15 +151,7 @@ public class ShopController {
     @GetMapping("/imageclear")
     public void imageClear(HttpServletRequest request){
         String path = request.getSession().getServletContext().getRealPath("/image");
-        //이미지 파일에서 쌓이지않게 지워지도록
-        for(String s:totalImages)
-        {
-            File file=new File(path+"/"+s);
-            if(file.exists())
-                file.delete();
-        }
         totalImages.clear();
-//        System.out.println("이미지 클래스 호출");
     }
     @GetMapping("/detail")
     public ShopDto select(@RequestParam int sp_num)

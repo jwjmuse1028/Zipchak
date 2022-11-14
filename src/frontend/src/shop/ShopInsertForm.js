@@ -73,7 +73,7 @@ function ShopInsertForm(props) {
                 setPd_ctg('');
                 setPd_price('');
                 sp_txtRef.current.value='';
-                navi("/shop/list"); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
+                navi("/shop/list/1"); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
             });
     }
 

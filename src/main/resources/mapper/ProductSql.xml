@@ -12,4 +12,7 @@
     INSERT INTO pd_img (pd_num,img_name)
     VALUES (#{pd_num},#{img_name})
     </insert>
+    <select id="getImages" parameterType="int" resultType="String">
+        SELECT img_name from pd_img where pd_num=#{pd_num}
+    </select>
 </mapper>

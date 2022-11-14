@@ -8,7 +8,7 @@
         INSERT INTO sp (ur_num,pd_num,sp_title,sp_txt,sp_wdate,sp_rdcnt)
         VALUES (#{ur_num},#{pd_num},#{sp_title},#{sp_txt},now(),0)
     </insert>
-    <select id="getPagingList" parameterType="Map" resultType="ShopDto">-- 목록출력
+    <select id="getPagingList" parameterType="Map" resultType="ShopProductDto">-- 목록출력
         SELECT * FROM pd,sp where sp.pd_num=pd.pd_num order by sp_num desc limit #{startnum}, #{perpage}
     </select>
     <select id="getData" parameterType="int" resultType="ShopDto">-- 상세보기

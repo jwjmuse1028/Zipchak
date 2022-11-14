@@ -22,4 +22,8 @@ public class ShopProductDto {
     private int pd_price;
     private String pd_ctg;
     private String pd_status;
+    private String img_first;
+    private String prf_nick;
+    private String prf_img;
+    private double prf_tmp;
 }
