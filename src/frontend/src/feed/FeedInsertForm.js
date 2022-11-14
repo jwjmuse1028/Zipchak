@@ -205,6 +205,7 @@ function FeedInsertForm(props) {
 
                         const formData=new FormData()
                         formData.append('file',blob)
+                        formData.append('dirName','fd_img')
 
                         let url=localStorage.url+"/image/insert"
 
@@ -212,12 +213,9 @@ function FeedInsertForm(props) {
                             header: { "content-type": "multipart/formdata" }
                         })
                             .then(res=>{
-                                    alert("이미지 업로드 성공"+res.data)
-
-                                }
-                            )
-
-                        callback(url)
+                                alert("이미지 업로드 성공"+res.data)
+                                callback(res.data)
+                            })
                     }
                 }}
             />

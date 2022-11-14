@@ -45,9 +45,10 @@ public class S3Service {
 
     public String upload(MultipartFile file, String dirName) throws IOException {
         String fileName = FileUtil.getChangeFileName(file.getOriginalFilename());
+        String dir = bucket+"/"+dirName;
 
-        s3Client.putObject(new PutObjectRequest(bucket+dirName, fileName, file.getInputStream(), null)
+        s3Client.putObject(new PutObjectRequest(dir, fileName, file.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        return s3Client.getUrl(bucket, fileName).toString();
+        return s3Client.getUrl(dir, fileName).toString();
     }
 }
