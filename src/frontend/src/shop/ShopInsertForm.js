@@ -1,27 +1,44 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, MenuItem, Select, TextareaAutosize, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import "../css/Shop.css";
-
-
+import {AddPhotoAlternateOutlined, CancelRounded} from "@material-ui/icons";
+import white from "../image/white.png"
 
 function ShopInsertForm(props) {
     const [sp_title, setSp_title]=useState('');
     const [pd_ctg, setPd_ctg]=useState('');
     const [pd_price, setPd_price]=useState('');
-    const [img_name, setImg_name]=useState('');
+    const [img_name, setImg_name]=useState([]);
+
     const sp_txtRef = useRef('');
 
     const navi = useNavigate();
 
+    // const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const value: string = e.target.value;
+    //     const removedCommaValue: number = Number(value.replaceAll(",", ""));
+    //     setPd_price(removedCommaValue.toLocaleString());
+    // };
+
     const imageUrl = sessionStorage.url+"/image/";
     const uploadPhoto=(e)=>{
-        let uploadUrl = sessionStorage.url+"/image/upload";
+        // if(img_name.length==10){
+        //     alert("사진은 10장까지만 첨부 가능합니다");
+        //     return;
+        // }
+        let uploadUrl = sessionStorage.url+"/shop/upload";
+        let total=img_name.length+e.target.files.length;
+        if(total>10){
+            alert("사진은 10장까지만 첨부 가능합니다");
+            return;
+        }
 
         const uploadFile = new FormData();
-        uploadFile.append("uploadFile", e.target.files[0]);
-
+        for(let i=0;i<e.target.files.length;i++) {
+            uploadFile.append("uploadFile", e.target.files[i]);
+        }
         axios({
             method:'post',
             url:uploadUrl,
@@ -32,46 +49,68 @@ function ShopInsertForm(props) {
         });
     }
 
+    //img_name이 변경되면 useEffect가 호출, 새로고침할 경우 img_name의 값이 사라지기때문에 백엔드에서도 이미지 데이타가 다 클리어 되도록
+    useEffect(() => {
+        if(img_name.length==0){
+            // console.log("image length 0");
+            let url = sessionStorage.url+"/shop/imageclear";
+            axios.get(url)
+                .then(res=>{});
+        }
+    }, [img_name]);
+
     const onSubmit=(e)=>{
         e.preventDefault();
 
-        const ur_id=sessionStorage.ur_id;
-        const prf_nick=sessionStorage.prf_nick;
-        const prf_img=sessionStorage.prf_img;
+        const ur_num=sessionStorage.ur_num;
         const sp_txt=sp_txtRef.current.value;
 
         let url = localStorage.url+"/shop/insert";
 
-        axios.post(url, {ur_id, prf_nick, prf_img, sp_title, pd_ctg, pd_price, img_name, sp_txt})
+        axios.post(url, {ur_num, sp_title, pd_ctg, pd_price, sp_txt})
             .then(res=>{
                 setSp_title('');
                 setPd_ctg('');
                 setPd_price('');
-                setImg_name('');
                 sp_txtRef.current.value='';
-                navi("/shop/list");
+                navi("/shop/list/1"); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
             });
     }
 
+   const onPhotoDelete=(idx)=>{
+        setImg_name(img_name.filter((a,i)=>i!==idx));
+
+       let url = sessionStorage.url+"/shop/imagedelete?idx="+idx;
+       axios.delete(url)
+           .then(res=>{
+
+           })
+
+   }
+
+    const imgerror = (e) => {
+        e.target.src = white
+    }
     return (
         <div>
             <form onSubmit={onSubmit}>
                 <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:'white'}}>
-                    <caption align={'top'}><h1>상품등록</h1></caption>
+                    <caption align={'top'}><h2>상품등록</h2></caption>
                     <tbody>
                         <tr><th></th></tr>
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField id="standard-basic" required placeholder={"상품 제목을 등록해주세요"} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} id="standard-basic" required placeholder={"상품 제목을 등록해주세요"} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>
                         <tr>
                             <th>카테고리&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <Select variant={"standard"} style={{width:'50%'}} required>
-                                    <MenuItem value={''} selected disabled>카테고리를 선택해주세요</MenuItem>
+                                <Select variant={"standard"} style={{width:'50%'}} required
+                                onChange={(e)=>setPd_ctg(e.target.value)}>
+                                    {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택해주세요"}>카테고리를 선택해주세요</MenuItem>*/}
                                     <MenuItem value={'남성의류'}>남성의류</MenuItem>
                                     <MenuItem value={'여성의류'}>여성의류</MenuItem>
                                     <MenuItem value={'신발'}>신발</MenuItem>
@@ -98,16 +137,34 @@ function ShopInsertForm(props) {
                         <tr>
                             <th>가격&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}
-                                           onChange={(e)=>setPd_price(e.target.value)}/><b>원</b>
+                                {/*<TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>*/}
+                                <TextField type="number" value={pd_price} onChange={e => setPd_price(e.target.value)} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>
+
                             </td>
                         </tr>
                         <tr>
-                            <th>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"file"} variant={"standard"} multiple onChange={uploadPhoto}/>
-                                <br/>
-                                <img src={imageUrl+img_name}/>
+                                <input type={"file"} multiple id={'filephoto'} style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
+                                       onChange={uploadPhoto}/><br/>
+                                <AddPhotoAlternateOutlined onClick={()=>{
+                                    document.getElementById('filephoto').click();
+                                }} style={{cursor:'pointer', color:'gray', fontSize:'5em',float:'left'}}/>
+                                  {
+                                       img_name.map((img,idx)=>
+                                           <figure className={'photos'} key={idx}>
+                                               <img alt={''}
+                                                    src={imageUrl+img} width={'80px'} height={'80px'} onError={imgerror}/>
+                                               <figcaption>
+                                                   <CancelRounded className={'imageclose'} style={{color:'gray'}}
+                                                   onClick={()=>{
+                                                       onPhotoDelete(idx);
+                                                   }}/>
+                                               </figcaption>
+                                           </figure>
+                                       )
+                                   }
+
                             </td>
                         </tr>
                         <tr>

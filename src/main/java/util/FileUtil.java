@@ -12,7 +12,7 @@ public class FileUtil {
         //존재할경우 삭제
         if(file.exists()) {
             file.delete();
-            System.out.println(fileName+" 파일 삭제됨!");
+//            System.out.println(fileName+" 파일 삭제됨!");
         }
     }
 
@@ -21,7 +21,7 @@ public class FileUtil {
     {
         //.의 위치
         int dotLoc=fileName.indexOf('.');
-        System.out.println(dotLoc);
+//        System.out.println(dotLoc);
         String fname=fileName.substring(0,dotLoc); //파일명(가나다라마바사)
         String ext=fileName.substring(dotLoc); //확장자(.jpg)
 
