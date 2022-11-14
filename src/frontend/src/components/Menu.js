@@ -1,24 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import '../css/Menu.css';
-import {Avatar} from "@mui/material";
+import {Avatar, Fab} from "@mui/material";
+import {KeyboardArrowUp} from "@material-ui/icons";
 
 function Menu(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })}
     useEffect(()=>{
         setPrf_nick(sessionStorage.prf_nick);
     },[]);
     useEffect(()=>{
         setPrf_img(sessionStorage.prf_img);
     },[]);
+
+    const imageUrl = sessionStorage.url+"/image/";
     return (
         <ul className='menu'>
             <li>
                 <NavLink to={"/"}>Home</NavLink>
             </li>
             <li>
-                <NavLink to={"/shop/list"}>중고</NavLink>
+                <NavLink to={"/shop/list/1"}>중고</NavLink>
 
             </li>
             <li>
@@ -60,8 +68,8 @@ function Menu(props) {
                         </li>
                     </div>
                     :
-                    <div>
-                        <Avatar src={"../webapp/image/"+prf_img}/>&nbsp;&nbsp;
+                    <div style={{float:"right"}}>
+                        <Avatar src={imageUrl+prf_img}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                         <button type={"button"} className={'w-btn w-btn-indigo'}
                                 onClick={(e)=>{
@@ -74,6 +82,9 @@ function Menu(props) {
                                 }}>로그아웃</button>
                     </div>
             }
+            <div className="scroll__container">
+                <Fab id="top" onClick={scrollToTop} color={"info"}><KeyboardArrowUp/></Fab>
+            </div>
         </ul>
     );
 }

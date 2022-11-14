@@ -33,3 +33,35 @@ table tr th {
 .w-btn:active {
     transform: scale(1.5);
 }
+
+@media all and (max-width: 320px) {
+    .membersajin{
+        position: absolute;
+        left: 200px;
+        top:50px;
+        width: 100px;
+        height: 100px;
+    }
+
+
+}
+/*@media all and (min-width: 321px) and (max-width: 768px) {*/
+/*    .membersajin{*/
+/*        position: absolute;*/
+/*        left: 300px;*/
+/*        top: 150px;*/
+/*        width: 200px;*/
+/*        height: 200px;*/
+/*    }*/
+
+
+/*}*/
+/*@media all and (min-width: 769px) {*/
+/*    .membersajin{*/
+/*        position: absolute;*/
+/*        left: 500px;*/
+/*        top: 150px;*/
+/*        width: 200px;*/
+/*        height: 200px;*/
+/*    }*/
+/*}*/
