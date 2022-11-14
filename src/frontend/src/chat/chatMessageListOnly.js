@@ -3,7 +3,7 @@ import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageListOnly(props) {
     const {chatList,ur_num,uInfo}=props;
-    const [msgCount,setMsgCount]=useState()(0);
+    const [msgCount,setMsgCount]=useState(0);
     let imageUrl=sessionStorage.url+"/image/";
     const hidden=()=>{
 
