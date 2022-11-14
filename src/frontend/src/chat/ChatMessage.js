@@ -1,16 +1,18 @@
-import { useRef, useState, useEffect } from 'react';
+import {useRef, useState, useEffect, memo} from 'react';
 import React from 'react';
 import * as StompJs from '@stomp/stompjs';
 import axios from "axios";
 import InputEmoji from 'react-input-emoji'
 import {ImageSearchOutlined} from "@material-ui/icons";
+import {debounce} from 'lodash';
 
 function ChatMessage(props) {
     const [msg, setMsg] = useState('');
     const { cr_num, addMsg } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
-    let uploadUrl="http://localhost:9005/photo/upload";
+    const url=localStorage.url;
+    let uploadUrl=url+"/photo/upload";
 
     const connect = () => {
         client.current = new StompJs.Client({
@@ -82,7 +84,7 @@ function ChatMessage(props) {
         }).then(res=>{
                 //console.log(res.data);
                 handleOnEnter(res.data);
-            })
+            });
     }
 
     return (

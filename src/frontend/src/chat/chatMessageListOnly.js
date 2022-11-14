@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageListOnly(props) {
-    const {chatList, ur_num,uInfo}=props;
+    const {chatList,ur_num,uInfo}=props;
+    const [msgCount,setMsgCount]=useState()(0);
     let imageUrl=sessionStorage.url+"/image/";
+    const hidden=()=>{
+
+    }
     return (
-        <div>
+        <div  >
             {
                 chatList &&
                 chatList.map((cl, i) =>
-                    <div key={i} className={'each_msg_box'}>
+                    <div key={i} className={'each_msg_box'} id={'each_msg_'+i}>
                         {
                             cl.sender === ur_num
                                 ?
@@ -24,7 +28,7 @@ function ChatMessageListOnly(props) {
                                             cl.msg.startsWith('img-')
                                                 ?
                                                 <div className={'chat-img'}
-                                                     style={{backgroundImage: `url('${imageUrl + cl.msg.substring(4, cl.msg.length)}')`}}></div>
+                                                     style={{backgroundImage: `url('${cl.msg.substring(4, cl.msg.length)}')`}}></div>
                                                 :
                                                 <div>{cl.msg}</div>
                                         }
@@ -42,7 +46,7 @@ function ChatMessageListOnly(props) {
                                             cl.msg.startsWith('img-')
                                                 ?
                                                 <div className={'chat-img'}
-                                                     style={{backgroundImage: `url('${imageUrl + cl.msg.substring(4, cl.msg.length)}')`}}></div>
+                                                     style={{backgroundImage: `url('${cl.msg.substring(4, cl.msg.length)}')`}}></div>
                                                 :
                                                 <div>{cl.msg}</div>
                                         }
@@ -53,6 +57,7 @@ function ChatMessageListOnly(props) {
                     </div>
                 )
             }
+            <div />
         </div>
     );
 }

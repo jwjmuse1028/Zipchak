@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
@@ -9,13 +9,15 @@ import ChatMessageListOnly from "./chatMessageListOnly";
 
 function ChatMessageList(props) {
     //변수
-    const [chatList, setChatList] = useState(Array.from([]));
+    const [chatList, setChatList] = useState([]);
     const [uInfo,setUinfo]=useState({});
     const [uTmp,setUTmp]=useState();
     const [tmpCol,setTmpCol]=useState('green');
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const [resize, setResize] = useState();
+    const [notice,setNotice]=useState();
+    const scrollRef=useRef();
     const {cr_num, ur_num,u_num, screenStatef,screenState}=props;
     let imageUrl=sessionStorage.url+"/image/";
     //함수
@@ -28,7 +30,9 @@ function ChatMessageList(props) {
     }
     //입력한 msg 추가
     const addMsg=(msgData)=>{
-        setChatList(chatList.concat(msgData))
+        setNotice(msgData);
+        //console.log(notice);
+        setChatList(chatList.concat(msgData));
     }
     //상대방 정보 출력
     const getUInfo=()=>{
@@ -88,11 +92,14 @@ function ChatMessageList(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [screenState]);
+    //
+    useEffect(()=>{
+        scrollRef.current?.scrollIntoView({behavior:'smooth'});
+    },[])
+    useEffect(()=>{
+        scrollRef.current?.scrollIntoView({behavior:'smooth'});
+    },[cr_num,notice])
 
-    const messagesEndRef = useRef();
-    useEffect(()=>
-        messagesEndRef.current.scrollIntoView()
-    ,[chatList])
     return (
         <div className={'msg_container'}>
             <div className={'msg_list_box'} >
@@ -110,11 +117,10 @@ function ChatMessageList(props) {
                         <div className={'prf_tmp'}>{uInfo.prf_tmp}℃</div>
                     </div>
                 </div>
-                <hr style={{marginTop:'0px'}}/>
                 {/* 채팅 메시지 리스트 */}
-                <div  className={'msg_list'}>
+                <div  className={'msg_list'} >
                     <ChatMessageListOnly chatList={chatList} ur_num={ur_num} uInfo={uInfo} />
-                    <div ref={messagesEndRef} />
+                    <div ref={scrollRef} />
                 </div>
                 {/*채팅 입력 창*/}
                 <ChatMessage cr_num={cr_num} addMsg={addMsg} style={{width:'100%'}}/>

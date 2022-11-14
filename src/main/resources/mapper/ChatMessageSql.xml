@@ -3,7 +3,7 @@
 <mapper namespace="data.mapper.ChatMessageMapper">
     <select id="getChatMessage" parameterType="int" resultType="cmdto">
         SELECT * from cm
-        where cm.cr_num=#{cr_num}
+        where cm.cr_num=#{cr_num} order by cm_wdate
     </select>
     <insert id="insertChatMessage" parameterType="cmdto" useGeneratedKeys="true" keyProperty="cm_num" keyColumn="cm_num">
         insert into cm values (null, #{cr_num},#{sender},#{msg},0,now(3))

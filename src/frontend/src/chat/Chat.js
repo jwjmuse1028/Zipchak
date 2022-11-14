@@ -4,6 +4,7 @@ import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
 import axios from "axios";
 
+
 function Chat(props) {
     //변수
     const [cr_num,setCr_num]=useState(0);
@@ -11,6 +12,7 @@ function Chat(props) {
     const [chatList, setChatList] = useState([]);
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
+    const [lastMsg,setLastMsg]=useState();
     const ur_num=Number(sessionStorage.ur_num);
     //함수
     const cr_click=(cr_num,u_num)=>{
@@ -36,8 +38,9 @@ function Chat(props) {
             }
         }
     }
+
     //중고 페이지 생성 시 위치 이동 필요
-    let sp_num=1;
+    let sp_num=25;
     const createRoom=()=>{
         let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
         axios.get(createRoomURL).then(res=>{
@@ -60,7 +63,7 @@ function Chat(props) {
     useEffect(()=>{
         reactsize();
     },[resize])
-    //console.log(screenState);
+
     return (
         <div className={'main-box'} style={{width:`${resize<=800?'600px':'80%'}`,
             gridTemplateColumns:`${screenState===0?"30% 70%":screenState===1?"100% 0%":"0% 100%"}`}}
@@ -70,7 +73,7 @@ function Chat(props) {
                 <div>
                     <button onClick={()=>{
                         createRoom();
-                        }} >채팅 만들기</button><br/>
+                        }} >{sp_num} 상품 채팅 만들기</button><br/>
                 </div>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,

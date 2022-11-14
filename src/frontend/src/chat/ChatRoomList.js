@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import axios from "axios";
 import '../css/Chat.css';
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenState, screenStatef}=props;
+    const {ur_num, cr_click, screenStatef}=props;
     const [resize, setResize] = useState();
-
+    const [isActive, setIsActive]=useState(false);
     const chatRoomList=()=>{
         let url="http://localhost:9005/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
             setChatRoom(res.data);
         })
     }
-    const readEvent=(i)=>{
+    const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
+        setIsActive(i);
     }
     const handleResize = () => {
         setResize(window.innerWidth);
@@ -35,11 +36,11 @@ function ChatRoomList(props) {
                 {
                     chatRoom &&
                     chatRoom.map((cr,i)=>
-                        <li key={i}  className={'crlist'}
+                        <li key={i} className={'crlist' + (i===isActive?' crlist_click':'')}
                             onClick={()=>{
                                 cr_click(cr.cr_num, ur_num!=cr.buyer_num?cr.buyer_num:cr.ur_num);
                                 resize<=800?screenStatef(2):screenStatef(0);
-                                readEvent(i);
+                                clickEvent(i);
                                 }} >
                             <div>
                                 <b >
