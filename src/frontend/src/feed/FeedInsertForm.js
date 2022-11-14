@@ -21,7 +21,33 @@ function FeedInsertForm(props) {
     const [fd_fml,setFml]=useState('');
     const [fd_anm,setAnm]=useState('');
     const [fd_style,setStyle]=useState('');
+    const [error,setError]=useState('');
     const navi=useNavigate();
+
+    const [data, setData] = useState({
+        fd_title : '',
+        fd_spc : '',
+        fd_lvtp : '',
+        fd_fml : '',
+        fd_anm : '',
+        fd_style: ''
+    })
+    const onChangeData = (e) => {
+        const {name , value} = e.target;
+        setData({
+            ...data,
+            [name] : value,
+        })
+    }
+    const onClickData = (e) =>{
+        document.getElementsByName();
+
+        if(e.target.value=='')
+        {
+            setError(" empty error")
+        }
+    }
+
     //
     // //content는 Ref로(입력할때마다 다시 랜더링되는거 방지위해)
     // const contentRef=useRef('');
@@ -80,16 +106,17 @@ function FeedInsertForm(props) {
                 {/* 제목입력 */}
                 <input type={'text'} className={"form-control"}
                        style={{height: '60px', fontSize: '25px'}}
-                       placeholder={'제목을 입력하세요.'} value={fd_title}
-                       onChange={(e)=>setTitle(e.target.value)}/>
+                       placeholder={'제목을 입력하세요.'} name={fd_title} value={data.fd_title}
+                       onChange={onChangeData}/>
                 {/* 셀렉트 */}
                 <div className={'form_box'}>
                     <div className="form_row">
                         <div className="form_row_title">주거형태<span style={{color:'rgb(255, 119, 119)'}}>*</span>
                         </div>
                         <div style={{width: '220px', marginRight:'80px'}}>
-                            <select name="metadata.workType" className="form-select" value={fd_lvtp}
-                                    onChange={(e)=>setLvtp(e.target.value)}>
+                            <select className={`form-select${error}`}
+                                    name={fd_lvtp} value={data.fd_lvtp}
+                                    onClick={onChangeData} onChange={onChangeData}>
                                 <option value="" selected disabled></option>
                                 <option value="홈스타일링">홈스타일링</option>
                                 <option value="리모델링">리모델링</option>
@@ -100,8 +127,9 @@ function FeedInsertForm(props) {
                         <div className="form_row_title">평수<span style={{color:'rgb(255, 119, 119)'}}>*</span>
                         </div>
                         <div style={{width: '130px'}}>
-                            <input type={'text'} className={"form-control"} value={fd_spc}
-                                   onChange={(e)=>setSpc(e.target.value)}/>
+                            <input type={'text'} className={`form-control${error}`}
+                                name={fd_spc} value={data.fd_spc}
+                                onClick={onChangeData} onChange={onChangeData}/>
                         </div>
                     </div>
                     <div className="form_row">
