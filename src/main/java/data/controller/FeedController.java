@@ -5,12 +5,14 @@ import data.dto.FeedDto;
 import data.mapper.FeedMapper;
 import data.service.FeedService;
 import data.service.FeedServiceInter;
+import data.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,10 +23,10 @@ public class FeedController {
     @Autowired
     FeedService feedservice;
 
+
     @PostMapping("/upload")
-    public String fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
-    {
-        return feedservice.fileUpload(uploadFile,request);
+    public String fileUpload(@RequestParam MultipartFile file) throws IOException {
+        return feedservice.upload(file);
     }
 
     @PostMapping("/insert")
