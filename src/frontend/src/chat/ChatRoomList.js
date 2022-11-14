@@ -45,8 +45,9 @@ function ChatRoomList(props) {
                             <div>
                                 <b >
                                     {ur_num!=cr.buyer_num?cr.buyer_nick:cr.seller_nick}님
-                                </b>
-                                <span className={'cm_wdate'}>{cr.cm_wdate}</span>
+                                </b> | {cr.sp_title}
+                                <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
+
                             </div>
                             <div className={'msg_sign'}>
                                 <div className={'cr_msg_box'}>{
@@ -61,7 +62,7 @@ function ChatRoomList(props) {
                                         </>
                                         :
                                     cr.msg}</div>
-                                <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
+                                <span className={'cm_wdate'}>{cr.cm_wdate}</span>
                             </div>
                         </li>
                     )

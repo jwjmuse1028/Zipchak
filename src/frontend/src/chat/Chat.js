@@ -40,7 +40,7 @@ function Chat(props) {
     }
 
     //중고 페이지 생성 시 위치 이동 필요
-    let sp_num=25;
+    let sp_num=42;
     const createRoom=()=>{
         let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
         axios.get(createRoomURL).then(res=>{

@@ -4,13 +4,14 @@ import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
 import tmp from "../image/tmp.png";
 import {ArrowBackRounded} from "@mui/icons-material";
-import _ from 'lodash';
 import ChatMessageListOnly from "./chatMessageListOnly";
+import noimage from "../image/noimg.jpg";
 
 function ChatMessageList(props) {
     //변수
     const [chatList, setChatList] = useState([]);
     const [uInfo,setUinfo]=useState({});
+    const [spInfo,setSpinfo]=useState({});
     const [uTmp,setUTmp]=useState();
     const [tmpCol,setTmpCol]=useState('green');
     const [tmpH, setTmpH]=useState('10px');
@@ -71,6 +72,13 @@ function ChatMessageList(props) {
             setTmpH('0px');
         }
     }
+    //상품정보 출력
+    const getSpInfo=()=>{
+        let spinfoUrl=sessionStorage.url+"/chat/spinfo?cr_num="+cr_num;
+        axios.get(spinfoUrl).then(res=>{
+            setSpinfo(res.data);
+        })
+    }
     //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
@@ -79,6 +87,7 @@ function ChatMessageList(props) {
     //useEffect
     useEffect(()=>{
         getUInfo();
+        getSpInfo();
     },[cr_num])
     useEffect(()=>{
         getTmpCol();
@@ -115,6 +124,10 @@ function ChatMessageList(props) {
                         <div className={'tmp_circle'} style={{backgroundColor:tmpCol}}></div>
                         <div className={'tmp_rec'} style={{backgroundColor:tmpCol, height:tmpH,top:tmpY}}></div>
                         <div className={'prf_tmp'}>{uInfo.prf_tmp}℃</div>
+                        <div className={'uinfobox_vline'}>  </div>
+                        <div className={'spinfo_img'}
+                             style={{backgroundImage:`url('${spInfo.img_name}'),url('${noimage}')`}}/>
+                        <div className={'spinfo_title'}>{spInfo.sp_title}</div>
                     </div>
                 </div>
                 {/* 채팅 메시지 리스트 */}

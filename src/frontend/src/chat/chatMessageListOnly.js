@@ -2,19 +2,20 @@ import React, {memo, useEffect, useRef, useState} from 'react';
 import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageListOnly(props) {
+    //변수
     const {chatList,ur_num,uInfo}=props;
-    const [msgCount,setMsgCount]=useState(0);
+    const [chatdate,setChatdate]=useState([]);
     let imageUrl=sessionStorage.url+"/image/";
-    const hidden=()=>{
 
-    }
     return (
         <div  >
             {
                 chatList &&
                 chatList.map((cl, i) =>
                     <div key={i} className={'each_msg_box'} id={'each_msg_'+i}>
+
                         {
+
                             cl.sender === ur_num
                                 ?
                                 <div className={'i_msg_box_w_read'}>

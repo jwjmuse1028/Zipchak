@@ -16,8 +16,12 @@ public class ChatRoomDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp cr_wdate;
 
+    //from sp
+    private String sp_title;
+
     //from pd
     private String pd_name;
+    private String img_name;
 
     //from ur
     private String ur_id;

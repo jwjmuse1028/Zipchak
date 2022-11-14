@@ -1,12 +1,13 @@
 package data.controller;
 
 import data.dto.ChatMessageDto;
+import data.dto.ShopDto;
+import data.dto.ShopInfoDto;
 import data.dto.UserDto;
 import data.mapper.ChatMessageMapper;
 import data.mapper.UserMapper;
 import data.service.S3Service;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -69,5 +70,9 @@ public class ChatMessageController {
     public UserDto getUserdataByUr(int u_num)
     {
         return umapper.getUserdataByUr(u_num);
+    }
+    @GetMapping("/chat/spinfo")
+    public ShopInfoDto getSpInfo(int cr_num){
+        return cmmapper.getSpInfo(cr_num);
     }
 }
