@@ -7,6 +7,7 @@ import java.util.Map;
 
 @Mapper
 public interface UserMapper {
+
     public void insertUser(UserDto dto);
     public void insertUser2(UserDto dto);
     public void insertUser3(UserDto dto);

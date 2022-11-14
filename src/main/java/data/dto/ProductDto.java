@@ -12,7 +12,6 @@ public class ProductDto {
     private int pd_price;
     private String pd_ctg;
     private String pd_status;
-    private int img_num;
-    private String img_name;
+
 
 }

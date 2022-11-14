@@ -209,7 +209,7 @@ function RegisterForm(props) {
                                 <br/><br/>
                                 <CameraAlt onClick={()=>{
                                    document.getElementById('filephoto').click();
-                                }} style={{cursor:'pointer', color:'gray', fontSize:'4em',position:'relative',top:'-80px',left:'80px'}}/>
+                                }} style={{cursor:'pointer', color:'gray', fontSize:'4em',position:'relative',top:'-80px',left:'70px'}}/>
                             </td>
                         </tr>
                         <tr>

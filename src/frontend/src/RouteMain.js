@@ -17,8 +17,6 @@ import ShopInsertForm from "./shop/ShopInsertForm";
 import ShopUpdateForm from "./shop/ShopUpdateForm";
 import ShopDetail from "./shop/ShopDetail";
 
-
-
 function RouteMain(props) {
     return (
         <div>
@@ -33,9 +31,10 @@ function RouteMain(props) {
 
                 <Route path='/shop'>
                     <Route path='list' element={<ShopList/>}/>
+                    <Route path='list/:currentPage' element={<ShopList/>}/>
                     <Route path='insert' element={<ShopInsertForm/>}/>
                     <Route path='update' element={<ShopUpdateForm/>}/>
-                    <Route path='detail' element={<ShopDetail/>}/>
+                    <Route path='detail/:sp_num/:currentPage' element={<ShopDetail/>}/>
                 </Route>
 
                 <Route path='/chat' element={<Chat/>}>
