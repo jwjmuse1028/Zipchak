@@ -1,35 +1,36 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
 import tmp from "../image/tmp.png";
 import {ArrowBackRounded} from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
-import ChatRoomList from "./ChatRoomList";
+import _ from 'lodash';
+import ChatMessageListOnly from "./chatMessageListOnly";
 
 function ChatMessageList(props) {
     //변수
-    const [chatList, setChatList] = useState([]);
+    const [chatList, setChatList] = useState(Array.from([]));
     const [uInfo,setUinfo]=useState({});
     const [uTmp,setUTmp]=useState();
     const [tmpCol,setTmpCol]=useState('green');
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const [resize, setResize] = useState();
-    const {cr_num, ur_num,u_num, screenStatef}=props;
-    const navi=useNavigate();
+    const {cr_num, ur_num,u_num, screenStatef,screenState}=props;
     let imageUrl=sessionStorage.url+"/image/";
-    const chatendRef=useRef();
     //함수
+    //db에서 chat message 출력
     const getChatMessage=()=>{
         let url=sessionStorage.url+"/chat/cm?cr_num="+cr_num;
         axios.get(url).then(res=>{
             setChatList(res.data);
         })
     }
+    //입력한 msg 추가
     const addMsg=(msgData)=>{
         setChatList(chatList.concat(msgData))
     }
+    //상대방 정보 출력
     const getUInfo=()=>{
         let uinfoUrl=sessionStorage.url+"/chat/u_info?u_num="+u_num;
         axios.get(uinfoUrl).then(res=>{
@@ -37,6 +38,7 @@ function ChatMessageList(props) {
             setUTmp(res.data.prf_tmp);
         })
     }
+    //상대방 온도 출력
     const getTmpCol=()=>{
         if (uInfo.prf_tmp>80)
         {
@@ -65,9 +67,11 @@ function ChatMessageList(props) {
             setTmpH('0px');
         }
     }
+    //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+
     //useEffect
     useEffect(()=>{
         getUInfo();
@@ -78,22 +82,23 @@ function ChatMessageList(props) {
     useEffect(()=>{
         getChatMessage();
     },[cr_num,chatList])
-    useEffect(()=>{
-        chatendRef.current?.scrollIntoView();
-    },[])
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [screenState]);
 
+    const messagesEndRef = useRef();
+    useEffect(()=>
+        messagesEndRef.current.scrollIntoView()
+    ,[chatList])
     return (
         <div className={'msg_container'}>
             <div className={'msg_list_box'} >
+                {/*상대방 정보*/}
                 <div className={'msg_list_box_top'}>
-                    <span className={'to_chat_room'} style={{display:`${resize <= 800 ? 'block' : 'none'}`}}
-                    onClick={()=>screenStatef(1)}
+                    <span className={'to_chat_room'} onClick={()=>screenStatef(1)}
                     ><ArrowBackRounded/></span>
                     <div className={'uInfoBox'} >
                         <div className={'prf_box'}
@@ -106,55 +111,12 @@ function ChatMessageList(props) {
                     </div>
                 </div>
                 <hr style={{marginTop:'0px'}}/>
-                <div className={'msg_list'} >
-                {
-                    chatList &&
-                    chatList.map((cl,i)=>
-                        <div key={i} className={'each_msg_box'}>
-                            {
-                                cl.sender==ur_num
-                                ?
-                                <div className={'i_msg_box_w_read'}>
-                                    <div className={'i_read'} >
-                                    {
-                                        cl.is_read==0?'안읽음':'읽음'
-
-                                    }
-                                    </div>
-                                    <div  className={'i_msg_box'}>
-                                        {
-                                            cl.msg.startsWith('img-')
-                                                ?
-                                                <div className={'chat-img'} style={{backgroundImage:`url('${imageUrl+cl.msg.substring(4,cl.msg.length)}')`}}></div>
-                                                :
-                                            <div>{cl.msg}</div>
-                                        }
-                                        {cl.cm_wdate}
-                                    </div>
-
-                                </div>
-                                :
-                                <div className={'u_msg_box_w_prf'}>
-                                    <div className={'chat_prf_box'}
-                                         style={{backgroundImage:`url('${imageUrl+uInfo.prf_img}'),url('${noprfpic}')`}}
-                                    ></div>
-                                    <div className={'u_msg_box'}>
-                                        {
-                                            cl.msg.startsWith('img-')
-                                                ?
-                                                <div className={'chat-img'} style={{backgroundImage:`url('${imageUrl+cl.msg.substring(4,cl.msg.length)}')`}}></div>
-                                                :
-                                                <div>{cl.msg}</div>
-                                        }
-                                        {cl.cm_wdate}
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    )
-                }
-                <div ref={chatendRef}></div>
+                {/* 채팅 메시지 리스트 */}
+                <div  className={'msg_list'}>
+                    <ChatMessageListOnly chatList={chatList} ur_num={ur_num} uInfo={uInfo} />
+                    <div ref={messagesEndRef} />
                 </div>
+                {/*채팅 입력 창*/}
                 <ChatMessage cr_num={cr_num} addMsg={addMsg} style={{width:'100%'}}/>
             </div>
         </div>
