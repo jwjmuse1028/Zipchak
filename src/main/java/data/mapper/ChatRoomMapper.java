@@ -11,4 +11,5 @@ public interface ChatRoomMapper {
     public void insertRoom(ChatRoomDto crdto);
     public int getSeller(int sp_num);
     public int getRoomChk(ChatRoomDto crdto);
+
 }

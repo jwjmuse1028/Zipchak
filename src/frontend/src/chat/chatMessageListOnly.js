@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageListOnly(props) {
-    const {chatList, ur_num,uInfo}=props;
+    //변수
+    const {chatList,ur_num,uInfo}=props;
+    const [chatdate,setChatdate]=useState([]);
     let imageUrl=sessionStorage.url+"/image/";
+
     return (
-        <div>
+        <div  >
             {
                 chatList &&
                 chatList.map((cl, i) =>
-                    <div key={i} className={'each_msg_box'}>
+                    <div key={i} className={'each_msg_box'} id={'each_msg_'+i}>
+
                         {
+
                             cl.sender === ur_num
                                 ?
                                 <div className={'i_msg_box_w_read'}>
@@ -24,7 +29,7 @@ function ChatMessageListOnly(props) {
                                             cl.msg.startsWith('img-')
                                                 ?
                                                 <div className={'chat-img'}
-                                                     style={{backgroundImage: `url('${imageUrl + cl.msg.substring(4, cl.msg.length)}')`}}></div>
+                                                     style={{backgroundImage: `url('${cl.msg.substring(4, cl.msg.length)}')`}}></div>
                                                 :
                                                 <div>{cl.msg}</div>
                                         }
@@ -42,7 +47,7 @@ function ChatMessageListOnly(props) {
                                             cl.msg.startsWith('img-')
                                                 ?
                                                 <div className={'chat-img'}
-                                                     style={{backgroundImage: `url('${imageUrl + cl.msg.substring(4, cl.msg.length)}')`}}></div>
+                                                     style={{backgroundImage: `url('${cl.msg.substring(4, cl.msg.length)}')`}}></div>
                                                 :
                                                 <div>{cl.msg}</div>
                                         }
