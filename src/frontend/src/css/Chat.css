@@ -28,11 +28,7 @@ div.chatroom-list{
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px white;
 }
-span.cm_wdate{
-    color: gray;
-    float:right;
-    margin-right: 20px;
-}
+
 li.crlist{
     list-style: none;
     border: 1px solid #38B9E0;
@@ -52,11 +48,15 @@ li.crlist:hover{
 li.crlist_click{
     background-color: #38B9E0;
 }
-div.msg_sign{
+div.room-box-btm{
     display: flex;
 }
 div.cr_msg_box{
     width: 90%;
+}
+div.cm_wdate{
+    color: gray;
+    width: 90px;
 }
 div.read_sign{
     width: 20px;
@@ -118,7 +118,7 @@ div.prf_box{
     background-size: cover;
 }
 div.prf_nick{
-    font-size: 20px;
+    font-size: 18px;
 }
 img.tmp_img{
     width: 50px;

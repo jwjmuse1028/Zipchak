@@ -23,4 +23,10 @@
                                                      join cr on cr.sp_num=sp.sp_num
         where cr.cr_num=#{cr_num} limit 1
     </select>
+    <select id="getMsgNoti" parameterType="int" resultType="int">
+        select count(*) from cm
+                                 join cr on cr.cr_num=cm.cr_num
+                                 join sp on sp.sp_num=cr.sp_num
+        where (cr.buyer_num=#{ur_num} or sp.ur_num=#{ur_num}) and is_read=0 and sender!=#{ur_num}
+    </select>
 </mapper>

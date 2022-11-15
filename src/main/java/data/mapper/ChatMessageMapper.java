@@ -15,4 +15,5 @@ public interface ChatMessageMapper {
     public int getSender(int cr_num);
     public void updateRead(Map<String,Integer> map);
     public ShopInfoDto getSpInfo(int cr_num);
-}
+    public int getMsgNoti(int ur_num);
+    }

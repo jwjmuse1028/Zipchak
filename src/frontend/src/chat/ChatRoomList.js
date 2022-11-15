@@ -38,7 +38,7 @@ function ChatRoomList(props) {
                     chatRoom.map((cr,i)=>
                         <li key={i} className={'crlist' + (i===isActive?' crlist_click':'')}
                             onClick={()=>{
-                                cr_click(cr.cr_num, ur_num!=cr.buyer_num?cr.buyer_num:cr.ur_num);
+                                cr_click(cr.cr_num, ur_num!=cr.buyer_num?cr.buyer_num:cr.ur_num,'click');
                                 resize<=800?screenStatef(2):screenStatef(0);
                                 clickEvent(i);
                                 }} >
@@ -49,7 +49,7 @@ function ChatRoomList(props) {
                                 <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
 
                             </div>
-                            <div className={'msg_sign'}>
+                            <div className={'room-box-btm'}>
                                 <div className={'cr_msg_box'}>{
                                     cr.msg.startsWith('img-')?
                                         <>{
@@ -62,7 +62,7 @@ function ChatRoomList(props) {
                                         </>
                                         :
                                     cr.msg}</div>
-                                <span className={'cm_wdate'}>{cr.cm_wdate}</span>
+                                <div className={'cm_wdate'}>{cr.cm_wdate.substring(5,11)}</div>
                             </div>
                         </li>
                     )

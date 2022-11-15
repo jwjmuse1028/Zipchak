@@ -8,7 +8,7 @@ import {debounce} from 'lodash';
 
 function ChatMessage(props) {
     const [msg, setMsg] = useState('');
-    const { cr_num, addMsg } = props;
+    const { cr_num, addMsg,sendNotice } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
@@ -22,6 +22,7 @@ function ChatMessage(props) {
                 let readUrl=localStorage.url+"/chat/read?cr_num="+cr_num+"&ur_num="+ur_num;
                 axios.get(readUrl).then(res=>"")
                 subscribe();
+                sendNotice('connected');
             },
         });
         client.current.activate();
@@ -86,7 +87,7 @@ function ChatMessage(props) {
                 handleOnEnter(res.data);
             });
     }
-
+    
     return (
         <div className={'chat-input'}>
             {/*<form onSubmit={(event) => handleSubmit(event, msg)} className={'form-box input-group'}>*/}

@@ -18,6 +18,7 @@ function Chat(props) {
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);
         setU_num(u_num);
+
     }
     const screenStatef=(state)=>{
         setScreenState(state);

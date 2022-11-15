@@ -31,8 +31,7 @@ function ChatMessageList(props) {
     }
     //입력한 msg 추가
     const addMsg=(msgData)=>{
-        setNotice(msgData);
-        //console.log(notice);
+        setNotice(msgData.msg);
         setChatList(chatList.concat(msgData));
     }
     //상대방 정보 출력
@@ -77,12 +76,17 @@ function ChatMessageList(props) {
         let spinfoUrl=sessionStorage.url+"/chat/spinfo?cr_num="+cr_num;
         axios.get(spinfoUrl).then(res=>{
             setSpinfo(res.data);
+            setNotice(cr_num+"변경");
         })
     }
     //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+    //스크롤을 위한 알림
+    const sendNotice=(cmt)=>{
+        setNotice(cmt);
+    }
 
     //useEffect
     useEffect(()=>{
@@ -101,13 +105,10 @@ function ChatMessageList(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [screenState]);
-    //
     useEffect(()=>{
-        scrollRef.current?.scrollIntoView({behavior:'smooth'});
-    },[])
-    useEffect(()=>{
-        scrollRef.current?.scrollIntoView({behavior:'smooth'});
-    },[cr_num,notice])
+        scrollRef.current?.scrollIntoView();
+        console.log(notice);
+    },[notice])
 
     return (
         <div className={'msg_container'}>
@@ -131,12 +132,12 @@ function ChatMessageList(props) {
                     </div>
                 </div>
                 {/* 채팅 메시지 리스트 */}
-                <div  className={'msg_list'} >
+                <div  className={'msg_list'}  >
                     <ChatMessageListOnly chatList={chatList} ur_num={ur_num} uInfo={uInfo} />
-                    <div ref={scrollRef} />
+                    <div ref={scrollRef} id={'chat_end'}></div>
                 </div>
                 {/*채팅 입력 창*/}
-                <ChatMessage cr_num={cr_num} addMsg={addMsg} style={{width:'100%'}}/>
+                <ChatMessage cr_num={cr_num} addMsg={addMsg} sendNotice={sendNotice} style={{width:'100%'}}/>
             </div>
         </div>
     );

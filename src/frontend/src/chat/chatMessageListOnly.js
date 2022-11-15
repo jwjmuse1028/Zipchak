@@ -58,7 +58,6 @@ function ChatMessageListOnly(props) {
                     </div>
                 )
             }
-            <div />
         </div>
     );
 }
