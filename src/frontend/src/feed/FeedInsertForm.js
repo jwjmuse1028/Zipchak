@@ -89,39 +89,9 @@ function FeedInsertForm(props) {
             });
         }
 
-        // if(!regex.test(data.fd_spc))
-        // {
-        //     setErrors({
-        //         ...errors,
-        //         fd_spc:"type error",
-        //     })
-        // }
     }
 
-    // //content는 Ref로(입력할때마다 다시 랜더링되는거 방지위해)
-    // const contentRef=useRef('');
-
-
-    // //파일 업로드 이벤트-업로드하면 S3에 저장
-    // const onUploadChange=(e)=>{
-    //
-    //     const file=e.target.files[0];
-    //     const imageFile=new FormData();
-    //     imageFile.append("file",file);
-    //
-    //     let uploadUrl=url+"/feed/upload";
-    //     console.log("uploadUrl:"+uploadUrl);
-    //
-    //     axios({
-    //         method:'post',
-    //         url:uploadUrl,
-    //         data:imageFile,
-    //         headers:{'Content-Type':'multipart/form-data'}
-    //     }).then(res=>{
-    //         setImg(res.data); //res.data에 업로드된 사진이름이 리턴
-    //     });
-    //
-    // }
+    const url = localStorage.url;
 
     //파일 업로드 이벤트-업로드하면 프론트 pre_img에 저장 및 미리보기
     //백 Service에 MultipartFile로 저장해놓고 업로드는 insert 할때 하기
@@ -156,30 +126,27 @@ function FeedInsertForm(props) {
         }
 
     }
-    const url = localStorage.url;
 
     const onSubmitEvent = (e) => {
         e.preventDefault();
 
-
         //insert 메서드로 보내기
-        //
-        // let insertUrl = localStorage.url + "/feed/insert";
-        //
-        // const config = {"Content-Type": 'application/json'};
-        //
-        // axios.post(insertUrl, data, config)
-        //     .then(res => {
-        //         navi("/feed/list");
-        //     })
+
+        let insertUrl = localStorage.url + "/feed/insert";
+
+        const config = {"Content-Type": 'application/json'};
+
+        axios.post(insertUrl, data, config)
+            .then(res => {
+                navi("/feed/list");
+            })
     }
 
     return (
         <div className={"form_container"}>
-
-            <form>
+            <form onSubmit={onSubmitEvent}>
                 <h3>피드 게시글 입력 폼</h3>
-                <button type={'button'} onClick={onSubmitEvent}>게시글 저장</button>
+                <button type={'submit'}>게시글 저장</button>
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}

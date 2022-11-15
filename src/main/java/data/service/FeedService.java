@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,35 +20,12 @@ public class FeedService implements FeedServiceInter{
     @Autowired
     FeedMapper feedMapper;
 
-    @Autowired
-    S3Service s3service;
-
-    //커버 사진 업로드 시 저장할 파일명
-    String uploadFileName;
-
-    //커버 사진 담아놓을 파일 선언
-    MultipartFile uploadFile;
-
-    //커버 사진 업로드-S3 bucket
-    //경로는 fd_img로 동일하므로 parameter로 안받음
-    public void upload(MultipartFile file){
-        uploadFile=file;
-    }
-
     @Override
     public void insertFeed(FeedDto dto) {
-        // s3에 저장
-        try {
-            uploadFileName= s3service.upload(uploadFile,"fd_img");
-            System.out.println("uploadFileName:"+uploadFileName);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //s3에 업로드한 파일이름 넣기
-        dto.setFd_img(uploadFileName);
 
         //전체 dto 데이터 넣기
         feedMapper.insertFeed(dto);
+
     }
 
     @Override
