@@ -2,11 +2,8 @@ package data.controller;
 
 
 import data.dto.FeedDto;
-import data.mapper.FeedMapper;
-import data.service.FeedService;
 import data.service.FeedServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,18 +16,18 @@ import java.util.List;
 public class FeedController {
 
     @Autowired
-    FeedService feedservice;
+    FeedServiceInter feedServiceInter;
 
     @PostMapping("/upload")
     public String fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
     {
-        return feedservice.fileUpload(uploadFile,request);
+        return feedServiceInter.fileUpload(uploadFile,request);
     }
 
     @PostMapping("/insert")
     public void insertFeed(@RequestBody FeedDto dto)
     {
-        feedservice.insertFeed(dto);
+        feedServiceInter.insertFeed(dto);
     }
 
 
@@ -39,7 +36,7 @@ public class FeedController {
                                      @RequestParam(required = false) String search_word,
                                      @RequestParam(required = false) String order_col)
     {
-        return feedservice.getAllFeeds(search_col,search_word,order_col);
+        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
 
 
