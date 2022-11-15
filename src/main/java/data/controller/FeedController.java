@@ -21,14 +21,14 @@ import java.util.List;
 public class FeedController {
 
     @Autowired
-    FeedService feedservice;
+    FeedServiceInter feedServiceInter;
     static MultipartFile uploadFile;
 
     //커버 사진 업로드 시 저장할 파일명
     String uploadFileName;
     @PostMapping("/upload")
     public void fileUpload(@RequestParam MultipartFile file) throws IOException {
-        // feedservice.upload(file);
+        // feedServiceInter.upload(file);
         uploadFile=file;
         System.out.println("controller:"+uploadFile);
 
@@ -37,19 +37,18 @@ public class FeedController {
     @Autowired
     S3Service s3service;
     @PostMapping("/insert")
-    public void insertFeed(@RequestBody FeedDto dto)
+    public void insertFeed(@RequestParam MultipartFile file, @ModelAttribute FeedDto dto)
     {
-        System.out.println("controller:"+uploadFile);
-        //  feedservice.insertFeed(dto);
         //커버 사진 업로드-S3 bucket
         //경로는 fd_img로 동일하므로 parameter로 안받음
         try {
-            uploadFileName= s3service.upload(uploadFile,"fd_img");
+            uploadFileName= s3service.upload(file,"fd_img");
             System.out.println("uploadFileName:"+uploadFileName);
 
             //s3에 업로드한 파일이름 넣기
             dto.setFd_img(uploadFileName);
 
+            feedServiceInter.insertFeed(dto);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -62,7 +61,7 @@ public class FeedController {
                                      @RequestParam(required = false) String search_word,
                                      @RequestParam(required = false) String order_col)
     {
-        return feedservice.getAllFeeds(search_col,search_word,order_col);
+        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
 
 
