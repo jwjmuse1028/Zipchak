@@ -54,7 +54,9 @@ function Menu(props) {
             {/*                        localStorage.removeItem("myid");*/}
             {/*                        localStorage.removeItem("myname");*/}
             {/*                        window.location.reload(); //새로고침*/}
-
+            <li>
+                <NavLink to={"/feed/detail"}>피드상세페이지</NavLink>
+            </li>
 
             {
                 sessionStorage.loginok==null?

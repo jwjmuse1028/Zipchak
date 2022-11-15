@@ -1,7 +1,7 @@
 package data.controller;
 
 import data.service.S3Service;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 @CrossOrigin
 @RestController
 @RequestMapping("/image")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageController {
 
     private final S3Service s3Service;

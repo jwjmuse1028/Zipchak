@@ -286,8 +286,8 @@ function FeedInsertForm(props) {
                         axios.post(url, formData, {
                             header: {"content-type": "multipart/formdata"}
                         })
-                            .then(res => {
-                                alert("이미지 업로드 성공" + res.data)
+                            .then(res=>{
+
                                 callback(res.data)
                             })
                     }
