@@ -2,9 +2,12 @@ package data.controller;
 
 
 import data.dto.FeedDto;
+import data.mapper.FeedMapper;
+import data.service.FeedService;
 import data.service.FeedServiceInter;
 import data.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,18 +21,17 @@ import java.util.List;
 public class FeedController {
 
     @Autowired
-
-    FeedServiceInter feedServiceInter;
-
+    FeedService feedservice;
     static MultipartFile uploadFile;
-
 
     //커버 사진 업로드 시 저장할 파일명
     String uploadFileName;
     @PostMapping("/upload")
-    public String fileUpload(@RequestParam MultipartFile uploadFile, HttpServletRequest request)
-    {
-        return feedServiceInter.fileUpload(uploadFile,request);
+    public void fileUpload(@RequestParam MultipartFile file) throws IOException {
+        // feedservice.upload(file);
+        uploadFile=file;
+        System.out.println("controller:"+uploadFile);
+
     }
 
     @Autowired
@@ -37,7 +39,21 @@ public class FeedController {
     @PostMapping("/insert")
     public void insertFeed(@RequestBody FeedDto dto)
     {
-        feedServiceInter.insertFeed(dto);
+        System.out.println("controller:"+uploadFile);
+        //  feedservice.insertFeed(dto);
+        //커버 사진 업로드-S3 bucket
+        //경로는 fd_img로 동일하므로 parameter로 안받음
+        try {
+            uploadFileName= s3service.upload(uploadFile,"fd_img");
+            System.out.println("uploadFileName:"+uploadFileName);
+
+            //s3에 업로드한 파일이름 넣기
+            dto.setFd_img(uploadFileName);
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -46,18 +62,7 @@ public class FeedController {
                                      @RequestParam(required = false) String search_word,
                                      @RequestParam(required = false) String order_col)
     {
-        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
-    }
-
-
-}
-
-    @GetMapping("/list")
-    public List<FeedDto> getFeedList(@RequestParam(required = false) String search_col,
-                                     @RequestParam(required = false) String search_word,
-                                     @RequestParam(required = false) String order_col)
-    {
-        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
+        return feedservice.getAllFeeds(search_col,search_word,order_col);
     }
 
 
