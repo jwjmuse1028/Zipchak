@@ -23,10 +23,9 @@ public class FeedController {
     @Autowired
     FeedService feedservice;
 
-
     @PostMapping("/upload")
-    public String fileUpload(@RequestParam MultipartFile file) throws IOException {
-        return feedservice.upload(file);
+    public void fileUpload(@RequestParam MultipartFile file) throws IOException {
+        feedservice.upload(file);
     }
 
     @PostMapping("/insert")

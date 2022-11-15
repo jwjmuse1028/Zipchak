@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import util.FileUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,48 +24,27 @@ public class FeedService implements FeedServiceInter{
     //커버 사진 업로드 시 저장할 파일명
     String uploadFileName;
 
-    //커버 사진 업로드-image폴더
-//    @Override
-//    public String fileUpload(MultipartFile uploadFile, HttpServletRequest request) {
-//        System.out.println("React로부터 이미지 업로드");
-//
-//        //업로드할 폴더 구하기
-//        String path=request.getSession().getServletContext().getRealPath("/image");
-//
-//        // 기존 업로드 파일이 있을 경우 삭제->사진 쌓이는 것 방지 위해 삭제
-//        if(uploadFileName!=null){
-//            FileUtil.deletePhoto(path,uploadFileName);
-//        }
-//
-//        //현재사진 바뀐 파일명으로 업로드하기
-//        uploadFileName=FileUtil.getChangeFileName(uploadFile.getOriginalFilename());
-//        try {
-//            uploadFile.transferTo(new File(path+"/"+uploadFileName));
-//            System.out.println("업로드 성공");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return uploadFileName;
-//    }
+    //커버 사진 담아놓을 파일 선언
+    MultipartFile uploadFile;
 
     //커버 사진 업로드-S3 bucket
     //경로는 fd_img로 동일하므로 parameter로 안받음
-    public String upload(MultipartFile file){
-
-        try {
-            uploadFileName= s3service.upload(file,"fd_img");
-            System.out.println("uploadFileName:"+uploadFileName);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return uploadFileName;
+    public void upload(MultipartFile file){
+        uploadFile=file;
     }
 
     @Override
     public void insertFeed(FeedDto dto) {
-        //업로드한 파일이름 넣기
+        // s3에 저장
+        try {
+            uploadFileName= s3service.upload(uploadFile,"fd_img");
+            System.out.println("uploadFileName:"+uploadFileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //s3에 업로드한 파일이름 넣기
         dto.setFd_img(uploadFileName);
+
         //전체 dto 데이터 넣기
         feedMapper.insertFeed(dto);
     }
