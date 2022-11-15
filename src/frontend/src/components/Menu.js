@@ -19,7 +19,6 @@ function Menu(props) {
         setPrf_img(sessionStorage.prf_img);
     },[]);
 
-    const imageUrl = sessionStorage.url+"/image/";
     return (
         <ul className='menu'>
             <li>
@@ -69,7 +68,7 @@ function Menu(props) {
                     </div>
                     :
                     <div style={{float:"right"}}>
-                        <Avatar src={imageUrl+prf_img}/>&nbsp;&nbsp;
+                        <Avatar src={prf_img}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                         <button type={"button"} className={'w-btn w-btn-indigo'}
                                 onClick={(e)=>{

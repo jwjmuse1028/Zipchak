@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, MenuItem, Select, TextareaAutosize, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import "../css/Shop.css";
+import "../css/ShopList.css";
 import {AddPhotoAlternateOutlined, CancelRounded} from "@material-ui/icons";
 import white from "../image/white.png"
 
@@ -29,7 +29,8 @@ function ShopInsertForm(props) {
         //     return;
         // }
         let uploadUrl = sessionStorage.url+"/shop/upload";
-        let total=img_name.length+e.target.files.length;
+
+        let total=img_name.length+e.target.files.length; //사진 10장 제한
         if(total>10){
             alert("사진은 10장까지만 첨부 가능합니다");
             return;
@@ -101,7 +102,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField type={"text"} id="standard-basic" required placeholder={"상품 제목을 등록해주세요"} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} id="standard-basic" required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>
@@ -154,7 +155,7 @@ function ShopInsertForm(props) {
                                        img_name.map((img,idx)=>
                                            <figure className={'photos'} key={idx}>
                                                <img alt={''}
-                                                    src={imageUrl+img} width={'80px'} height={'80px'} onError={imgerror}/>
+                                                    src={img} width={'80px'} height={'80px'} onError={imgerror}/>
                                                <figcaption>
                                                    <CancelRounded className={'imageclose'} style={{color:'gray'}}
                                                    onClick={()=>{
