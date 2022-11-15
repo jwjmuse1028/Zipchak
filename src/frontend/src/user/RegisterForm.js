@@ -48,7 +48,6 @@ function RegisterForm(props) {
     )
 
     const uploadUrl = sessionStorage.url+"/image/upload"
-    const imageUrl=sessionStorage.url+"/image/";
     const photoUploadEvent=(e)=>{
         const uploadFile=e.target.files[0];
         const imageFile=new FormData();
@@ -203,7 +202,7 @@ function RegisterForm(props) {
                                 <input type={"file"}  id={'filephoto'}
                                        style={{visibility: 'hidden'}}
                                        onChange={photoUploadEvent}/>
-                                <img src={imageUrl+prf_img} onError={onErrorImg}
+                                <img src={prf_img} onError={onErrorImg}
                                      style={{width: '200px',height:'200px', borderRadius: '150px'}}/>
 
                                 <br/><br/>

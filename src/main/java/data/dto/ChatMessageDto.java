@@ -24,4 +24,5 @@ public class ChatMessageDto {
     private String seller_nick;
     private String seller_img;
 
+
 }

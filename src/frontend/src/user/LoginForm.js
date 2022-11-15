@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import "../css/LoginForm.css";
 import {Button, TextField} from "@mui/material";
 
-
 function LoginForm(props) {
     const [ur_id, setUr_id]=useState('');
     const [ur_pw, setUr_pw]=useState('');
@@ -17,9 +16,9 @@ function LoginForm(props) {
             .then(res=>{
                 if (res.data.check===1){
                     sessionStorage.loginok='yes';
+                    sessionStorage.ur_num=res.data.ur_num;
                     sessionStorage.ur_id=ur_id;
                     sessionStorage.prf_nick=res.data.prf_nick;
-                    sessionStorage.ur_num=res.data.ur_num;
                     sessionStorage.prf_img=res.data.prf_img;
                     navi("/");
                     window.location.reload();

@@ -1,21 +1,24 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
 import tmp from "../image/tmp.png";
 import {ArrowBackRounded} from "@mui/icons-material";
-import _ from 'lodash';
 import ChatMessageListOnly from "./chatMessageListOnly";
+import noimage from "../image/noimg.jpg";
 
 function ChatMessageList(props) {
     //변수
-    const [chatList, setChatList] = useState(Array.from([]));
+    const [chatList, setChatList] = useState([]);
     const [uInfo,setUinfo]=useState({});
+    const [spInfo,setSpinfo]=useState({});
     const [uTmp,setUTmp]=useState();
     const [tmpCol,setTmpCol]=useState('green');
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const [resize, setResize] = useState();
+    const [notice,setNotice]=useState();
+    const scrollRef=useRef();
     const {cr_num, ur_num,u_num, screenStatef,screenState}=props;
     let imageUrl=sessionStorage.url+"/image/";
     //함수
@@ -28,7 +31,8 @@ function ChatMessageList(props) {
     }
     //입력한 msg 추가
     const addMsg=(msgData)=>{
-        setChatList(chatList.concat(msgData))
+        setNotice(msgData.msg);
+        setChatList(chatList.concat(msgData));
     }
     //상대방 정보 출력
     const getUInfo=()=>{
@@ -67,14 +71,27 @@ function ChatMessageList(props) {
             setTmpH('0px');
         }
     }
+    //상품정보 출력
+    const getSpInfo=()=>{
+        let spinfoUrl=sessionStorage.url+"/chat/spinfo?cr_num="+cr_num;
+        axios.get(spinfoUrl).then(res=>{
+            setSpinfo(res.data);
+            setNotice(cr_num+"변경");
+        })
+    }
     //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+    //스크롤을 위한 알림
+    const sendNotice=(cmt)=>{
+        setNotice(cmt);
+    }
 
     //useEffect
     useEffect(()=>{
         getUInfo();
+        getSpInfo();
     },[cr_num])
     useEffect(()=>{
         getTmpCol();
@@ -88,11 +105,11 @@ function ChatMessageList(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [screenState]);
+    useEffect(()=>{
+        scrollRef.current?.scrollIntoView();
+        console.log(notice);
+    },[notice])
 
-    const messagesEndRef = useRef();
-    useEffect(()=>
-        messagesEndRef.current.scrollIntoView()
-    ,[chatList])
     return (
         <div className={'msg_container'}>
             <div className={'msg_list_box'} >
@@ -108,16 +125,19 @@ function ChatMessageList(props) {
                         <div className={'tmp_circle'} style={{backgroundColor:tmpCol}}></div>
                         <div className={'tmp_rec'} style={{backgroundColor:tmpCol, height:tmpH,top:tmpY}}></div>
                         <div className={'prf_tmp'}>{uInfo.prf_tmp}℃</div>
+                        <div className={'uinfobox_vline'}>  </div>
+                        <div className={'spinfo_img'}
+                             style={{backgroundImage:`url('${spInfo.img_name}'),url('${noimage}')`}}/>
+                        <div className={'spinfo_title'}>{spInfo.sp_title}</div>
                     </div>
                 </div>
-                <hr style={{marginTop:'0px'}}/>
                 {/* 채팅 메시지 리스트 */}
-                <div  className={'msg_list'}>
+                <div  className={'msg_list'}  >
                     <ChatMessageListOnly chatList={chatList} ur_num={ur_num} uInfo={uInfo} />
-                    <div ref={messagesEndRef} />
+                    <div ref={scrollRef} id={'chat_end'}></div>
                 </div>
                 {/*채팅 입력 창*/}
-                <ChatMessage cr_num={cr_num} addMsg={addMsg} style={{width:'100%'}}/>
+                <ChatMessage cr_num={cr_num} addMsg={addMsg} sendNotice={sendNotice} style={{width:'100%'}}/>
             </div>
         </div>
     );

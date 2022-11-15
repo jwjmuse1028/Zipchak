@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Calendar;
 
 public class FileUtil {
-    //이미지 파일 삭제
+    //이미지 파일 삭제_기존버전
     public static void deletePhoto(String path,String fileName)
     {
         //파일 객체 생성
@@ -12,7 +12,17 @@ public class FileUtil {
         //존재할경우 삭제
         if(file.exists()) {
             file.delete();
-//            System.out.println(fileName+" 파일 삭제됨!");
+        }
+    }
+
+    //이미지 파일 삭제_path와 fileName 합치기
+    public static void deletePhoto(String uploadFileName) {
+        //파일 객체 생성
+        File file=new File(uploadFileName);
+        //존재할경우 삭제
+        if(file.exists()) {
+            file.delete();
+            System.out.println(uploadFileName+" 파일 삭제됨!");
         }
     }
 
