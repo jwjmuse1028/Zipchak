@@ -14,15 +14,13 @@
     <select id="getData" parameterType="int" resultType="ShopProductDto">-- 상세보기
     SELECT ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt
     FROM ur,ur_prf,pd,sp
-    WHERE ur.ur_num=ur_prf.ur_num and sp.ur_num=ur.ur_num and sp.pd_num=pd.pd_num and sp.sp_num=#{sp_num}
+    WHERE ur.ur_num=ur_prf.ur_num AND sp.ur_num=ur.ur_num AND sp.pd_num=pd.pd_num AND sp.sp_num=#{sp_num}
     </select>
     <update id="updateShop" parameterType="ShopDto">-- 상품수정
     UPDATE sp SET sp_title=#{sp_title},sp_txt=#{sp_txt}
     WHERE sp_num=#{sp_num}
     </update>
-    <delete id="deleteShop" parameterType="int">-- 상품삭제
-    DELETE FROM sp WHERE sp_num=#{sp_num}
-    </delete>
+
     <update id="updateReadCount" parameterType="int">-- 조회수증가
     UPDATE sp SET sp_rdcnt=sp_rdcnt+1 WHERE sp_num=#{sp_num}
     </update>
