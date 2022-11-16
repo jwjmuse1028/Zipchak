@@ -1,0 +1,37 @@
+/*메세지 입력 창*/
+div.chat-input{
+    width: 95%;
+    margin-left: 10px;
+    padding-top: 1%;
+    display: flex;
+    position: relative;
+    bottom: 0px;
+}
+button.btn-img{
+    height: 30px;
+    border: 0px;
+    border-radius: 30px;
+    background-color: white;
+    color: gray;
+    display: inline-block;
+    position: relative;
+    top: 6px;
+}
+/*.message-input{*/
+/*    width: 90%;*/
+/*}*/
+/*.btn-submit{*/
+/*    width: 10%;*/
+/*}*/
+/*.btn-plus{*/
+/*    padding-left: 30px;*/
+/*    width: 10%;*/
+/*    font-size: 2rem*/
+/*}*/
+/*form.form-box{*/
+/*    width: 90%;*/
+/*}*/
+
+/*input[type=text] {*/
+/*    width: 80%;*/
+/*}*/

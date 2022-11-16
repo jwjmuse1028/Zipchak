@@ -9,7 +9,6 @@ function Chat(props) {
     //변수
     const [cr_num,setCr_num]=useState(0);
     const [u_num,setU_num]=useState(0);
-    const [chatList, setChatList] = useState([]);
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const [lastMsg,setLastMsg]=useState();
@@ -84,7 +83,7 @@ function Chat(props) {
                         ?
                         <div className={'sellect_user'}>채팅할 상대를 선택해주세요</div>
                         :
-                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} chatList={chatList}
+                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num}
                                          screenStatef={screenStatef} screenState={screenState}/>
                 }
 

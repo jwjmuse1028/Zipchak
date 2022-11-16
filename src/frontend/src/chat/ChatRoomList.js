@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import axios from "axios";
-import '../css/Chat.css';
+import '../css/ChatRoomList.css';
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
@@ -43,10 +43,10 @@ function ChatRoomList(props) {
                                 resize<=800?screenStatef(2):screenStatef(0);
                                 clickEvent(i);
                                 }} >
-                            <div>
-                                <b >
-                                    {ur_num!==cr.buyer_num?cr.buyer_nick:cr.seller_nick}님
-                                </b> | {cr.sp_title}
+                            <div className={'room_box_top'}>
+                                <div className={'room_box_top_text'}>
+                                    <b>{ur_num!==cr.buyer_num?cr.buyer_nick:cr.seller_nick}님&nbsp;|</b>
+                                    &nbsp;&nbsp;{cr.sp_title}</div>
                                 <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
 
                             </div>

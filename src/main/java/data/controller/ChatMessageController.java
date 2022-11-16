@@ -40,8 +40,17 @@ public class ChatMessageController {
     }
 
     @GetMapping("/chat/cm")
-    public List<ChatMessageDto> getChatMessage(int cr_num){
-        return cmmapper.getChatMessage(cr_num);
+    public Map<String,Object>getChatMessage(int cr_num,int perpage){
+        Map<String,Integer> map=new HashMap<>();
+        map.put("cr_num",cr_num);
+        map.put("startnum",0);
+        map.put("perpage",perpage);
+        Map<String,Object> returnmap=new HashMap<>();
+        List<ChatMessageDto> cmlist=cmmapper.getChatMessage(map);
+        int totalmsg=cmmapper.getCntMsg(cr_num);
+        returnmap.put("cmlist",cmlist);
+        returnmap.put("totalmsg",totalmsg);
+        return returnmap;
     }
 
     @GetMapping("/chat/read")

@@ -4,9 +4,9 @@ import * as StompJs from '@stomp/stompjs';
 import axios from "axios";
 import InputEmoji from 'react-input-emoji'
 import {ImageSearchOutlined} from "@material-ui/icons";
-import {debounce} from 'lodash';
+import '../css/ChatMessageInput.css';
 
-function ChatMessage(props) {
+function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
     const { cr_num, addMsg,sendNotice } = props;
     const client = useRef({});
@@ -48,7 +48,7 @@ function ChatMessage(props) {
         client.current.subscribe('/sub/chat/' + cr_num, (body) => {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
-            //addMsg(json_body);
+            addMsg(json_body);
         });
     };
 
@@ -109,4 +109,4 @@ function ChatMessage(props) {
         </div>
     );
 }
-export default ChatMessage;
+export default ChatMessageInput;
