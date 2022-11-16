@@ -5,19 +5,6 @@
         insert into fd (ur_num,fd_title,fd_txt,fd_img,fd_spc,fd_wdate,fd_lvtp,fd_fml,fd_style)
         values (#{ur_num},#{fd_title},#{fd_txt},#{fd_img},#{fd_spc},now(),#{fd_lvtp},#{fd_fml},#{fd_style});
     </insert>
-    <!-- order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
-    <select id="getAllFeeds" parameterType="Map" resultType="FeedDto">
-        select * from fd
-        <if test="search_col!=null and search_word!=null">
-            where ${search_col} like concat('%',#{search_word},'%')
-        </if>
-        <if test="order_col!=null">
-            order by ${order_col}
-        </if>
-    </select>
-    <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
-        select * from fd where fd_num=#{fd_num}
-    </select>
     <delete id="deleteFeed" parameterType="int">
         delete from fd where fd_num=#{fd_num}
     </delete>
@@ -30,4 +17,34 @@
         </if>
         where fd_num=#{fd_num}
     </update>
+<!--    !!이전 버전!! order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
+<!--    <select id="getAllFeeds" parameterType="Map" resultType="FeedListDto">-->
+<!--        select * from fd-->
+<!--        <if test="search_col!=null and search_word!=null">-->
+<!--            where ${search_col} like concat('%',#{search_word},'%')-->
+<!--        </if>-->
+<!--        <if test="order_col!=null">-->
+<!--            order by ${order_col}-->
+<!--        </if>-->
+<!--    </select>-->
+    <!-- order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
+    <!--  prf와 likes 합친 Join 버전  -->
+    <select id="getAllFeeds" parameterType="Map" resultType="FeedListDto">
+        SELECT a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_txt,a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, count(b.ur_num) as fd_likes
+        from fd a
+        left outer join fd_like b
+        on a.fd_num=b.fd_num
+        left outer join ur_prf c
+        on a.ur_num=c.ur_num
+        <if test="search_col!=null and search_word!=null">
+            where ${search_col} like concat('%',#{search_word},'%')
+        </if>
+        group by a.fd_num
+        <if test="order_col!=null">
+            order by ${order_col}
+        </if>
+    </select>
+    <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
+        select * from fd where fd_num=#{fd_num}
+    </select>
 </mapper>

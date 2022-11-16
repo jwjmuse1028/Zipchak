@@ -15,17 +15,18 @@ function FeedInsertForm(props) {
 
     //이미지 미리보기
     const [pre_img, setPre_img] = useState('');
-    const [img, setImg] = useState('');
+    const [file, setFile] = useState('');
 
     //현재로그인한 user 정보
     const ur_num = sessionStorage.ur_num;
+
 
     const navi = useNavigate();
 
     //정규식 표현 - 평수 넣을 때 숫자아닌 것 들어가면 메세지 출력
     const regex = /[0-9]/
 
-    const [data, setData] = useState({
+    const [dto, setDto] = useState({
         fd_title: '',
         fd_spc: '',
         fd_lvtp: '',
@@ -54,8 +55,8 @@ function FeedInsertForm(props) {
 
     const onChangeData = (e) => {
         const {name, value} = e.target;
-        setData({
-            ...data,
+        setDto({
+            ...dto,
             [name]: value,
         })
 
@@ -91,67 +92,66 @@ function FeedInsertForm(props) {
 
     }
 
-    const url = localStorage.url;
-
-    //파일 업로드 이벤트-업로드하면 프론트 pre_img에 저장 및 미리보기
-    //백 Service에 MultipartFile로 저장해놓고 업로드는 insert 할때 하기
+    // 파일 업로드 이벤트-업로드하면 formData에 사진 넣기 위해 변수 file에 저장,
+    // 미리보기 위해 fileReader에 해당 사진 넣고 result를 변수 pre_img에 넣어 미리보기 출력
     const onUploadChange = (e) => {
         e.preventDefault();
 
-        const file = e.target.files[0];
-
-        //upload 메서드로 보내기
-        const imageFile = new FormData();
-        imageFile.append("file", file);
-
-        let uploadUrl = url + "/feed/upload";
-
-        axios({
-            method: 'post',
-            url: uploadUrl,
-            data: imageFile,
-            headers: {'Content-Type': 'multipart/form-data'}
-        }).then(res => {
-            console.log("file 저장 성공");
-        });
+        setFile(e.target.files[0]);
 
         //미리보기 위해 fileReader에 넣기
         const fileReader = new FileReader();
 
-        if (file) {
-            fileReader.readAsDataURL(file)
+        if (e.target.files[0]) {
+            fileReader.readAsDataURL(e.target.files[0])
         }
         fileReader.onload = () => {
             setPre_img(fileReader.result);
         }
-
     }
 
     const onSubmitEvent = (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("dto",new Blob([JSON.stringify(dto)], {
+            type: "application/json"
+        }));
+        
+        // 위의 Blob 사용안하면 각각 넣어줘야함->controller에서 @ModelAttribute Dto로 받으면 되긴함
+        // formData.append("fd_title",dto.fd_title);
+        // formData.append("fd_spc",dto.fd_spc);
+        // formData.append("fd_fml",dto.fd_fml);
+        // formData.append("fd_lvtp",dto.fd_lvtp);
+        // formData.append("fd_style",dto.fd_style);
+        // formData.append("ur_num",dto.ur_num);
 
-        //insert 메서드로 보내기
+        // 이렇게 하면 실패
+        // formData.append("dto", JSON.stringify(dto));
+        // formData.append("dto",dto);
 
+        // insert 메서드로 보내기
         let insertUrl = localStorage.url + "/feed/insert";
-
-        const config = {"Content-Type": 'application/json'};
-
-        axios.post(insertUrl, data, config)
-            .then(res => {
-                navi("/feed/list");
-            })
+        axios({
+            method: 'post',
+            url: insertUrl,
+            data: formData,
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then(res => {
+            navi("/feed/list");
+        });
     }
 
     return (
         <div className={"form_container"}>
-            <form onSubmit={onSubmitEvent}>
+            <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
                 <h3>피드 게시글 입력 폼</h3>
                 <button type={'submit'}>게시글 저장</button>
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}
                        style={{height: '60px', fontSize: '25px'}}
-                       placeholder={'제목을 입력하세요.'} name={"fd_title"} value={data.fd_title} required
+                       placeholder={'제목을 입력하세요.'} name={"fd_title"} value={dto.fd_title} required
                        onChange={onChangeData} onClick={onClickData}/>
                 {touched.fd_title && errors.fd_title &&
                     <div className="form_empty_msg">필수 입력 항목입니다.</div>
@@ -162,7 +162,7 @@ function FeedInsertForm(props) {
                         <div className="form_row_title">주거형태<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '130px', marginRight: '80px'}}>
                             <select className={`form-select ${errors.fd_lvtp}`} required
-                                    name={"fd_lvtp"} value={data.fd_lvtp} onChange={onChangeData} onClick={onClickData}>
+                                    name={"fd_lvtp"} value={dto.fd_lvtp} onChange={onChangeData} onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="본인 방">본인 방</option>
                                 <option value="원룸">원룸</option>
@@ -183,7 +183,7 @@ function FeedInsertForm(props) {
                         <div style={{width: '220px'}}>
                             {/* 필수 입력항목 입력 안했을 시 에러 */}
                             <select className={`form-select ${errors.fd_fml}`} required
-                                    name={"fd_fml"} value={data.fd_fml} onChange={onChangeData} onClick={onClickData}>
+                                    name={"fd_fml"} value={dto.fd_fml} onChange={onChangeData} onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="싱글라이프">싱글라이프</option>
                                 <option value="신혼/부부가 사는집">신혼/부부가 사는집</option>
@@ -201,17 +201,17 @@ function FeedInsertForm(props) {
                         <div className="form_row_title">평수<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '130px' ,marginRight: '80px', display: 'block'}}>
                             <input type={'text'}  className={`form-control ${errors.fd_spc}`} required
-                                   name={"fd_spc"} value={data.fd_spc} onChange={onChangeData} onClick={onClickData}/>
+                                   name={"fd_spc"} value={dto.fd_spc} onChange={onChangeData} onClick={onClickData}/>
                             {!touched.fd_spc?'':errors.fd_spc=="empty error"?
                                 <div className="form_empty_msg">필수 입력 항목입니다.</div>
-                                :!regex.test(data.fd_spc)?<div className="form_empty_msg">숫자만 입력 가능합니다.</div>
+                                :!regex.test(dto.fd_spc)?<div className="form_empty_msg">숫자만 입력 가능합니다.</div>
                                 :''
                             }
                         </div>
                         <div className="form_row_title">스타일<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '220px'}}>
                             <select className={`form-select ${errors.fd_style}`} required
-                                    name={"fd_style"} value={data.fd_style} onChange={onChangeData} onClick={onClickData}>
+                                    name={"fd_style"} value={dto.fd_style} onChange={onChangeData} onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="모던">모던</option>
                                 <option value="미니멀&심플">미니멀&심플</option>
@@ -287,13 +287,11 @@ function FeedInsertForm(props) {
                             header: {"content-type": "multipart/formdata"}
                         })
                             .then(res=>{
-
                                 callback(res.data)
                             })
                     }
                 }}
             />
-
         </div>
     );
 }
