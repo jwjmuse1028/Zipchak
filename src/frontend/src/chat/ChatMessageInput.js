@@ -19,8 +19,6 @@ function ChatMessageInput(props) {
             brokerURL: 'ws://localhost:9005/ws',
             onConnect: () => {
                 console.log('connected');
-                let readUrl=localStorage.url+"/chat/read?cr_num="+cr_num+"&ur_num="+ur_num;
-                axios.get(readUrl).then(res=>"")
                 subscribe();
                 sendnoti(cr_num+'연결');
             },

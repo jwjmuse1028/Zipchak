@@ -16,6 +16,8 @@ function ChatRoomList(props) {
     const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
         setIsActive(i);
+        let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
+        axios.get(readUrl).then(res=>"")
     }
     const handleResize = () => {
         setResize(window.innerWidth);
