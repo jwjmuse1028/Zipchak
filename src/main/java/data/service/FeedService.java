@@ -1,16 +1,14 @@
 package data.service;
 
 import data.dto.FeedDto;
+import data.dto.FeedListDto;
 import data.mapper.FeedMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +42,7 @@ public class FeedService implements FeedServiceInter{
     }
 
     @Override
-    public List<FeedDto> getAllFeeds(String search_col, String search_word, String order_col) {
+    public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col) {
 
         //데이터 가져오기
         Map<String,String> map=new HashMap<>();

@@ -24,6 +24,9 @@
     box-sizing: border-box;
     margin-right: -7.5px;
     margin-left: -7.5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    transform: translateY(0px);
 }
 
 .col-12 col-md-4 {

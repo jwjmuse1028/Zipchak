@@ -2,6 +2,7 @@ package data.controller;
 
 
 import data.dto.FeedDto;
+import data.dto.FeedListDto;
 import data.mapper.FeedMapper;
 import data.service.FeedService;
 import data.service.FeedServiceInter;
@@ -31,9 +32,9 @@ public class FeedController {
 
 
     @GetMapping("/list")
-    public List<FeedDto> getFeedList(@RequestParam(required = false) String search_col,
-                                     @RequestParam(required = false) String search_word,
-                                     @RequestParam(required = false) String order_col)
+    public List<FeedListDto> getFeedList(@RequestParam(required = false) String search_col,
+                                         @RequestParam(required = false) String search_word,
+                                         @RequestParam(required = false) String order_col)
     {
         return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
