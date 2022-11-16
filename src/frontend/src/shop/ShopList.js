@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Fab, Pagination} from "@mui/material";
+import {Fab} from "@mui/material";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import {Bookmark, BookmarkBorder, Create} from "@material-ui/icons";
+import {BookmarkBorder, Create} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
     expandOpen: {
         transform: 'rotate(180deg)',
     },
-    avatar: {
-        backgroundColor: red[500],
-    },
 }));
 
 function ShopList() {
@@ -43,15 +39,13 @@ function ShopList() {
 
     const getList=()=>{
         let url = sessionStorage.url+"/shop/list?currentPage="+currentPage;
-        console.log(url);
         axios.get(url)
             .then(res=>{
                 setData(res.data);
-                console.log("res.data.length="+res.data.list.length);
+                // console.log("res.data.length="+res.data.list.length);
             })
     }
     useEffect(() => {
-            console.log("useEffect");
            getList();
         },
         [currentPage]);
@@ -63,8 +57,13 @@ function ShopList() {
             {/*    <h1>중고 글 수:{data.list.length}개</h1>*/}
             {/*}*/}
                     <Fab color="primary" variant="extended" onClick={() => {
-                        navi("/shop/insert");
-                    }}>
+                        if (sessionStorage.loginok==null){
+                            alert("로그인 후 이용해주세요");
+                            return
+                        }else {
+                            navi("/shop/insert");
+                        }
+                        }}>
                         <Create/>&nbsp;판매글작성
                     </Fab>
             <br/>
@@ -82,9 +81,13 @@ function ShopList() {
                         <CardMedia
                             className={classes.media}
                             image={row.img_first} //대표사진
-                            style={{width:'300px',height:'220px', cursor:'pointer'}}
-                            onClick={()=>navi(`/shop/detail/${row.sp_num}/${currentPage}`)}
+                            style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
+                            onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />
+                        {
+                            row.pd_status=="soldout"?
+                            <p className={'soldouttxt'}>판매완료</p>:''
+                        }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
                             <IconButton color={"primary"}>
@@ -93,9 +96,10 @@ function ShopList() {
                             </IconButton>
                         </CardActions>
                             <CardContent>
-                                <b>{row.sp_title}</b><br/>
+                                <b className={'list-title'}
+                                   onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
                                 <span>{row.pd_price}원</span><br/>
-                                <span style={{color:"gray", fontSize:'0.9em'}}>관심{}회</span>·<span style={{color:"gray", fontSize:'0.9em'}}>채팅{}회</span>
+                                <span style={{color:"gray", fontSize:'0.9em'}}>관심{}</span>·<span style={{color:"gray", fontSize:'0.9em'}}>채팅{}</span>
                             </CardContent>
                         </div>
                     </Card>

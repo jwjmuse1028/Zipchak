@@ -34,8 +34,8 @@ function RouteMain(props) {
                     <Route path='list' element={<ShopList/>}/>
                     <Route path='list/:currentPage' element={<ShopList/>}/>
                     <Route path='insert' element={<ShopInsertForm/>}/>
-                    <Route path='update' element={<ShopUpdateForm/>}/>
-                    <Route path='detail/:sp_num/:currentPage' element={<ShopDetail/>}/>
+                    <Route path='update/:pd_num/:sp_num/:currentPage' element={<ShopUpdateForm/>}/>
+                    <Route path='detail/:pd_num/:sp_num/:currentPage' element={<ShopDetail/>}/>
                 </Route>
 
                 <Route path='/chat' element={<Chat/>}>

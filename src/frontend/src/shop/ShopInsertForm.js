@@ -102,7 +102,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField type={"text"} id="standard-basic" required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} maxlength={'20'} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>
@@ -162,6 +162,10 @@ function ShopInsertForm(props) {
                                                        onPhotoDelete(idx);
                                                    }}/>
                                                </figcaption>
+                                               {
+                                                   idx==0?
+                                                       <span className={'firstimage'}>대표이미지</span>:''
+                                               }
                                            </figure>
                                        )
                                    }
@@ -171,7 +175,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <TextareaAutosize className={'form-control'} ref={sp_txtRef} required placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
+                                <TextareaAutosize maxLength={10000} className={'form-control'} ref={sp_txtRef} required placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
                                     "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."} style={{width:'100%', height:'300px', boxShadow:"none"}}/>
                             </td>
                         </tr>

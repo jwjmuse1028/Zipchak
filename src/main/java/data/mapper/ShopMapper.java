@@ -13,7 +13,6 @@ public interface ShopMapper {
     public List<ShopProductDto> getPagingList(Map<String,Integer> map);
     public ShopProductDto getData(int sp_num);
     public void updateShop(ShopDto dto);
-    public void deleteShop(int sp_num);
     public void updateReadCount(int sp_num);
     public int getMaxNum();
 }
