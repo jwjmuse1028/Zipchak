@@ -34,7 +34,6 @@ function FeedInsertForm(props) {
         fd_style: '',
         ur_num:ur_num
     })
-    console.log(dto);
 
     const [errors, setErrors] = useState({
         fd_title: '',
@@ -93,31 +92,12 @@ function FeedInsertForm(props) {
 
     }
 
-    const url = localStorage.url;
-
-    //파일 업로드 이벤트-업로드하면 프론트 pre_img에 저장 및 미리보기
-    //백 Service에 MultipartFile로 저장해놓고 업로드는 insert 할때 하기
+    // 파일 업로드 이벤트-업로드하면 formData에 사진 넣기 위해 변수 file에 저장,
+    // 미리보기 위해 fileReader에 해당 사진 넣고 result를 변수 pre_img에 넣어 미리보기 출력
     const onUploadChange = (e) => {
         e.preventDefault();
 
         setFile(e.target.files[0]);
-
-        // const file = e.target.files[0];
-        //
-        // //upload 메서드로 보내기
-        // const imageFile = new FormData();
-        // imageFile.append("file", file);
-        //
-        // let uploadUrl = url + "/feed/upload";
-        //
-        // axios({
-        //     method: 'post',
-        //     url: uploadUrl,
-        //     data: imageFile,
-        //     headers: {'Content-Type': 'multipart/form-data'}
-        // }).then(res => {
-        //     console.log("file 저장 성공");
-        // });
 
         //미리보기 위해 fileReader에 넣기
         const fileReader = new FileReader();
@@ -128,25 +108,29 @@ function FeedInsertForm(props) {
         fileReader.onload = () => {
             setPre_img(fileReader.result);
         }
-
     }
 
     const onSubmitEvent = (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("fd_title",dto.fd_title);
-        formData.append("fd_spc",dto.fd_spc);
-        formData.append("fd_fml",dto.fd_fml);
-        formData.append("fd_lvtp",dto.fd_lvtp);
-        formData.append("fd_style",dto.fd_style);
-        formData.append("ur_num",dto.ur_num);
+        formData.append("dto",new Blob([JSON.stringify(dto)], {
+            type: "application/json"
+        }));
+        
+        // 위의 Blob 사용안하면 각각 넣어줘야함->controller에서 @ModelAttribute Dto로 받으면 되긴함
+        // formData.append("fd_title",dto.fd_title);
+        // formData.append("fd_spc",dto.fd_spc);
+        // formData.append("fd_fml",dto.fd_fml);
+        // formData.append("fd_lvtp",dto.fd_lvtp);
+        // formData.append("fd_style",dto.fd_style);
+        // formData.append("ur_num",dto.ur_num);
+
+        // 이렇게 하면 실패
         // formData.append("dto", JSON.stringify(dto));
         // formData.append("dto",dto);
 
-
-
-        //insert 메서드로 보내기
+        // insert 메서드로 보내기
         let insertUrl = localStorage.url + "/feed/insert";
         axios({
             method: 'post',
@@ -156,13 +140,6 @@ function FeedInsertForm(props) {
         }).then(res => {
             navi("/feed/list");
         });
-
-        // dto 만 보내는 버젼
-        // const config = {"Content-Type": 'application/json'};
-        // axios.post(insertUrl, dto, config)
-        //     .then(res => {
-        //         navi("/feed/list");
-        //     })
     }
 
     return (
@@ -310,13 +287,11 @@ function FeedInsertForm(props) {
                             header: {"content-type": "multipart/formdata"}
                         })
                             .then(res=>{
-
                                 callback(res.data)
                             })
                     }
                 }}
             />
-
         </div>
     );
 }

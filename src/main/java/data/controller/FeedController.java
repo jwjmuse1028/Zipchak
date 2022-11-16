@@ -22,37 +22,11 @@ public class FeedController {
 
     @Autowired
     FeedServiceInter feedServiceInter;
-    static MultipartFile uploadFile;
 
-    //커버 사진 업로드 시 저장할 파일명
-    String uploadFileName;
-    @PostMapping("/upload")
-    public void fileUpload(@RequestParam MultipartFile file) throws IOException {
-        // feedServiceInter.upload(file);
-        uploadFile=file;
-        System.out.println("controller:"+uploadFile);
-
-    }
-
-    @Autowired
-    S3Service s3service;
     @PostMapping("/insert")
-    public void insertFeed(@RequestParam MultipartFile file, @ModelAttribute FeedDto dto)
+    public void insertFeed(@RequestPart MultipartFile file, @RequestPart FeedDto dto)
     {
-        //커버 사진 업로드-S3 bucket
-        //경로는 fd_img로 동일하므로 parameter로 안받음
-        try {
-            uploadFileName= s3service.upload(file,"fd_img");
-            System.out.println("uploadFileName:"+uploadFileName);
-
-            //s3에 업로드한 파일이름 넣기
-            dto.setFd_img(uploadFileName);
-
-            feedServiceInter.insertFeed(dto);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        feedServiceInter.insertFeed(file,dto);
     }
 
 
