@@ -8,7 +8,7 @@ import '../css/ChatMessageInput.css';
 
 function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
-    const { cr_num, addMsg,sendNotice } = props;
+    const { cr_num, sendnoti } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
@@ -22,7 +22,7 @@ function ChatMessageInput(props) {
                 let readUrl=localStorage.url+"/chat/read?cr_num="+cr_num+"&ur_num="+ur_num;
                 axios.get(readUrl).then(res=>"")
                 subscribe();
-                sendNotice('연결성공');
+                sendnoti(cr_num+'연결');
             },
         });
         client.current.activate();
@@ -30,7 +30,6 @@ function ChatMessageInput(props) {
 
     const publish = (msg) => {
         if (!client.current.connected) return;
-
         client.current.publish({
             destination: '/pub/chat',
             body: JSON.stringify({
@@ -40,15 +39,14 @@ function ChatMessageInput(props) {
             }),
         });
         setMsg('');
-        //let sendTime=new Date().getTime();
-        //console.log(sendTime);
+        sendnoti('메세지보냄');
     };
 
     const subscribe = () => {
         client.current.subscribe('/sub/chat/' + cr_num, (body) => {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
-            addMsg(json_body);
+            //addMsg(json_body);
         });
     };
 
@@ -65,7 +63,7 @@ function ChatMessageInput(props) {
     function handleOnEnter (msg) {
         if (msg!==""){
           publish(msg);
-          sendNotice(msg);
+          
         }
     }
 
