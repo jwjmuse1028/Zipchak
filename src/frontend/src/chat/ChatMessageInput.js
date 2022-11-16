@@ -4,9 +4,9 @@ import * as StompJs from '@stomp/stompjs';
 import axios from "axios";
 import InputEmoji from 'react-input-emoji'
 import {ImageSearchOutlined} from "@material-ui/icons";
-import {debounce} from 'lodash';
+import '../css/ChatMessageInput.css';
 
-function ChatMessage(props) {
+function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
     const { cr_num, addMsg,sendNotice } = props;
     const client = useRef({});
@@ -22,7 +22,7 @@ function ChatMessage(props) {
                 let readUrl=localStorage.url+"/chat/read?cr_num="+cr_num+"&ur_num="+ur_num;
                 axios.get(readUrl).then(res=>"")
                 subscribe();
-                sendNotice('connected');
+                sendNotice('연결성공');
             },
         });
         client.current.activate();
@@ -65,6 +65,7 @@ function ChatMessage(props) {
     function handleOnEnter (msg) {
         if (msg!==""){
           publish(msg);
+          sendNotice(msg);
         }
     }
 
@@ -108,4 +109,4 @@ function ChatMessage(props) {
         </div>
     );
 }
-export default ChatMessage;
+export default ChatMessageInput;

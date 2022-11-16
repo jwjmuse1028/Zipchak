@@ -24,8 +24,8 @@
     <select id="getSeller" parameterType="int" resultType="int">
         select ur_num from sp where sp_num=#{sp_num}
     </select>
-    <select id="getRoomChk" parameterType="crdto" resultType="int">
-        SELECT count(*) from cr where sp_num=#{sp_num} and buyer_num=#{buyer_num}
+    <select id="getRoomChk" parameterType="crdto" resultType="map">
+        SELECT count(*) count, cr_num from cr where sp_num=#{sp_num} and buyer_num=#{buyer_num}
     </select>
 
 </mapper>

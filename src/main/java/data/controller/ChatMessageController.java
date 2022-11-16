@@ -1,8 +1,6 @@
 package data.controller;
 
 import data.dto.ChatMessageDto;
-import data.dto.ShopDto;
-import data.dto.ShopInfoDto;
 import data.dto.UserDto;
 import data.mapper.ChatMessageMapper;
 import data.mapper.UserMapper;
@@ -42,8 +40,17 @@ public class ChatMessageController {
     }
 
     @GetMapping("/chat/cm")
-    public List<ChatMessageDto> getChatMessage(int cr_num){
-        return cmmapper.getChatMessage(cr_num);
+    public Map<String,Object>getChatMessage(int cr_num,int perpage){
+        Map<String,Integer> map=new HashMap<>();
+        map.put("cr_num",cr_num);
+        map.put("startnum",0);
+        map.put("perpage",perpage);
+        Map<String,Object> returnmap=new HashMap<>();
+        List<ChatMessageDto> cmlist=cmmapper.getChatMessage(map);
+        int totalmsg=cmmapper.getCntMsg(cr_num);
+        returnmap.put("cmlist",cmlist);
+        returnmap.put("totalmsg",totalmsg);
+        return returnmap;
     }
 
     @GetMapping("/chat/read")
@@ -72,7 +79,8 @@ public class ChatMessageController {
         return umapper.getUserdataByUr(u_num);
     }
     @GetMapping("/chat/spinfo")
-    public ShopInfoDto getSpInfo(int cr_num){
-        return cmmapper.getSpInfo(cr_num);
+    public Map<String, String> getSpInfo(int cr_num){
+        Map<String, String> map=cmmapper.getSpInfo(cr_num);
+        return map;
     }
 }

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ChatMessageMapper">
-    <select id="getChatMessage" parameterType="int" resultType="cmdto">
-        SELECT * from cm
-        where cm.cr_num=#{cr_num} order by cm_wdate
+    <select id="getChatMessage" parameterType="map" resultType="cmdto">
+        select * from (
+                          SELECT * from cm
+                          where cm.cr_num=#{cr_num} order by cm_wdate desc limit #{startnum},#{perpage}) as cm_p
+        order by cm_p.cm_wdate
     </select>
     <insert id="insertChatMessage" parameterType="cmdto" useGeneratedKeys="true" keyProperty="cm_num" keyColumn="cm_num">
         insert into cm values (null, #{cr_num},#{sender},#{msg},0,now(3))
     </insert>
-    <select id="getMsg" parameterType="int" resultType="cmdto">
-        select * from cm where cm_num=#{cm_num}
-    </select>
     <select id="getSender" parameterType="int" resultType="int">
         select sender from cm where cr_num=#{cr_num} order by cm_wdate desc limit 1
     </select>
     <update id="updateRead" parameterType="map">
         update cm set is_read=1 where cr_num=#{cr_num} and sender=#{sender}
     </update>
-    <select id="getSpInfo" parameterType="int" resultType="ShopInfoDto">
+    <select id="getSpInfo" parameterType="int" resultType="map">
         select sp.sp_title, pd_img.img_name from sp
                                                      join pd_img on pd_img.pd_num=sp.pd_num
                                                      join cr on cr.sp_num=sp.sp_num
@@ -28,5 +27,8 @@
                                  join cr on cr.cr_num=cm.cr_num
                                  join sp on sp.sp_num=cr.sp_num
         where (cr.buyer_num=#{ur_num} or sp.ur_num=#{ur_num}) and is_read=0 and sender!=#{ur_num}
+    </select>
+    <select id="getCntMsg" parameterType="int" resultType="int">
+        SELECT count(*) FROM cm where cr_num=#{cr_num}
     </select>
 </mapper>
