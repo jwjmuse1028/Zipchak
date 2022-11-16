@@ -22,7 +22,7 @@ function ChatMessage(props) {
                 let readUrl=localStorage.url+"/chat/read?cr_num="+cr_num+"&ur_num="+ur_num;
                 axios.get(readUrl).then(res=>"")
                 subscribe();
-                sendNotice('connected');
+                sendNotice('연결성공');
             },
         });
         client.current.activate();
@@ -48,7 +48,7 @@ function ChatMessage(props) {
         client.current.subscribe('/sub/chat/' + cr_num, (body) => {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
-            addMsg(json_body);
+            //addMsg(json_body);
         });
     };
 
@@ -65,6 +65,7 @@ function ChatMessage(props) {
     function handleOnEnter (msg) {
         if (msg!==""){
           publish(msg);
+          sendNotice(msg);
         }
     }
 

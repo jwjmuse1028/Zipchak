@@ -3,19 +3,19 @@ import noprfpic from "../image/noprofilepicture.webp";
 
 function ChatMessageListOnly(props) {
     //변수
-    const {chatList,ur_num,uInfo}=props;
-    const [chatdate,setChatdate]=useState([]);
-    let imageUrl=sessionStorage.url+"/image/";
-
+    const {chatList,ur_num,uInfo,notice}=props;
+    const scrollRef=useRef();
+    useEffect(()=>{
+        scrollRef.current.scrollIntoView({behavior:"smooth"});
+        //console.log(notice);
+    },[notice])
     return (
         <div  >
             {
                 chatList &&
                 chatList.map((cl, i) =>
                     <div key={i} className={'each_msg_box'} id={'each_msg_'+i}>
-
                         {
-
                             cl.sender === ur_num
                                 ?
                                 <div className={'i_msg_box_w_read'}>
@@ -40,7 +40,7 @@ function ChatMessageListOnly(props) {
                                 :
                                 <div className={'u_msg_box_w_prf'}>
                                     <div className={'chat_prf_box'}
-                                         style={{backgroundImage: `url('${imageUrl + uInfo.prf_img}'),url('${noprfpic}')`}}
+                                         style={{backgroundImage: `url('${uInfo.prf_img}'),url('${noprfpic}')`}}
                                     ></div>
                                     <div className={'u_msg_box'}>
                                         {
@@ -55,9 +55,11 @@ function ChatMessageListOnly(props) {
                                     </div>
                                 </div>
                         }
+
                     </div>
                 )
             }
+            <div ref={scrollRef} style={{height:'10px'}}></div>
         </div>
     );
 }

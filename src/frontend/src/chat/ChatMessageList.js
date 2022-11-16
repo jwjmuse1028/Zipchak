@@ -4,7 +4,7 @@ import ChatMessage from "./ChatMessage";
 import noprfpic from "../image/noprofilepicture.webp";
 import tmp from "../image/tmp.png";
 import {ArrowBackRounded} from "@mui/icons-material";
-import ChatMessageListOnly from "./chatMessageListOnly";
+import ChatMessageListOnly from "./ChatMessageListOnly";
 import noimage from "../image/noimg.jpg";
 
 function ChatMessageList(props) {
@@ -18,9 +18,7 @@ function ChatMessageList(props) {
     const [tmpY,setTmpY]=useState('5px');
     const [resize, setResize] = useState();
     const [notice,setNotice]=useState();
-    const scrollRef=useRef();
     const {cr_num, ur_num,u_num, screenStatef,screenState}=props;
-    let imageUrl=sessionStorage.url+"/image/";
     //함수
     //db에서 chat message 출력
     const getChatMessage=()=>{
@@ -31,8 +29,8 @@ function ChatMessageList(props) {
     }
     //입력한 msg 추가
     const addMsg=(msgData)=>{
-        setNotice(msgData.msg);
-        setChatList(chatList.concat(msgData));
+        //setChatList(chatList.concat(msgData));
+        //setNotice("메시지");
     }
     //상대방 정보 출력
     const getUInfo=()=>{
@@ -84,8 +82,8 @@ function ChatMessageList(props) {
         setResize(window.innerWidth);
     };
     //스크롤을 위한 알림
-    const sendNotice=(cmt)=>{
-        setNotice(cmt);
+    const sendNotice=(msg)=>{
+        setNotice(msg+'입력');
     }
 
     //useEffect
@@ -105,10 +103,6 @@ function ChatMessageList(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [screenState]);
-    useEffect(()=>{
-        scrollRef.current?.scrollIntoView();
-        console.log(notice);
-    },[notice])
 
     return (
         <div className={'msg_container'}>
@@ -119,7 +113,7 @@ function ChatMessageList(props) {
                     ><ArrowBackRounded/></span>
                     <div className={'uInfoBox'} >
                         <div className={'prf_box'}
-                            style={{backgroundImage:`url('${imageUrl+uInfo.prf_img}'),url('${noprfpic}')`}}></div>
+                            style={{backgroundImage:`url('${uInfo.prf_img}'),url('${noprfpic}')`}}></div>
                         <div className={'prf_nick'}>{uInfo.prf_nick}님</div>
                         <img alt={''} src={tmp} className={'tmp_img'}/>
                         <div className={'tmp_circle'} style={{backgroundColor:tmpCol}}></div>
@@ -133,14 +127,13 @@ function ChatMessageList(props) {
                 </div>
                 {/* 채팅 메시지 리스트 */}
                 <div  className={'msg_list'}  >
-                    <ChatMessageListOnly chatList={chatList} ur_num={ur_num} uInfo={uInfo} />
-                    <div ref={scrollRef} id={'chat_end'}></div>
-                </div>
+                    <ChatMessageListOnly chatList={chatList} ur_num={ur_num}
+                                         uInfo={uInfo} notice={notice}/>
+                </div >
                 {/*채팅 입력 창*/}
                 <ChatMessage cr_num={cr_num} addMsg={addMsg} sendNotice={sendNotice} style={{width:'100%'}}/>
             </div>
         </div>
     );
 }
-
 export default ChatMessageList;

@@ -101,6 +101,7 @@ div.msg_list_box_top{
 }
 span.to_chat_room{
     font-size: 30px;
+    color: #38B9E0;
 }
 div.uInfoBox{
     display: flex;

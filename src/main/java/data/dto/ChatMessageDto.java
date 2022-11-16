@@ -18,11 +18,4 @@ public class ChatMessageDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp cm_wdate;
 
-    //from ur_prf
-    private String buyer_nick;
-    private String buyer_img;
-    private String seller_nick;
-    private String seller_img;
-
-
 }

@@ -1,8 +1,6 @@
 package data.controller;
 
 import data.dto.ChatMessageDto;
-import data.dto.ShopDto;
-import data.dto.ShopInfoDto;
 import data.dto.UserDto;
 import data.mapper.ChatMessageMapper;
 import data.mapper.UserMapper;
@@ -72,7 +70,8 @@ public class ChatMessageController {
         return umapper.getUserdataByUr(u_num);
     }
     @GetMapping("/chat/spinfo")
-    public ShopInfoDto getSpInfo(int cr_num){
-        return cmmapper.getSpInfo(cr_num);
+    public Map<String, String> getSpInfo(int cr_num){
+        Map<String, String> map=cmmapper.getSpInfo(cr_num);
+        return map;
     }
 }
