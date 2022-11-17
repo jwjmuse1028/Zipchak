@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import "../css/FeedList.css";
-import noimg from './noimage.jpg';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
@@ -32,7 +31,7 @@ function FeedList(props) {
 
                             <div className="col-12 col-md-4">
                                 <article className="project-feed__item">
-                                    <a className="project-feed__item__link" href="/projects/130370/detail?affect_type=ProjectSelfIndex&amp;affect_id=0"></a>
+                                    <a className="project-feed__item__link" href={`/feed/detail/${fdto.fd_num}`}></a>
                                     <div className="project-feed__item__image">
                                         <img className="image" alt="" src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdto.fd_img}`}/>
                                     </div>

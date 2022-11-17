@@ -47,4 +47,19 @@
     <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
         select * from fd where fd_num=#{fd_num}
     </select>
+
+    <!--  피드 좋아요 insert  -->
+    <insert id="insertFeedLike" parameterType="Map">
+        insert into fd_like values (#{ur_num},#{fd_num})
+    </insert>
+    <!--  피드 좋아요 수 조회  -->
+    <select id="getFeedLikes" parameterType="int" resultType="int">
+        select count(ur_num) as fd_likes from fd_like where fd_num=#{fd_num};
+    </select>
+    <!--  피드 좋아요 여부 조회 -> 좋아요 했으면 1, 안했으면 0  -->
+    <select id="checkFeedLike" parameterType="Map" resultType="int">
+        select count(ur_num) as fd_like from fd_like where ur_num=#{ur_num} and fd_num=#{fd_num};
+    </select>
+
+
 </mapper>

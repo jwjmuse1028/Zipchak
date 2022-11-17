@@ -18,5 +18,6 @@ public interface UserMapper {
     public String getProfile(String ur_id);
     public UserDto getUserdata(String ur_id);
     public UserDto getUserdataByUr(int ur_num);
+    public Map<String,Object> getProfileByNum(int ur_num);
 
 }
