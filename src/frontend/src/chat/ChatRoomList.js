@@ -7,7 +7,6 @@ function ChatRoomList(props) {
     const {ur_num, cr_click, screenStatef,sendnoti,noti}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
-    const [lstmsg,setLstmsg]=useState();
     const chatRoomList=()=>{
         let url=localStorage.url+"/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -26,6 +25,7 @@ function ChatRoomList(props) {
     };
     useEffect(()=>{
         chatRoomList();
+        console.log(noti);
     },[noti]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -56,7 +56,6 @@ function ChatRoomList(props) {
                         </div>
                         <div className={'room-box-btm'}>
                             <div className={'cr_msg_box'} id={`lst_msg${cr.cr_num}`}>
-                                {lstmsg}
                                 {
                                     cr.msg.startsWith('img-')?
                                         <>{
@@ -80,4 +79,4 @@ function ChatRoomList(props) {
     );
 }
 
-export default React.memo(ChatRoomList);
+export default ChatRoomList;

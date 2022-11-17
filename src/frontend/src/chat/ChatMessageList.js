@@ -69,7 +69,7 @@ function ChatMessageList(props) {
     useEffect(()=>{
         //document.getElementById('chat_end').scrollIntoView({behavior:"smooth",block:'start'});
         scrollRef.current?.scrollIntoView({behavior:"smooth",block:'end'});
-        console.log(noti);
+        //console.log(noti);
     },[noti])
     useEffect(()=>{
         getChatMessage();
@@ -98,4 +98,4 @@ function ChatMessageList(props) {
         </div>
     );
 }
-export default React.memo(ChatMessageList);
+export default ChatMessageList;

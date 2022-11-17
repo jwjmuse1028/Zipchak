@@ -46,19 +46,14 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
-            sendnoti("메시지받음");
         });
+
     };
 
     const disconnect = () => {
         client.current.deactivate();
         console.log('disconnected');
     };
-
-    useEffect(() => {
-        connect();
-        return () => disconnect();
-    }, []);
 
     function handleOnEnter (msg) {
         if (msg!==""){
@@ -87,15 +82,13 @@ function ChatMessageInput(props) {
                 handleOnEnter(res.data);
             });
     }
-    
+    useEffect(() => {
+        connect();
+        return () => disconnect();
+    }, []);
+
     return (
         <div className={'chat-input'}>
-            {/*<form onSubmit={(event) => handleSubmit(event, msg)} className={'form-box input-group'}>*/}
-            {/*    <input type={'text'} name={'chatInput'} className={'message-input form-control'} onChange={handleChange} value={msg} />*/}
-            {/*    <button type={'submit'} className={'btn-submit'}*/}
-            {/*     >보내기 </button>*/}
-            {/*</form>*/}
-
             <InputEmoji
                 value={msg}
                 onChange={setMsg}
@@ -109,4 +102,4 @@ function ChatMessageInput(props) {
         </div>
     );
 }
-export default ChatMessageInput;
+export default React.memo(ChatMessageInput);
