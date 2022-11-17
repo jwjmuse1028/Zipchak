@@ -28,7 +28,8 @@ public class FeedService implements FeedServiceInter{
         //커버 사진 업로드-S3 bucket
         //경로는 fd_img로 동일하므로 parameter로 안받음
         try {
-            String uploadFileName= s3service.upload(file,"fd_img");
+            int max_num = feedMapper.getRecentFeedNum()+1;
+            String uploadFileName= s3service.upload(file,"fd_img/"+max_num);
             System.out.println("uploadFileName:"+uploadFileName);
 
             //s3에 업로드한 파일이름 dto의 fd_img에 넣기

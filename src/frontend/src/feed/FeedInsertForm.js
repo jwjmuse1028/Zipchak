@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "../css/FeedForm.css";
 
-import {Editor} from "@toast-ui/react-editor";
+import {Editor, Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor.css'
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
@@ -142,6 +142,14 @@ function FeedInsertForm(props) {
         });
     }
 
+    const editorRef=useRef();
+
+    const [data,setData]=useState('')
+
+    const onChange=()=>{
+        setData(editorRef.current?.getInstance().getHTML())
+    }
+
     return (
         <div className={"form_container"}>
             <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
@@ -273,10 +281,6 @@ function FeedInsertForm(props) {
                 hooks={{
                     addImageBlobHook: async (blob, callback) => {
 
-                        console.log(blob)
-
-                        console.log(blob.name)
-
                         const formData = new FormData()
                         formData.append('file', blob)
                         formData.append('dirName', 'fd_img')
@@ -291,7 +295,14 @@ function FeedInsertForm(props) {
                             })
                     }
                 }}
+                onChange={onChange}
+                ref={editorRef}
+
             />
+            <div>
+                <div dangerouslySetInnerHTML={ {__html: data} }/>
+            </div>
+
         </div>
     );
 }

@@ -14,4 +14,6 @@ public interface FeedMapper {
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
     public void updateFeed(FeedDto dto);
+
+    public int getRecentFeedNum();
 }
