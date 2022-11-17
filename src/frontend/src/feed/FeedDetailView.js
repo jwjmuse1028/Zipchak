@@ -7,10 +7,12 @@ function FeedDetailView(props) {
     const navi=useNavigate();
     const [fdata,setFdata]=useState('');
 
-    const detailUrl=localStorage.url+"/feed/detail?num="+fd_num;
+    const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num;
+    console.log("detailUrl:"+detailUrl);
     const getFeedDetail=()=>{
         axios.get(detailUrl)
             .then(res=>{
+                console.log("success");
                 setFdata(res.data);
             })
     }
@@ -21,7 +23,13 @@ function FeedDetailView(props) {
 
 
     return (
-        <div></div>
+        <div>
+            {/*<h5>{fdata.dto.fd_title}</h5>*/}
+            <img style={{width: '300px'}} src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdata.dto.fd_num}/${fdata.dto.fd_img}`}/>
+            {fdata.prf_map.prf_nick}
+            <img alt="" style={{width: '300px'}}
+                 src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdata.prf_map.prf_img}`}/>
+        </div>
     );
 }
 
