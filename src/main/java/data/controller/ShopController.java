@@ -36,7 +36,7 @@ public class ShopController {
     }
 
     @PostMapping("/insert")
-    public void insertShop(@RequestBody Map<String,Object> map) {
+    public Map<String,Integer> insertShop(@RequestBody Map<String,Object> map) {
 //        System.out.println("pd_price="+map.get("pd_price"));
         ProductDto pddto=new ProductDto();
         pddto.setPd_name((String)map.get("pd_name"));
@@ -57,6 +57,12 @@ public class ShopController {
             pdto.setImg_name(sname);
             productMapper.insertProductImg(pdto);
         }
+        System.out.println("pd_num="+pddto.getPd_num());
+        Map<String,Integer> rmap=new HashMap<>();
+        rmap.put("pd_num",pddto.getPd_num());
+        rmap.put("sp_num",spdto.getSp_num());
+
+        return rmap;
     }
 
     @GetMapping("/list")
