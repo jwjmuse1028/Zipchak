@@ -72,10 +72,60 @@ function ShopList() {
             <br/>
             {
                 data.list && data.list.map((row,idx)=>
+                        // <div style={{verticalAlign: "middle",
+                        //     display: "block",
+                        //     position: "relative",
+                        //     overflow: "hidden",
+                        //     paddingTop: "55%"}}>
+                        //     <span
+                        //         style={{
+                        //              backgroundImage:
+                        //             // `url(${
+                        //             //     imageUrl + r.thumbnailImage
+                        //             // })`,
+                        //             `url(${row.img_first})`,
+                        //             verticalAlign: "top",
+                        //             backgroundSize: "cover",
+                        //             position: "absolute",
+                        //             top: "0",
+                        //             left: "0",
+                        //             width:'150px',
+                        //             height:'150px'
+                        //             // width: "100%",
+                        //             // height: "100%"
+                        //         }}
+                        //     >
+                        //         {row.pd_status=="soldout" ? (
+                        //             <span style={{
+                        //                 display: "table",
+                        //                 width: "102%",
+                        //                 height: "102%",
+                        //                 background: "rgba(0, 0, 0, 0.6)",
+                        //                 color: "#fff",
+                        //                 textAlign: "center",
+                        //                 zIndex: "0",
+                        //                 fontSize: "17px"
+                        //             }}>
+                        //                 <em className='label'
+                        //                 style={{
+                        //                     display: "table-cell",
+                        //                     verticalAlign: "middle"
+                        //                 }}>
+                        //                     판매완료
+                        //                 </em>
+                        //             </span>
+                        //         )  : null}
+                        //     </span>
+                        //
+                        // </div>
+                        // <span style={{backgroundImage:`url(${row.img_first})`}}>
+                        //     { row.pd_status=="soldout"?<span></span>:null}
+                        // </span>
                     <Card className={classes.root} style={{float:'left',margin:'2%'}}>
                         <CardMedia
                             className={classes.media}
                             image={row.img_first} //대표사진
+                            // image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`}
                             style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
                             onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />

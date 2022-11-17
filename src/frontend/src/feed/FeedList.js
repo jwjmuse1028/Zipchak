@@ -4,54 +4,75 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 function FeedList(props) {
-    const navi=useNavigate();
-    const [feedlist,setFeedlist]=useState([]);
+    const navi = useNavigate();
+    const [feedlist, setFeedlist] = useState([]);
 
-    const feedList=()=>{
-        const listUrl=localStorage.url+"/feed/list";
+    const feedList = () => {
+        const listUrl = localStorage.url + "/feed/list";
 
         axios.get(listUrl)
-        .then(res=>{
-            setFeedlist(res.data);
-        })
+            .then(res => {
+                setFeedlist(res.data);
+            })
+    }
+
+    const uploadDB = (e) => {
+        const uploadUrl = localStorage.url + "/crawling/insert"
+
+        const formData = new FormData()
+        formData.append("file",e.target.files[0])
+        console.log(e.target.files[0])
+        axios.post(uploadUrl, formData,
+            {'Content-Type': 'multipart/form-data'}
+        ).then()
     }
 
     //처음 시작시 list() 함수 호출
-    useEffect(()=>{
+    useEffect(() => {
         feedList();
-    },[]);
+    }, []);
 
 
     return (
         <div className="feed_container">
             <h1>FeedList: 총 {feedlist.length}개 게시물</h1>
-                <div className="virtualized-list row">
-                {
-                    feedlist.map((fdto,idx)=>(
+            {/*<input type={'file'} id="fileimg" multiple required*/}
+            {/*       style={{visibility: 'hidden'}} onChange={uploadDB}/>*/}
+            {/*<button className="btn btn-danger" onClick={() => {*/}
+            {/*    document.getElementById("fileimg").click();*/}
+            {/*}}>누르지 마시오</button>*/}
 
-                            <div className="col-12 col-md-4">
-                                <article className="project-feed__item">
-                                    <a className="project-feed__item__link" href={`/feed/detail/${fdto.fd_num}`}></a>
-                                    <div className="project-feed__item__image">
-                                        <img className="image" alt="" src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdto.fd_img}`}/>
-                                    </div>
-                                    <h1 className="project-feed__item__title">{fdto.fd_title}</h1>
-                                    <address className="project-feed__item__writer-wrap">
-                                        <a className="project-feed__item__writer" href="/users/5940593?affect_type=ProjectSelfIndex&amp;affect_id=0">
-                                            <img className="project-feed__item__writer__image" alt="" src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdto.prf_img}`}/>
-                                            <span className="project-feed__item__writer__name">{fdto.prf_nick}</span>
-                                        </a>
-                                    </address>
-                                    {/* 스크랩 수, 조회 수 */}
-                                    <footer className="project-feed__item__status">
-                                        <span className="entry" style={{marginRight:'10px'}}>좋아요 {fdto.fd_likes}</span>
-                                        <span className="entry">조회 {fdto.fd_rdcnt}</span>
-                                    </footer>
-                                </article>
-                            </div>
+            <div className="virtualized-list row">
+                {
+                    feedlist.map((fdto, idx) => (
+
+                        <div className="col-12 col-md-4">
+                            <article className="project-feed__item">
+                                <a className="project-feed__item__link"
+                                   href="/projects/130370/detail?affect_type=ProjectSelfIndex&amp;affect_id=0"></a>
+                                <div className="project-feed__item__image">
+                                    <img className="image" alt=""
+                                         src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdto.fd_num}/${fdto.fd_img}`}/>
+                                </div>
+                                <h1 className="project-feed__item__title">{fdto.fd_title}</h1>
+                                <address className="project-feed__item__writer-wrap">
+                                    <a className="project-feed__item__writer"
+                                       href="/users/5940593?affect_type=ProjectSelfIndex&amp;affect_id=0">
+                                        <img className="project-feed__item__writer__image" alt=""
+                                             src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdto.prf_img}`}/>
+                                        <span className="project-feed__item__writer__name">{fdto.prf_nick}</span>
+                                    </a>
+                                </address>
+                                {/* 스크랩 수, 조회 수 */}
+                                <footer className="project-feed__item__status">
+                                    <span className="entry" style={{marginRight: '10px'}}>좋아요 {fdto.fd_likes}</span>
+                                    <span className="entry">조회 {fdto.fd_rdcnt}</span>
+                                </footer>
+                            </article>
+                        </div>
                     ))
                 }
-                </div>
+            </div>
             {/*<div className="col-12 col-md-4">*/}
             {/*    <article className="project-feed__item">*/}
             {/*        <a className="project-feed__item__link" href="/projects/130370/detail?affect_type=ProjectSelfIndex&amp;affect_id=0"></a>*/}
@@ -90,8 +111,8 @@ function FeedList(props) {
             {/*    </article>*/}
             {/*</div>*/}
 
-    </div>
-);
+        </div>
+    );
 }
 
 export default FeedList;

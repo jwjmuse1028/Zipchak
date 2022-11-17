@@ -60,6 +60,8 @@
     <select id="checkFeedLike" parameterType="Map" resultType="int">
         select count(ur_num) as fd_like from fd_like where ur_num=#{ur_num} and fd_num=#{fd_num};
     </select>
-
+    <select id="getRecentFeedNum" resultType="int">
+        select ifnull(max(fd_num),0) from fd
+    </select>
 
 </mapper>
