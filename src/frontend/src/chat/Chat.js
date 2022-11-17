@@ -4,14 +4,12 @@ import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
 import axios from "axios";
 
-
 function Chat(props) {
     //변수
     const [cr_num,setCr_num]=useState(0);
     const [u_num,setU_num]=useState(0);
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
-    const [lastMsg,setLastMsg]=useState();
     const ur_num=Number(sessionStorage.ur_num);
     //함수
     const cr_click=(cr_num,u_num)=>{
@@ -86,7 +84,6 @@ function Chat(props) {
                         <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num}
                                          screenStatef={screenStatef} screenState={screenState}/>
                 }
-
             </div>
         </div>
     );

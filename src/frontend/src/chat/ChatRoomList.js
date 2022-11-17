@@ -16,6 +16,8 @@ function ChatRoomList(props) {
     const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
         setIsActive(i);
+        let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
+        axios.get(readUrl).then(res=>"")
     }
     const handleResize = () => {
         setResize(window.innerWidth);
@@ -36,18 +38,18 @@ function ChatRoomList(props) {
                 {
                     chatRoom &&
                     chatRoom.map((cr,i)=>
-                        <li key={i} className={'crlist' + (i===isActive?' crlist_click':'')}
+                        <li key={i} className={'crlist' + (cr.cr_num===isActive?' crlist_click':'')}
                             id={'chatroom_'+cr.cr_num}
                             onClick={()=>{
                                 cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num,'click');
                                 resize<=800?screenStatef(2):screenStatef(0);
-                                clickEvent(i);
+                                clickEvent(cr.cr_num);
                                 }} >
                             <div className={'room_box_top'}>
                                 <div className={'room_box_top_text'}>
                                     <b>{ur_num!==cr.buyer_num?cr.buyer_nick:cr.seller_nick}님&nbsp;|</b>
                                     &nbsp;&nbsp;{cr.sp_title}</div>
-                                <div className={'read_sign'} id={`msg_sign${i}`} style={{backgroundColor:cr.sender==ur_num?"gray":cr.is_read==0?"#38B9E0":"gray"}}></div>
+                                <div className={'read_sign'} id={`msg_sign${cr.cr_num}`} style={{backgroundColor:cr.sender===ur_num?"gray":cr.is_read===0?"#38B9E0":"gray"}}></div>
 
                             </div>
                             <div className={'room-box-btm'}>
