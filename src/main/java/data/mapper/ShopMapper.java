@@ -14,5 +14,4 @@ public interface ShopMapper {
     public ShopProductDto getData(int sp_num);
     public void updateShop(ShopDto dto);
     public void updateReadCount(int sp_num);
-    public int getMaxNum();
 }

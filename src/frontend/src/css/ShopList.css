@@ -37,9 +37,12 @@ figure.photos{
 }
 .soldouttxt{
     font-size: large;
-    position: relative;
-    top: -120px;
-    left: 38%;
     color: white;
+    /*position: relative;*/
+    /*top: -120px;*/
+    /*left: 38%;*/
+    position: absolute;
+    margin-left: 5.5%;
+    margin-top: -6%;
 }
 

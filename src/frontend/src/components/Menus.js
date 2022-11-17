@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import '../css/Menu.css';
 import {Avatar, Fab, Menu, MenuItem} from "@mui/material";
 import {KeyboardArrowUp} from "@material-ui/icons";
@@ -7,6 +7,7 @@ import {KeyboardArrowUp} from "@material-ui/icons";
 function Menus(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
+    const navi = useNavigate();
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -90,8 +91,12 @@ function Menus(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem>프로필</MenuItem>
-                <MenuItem>마이페이지</MenuItem>
+                <MenuItem onClick={(e)=>{
+                    navi("/profile");
+                }}>프로필</MenuItem>
+                <MenuItem onClick={(e)=>{
+                    navi("/mypage");
+                }}>마이페이지</MenuItem>
                 <MenuItem onClick={(e)=>{
                     sessionStorage.removeItem("loginok");
                     sessionStorage.removeItem("ur_id");
