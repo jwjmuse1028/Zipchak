@@ -35,6 +35,9 @@ function ChatMessageInput(props) {
                 msg:msg,
             }),
         });
+        let readUrl=localStorage.url+"/chat/readaftermsg?cr_num="+cr_num+"&ur_num="+ur_num;
+        axios.get(readUrl).then(res=>"")
+        sendnoti('연결 or 메시지 전송');
         setMsg('');
         
     };
@@ -44,7 +47,7 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
-            sendnoti('연결 or 메시지 전송');
+
         });
     };
 
@@ -61,7 +64,7 @@ function ChatMessageInput(props) {
     function handleOnEnter (msg) {
         if (msg!==""){
           publish(msg);
-          
+
         }
     }
 

@@ -36,18 +36,6 @@ function Chat(props) {
             }
         }
     }
-
-    //중고 페이지 생성 시 위치 이동 필요
-    let sp_num=42;
-    const createRoom=()=>{
-        let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
-        axios.get(createRoomURL).then(res=>{
-            alert(res.data);
-            window.location.replace("/chat");
-        }
-        )
-    }
-    /////////////////////////////////////////////////////////////////////////////////
     //useEffect
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -68,11 +56,6 @@ function Chat(props) {
             >
             <div className={"chatroom-list"}
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=800?"none":"block"}`}}>
-                <div>
-                    <button onClick={()=>{
-                        createRoom();
-                        }} >{sp_num} 상품 채팅 만들기</button><br/>
-                </div>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
