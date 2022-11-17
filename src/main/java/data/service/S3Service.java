@@ -49,6 +49,6 @@ public class S3Service {
 
         s3Client.putObject(new PutObjectRequest(dir, fileName, file.getInputStream(), null)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        return s3Client.getUrl(dir, fileName).toString();
+        return fileName;
     }
 }
