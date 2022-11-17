@@ -104,7 +104,6 @@ div.spinfo_img{
 }
 div.msg_list{
     width: 100%;
-    min-width: 500px;
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;

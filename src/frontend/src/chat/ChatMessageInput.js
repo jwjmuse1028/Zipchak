@@ -20,7 +20,6 @@ function ChatMessageInput(props) {
             onConnect: () => {
                 console.log('connected');
                 subscribe();
-                sendnoti(cr_num+'연결');
             },
         });
         client.current.activate();
@@ -37,7 +36,7 @@ function ChatMessageInput(props) {
             }),
         });
         setMsg('');
-        sendnoti('메세지보냄');
+        
     };
 
     const subscribe = () => {
@@ -45,6 +44,7 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
+            sendnoti('연결 or 메시지 전송');
         });
     };
 
