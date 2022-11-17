@@ -1,14 +1,16 @@
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessageInput from "./ChatMessageInput";
 import noprfpic from "../image/noprofilepicture.webp";
 import tmp from "../image/tmp.png";
 import {ArrowBackRounded} from "@mui/icons-material";
-import ChatMessageListOnly from "./ChatMessageListOnly";
 import noimage from "../image/noimg.jpg";
+import ChatMessageItem from "./ChatMessageItem";
+import '../css/ChatMessageList.css';
 
 function ChatMessageList(props) {
     //변수
+    const {cr_num, u_num, screenStatef,screenState}=props;
     const [uInfo,setUinfo]=useState({});
     const [spInfo,setSpinfo]=useState({});
     const [uTmp,setUTmp]=useState();
@@ -16,12 +18,14 @@ function ChatMessageList(props) {
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const [resize, setResize] = useState();
-    const [notice,setNotice]=useState();
-    const {cr_num, ur_num,u_num, screenStatef,screenState}=props;
+    const [chatList, setChatList] = useState([]);
+    const [perpage,setPerpage]=useState(9);
+    const [isloading, setIsloading]=useState(false);
+    const scrollRef=useRef();
+    const [totalmsg,setTotalmsg]=useState(0);
+    const [noti,setNoti]=useState();
+    const timerDebounceRef = useRef();
     //함수
-    //db에서 chat message 출력
-
-
     //상대방 정보 출력
     const getUInfo=()=>{
         let uinfoUrl=sessionStorage.url+"/chat/u_info?u_num="+u_num;
@@ -64,19 +68,41 @@ function ChatMessageList(props) {
         let spinfoUrl=sessionStorage.url+"/chat/spinfo?cr_num="+cr_num;
         axios.get(spinfoUrl).then(res=>{
             setSpinfo(res.data);
-            setNotice(cr_num+"변경");
         })
     }
     //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
     };
-    //스크롤을 위한 알림
-    const sendNotice=(msg)=>{
-        setNotice(msg);
+    //메시지 추가
+    // const addMsg=(msg)=>{
+    //     setChatList(prevList=>[...prevList,msg]);
+    // }
+    //연결,메시지 알림
+    const sendnoti=(input)=>{
+        setNoti(input);
     }
-    const addMsg=(msg)=>{
-        setNotice(msg);
+    const getChatMessage=()=>{
+        let url=sessionStorage.url+"/chat/cm?cr_num="+cr_num+"&perpage="+perpage;
+        axios.get(url).then(res=>{
+            setChatList(res.data.cmlist);
+            setTotalmsg(res.data.totalmsg);
+            setIsloading(false);
+        })
+    }
+    const handleScroll = (e) => {
+        if(timerDebounceRef.current){
+            clearTimeout(timerDebounceRef.current);
+        }
+        timerDebounceRef.current = setTimeout(() => {
+            if (e.target.scrollTop===0){
+                if (perpage<totalmsg+8){
+                    setPerpage(perpage+9);
+                    console.log("currentmsg="+perpage);
+                    setIsloading(true);
+                }
+            }
+        }, 500);
     }
     //useEffect
     useEffect(()=>{
@@ -93,6 +119,14 @@ function ChatMessageList(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [screenState]);
+    useEffect(()=>{
+        document.getElementById('chat_end').scrollIntoView({behavior:"smooth",block:'start'});
+        console.log('스크롤 아래로');
+    },[noti,cr_num])
+    useEffect(()=>{
+        getChatMessage();
+        //console.log(noti+'메시지 출력중');
+    },[chatList])
 
     return (
         <div className={'msg_container'}>
@@ -116,12 +150,16 @@ function ChatMessageList(props) {
                     </div>
                 </div>
                 {/* 채팅 메시지 리스트 */}
-                <div  className={'msg_list'}  >
-                    <ChatMessageListOnly ur_num={ur_num} cr_num={cr_num}
-                                         uInfo={uInfo} notice={notice}/>
+                <div  className={'msg_list'} onScroll={handleScroll} >
+                    <div style={{textAlign:'center',display:`${isloading?'block':'none'}`}}>loading..</div>
+                    {chatList &&
+                    chatList.map((chat,i)=>
+                        <ChatMessageItem uInfo={uInfo} chat={chat} key={i}/>)
+                    }
+                    <div ref={scrollRef} id={'chat_end'}></div>
                 </div >
                 {/*채팅 입력 창*/}
-                <ChatMessageInput cr_num={cr_num} sendNotice={sendNotice} addMsg={addMsg} style={{width:'100%'}}/>
+                <ChatMessageInput cr_num={cr_num} sendnoti={sendnoti} style={{width:'100%'}}/>
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ import LoginForm from "./user/LoginForm";
 import RegisterForm from "./user/RegisterForm";
 
 import ChatRoomList from "./chat/ChatRoomList";
-import ChatMessage from "./chat/ChatMessage";
+import ChatMessageInput from "./chat/ChatMessageInput";
 import Chat from "./chat/Chat";
 
 import FeedInsertForm from "./feed/FeedInsertForm";
