@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import '../css/Chat.css';
 import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
-import axios from "axios";
 
 function Chat(props) {
     //변수
@@ -11,11 +10,11 @@ function Chat(props) {
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=Number(sessionStorage.ur_num);
+    const [noti,setNoti]=useState('안녕');
     //함수
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);
         setU_num(u_num);
-
     }
     const screenStatef=(state)=>{
         setScreenState(state);
@@ -23,7 +22,10 @@ function Chat(props) {
     const handleResize = () => {
         setResize(window.innerWidth);
     };
-
+    //연결,메시지 알림
+    const sendnoti=(input)=>{
+        setNoti(input);
+    }
     const reactsize=()=>{
         if(resize>800){
             setScreenState(0);
@@ -36,18 +38,6 @@ function Chat(props) {
             }
         }
     }
-
-    //중고 페이지 생성 시 위치 이동 필요
-    let sp_num=42;
-    const createRoom=()=>{
-        let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
-        axios.get(createRoomURL).then(res=>{
-            alert(res.data);
-            window.location.replace("/chat");
-        }
-        )
-    }
-    /////////////////////////////////////////////////////////////////////////////////
     //useEffect
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -68,12 +58,8 @@ function Chat(props) {
             >
             <div className={"chatroom-list"}
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=800?"none":"block"}`}}>
-                <div>
-                    <button onClick={()=>{
-                        createRoom();
-                        }} >{sp_num} 상품 채팅 만들기</button><br/>
-                </div>
-                <ChatRoomList ur_num={ur_num} cr_click={cr_click} screenStatef={screenStatef} screenState={screenState} /></div>
+                <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti}
+                              noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {
@@ -82,7 +68,7 @@ function Chat(props) {
                         <div className={'sellect_user'}>채팅할 상대를 선택해주세요</div>
                         :
                         <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num}
-                                         screenStatef={screenStatef} screenState={screenState}/>
+                             sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
             </div>
         </div>

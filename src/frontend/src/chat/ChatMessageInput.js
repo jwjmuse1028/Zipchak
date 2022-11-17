@@ -3,12 +3,12 @@ import React from 'react';
 import * as StompJs from '@stomp/stompjs';
 import axios from "axios";
 import InputEmoji from 'react-input-emoji'
-import {ImageSearchOutlined} from "@material-ui/icons";
+import {ImageSearchOutlined, SendRounded} from "@material-ui/icons";
 import '../css/ChatMessageInput.css';
 
 function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
-    const { cr_num, sendnoti } = props;
+    const {cr_num, sendnoti } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
@@ -35,8 +35,10 @@ function ChatMessageInput(props) {
                 msg:msg,
             }),
         });
+        let readUrl=localStorage.url+"/chat/readaftermsg?cr_num="+cr_num+"&ur_num="+ur_num;
+        axios.get(readUrl).then(res=>"")
+        sendnoti("메시지전송,"+cr_num+","+msg);
         setMsg('');
-        
     };
 
     const subscribe = () => {
@@ -44,7 +46,7 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
-            sendnoti('연결 or 메시지 전송');
+            sendnoti("메시지받음");
         });
     };
 
@@ -61,14 +63,15 @@ function ChatMessageInput(props) {
     function handleOnEnter (msg) {
         if (msg!==""){
           publish(msg);
-          
         }
     }
 
     const imgclick=()=>{
         document.getElementById('input-img').click();
     }
-
+    const mouseclick=()=>{
+        handleOnEnter(msg);
+    }
     const photoUploadEvent=(e)=>{
         const uploadFile=e.target.files[0];
         //console.log(uploadFile);
@@ -101,6 +104,7 @@ function ChatMessageInput(props) {
                 placeholder="메시지를 입력해주세요"
             />
             <button className={'btn-img'} onClick={imgclick}><ImageSearchOutlined/></button>
+            <button className={'btn-send'} onClick={mouseclick}><SendRounded/></button>
             <input type={'file'} id={'input-img'} style={{display:'none'}} onChange={photoUploadEvent} />
         </div>
     );

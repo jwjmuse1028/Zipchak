@@ -4,6 +4,7 @@ import noprfpic from "../image/noprofilepicture.webp";
 function ChatMessageItem(props) {
     const {chat,uInfo}=props;
     const ur_num=Number(sessionStorage.ur_num);
+    const ChatImgUrl='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/chat_img/';
     return (
         <div className={'each_msg_box'} >
             {chat.sender === ur_num
@@ -19,7 +20,7 @@ function ChatMessageItem(props) {
                             chat.msg.startsWith('img-')
                                 ?
                                 <div className={'chat-img'}
-                                     style={{backgroundImage: `url('${chat.msg.substring(4, chat.msg.length)}')`}}></div>
+                                     style={{backgroundImage: `url('${ChatImgUrl+chat.msg.substring(4, chat.msg.length)}')`}}></div>
                                 :
                                 <div>{chat.msg}</div>
                         }
@@ -36,7 +37,7 @@ function ChatMessageItem(props) {
                             chat.msg.startsWith('img-')
                                 ?
                                 <div className={'chat-img'}
-                                     style={{backgroundImage: `url('${chat.msg.substring(4, chat.msg.length)}')`}}></div>
+                                     style={{backgroundImage: `url('${ChatImgUrl+chat.msg.substring(4, chat.msg.length)}')`}}></div>
                                 :
                                 <div>{chat.msg}</div>
                         }
@@ -48,4 +49,4 @@ function ChatMessageItem(props) {
     );
 }
 
-export default ChatMessageItem;
+export default React.memo(ChatMessageItem);

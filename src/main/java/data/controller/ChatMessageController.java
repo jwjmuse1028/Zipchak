@@ -66,6 +66,16 @@ public class ChatMessageController {
             cmmapper.updateRead(map);
         }
     }
+    @GetMapping("/chat/readaftermsg")
+    public void updateReadAfterMsg(int cr_num, int ur_num){
+        //System.out.println("----------------------------");
+        //System.out.println("ur_num"+ur_num);
+        //System.out.println("sender"+sender);
+            Map<String,Integer> map=new HashMap<>();
+            map.put("cr_num",cr_num);
+            map.put("sender",ur_num);
+            cmmapper.updateReadAfterMsg(map);
+    }
     @PostMapping("/photo/upload")
     public String imgupload(@RequestParam MultipartFile uploadFile) throws IOException
     {
@@ -79,8 +89,9 @@ public class ChatMessageController {
         return umapper.getUserdataByUr(u_num);
     }
     @GetMapping("/chat/spinfo")
-    public Map<String, String> getSpInfo(int cr_num){
-        Map<String, String> map=cmmapper.getSpInfo(cr_num);
+    public Map<String, Object> getSpInfo(int cr_num){
+        Map<String, Object> map=cmmapper.getSpInfo(cr_num);
+
         return map;
     }
 }

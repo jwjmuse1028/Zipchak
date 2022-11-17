@@ -12,6 +12,7 @@ public interface ChatMessageMapper {
     public int insertChatMessage(ChatMessageDto dto);
     public int getSender(int cr_num);
     public void updateRead(Map<String,Integer> map);
-    public Map<String,String> getSpInfo(int cr_num);
+    public void updateReadAfterMsg(Map<String,Integer> map);
+    public Map<String,Object> getSpInfo(int cr_num);
     public int getCntMsg(int cr_num);
     }
