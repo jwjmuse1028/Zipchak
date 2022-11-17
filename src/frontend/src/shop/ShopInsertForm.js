@@ -88,10 +88,9 @@ function ShopInsertForm(props) {
            })
 
    }
-
-    const imgerror = (e) => {
-        e.target.src = white
-    }
+    // const imgerror = (e) => {
+    //     e.target.src = white
+    // }
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -102,7 +101,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} maxlength={'20'} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>
@@ -146,7 +145,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <input type={"file"} multiple id={'filephoto'} style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
+                                <input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
                                        onChange={uploadPhoto}/><br/>
                                 <AddPhotoAlternateOutlined onClick={()=>{
                                     document.getElementById('filephoto').click();
@@ -155,7 +154,7 @@ function ShopInsertForm(props) {
                                        img_name.map((img,idx)=>
                                            <figure className={'photos'} key={idx}>
                                                <img alt={''}
-                                                    src={img} width={'80px'} height={'80px'} onError={imgerror}/>
+                                                    src={img} width={'80px'} height={'80px'}/>
                                                <figcaption>
                                                    <CancelRounded className={'imageclose'} style={{color:'gray'}}
                                                    onClick={()=>{

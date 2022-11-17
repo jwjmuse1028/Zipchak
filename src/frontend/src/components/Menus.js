@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
 import '../css/Menu.css';
-import {Avatar, Fab} from "@mui/material";
+import {Avatar, Fab, Menu, MenuItem} from "@mui/material";
 import {KeyboardArrowUp} from "@material-ui/icons";
 
-function Menu(props) {
+function Menus(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
     const scrollToTop = () => {
@@ -12,6 +12,15 @@ function Menu(props) {
             top: 0,
             behavior: 'smooth'
         })}
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     useEffect(()=>{
         setPrf_nick(sessionStorage.prf_nick);
     },[]);
@@ -70,19 +79,28 @@ function Menu(props) {
                     </div>
                     :
                     <div style={{float:"right"}}>
-                        <Avatar src={prf_img}/>&nbsp;&nbsp;
+                        <Avatar src={prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
-                        <button type={"button"} className={'w-btn w-btn-indigo'}
-                                onClick={(e)=>{
-                                    sessionStorage.removeItem("loginok");
-                                    sessionStorage.removeItem("ur_id");
-                                    sessionStorage.removeItem("prf_nick");
-                                    sessionStorage.removeItem("prf_img");
-                                    sessionStorage.removeItem("ur_num");
-                                    window.location.reload();
-                                }}>로그아웃</button>
                     </div>
             }
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem>프로필</MenuItem>
+                <MenuItem>마이페이지</MenuItem>
+                <MenuItem onClick={(e)=>{
+                    sessionStorage.removeItem("loginok");
+                    sessionStorage.removeItem("ur_id");
+                    sessionStorage.removeItem("prf_nick");
+                    sessionStorage.removeItem("prf_img");
+                    sessionStorage.removeItem("ur_num");
+                    window.location.reload();
+                }}>로그아웃</MenuItem>
+            </Menu>
             <div className="scroll__container">
                 <Fab id="top" onClick={scrollToTop} color={"info"}><KeyboardArrowUp/></Fab>
             </div>
@@ -90,4 +108,4 @@ function Menu(props) {
     );
 }
 
-export default Menu;
+export default Menus;

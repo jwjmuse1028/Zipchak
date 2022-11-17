@@ -163,20 +163,20 @@ public class ShopController {
 //    {
 //        return shopMapper.getData(sp_num);
 //    }
-    @PostMapping("/detail/soldout")
+    @PostMapping("/soldout")
     public void updateSoldOut(int pd_num)
     {
         productMapper.updateSoldOut(pd_num);
     }
 
     @PostMapping("/update")
-    public void updateBoard(@RequestBody ShopDto dto)
+    public void updateShop(@RequestBody ShopDto dto)
     {
         shopMapper.updateShop(dto);
     }
 
     @DeleteMapping("/delete")
-    public void deleteBoard(@RequestParam int pd_num)
+    public void deleteShop(@RequestParam int pd_num)
     {
         productMapper.deleteShop(pd_num);
     }

@@ -34,39 +34,15 @@ ul.menu li a:hover{
     color: aliceblue;
 }
 
-.w-btn {
-    position: relative;
-    border: none;
-    display: inline-block;
-    padding: 15px 30px;
-    border-radius: 15px;
-    font-family: "paybooc-Light", sans-serif;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.25s;
-}
-
-.w-btn-indigo {
-    background-color: aliceblue;
-    color: #1e6b7b;
-}
-
-.w-btn:hover {
-    letter-spacing: 2px;
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-.w-btn:active {
-    transform: scale(1.5);
-}
-
 .scroll__container{
     position: fixed;
     right: 5%;
     bottom: 5%;
     z-index: 1;
+}
+.profilehover:hover{
+    border-color: #38B9E0;
+    border-style: solid;
 }
 /*#top{*/
 /*    font-weight: bold;*/
