@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from "./components/Menu";
+import Menus from "./components/Menus";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 
@@ -8,7 +8,6 @@ import LoginForm from "./user/LoginForm";
 import RegisterForm from "./user/RegisterForm";
 
 import ChatRoomList from "./chat/ChatRoomList";
-import ChatMessage from "./chat/ChatMessage";
 import Chat from "./chat/Chat";
 
 import FeedInsertForm from "./feed/FeedInsertForm";
@@ -22,7 +21,7 @@ function RouteMain(props) {
     return (
         <div>
             {/* 항상 나오게 할 컴포넌트는 Routes 밖에 넣는다 */}
-            <Menu/>
+            <Menus/>
             <br style={{clear:'both'}}/><br/>
             <Routes>
                 <Route path='/' element={<Home/>}/>

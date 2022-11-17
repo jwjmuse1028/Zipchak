@@ -21,6 +21,10 @@ function ShopDetail(props) {
     // console.log("피디넘"+pd_num);
     const [detail,setDetail]=useState('');
     const navi=useNavigate();
+    const ur_num=Number(sessionStorage.ur_num);
+    // const numberFormat=(inputNumber) =>{
+    //     return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // }
 
     const onDetailData=()=>{
         let url=sessionStorage.url+"/shop/detail?sp_num="+sp_num;
@@ -30,22 +34,31 @@ function ShopDetail(props) {
             })
     }
 
+
     const deleteShop=()=>{
         const deleteUrl=sessionStorage.url+"/shop/delete?pd_num="+pd_num;
-
-        axios.delete(deleteUrl)
-            .then(res=>{
-                if (window.confirm("게시물을 삭제하시겠습니까?")) {
+        if (window.confirm("게시물을 삭제하시겠습니까?")) {
+            axios.delete(deleteUrl)
+                .then(res=>{
                     alert("삭제 되었습니다");
                     navi(`/shop/list/${currentPage}`);
-                } else {
-                    return;
-                }
-            })
+                })
+        } else {
+            return;
+        }
     }
 
-    const updateSoldOut=()=>{
-        let url=sessionStorage.url+"/shop/detail/soldout"
+    const updateSoldOut=()=> {
+        let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
+        if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후에는 수정 할 수 없습니다")) {
+            axios.post(url)
+                .then(res => {
+                    alert("판매완료 등록되었습니다");
+                    window.location.reload();
+                })
+        } else {
+            return;
+        }
     }
 
     const settings = {
@@ -65,23 +78,35 @@ function ShopDetail(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    //채팅방생성
+    const createRoom=()=>{
+        let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
+        axios.get(createRoomURL).then(res=>{
+                alert(res.data.msg);
+                navi("/chat");
+            }
+        )
+    }
     useEffect(()=>{
         onDetailData();
     },[]);
 
     return (
         <div style={{margin:"auto", width:'35%'}}>
-
             <Slider {...settings}>
                 {
                     detail.images &&
                     detail.images.map((photo,idx)=>
                         <div key={{idx}}>
-                            <img alt={''} src={photo} width={'100%'}  style={{borderRadius:'30px'}}/>
+                            <img alt={''} src={photo} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status=="soldout"?'brightness(30%)':''}}/>
+
                         </div>)
                 }
             </Slider>
+            {
+                detail.pd_status=="soldout"?
+                    <p className={'soldouttxtdetail'}>판매완료</p>:''
+            }
             <br/>
                 <Avatar src={detail.prf_img}/>
                 <b>{detail.prf_nick}&nbsp;({detail.ur_id})</b>
@@ -116,20 +141,20 @@ function ShopDetail(props) {
                 <MenuItem onClick={deleteShop}><DeleteOutline/>&nbsp;삭제하기</MenuItem>
                 </Menu>
             <br/><br/>
-                <b style={{fontSize:'1.25em'}}>{detail.pd_price}원</b><br/><br/>
+                <b style={{fontSize:'1.25em'}}>{(detail.pd_price)}원</b><br/><br/>
                 <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
                 <span>관심{}</span>·<span>채팅{}</span>·<span>조회 {detail.sp_rdcnt}</span><br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
-                    <Fab color="info" variant="extended" style={{width:'100%'}}>
+                    <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
                     <Fab color="info" variant="extended" style={{width:'100%'}} onClick={()=>{
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요")
-                            return
+                            return;
                         } else {
-                            navi("/chat");
+                            createRoom();
                         }
                     }
                     }>

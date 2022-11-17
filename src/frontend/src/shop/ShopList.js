@@ -45,6 +45,9 @@ function ShopList() {
                 // console.log("res.data.length="+res.data.list.length);
             })
     }
+    const numberFormat=(inputNumber) =>{
+        return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     useEffect(() => {
            getList();
         },
@@ -70,14 +73,6 @@ function ShopList() {
             {
                 data.list && data.list.map((row,idx)=>
                     <Card className={classes.root} style={{float:'left',margin:'2%'}}>
-                        {/*<CardHeader*/}
-                        {/*    avatar={*/}
-                        {/*        <Avatar aria-label="recipe" className={classes.avatar} src={imageUrl+row.prf_img}>*/}
-                        {/*        </Avatar>*/}
-                        {/*    }*/}
-                        {/*    title={row.sp_title}*/}
-                        {/*    subheader={row.sp_wdate}*/}
-                        {/*/>*/}
                         <CardMedia
                             className={classes.media}
                             image={row.img_first} //대표사진
@@ -86,7 +81,7 @@ function ShopList() {
                         />
                         {
                             row.pd_status=="soldout"?
-                            <p className={'soldouttxt'}>판매완료</p>:''
+                            <span className={'soldouttxt'}>판매완료</span>:''
                         }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
@@ -98,7 +93,7 @@ function ShopList() {
                             <CardContent>
                                 <b className={'list-title'}
                                    onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
-                                <span>{row.pd_price}원</span><br/>
+                                <span>{numberFormat(row.pd_price)}원</span><br/>
                                 <span style={{color:"gray", fontSize:'0.9em'}}>관심{}</span>·<span style={{color:"gray", fontSize:'0.9em'}}>채팅{}</span>
                             </CardContent>
                         </div>

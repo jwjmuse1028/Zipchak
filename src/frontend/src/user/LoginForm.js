@@ -9,6 +9,12 @@ function LoginForm(props) {
     const [ur_pw, setUr_pw]=useState('');
     const navi = useNavigate();
 
+    const handleOnKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            onSubmitLogin(); // Enter 입력이 되면 클릭 이벤트 실행
+        }
+    };
+
     const onSubmitLogin=(e)=>{
         e.preventDefault();
         let url=sessionStorage.url+"/login/check";
@@ -29,11 +35,13 @@ function LoginForm(props) {
                 }
             })
     }
+
     return (
         <div style={{width:'20%', margin:"auto"}}>
             <h1>로그인</h1>
             <TextField label={'ID'} name={'ur_id'} value={ur_id} required fullWidth onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
-            <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} required fullWidth onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>
+            <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required fullWidth
+                       onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>
             <Button type={"submit"} fullWidth variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>
         </div>
         // <div>

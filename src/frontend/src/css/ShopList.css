@@ -36,10 +36,10 @@ figure.photos{
     max-width: 150px;
 }
 .soldouttxt{
-    text-align: center;
     font-size: large;
     position: relative;
     top: -120px;
+    left: 38%;
     color: white;
 }
 
