@@ -11,7 +11,7 @@ import ChatMessageInfo from "./ChatMessageInfo";
 
 function ChatMessageList(props) {
     //변수
-    const {cr_num, u_num, screenStatef,screenState}=props;
+    const {cr_num, u_num, screenStatef,screenState,sendnoti,noti}=props;
     const [uInfo,setUinfo]=useState({});
     const [uTmp,setUTmp]=useState();
     const [resize, setResize] = useState();
@@ -20,12 +20,12 @@ function ChatMessageList(props) {
     const [isloading, setIsloading]=useState(false);
     const scrollRef=useRef();
     const [totalmsg,setTotalmsg]=useState(0);
-    const [noti,setNoti]=useState();
+
     const timerDebounceRef = useRef();
     //함수
     //상대방 정보 출력
     const getUInfo=()=>{
-        let uinfoUrl=sessionStorage.url+"/chat/u_info?u_num="+u_num;
+        let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+u_num;
         axios.get(uinfoUrl).then(res=>{
             setUinfo(res.data);
             setUTmp(res.data.prf_tmp);
@@ -35,12 +35,9 @@ function ChatMessageList(props) {
     const handleResize = () => {
         setResize(window.innerWidth);
     };
-    //연결,메시지 알림
-    const sendnoti=(input)=>{
-        setNoti(input);
-    }
+
     const getChatMessage=()=>{
-        let url=sessionStorage.url+"/chat/cm?cr_num="+cr_num+"&perpage="+perpage;
+        let url=localStorage.url+"/chat/cm?cr_num="+cr_num+"&perpage="+perpage;
         axios.get(url).then(res=>{
             setChatList(res.data.cmlist);
             setTotalmsg(res.data.totalmsg);
@@ -75,9 +72,9 @@ function ChatMessageList(props) {
     }, [screenState]);
     useEffect(()=>{
         //document.getElementById('chat_end').scrollIntoView({behavior:"smooth",block:'start'});
-        scrollRef.current.scrollIntoView({behavior:"smooth",block:'end'});
-        console.log('스크롤 아래로');
-    },[noti,cr_num])
+        scrollRef.current?.scrollIntoView({behavior:"smooth",block:'end'});
+        console.log(noti);
+    },[noti])
     useEffect(()=>{
         getChatMessage();
         //console.log(noti+'메시지 출력중');
@@ -105,4 +102,4 @@ function ChatMessageList(props) {
         </div>
     );
 }
-export default ChatMessageList;
+export default React.memo(ChatMessageList);

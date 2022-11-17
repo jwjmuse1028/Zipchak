@@ -46,7 +46,7 @@ function ChatMessageInfo(props) {
     }
     //상품정보 출력
     const getSpInfo=()=>{
-        let spinfoUrl=sessionStorage.url+"/chat/spinfo?cr_num="+cr_num;
+        let spinfoUrl=localStorage.url+"/chat/spinfo?cr_num="+cr_num;
         axios.get(spinfoUrl).then(res=>{
             setSpinfo(res.data);
         })
@@ -81,4 +81,4 @@ function ChatMessageInfo(props) {
     );
 }
 
-export default ChatMessageInfo;
+export default React.memo(ChatMessageInfo);
