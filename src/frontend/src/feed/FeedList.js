@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import "../css/FeedList.css";
-import noimg from './noimage.jpg';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 

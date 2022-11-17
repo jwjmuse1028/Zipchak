@@ -2,7 +2,9 @@ package data.service;
 
 import data.dto.FeedDto;
 import data.dto.FeedListDto;
+import data.dto.UserDto;
 import data.mapper.FeedMapper;
+import data.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class FeedService implements FeedServiceInter{
 
     @Autowired
     FeedMapper feedMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     @Autowired
     S3Service s3service;
@@ -56,8 +61,41 @@ public class FeedService implements FeedServiceInter{
 
     @Override
     public FeedDto getFeedByNum(int fd_num) {
+        return feedMapper.getFeedByNum(fd_num);
+    }
 
-        return null;
+    @Override
+    public Map<String,Object> getProfileByNum(int ur_num) {
+        Map<String,Object> map= userMapper.getProfileByNum(ur_num);
+        return map;
+    }
+
+    @Override
+    public Map<String,Object> getFeedDetail(int fd_num) {
+
+        FeedDto dto=getFeedByNum(fd_num);
+        int writer_num=dto.getUr_num();
+        Map<String,Object> pmap=getProfileByNum(writer_num);
+
+        // 좋아요 수
+        int fd_likes = feedMapper.getFeedLikes(fd_num);
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("dto",dto);
+        map.put("prf_map",pmap);
+        map.put("fd_likes",fd_likes);
+
+        return map;
+    }
+    @Override
+    public int checkFeedLike(int fd_num, int ur_num){
+        // like 했는지 여부 조회 -> 했으면 1 아니면 0
+        Map<String,Integer> lmap=new HashMap<>();
+        lmap.put("fd_num",fd_num);
+        lmap.put("ur_num",ur_num);
+        int chk_like = feedMapper.checkFeedLike(lmap);
+
+        return chk_like;
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -30,13 +31,18 @@ public class FeedController {
         feedServiceInter.insertFeed(file,dto);
     }
 
-
     @GetMapping("/list")
     public List<FeedListDto> getFeedList(@RequestParam(required = false) String search_col,
                                          @RequestParam(required = false) String search_word,
                                          @RequestParam(required = false) String order_col)
     {
         return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
+    }
+
+    @GetMapping("/detail")
+    public Map<String,Object> getFeedDetail(int fd_num)
+    {
+        return feedServiceInter.getFeedDetail(fd_num);
     }
 
 

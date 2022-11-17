@@ -16,8 +16,10 @@ import ShopInsertForm from "./shop/ShopInsertForm";
 import ShopUpdateForm from "./shop/ShopUpdateForm";
 import ShopDetail from "./shop/ShopDetail";
 import FeedDetail from "./feed/FeedDetail";
+import FeedDetailView from "./feed/FeedDetailView";
 import MyPage from "./user/MyPage";
 import Profile from "./user/Profile";
+
 
 function RouteMain(props) {
     return (
@@ -53,6 +55,7 @@ function RouteMain(props) {
                     <Route path='insertform' element={<FeedInsertForm/>}/>
                     <Route path='list' element={<FeedList/>}/>
                     <Route path='detail' element={<FeedDetail/>}/>
+                    <Route path='detail/:num' element={<FeedDetailView/>}/>
                     {/*<Route path='list/:currentPage' element={<BoardList/>}/>*/}
                 </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}
