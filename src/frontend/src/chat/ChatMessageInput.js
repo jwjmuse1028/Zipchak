@@ -37,7 +37,7 @@ function ChatMessageInput(props) {
         });
         let readUrl=localStorage.url+"/chat/readaftermsg?cr_num="+cr_num+"&ur_num="+ur_num;
         axios.get(readUrl).then(res=>"")
-        sendnoti(msg+'메시지 전송');
+        sendnoti("메시지전송,"+cr_num+","+msg);
         setMsg('');
     };
 
@@ -46,7 +46,7 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
-
+            sendnoti("메시지받음");
         });
     };
 

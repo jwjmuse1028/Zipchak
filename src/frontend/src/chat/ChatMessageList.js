@@ -1,10 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import ChatMessageInput from "./ChatMessageInput";
-import noprfpic from "../image/noprofilepicture.webp";
-import tmp from "../image/tmp.png";
-import {ArrowBackRounded} from "@mui/icons-material";
-import noimage from "../image/noimg.jpg";
 import ChatMessageItem from "./ChatMessageItem";
 import '../css/ChatMessageList.css';
 import ChatMessageInfo from "./ChatMessageInfo";

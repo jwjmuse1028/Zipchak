@@ -10,7 +10,7 @@ function Chat(props) {
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=Number(sessionStorage.ur_num);
-    const [noti,setNoti]=useState();
+    const [noti,setNoti]=useState('안녕');
     //함수
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);
@@ -59,7 +59,7 @@ function Chat(props) {
             <div className={"chatroom-list"}
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=800?"none":"block"}`}}>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti}
-                              screenStatef={screenStatef} screenState={screenState} /></div>
+                              noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {

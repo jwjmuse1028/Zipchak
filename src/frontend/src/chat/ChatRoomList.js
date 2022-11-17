@@ -4,9 +4,10 @@ import '../css/ChatRoomList.css';
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenStatef,sendnoti}=props;
+    const {ur_num, cr_click, screenStatef,sendnoti,noti}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
+    const [lstmsg,setLstmsg]=useState();
     const chatRoomList=()=>{
         let url=localStorage.url+"/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -16,7 +17,7 @@ function ChatRoomList(props) {
     const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
         setIsActive(i);
-        sendnoti(i+'방 연결')
+        sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
         axios.get(readUrl).then(res=>"")
     }
@@ -25,7 +26,7 @@ function ChatRoomList(props) {
     };
     useEffect(()=>{
         chatRoomList();
-    },[]);
+    },[noti]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         return () => {
@@ -54,18 +55,20 @@ function ChatRoomList(props) {
 
                         </div>
                         <div className={'room-box-btm'}>
-                            <div className={'cr_msg_box'}>{
-                                cr.msg.startsWith('img-')?
-                                    <>{
-                                        cr.sender === cr.ur_num ?
-                                            cr.seller_nick
-                                            :
-                                            cr.buyer_nick
-                                    }
-                                     님이 사진을 공유했습니다
-                                    </>
-                                    :
-                                cr.msg}</div>
+                            <div className={'cr_msg_box'} id={`lst_msg${cr.cr_num}`}>
+                                {lstmsg}
+                                {
+                                    cr.msg.startsWith('img-')?
+                                        <>{
+                                            cr.sender === cr.ur_num ?
+                                                cr.seller_nick
+                                                :
+                                                cr.buyer_nick
+                                        }
+                                            님이 사진을 공유했습니다
+                                        </>
+                                        :
+                                        cr.msg}</div>
                             <div className={'cm_wdate'}>{cr.cm_wdate.substring(5,11)}</div>
                         </div>
                     </li>
