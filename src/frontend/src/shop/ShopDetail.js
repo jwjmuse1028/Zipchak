@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import axios from "axios";
 import "../css/ShopDetail.css";
 import {Avatar, Fab, Menu, MenuItem} from "@mui/material";
 import IconButton from "@material-ui/core/IconButton";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import {
     BookmarkBorder,
     BuildOutlined,
@@ -22,9 +23,10 @@ function ShopDetail(props) {
     const [detail,setDetail]=useState('');
     const navi=useNavigate();
     const ur_num=Number(sessionStorage.ur_num);
-    // const numberFormat=(inputNumber) =>{
-    //     return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // }
+
+    const numberFormat=(inputNumber) =>{
+        return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     const onDetailData=()=>{
         let url=sessionStorage.url+"/shop/detail?sp_num="+sp_num;
@@ -33,7 +35,6 @@ function ShopDetail(props) {
                 setDetail(res.data);
             })
     }
-
 
     const deleteShop=()=>{
         const deleteUrl=sessionStorage.url+"/shop/delete?pd_num="+pd_num;
@@ -67,7 +68,7 @@ function ShopDetail(props) {
         arrows: true,
         speed: 500,
         slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToScroll: 1
     }
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -97,9 +98,8 @@ function ShopDetail(props) {
                 {
                     detail.images &&
                     detail.images.map((photo,idx)=>
-                        <div key={{idx}}>
+                        <div key={{idx}} className= "banner">
                             <img alt={''} src={photo} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status=="soldout"?'brightness(30%)':''}}/>
-
                         </div>)
                 }
             </Slider>
@@ -141,15 +141,15 @@ function ShopDetail(props) {
                 <MenuItem onClick={deleteShop}><DeleteOutline/>&nbsp;삭제하기</MenuItem>
                 </Menu>
             <br/><br/>
-                <b style={{fontSize:'1.25em'}}>{(detail.pd_price)}원</b><br/><br/>
+                <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>
                 <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
                 <span>관심{}</span>·<span>채팅{}</span>·<span>조회 {detail.sp_rdcnt}</span><br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
-                    <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut}>
+                    <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
-                    <Fab color="info" variant="extended" style={{width:'100%'}} onClick={()=>{
+                    <Fab color="info" variant="extended" style={{width:'100%'}} disabled={detail.pd_status=="soldout"?true:false} onClick={()=>{
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요")
                             return;

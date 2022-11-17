@@ -22,7 +22,7 @@ function ShopInsertForm(props) {
     //     setPd_price(removedCommaValue.toLocaleString());
     // };
 
-    const imageUrl = sessionStorage.url+"/image/";
+    // const imageUrl = sessionStorage.url+"/image/";
     const uploadPhoto=(e)=>{
         // if(img_name.length==10){
         //     alert("사진은 10장까지만 첨부 가능합니다");
@@ -74,7 +74,7 @@ function ShopInsertForm(props) {
                 setPd_ctg('');
                 setPd_price('');
                 sp_txtRef.current.value='';
-                navi("/shop/list/1"); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
+                navi(`/shop/detail/${res.data.pd_num}/${res.data.sp_num}/1`); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
             });
     }
 

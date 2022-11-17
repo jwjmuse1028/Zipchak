@@ -16,6 +16,8 @@ import ShopInsertForm from "./shop/ShopInsertForm";
 import ShopUpdateForm from "./shop/ShopUpdateForm";
 import ShopDetail from "./shop/ShopDetail";
 import FeedDetail from "./feed/FeedDetail";
+import MyPage from "./user/MyPage";
+import Profile from "./user/Profile";
 
 function RouteMain(props) {
     return (
@@ -27,6 +29,8 @@ function RouteMain(props) {
                 <Route path='/' element={<Home/>}/>
                 <Route path={'/register'} element={<RegisterForm/>}/>
                 <Route path={'/login'} element={<LoginForm/>}/>
+                <Route path={'/profile'} element={<Profile/>}/>
+                <Route path={'/mypage'} element={<MyPage/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
 
                 <Route path='/shop'>
