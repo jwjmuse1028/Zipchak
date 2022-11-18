@@ -1,4 +1,13 @@
 
+.a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.a:hover{
+    text-decoration: none;
+}
+
 .css-o6xhe7 {
     position: relative;
     overflow: hidden;
@@ -19,10 +28,17 @@
     /*top: 0px;*/
     /*left: 0px;*/
 }
+.cover_img{
+    height: 500px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
 
 .content-detail-content-section__content {
     margin: 0 auto;
-    max-width: 750px;
+    max-width: 850px;
     padding: 0 16px;
     box-sizing: border-box;
 }
@@ -50,7 +66,7 @@ content-detail-header__bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 17px 0 0;
+    margin: 16px 0 0;
 }
 
 /* 글쓴이 css */
@@ -61,6 +77,7 @@ content-detail-header__bottom {
     font-size: 16px;
     padding-left: 62px;
     line-height: 27px;
+    text-decoration: none !important;
 }
 
 .content-detail-header__author-image {
@@ -98,8 +115,8 @@ content-detail-header__bottom {
     display: flex;
     border-bottom: 1px solid #eaebef;
     padding: 12px 0;
-    font-size: 14px;
-    line-height: 20px
+    font-size: 16px;
+    line-height: 20px;
 }
 
 .project-detail-metadata-detail-item:last-child {
@@ -141,15 +158,16 @@ content-detail-header__bottom {
     -moz-flex: 1 1 auto;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
-    color: #292929
+    color: #292929;
 }
 
 @media (min-width: 768px) {
     .project-detail-metadata-detail-item dd {
         display: inline;
-        margin: 0 16px 0 0
+        margin: 0 16px 0 0;
     }
 }
+
 
 .project-detail-metadata-overview {
     display: -webkit-box;
@@ -157,12 +175,12 @@ content-detail-header__bottom {
     display: -moz-flex;
     display: -ms-flexbox;
     display: flex;
-    padding: 0 15px
+    padding: 25px 0 15px 0;
 }
 
 @media (min-width: 768px) {
     .project-detail-metadata-overview {
-        padding: 15px 0;
+        padding: 25px 0 15px 0;
         border-bottom: 1px solid #dadce0
     }
 }
@@ -176,6 +194,7 @@ content-detail-header__bottom {
     flex: 1 0 0px;
     padding: 14px 0;
     text-align: center;
+    justify-content: center;
     white-space: nowrap
 }
 
@@ -212,16 +231,16 @@ content-detail-header__bottom {
 .project-detail-metadata-overview-item__text {
     display: block;
     margin: 4px 0 0;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 17px;
-    color: #424242
+    color: #424242;
 }
 
 @media (min-width: 768px) {
     .project-detail-metadata-overview-item__text {
         display: inline-block;
         margin: 0 0 0 8px;
-        font-size: 14px;
+        font-size: 15px;
         line-height: 20px
     }
 }
@@ -229,13 +248,13 @@ content-detail-header__bottom {
 .project-detail-metadata {
     border-top: 1px solid #f7f8fa;
     border-bottom: 10px solid #f7f8fa;
-    margin: 0 -15px 14px
+    margin: 0 -15px 15px
 }
 
 @media (min-width: 768px) {
     .project-detail-metadata {
         margin: 0 0 50px;
-        padding: 0 24px 25px;
+        padding: 0 24px 1px;
         background-color: #f7f8fa;
         border-radius: 4px;
         border: none
@@ -250,7 +269,7 @@ content-detail-header__bottom {
 
 .content-detail-content-section__content {
     margin: 0 auto;
-    max-width: 750px;
+    max-width: 850px;
     padding: 0 16px;
     box-sizing: border-box
 }
@@ -489,12 +508,12 @@ content-detail-header__bottom {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px
+    font-size: 12px;
 }
 
 @media (min-width: 1024px) {
     .content-detail-header__author-name {
-        font-size: 16px
+        font-size: 16px;
     }
 }
 
@@ -502,11 +521,11 @@ content-detail-header__bottom {
     display: inline-block;
     margin-left: 4px;
     vertical-align: -3px;
-    line-height: 0
+    line-height: 0;
 }
 
 .content-detail-header__author-date {
-    color: #656e75
+    color: #656e75;
 }
 
 .content-detail-header__follow.content-detail-header__follow {
