@@ -101,7 +101,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} inputProps={{ maxLength: 20 }} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>
@@ -138,7 +138,8 @@ function ShopInsertForm(props) {
                             <th>가격&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 {/*<TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>*/}
-                                <TextField type="number" value={pd_price} onChange={e => setPd_price(e.target.value)} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>
+                                <TextField type="number" max value={pd_price} required placeholder={"숫자만 입력해주세요 (최대 9자)"} variant={"standard"} style={{width:'50%'}}
+                                           onChange={e => setPd_price(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))}/><b>원</b>
 
                             </td>
                         </tr>
@@ -174,9 +175,9 @@ function ShopInsertForm(props) {
                         <tr>
                             <th>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <TextareaAutosize maxLength={10000} className={'form-control'} ref={sp_txtRef} required placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
-                                    "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}
-                                                  style={{width:'100%', height:'300px', boxShadow:"none"}}/>
+                                <TextField multiline ref={sp_txtRef} style={{width:'100%'}} required
+                                           placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
+                                    "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}/>
                             </td>
                         </tr>
                         <tr>
