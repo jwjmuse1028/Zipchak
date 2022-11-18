@@ -36,7 +36,7 @@ function ToastNotification(props) {
         }},[msgCnt]);
     return (
         <div>
-            <ToastContainer/>
+            <ToastContainer theme="colored"/>
         </div>
     );
 }
