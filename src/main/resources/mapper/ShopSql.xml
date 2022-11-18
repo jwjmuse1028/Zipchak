@@ -13,6 +13,9 @@
     </insert>
     <select id="getPagingList" parameterType="Map" resultType="ShopProductDto">-- 목록출력
         SELECT * FROM pd,sp WHERE sp.pd_num=pd.pd_num ORDER BY sp_num DESC limit #{startnum}, #{perpage}
+        <if test="search_col!=null and search_word!=null">
+            where ${search_col} like concat('%',#{search_word},'%')
+        </if>
     </select>
     <select id="getData" parameterType="int" resultType="ShopProductDto">-- 상세보기
     SELECT ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt

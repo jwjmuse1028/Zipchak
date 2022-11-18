@@ -154,7 +154,7 @@ function ShopInsertForm(props) {
                                        img_name.map((img,idx)=>
                                            <figure className={'photos'} key={idx}>
                                                <img alt={''}
-                                                    src={img} width={'80px'} height={'80px'}/>
+                                                    src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${img}`} width={'80px'} height={'80px'}/>
                                                <figcaption>
                                                    <CancelRounded className={'imageclose'} style={{color:'gray'}}
                                                    onClick={()=>{
@@ -175,7 +175,8 @@ function ShopInsertForm(props) {
                             <th>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <TextareaAutosize maxLength={10000} className={'form-control'} ref={sp_txtRef} required placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
-                                    "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."} style={{width:'100%', height:'300px', boxShadow:"none"}}/>
+                                    "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}
+                                                  style={{width:'100%', height:'300px', boxShadow:"none"}}/>
                             </td>
                         </tr>
                         <tr>

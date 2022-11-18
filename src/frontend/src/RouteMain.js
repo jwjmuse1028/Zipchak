@@ -19,6 +19,7 @@ import FeedDetail from "./feed/FeedDetail";
 import FeedDetailView from "./feed/FeedDetailView";
 import MyPage from "./user/MyPage";
 import Profile from "./user/Profile";
+import Footer from "./components/Footer";
 
 
 function RouteMain(props) {
@@ -65,6 +66,7 @@ function RouteMain(props) {
                     </div>
                 }/>
             </Routes>
+            <Footer/>
         </div>
     );
 }

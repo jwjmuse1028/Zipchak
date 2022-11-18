@@ -38,7 +38,7 @@ function ShopDetail(props) {
 
     const deleteShop=()=>{
         const deleteUrl=sessionStorage.url+"/shop/delete?pd_num="+pd_num;
-        if (window.confirm("게시물을 삭제하시겠습니까?")) {
+        if (window.confirm("게시물을 삭제하시겠습니까? 복구 할 수 없습니다")) {
             axios.delete(deleteUrl)
                 .then(res=>{
                     alert("삭제 되었습니다");
@@ -51,7 +51,7 @@ function ShopDetail(props) {
 
     const updateSoldOut=()=> {
         let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
-        if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후에는 수정 할 수 없습니다")) {
+        if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후 수정 할 수 없습니다")) {
             axios.post(url)
                 .then(res => {
                     alert("판매완료 등록되었습니다");
@@ -99,7 +99,7 @@ function ShopDetail(props) {
                     detail.images &&
                     detail.images.map((photo,idx)=>
                         <div key={{idx}} className= "banner">
-                            <img alt={''} src={photo} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status=="soldout"?'brightness(30%)':''}}/>
+                            <img alt={''} src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status=="soldout"?'brightness(30%)':''}}/>
                         </div>)
                 }
             </Slider>
