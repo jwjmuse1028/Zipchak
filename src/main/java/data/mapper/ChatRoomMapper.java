@@ -12,5 +12,6 @@ public interface ChatRoomMapper {
     public void insertRoom(ChatRoomDto crdto);
     public int getSeller(int sp_num);
     public Map<String,Integer> getRoomChk(ChatRoomDto crdto);
+    public List<Map<String,Object>>  getBuyer(int sp_num);
 
 }

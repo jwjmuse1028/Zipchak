@@ -14,6 +14,7 @@ function ChatMessageInfo(props) {
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const navi=useNavigate();
+    const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
 
     //상대방 온도 출력
     const getTmpCol=()=>{
@@ -74,7 +75,7 @@ function ChatMessageInfo(props) {
                 <div className={'prf_tmp'}>{uInfo.prf_tmp}℃</div>
                 <div className={'uinfobox_vline'}>  </div>
                 <div className={'spinfo_img'} onClick={spinfoClick}
-                     style={{backgroundImage:`url('${spInfo.img_name}'),url('${noimage}')`}}/>
+                     style={{backgroundImage:`url('${spURL+spInfo.img_name}'),url('${noimage}')`}}/>
                 <div className={'spinfo_title'}>{spInfo.sp_title}</div>
             </div>
         </div>

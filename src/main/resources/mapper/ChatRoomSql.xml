@@ -27,5 +27,9 @@
     <select id="getRoomChk" parameterType="crdto" resultType="map">
         SELECT count(*) count, cr_num from cr where sp_num=#{sp_num} and buyer_num=#{buyer_num}
     </select>
-
+    <select id="getBuyer" parameterType="int" resultType="map">
+        select buyer_num, ur_prf.prf_nick buyer_nick, ur_prf.prf_img from cr
+            join ur_prf on buyer_num=ur_num
+        where sp_num=#{sp_num}
+    </select>
 </mapper>

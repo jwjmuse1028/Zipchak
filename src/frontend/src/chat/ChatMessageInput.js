@@ -24,7 +24,6 @@ function ChatMessageInput(props) {
         });
         client.current.activate();
     };
-
     const publish = (msg) => {
         if (!client.current.connected) return;
         client.current.publish({

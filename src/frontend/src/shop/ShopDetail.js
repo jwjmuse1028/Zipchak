@@ -16,6 +16,7 @@ import {
     DeleteOutline,
     MoreVert
 } from "@material-ui/icons";
+import BuyerList from "../chat/BuyerList";
 
 function ShopDetail(props) {
     const {pd_num,sp_num,currentPage}=useParams();
@@ -48,8 +49,17 @@ function ShopDetail(props) {
             return;
         }
     }
+    const [buyerlistOpen, setBuyerlistOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState(0);
 
+    const buyerlistClose = (value) => {
+        setBuyerlistOpen(false);
+        setSelectedValue(value);
+    };
     const updateSoldOut=()=> {
+        setBuyerlistOpen(true);
+        //console.log('shopdetail:'+buyerlistOpen);
+        /*
         let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
         if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후 수정 할 수 없습니다")) {
             axios.post(url)
@@ -60,6 +70,7 @@ function ShopDetail(props) {
         } else {
             return;
         }
+        */
     }
 
     const settings = {
@@ -91,6 +102,8 @@ function ShopDetail(props) {
     useEffect(()=>{
         onDetailData();
     },[]);
+
+
 
     return (
         <div style={{margin:"auto", width:'35%'}}>
@@ -161,6 +174,7 @@ function ShopDetail(props) {
                         <Chat/>&nbsp;얘한테 채팅하기
                     </Fab>
             }
+            <BuyerList selectedValue={selectedValue} buyerlistOpen={buyerlistOpen} buyerlistClose={buyerlistClose} sp_num={sp_num}/>
         </div>
     );
 }

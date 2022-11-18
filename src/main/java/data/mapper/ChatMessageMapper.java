@@ -16,4 +16,5 @@ public interface ChatMessageMapper {
     public Map<String,Object> getSpInfo(int cr_num);
     public int getCntMsg(int cr_num);
     public int getMsgNoti(int ur_num);
+
     }

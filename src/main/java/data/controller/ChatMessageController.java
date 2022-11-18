@@ -99,4 +99,5 @@ public class ChatMessageController {
     public int getMsgNoti(int ur_num){
         return cmmapper.getMsgNoti(ur_num);
     }
+
 }

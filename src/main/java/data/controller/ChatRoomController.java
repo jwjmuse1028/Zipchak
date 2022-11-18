@@ -52,4 +52,8 @@ public class ChatRoomController {
             return sendmap2;
         }
     }
+    @GetMapping("/getbuyer")
+    public List<Map<String,Object>> getBuyer(int sp_num){
+        return crmapper.getBuyer(sp_num);
+    }
 }
