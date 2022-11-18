@@ -20,6 +20,7 @@ function FeedInsertForm(props) {
     //현재로그인한 user 정보
     const ur_num = sessionStorage.ur_num;
 
+    console.log("ur_num:"+ur_num);
 
     const navi = useNavigate();
 
@@ -112,6 +113,16 @@ function FeedInsertForm(props) {
 
     const onSubmitEvent = (e) => {
         e.preventDefault();
+
+        if(!ur_num) {
+            alert("로그인 해주세요");
+            return;
+        }
+        if(!file) {
+            alert("커버사진을 추가해 주세요");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("file", file);
         formData.append("dto",new Blob([JSON.stringify(dto)], {
