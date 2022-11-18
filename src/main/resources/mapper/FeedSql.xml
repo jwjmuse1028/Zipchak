@@ -60,8 +60,12 @@
     <select id="checkFeedLike" parameterType="Map" resultType="int">
         select count(ur_num) as fd_like from fd_like where ur_num=#{ur_num} and fd_num=#{fd_num};
     </select>
+    <!-- 피드 최신 번호 가져오기 -->
     <select id="getRecentFeedNum" resultType="int">
         select ifnull(max(fd_num),0) from fd
     </select>
-
+    <!-- 피드 이미지 테이블 삽입 -->
+    <insert id="insertFeedImage" parameterType="Map">
+        insert into fd_img (fd_num,img_name) values (#{fd_num},#{img_name})
+    </insert>
 </mapper>
