@@ -17,4 +17,5 @@ public interface FeedMapper {
     public int getFeedLikes(int fd_num);
     public int checkFeedLike(Map<String,Integer> map);
     public int getRecentFeedNum();
+    public void insertFeedImage(Map<Integer,String> map);
 }

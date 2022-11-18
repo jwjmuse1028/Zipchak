@@ -55,7 +55,7 @@ function RouteMain(props) {
                     <Route path='insertform' element={<FeedInsertForm/>}/>
                     <Route path='list' element={<FeedList/>}/>
                     <Route path='detail' element={<FeedDetail/>}/>
-                    <Route path='detail/:num' element={<FeedDetailView/>}/>
+                    <Route path='detail/:fd_num' element={<FeedDetailView/>}/>
                     {/*<Route path='list/:currentPage' element={<BoardList/>}/>*/}
                 </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}

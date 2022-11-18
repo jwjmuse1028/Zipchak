@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createElement, useEffect, useRef, useState} from 'react';
 import "../css/FeedForm.css";
 
 import {Editor, Viewer} from "@toast-ui/react-editor";
@@ -9,6 +9,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
 
 import {useNavigate} from "react-router-dom";
+import {getWidth} from "react-slick/lib/utils/innerSliderUtils";
 
 
 function FeedInsertForm(props) {
@@ -32,6 +33,7 @@ function FeedInsertForm(props) {
         fd_lvtp: '',
         fd_fml: '',
         fd_style: '',
+        fd_txt: '',
         ur_num:ur_num
     })
 
@@ -147,8 +149,12 @@ function FeedInsertForm(props) {
     const [data,setData]=useState('')
 
     const onChange=()=>{
-        setData(editorRef.current?.getInstance().getHTML())
+        setDto({
+            ...dto,
+            ["fd_txt"]: editorRef.current?.getInstance().getHTML(),
+        })
     }
+
 
     return (
         <div className={"form_container"}>
@@ -264,7 +270,6 @@ function FeedInsertForm(props) {
                 }
             </div>
 
-
             <Editor
                 previewStyle="vertical" // 미리보기 스타일 지정
                 height="500px" // 에디터 창 높이
@@ -278,12 +283,11 @@ function FeedInsertForm(props) {
                     ['ul', 'ol', 'task', 'indent', 'outdent'],
                     ['table', 'image', 'link'],
                 ]}
-                hooks={{
+               /* hooks={{
                     addImageBlobHook: async (blob, callback) => {
 
                         const formData = new FormData()
                         formData.append('file', blob)
-                        formData.append('dirName', 'fd_img')
 
                         let url = localStorage.url + "/image/insert"
 
@@ -294,14 +298,25 @@ function FeedInsertForm(props) {
                                 callback(res.data)
                             })
                     }
-                }}
+                }}*/
                 onChange={onChange}
                 ref={editorRef}
-
             />
-            <div>
-                <div dangerouslySetInnerHTML={ {__html: data} }/>
-            </div>
+            {/*<div dangerouslySetInnerHTML={ {__html: data} } id={"editorContent"}/>*/}
+            {
+                window.document.getElementsByTagName('img').item(0) &&
+                window.document.getElementsByTagName('img').item(0)
+                    .addEventListener("click",(e)=> {
+
+                        var img =  window.document.getElementsByTagName('img').item(0)
+
+                        createElement("map")
+                        console.log(
+                            "X 좌표 : " + e.offsetX + ", width : " + img.clientWidth + "percentage" + e.offsetX/img.clientWidth*100 +"%",
+                            "Y 좌표 : " + e.offsetY + ", height : " + img.clientHeight + "percentage" + e.offsetY/img.clientHeight*100 +"%"
+                        )
+                    })
+            }
 
         </div>
     );
