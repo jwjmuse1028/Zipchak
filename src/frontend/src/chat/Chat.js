@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../css/Chat.css';
 import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
+import ChatNotification from "./ChatNotification";
 
 function Chat(props) {
     //변수
@@ -71,6 +72,7 @@ function Chat(props) {
                              sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
             </div>
+            <ChatNotification/>
         </div>
     );
 }

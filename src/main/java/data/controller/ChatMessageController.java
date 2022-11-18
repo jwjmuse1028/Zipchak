@@ -94,4 +94,9 @@ public class ChatMessageController {
 
         return map;
     }
+
+    @GetMapping("/chat/noti")
+    public int getMsgNoti(int ur_num){
+        return cmmapper.getMsgNoti(ur_num);
+    }
 }

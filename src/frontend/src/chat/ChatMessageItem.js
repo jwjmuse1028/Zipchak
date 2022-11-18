@@ -5,6 +5,7 @@ function ChatMessageItem(props) {
     const {chat,uInfo}=props;
     const ur_num=Number(sessionStorage.ur_num);
     const ChatImgUrl='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/chat_img/';
+
     return (
         <div className={'each_msg_box'} >
             {chat.sender === ur_num

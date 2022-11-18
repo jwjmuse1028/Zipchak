@@ -16,7 +16,6 @@ function ChatMessageList(props) {
     const [isloading, setIsloading]=useState(false);
     const scrollRef=useRef();
     const [totalmsg,setTotalmsg]=useState(0);
-
     const timerDebounceRef = useRef();
     //함수
     //상대방 정보 출력
@@ -37,18 +36,18 @@ function ChatMessageList(props) {
         axios.get(url).then(res=>{
             setChatList(res.data.cmlist);
             setTotalmsg(res.data.totalmsg);
-            setIsloading(false);
+            setTimeout(() => setIsloading(false), 1000);
         })
     }
+
     const handleScroll = (e) => {
         if(timerDebounceRef.current){
             clearTimeout(timerDebounceRef.current);
         }
         timerDebounceRef.current = setTimeout(() => {
             if (e.target.scrollTop===0){
-                if (perpage<totalmsg+8){
+                if (perpage<totalmsg+4){
                     setPerpage(perpage+9);
-                    console.log(e.target.scrollTop);
                     console.log("currentmsg="+perpage);
                     setIsloading(true);
                 }
@@ -58,6 +57,7 @@ function ChatMessageList(props) {
     //useEffect
     useEffect(()=>{
         getUInfo();
+        setPerpage(9);
     },[cr_num])
 
     useEffect(() => {
@@ -69,10 +69,10 @@ function ChatMessageList(props) {
     useEffect(()=>{
         //document.getElementById('chat_end').scrollIntoView({behavior:"smooth",block:'start'});
         scrollRef.current?.scrollIntoView({behavior:"smooth",block:'end'});
-        console.log(noti);
+        //console.log(noti);
     },[noti])
     useEffect(()=>{
-        getChatMessage();
+        getChatMessage()
         //console.log(noti+'메시지 출력중');
     },[chatList,cr_num])
 
@@ -85,7 +85,9 @@ function ChatMessageList(props) {
                 </div>
                 {/* 채팅 메시지 리스트 */}
                 <div  className={'msg_list'} onScroll={handleScroll} >
-                    <div style={{textAlign:'center',display:`${isloading?'block':'none'}`}}>loading..</div>
+                    <div style={{textAlign:'center',display:`${isloading?'block':'none'}`}}>
+                        <div className="loader4"></div>
+                    </div>
                     {chatList &&
                     chatList.map((chat,i)=>
                         <ChatMessageItem uInfo={uInfo} chat={chat} key={i}/>)
@@ -98,4 +100,4 @@ function ChatMessageList(props) {
         </div>
     );
 }
-export default React.memo(ChatMessageList);
+export default ChatMessageList;
