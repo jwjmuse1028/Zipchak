@@ -177,14 +177,15 @@ function ShopList() {
                     </Card>
                 )
             }<br/>
-            <div style={{textAlign:"center"}}>
-                <Select style={{width:'10%'}} defaultValue={'제목'}>
+            <div style={{textAlign:"center"}} className={'input-group'}>
+                <Select style={{width:'7%'}} defaultValue={'제목'}>
                     <MenuItem value={'제목'} selected={true}>제목</MenuItem>
                     <MenuItem value={'내용'}>내용</MenuItem>
                 </Select>
             <TextField placeholder={'검색어'} style={{width:'30%'}}/>
-            <Button variant="contained" color="info">검색</Button>
-            </div><br/>
+            <Button variant="contained" color="info" style={{width:'7%'}}>검색</Button>
+            </div>
+            <br/>
             <div className={'page'} variant="outlined" shape="rounded" style={{clear:'both'}}>
                 {
                     data.startPage>1?

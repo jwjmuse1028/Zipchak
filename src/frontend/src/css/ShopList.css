@@ -48,6 +48,7 @@ figure.photos{
 }
 .pagenum{
     margin: 0.5%;
+    /*z-index: 1;*/
     /*display:block;*/
     /*float:left;*/
     border:1px solid #e6e6e6;
