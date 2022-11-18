@@ -66,10 +66,12 @@ public class ShopController {
     }
 
     @GetMapping("/list")
-    public Map<String, Object> getPagingList(@RequestParam(defaultValue = "1") int currentPage)
+    public Map<String, Object> getPagingList(@RequestParam(defaultValue = "1") int currentPage,
+                                             @RequestParam(required = false) String search_col,
+                                             @RequestParam(required = false) String search_word)
     {
         int totalCount;
-        int perPage=16;
+        int perPage=12;
         int perBlock=5;
         int startNum;
         int startPage;
@@ -122,6 +124,8 @@ public class ShopController {
         smap.put("list",list);
         smap.put("parr",parr);
         smap.put("no",no);
+        smap.put("search_col", search_col);
+        smap.put("search_word", search_word);
 
         return smap;
     }

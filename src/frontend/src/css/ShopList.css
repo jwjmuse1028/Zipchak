@@ -24,9 +24,7 @@ figure.photos{
     background-color: rgba(0,0,0,0.4);
 }
 
-.page{
-    text-align: center;
-}
+
 .list-title{ /*제목이 너무 길때 ...으로 대처*/
     cursor: pointer;
     text-overflow: ellipsis;
@@ -44,5 +42,23 @@ figure.photos{
     position: absolute;
     margin-left: 5.5%;
     margin-top: -6%;
+}
+.page{
+    text-align: center;
+}
+.pagenum{
+    margin: 0.5%;
+    /*display:block;*/
+    /*float:left;*/
+    border:1px solid #e6e6e6;
+    border-radius: 100%;
+    width:40px;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    background-color:#fff;
+    font-size:20px;
+    color:#999999;
+    text-decoration:none;
 }
 

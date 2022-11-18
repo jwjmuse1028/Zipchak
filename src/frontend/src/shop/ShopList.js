@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Fab} from "@mui/material";
+import {
+    Button,
+    Fab,
+    FormControlLabel,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField
+} from "@mui/material";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {BookmarkBorder, Create} from "@material-ui/icons";
@@ -59,7 +68,8 @@ function ShopList() {
             {/*    data &&*/}
             {/*    <h1>중고 글 수:{data.list.length}개</h1>*/}
             {/*}*/}
-                    <Fab color="primary" variant="extended" onClick={() => {
+            <div>
+                <Fab color="primary" variant="extended" onClick={() => {
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요");
                             return
@@ -68,8 +78,24 @@ function ShopList() {
                         }
                         }}>
                         <Create/>&nbsp;판매글작성
-                    </Fab>
-            <br/>
+                </Fab>
+
+                    {/*<label><input type={"radio"} name={'pd_status'} checked/>&nbsp;전체보기</label>&nbsp;&nbsp;&nbsp;*/}
+                    {/*<label><input type={"radio"} name={'pd_status'}/>&nbsp;판매중인 상품만 보기</label>*/}
+                        <RadioGroup row aria-label="position" name="status" defaultValue="전체보기" style={{float:"right"}}>
+                            <FormControlLabel
+                                control={<Radio/>}
+                                value="전체보기"
+                                label="전체보기"
+                            />
+                            <FormControlLabel
+                                control={<Radio/>}
+                                value="판매중인 상품만 보기"
+                                label="판매중인 상품만 보기"
+                            />
+                        </RadioGroup>
+            </div>
+                <br/>
             {
                 data.list && data.list.map((row,idx)=>
                         // <div style={{verticalAlign: "middle",
@@ -121,11 +147,12 @@ function ShopList() {
                         // <span style={{backgroundImage:`url(${row.img_first})`}}>
                         //     { row.pd_status=="soldout"?<span></span>:null}
                         // </span>
-                    <Card className={classes.root} style={{float:'left',margin:'2%'}}>
+                    <Card className={classes.root} style={{float:'left',margin:'2%'}} key={idx}
+                    >
                         <CardMedia
                             className={classes.media}
-                            image={row.img_first} //대표사진
-                            // image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`}
+                            // image={row.img_first} //대표사진
+                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`}
                             style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
                             onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />
@@ -149,21 +176,29 @@ function ShopList() {
                         </div>
                     </Card>
                 )
-            }
+            }<br/>
+            <div style={{textAlign:"center"}}>
+                <Select style={{width:'10%'}} defaultValue={'제목'}>
+                    <MenuItem value={'제목'} selected={true}>제목</MenuItem>
+                    <MenuItem value={'내용'}>내용</MenuItem>
+                </Select>
+            <TextField placeholder={'검색어'} style={{width:'30%'}}/>
+            <Button variant="contained" color="info">검색</Button>
+            </div><br/>
             <div className={'page'} variant="outlined" shape="rounded" style={{clear:'both'}}>
                 {
                     data.startPage>1?
-                        <Link to={`/shop/list/${data.startPage-1}`} className={'pageprev'}>prev</Link> : ''
+                        <Link to={`/shop/list/${data.startPage-1}`} className={'pageprev'}>이전</Link> : ''
                 }
                 {
                     data.parr &&
                     data.parr.map((n,i)=>
-                        <Link to={`/shop/list/${n}`} className={'pagenum'}>
-                            <b style={{color:n==currentPage?'skyblue':'black'}}>{n}</b></Link>)
+                        <Link to={`/shop/list/${n}`} className={'pagenum'} key={i}>
+                            <b style={{color:n==currentPage?'#38B9E0':'black'}}>{n}</b></Link>)
                 }
                 {
                     data.endPage<data.totalPage?
-                        <Link to={`/shop/list/${data.endPage+1}`} className={'pagenext'}>next</Link> : ''
+                        <Link to={`/shop/list/${data.endPage+1}`} className={'pagenext'}>다음</Link> : ''
                 }
             </div>
         </div>

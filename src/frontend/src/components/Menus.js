@@ -92,18 +92,21 @@ function Menus(props) {
                 onClose={handleClose}
             >
                 <MenuItem onClick={(e)=>{
+                    handleClose();
                     navi("/profile");
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{
+                    handleClose();
                     navi("/mypage");
                 }}>마이페이지</MenuItem>
                 <MenuItem onClick={(e)=>{
+                    handleClose();
                     sessionStorage.removeItem("loginok");
                     sessionStorage.removeItem("ur_id");
                     sessionStorage.removeItem("prf_nick");
                     sessionStorage.removeItem("prf_img");
                     sessionStorage.removeItem("ur_num");
-                    window.location.reload();
+                    navi("/");
                 }}>로그아웃</MenuItem>
             </Menu>
             <div className="scroll__container">

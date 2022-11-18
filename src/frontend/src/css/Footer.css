@@ -1,0 +1,17 @@
+.footer{
+    height: 200px;
+    /*margin-top: auto;*/
+    bottom: 0;
+    background-color: #999999;
+}
+.contents{
+    width: 80%;
+    max-width: 1000px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.title{
+    text-align: center;
+}
