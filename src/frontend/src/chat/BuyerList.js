@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,12 +7,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 import axios from "axios";
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+import UpdateTemp from "../user/UpdateTemp";
 const useStyles = makeStyles({
     avatar: {
         backgroundColor: blue[100],
@@ -22,18 +17,17 @@ const useStyles = makeStyles({
     },
 });
 function BuyerList(props) {
-    const classes = useStyles();
-    const {buyerlistOpen,buyerlistClose,selectedValue,sp_num}=props;
+    const {buyerlistOpen,buyerlistClose,sp_num}=props;
     const [buyers,setBuyers]=useState([]);
+    const [toUser,setToUser]=useState(0);
+    const [updateTempOpen,setUpdateTempOpen]=useState(false);
+    const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
-    //console.log('buyerlist:'+buyerlistOpen);
 
-    const handleClose = () => {
-        buyerlistClose(selectedValue);
-    };
+    const handleListItemClick = (buyer) => {
+        setToUser(buyer);
+        setUpdateTempOpen(true);
 
-    const handleListItemClick = (value) => {
-        buyerlistClose(value);
     };
 
     const getbuyer=()=>{
@@ -42,9 +36,13 @@ function BuyerList(props) {
             setBuyers(res.data)
         )
     }
+    const updatetemprate=(val)=>{
+        setUpdateTempOpen(false);
+        buyerlistClose(toUser);
+    }
     useEffect(()=>getbuyer(),[]);
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={buyerlistOpen}>
+        <Dialog aria-labelledby="simple-dialog-title" open={buyerlistOpen}>
             <DialogTitle id="simple-dialog-title">판매하신 분을 선택해주세요 </DialogTitle>
             <List>
                 {
@@ -60,6 +58,7 @@ function BuyerList(props) {
                     </ListItem>
                 ))}
             </List>
+            <UpdateTemp toUser={toUser} updateTempOpen={updateTempOpen} updatetemprate={updatetemprate}/>
         </Dialog>
     );
 }

@@ -84,14 +84,14 @@ public class ChatMessageController {
     }
 
     @GetMapping("/chat/u_info")
-    public UserDto getUserdataByUr(int u_num)
+    public Map<String, Object> getUserdataByUr(int u_num)
     {
-        return umapper.getUserdataByUr(u_num);
+        Map<String, Object> map=umapper.getProfileByNum(u_num);
+        return map;
     }
     @GetMapping("/chat/spinfo")
     public Map<String, Object> getSpInfo(int cr_num){
         Map<String, Object> map=cmmapper.getSpInfo(cr_num);
-
         return map;
     }
 

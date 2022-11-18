@@ -17,7 +17,7 @@ public interface UserMapper {
     public String getName(String ur_id);
     public String getProfile(String ur_id);
     public UserDto getUserdata(String ur_id);
-    public UserDto getUserdataByUr(int ur_num);
     public Map<String,Object> getProfileByNum(int ur_num);
-
+    public double getTmp(int ur_num);
+    public void updateTmp(Map<String,Object> map);
 }

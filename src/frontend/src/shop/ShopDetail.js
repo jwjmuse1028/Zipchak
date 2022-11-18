@@ -72,7 +72,6 @@ function ShopDetail(props) {
         }
         */
     }
-
     const settings = {
         dots: true,
         infinite: true,
@@ -102,8 +101,6 @@ function ShopDetail(props) {
     useEffect(()=>{
         onDetailData();
     },[]);
-
-
 
     return (
         <div style={{margin:"auto", width:'35%'}}>

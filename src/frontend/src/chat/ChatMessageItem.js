@@ -1,11 +1,12 @@
 import React from 'react';
 import noprfpic from "../image/noprofilepicture.webp";
+import {makeStyles} from "@material-ui/core/styles";
 
 function ChatMessageItem(props) {
     const {chat,uInfo}=props;
     const ur_num=Number(sessionStorage.ur_num);
     const ChatImgUrl='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/chat_img/';
-
+    const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     return (
         <div className={'each_msg_box'} >
             {chat.sender === ur_num
@@ -31,7 +32,7 @@ function ChatMessageItem(props) {
                 :
                 <div className={'u_msg_box_w_prf'}>
                     <div className={'chat_prf_box'}
-                         style={{backgroundImage: `url('${uInfo.prf_img}'),url('${noprfpic}')`}}
+                         style={{backgroundImage: `url('${prfUrl+uInfo.prf_img}'),url('')`}}
                     ></div>
                     <div className={'u_msg_box'}>
                         {

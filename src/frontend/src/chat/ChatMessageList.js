@@ -17,6 +17,7 @@ function ChatMessageList(props) {
     const scrollRef=useRef();
     const [totalmsg,setTotalmsg]=useState(0);
     const timerDebounceRef = useRef();
+
     //함수
     //상대방 정보 출력
     const getUInfo=()=>{

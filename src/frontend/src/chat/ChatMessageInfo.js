@@ -6,7 +6,15 @@ import noimage from "../image/noimg.jpg";
 import axios from "axios";
 import '../css/ChatMessageInfo.css';
 import {useNavigate} from "react-router-dom";
-
+import Avatar from "@material-ui/core/Avatar";
+import {makeStyles} from "@material-ui/core/styles";
+import {blue} from "@material-ui/core/colors";
+const useStyles = makeStyles({
+    avatar: {
+        backgroundColor: blue[100],
+        color: blue[600],
+    },
+});
 function ChatMessageInfo(props) {
     const {cr_num,screenStatef,uInfo,uTmp}=props;
     const [spInfo,setSpinfo]=useState({});
@@ -14,8 +22,9 @@ function ChatMessageInfo(props) {
     const [tmpH, setTmpH]=useState('10px');
     const [tmpY,setTmpY]=useState('5px');
     const navi=useNavigate();
+    const classes = useStyles();
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
-
+    const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     //상대방 온도 출력
     const getTmpCol=()=>{
         if (uInfo.prf_tmp>80)
@@ -66,8 +75,9 @@ function ChatMessageInfo(props) {
             <span className={'to_chat_room'} onClick={()=>screenStatef(1)}
             ><ArrowBackRounded/></span>
             <div className={'uInfoBox'} >
-                <div className={'prf_box'}
-                     style={{backgroundImage:`url('${uInfo.prf_img}'),url('${noprfpic}')`}}></div>
+                <Avatar className={classes.avatar}>
+                    <img alt={''} src={prfUrl+uInfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
+                </Avatar>
                 <div className={'prf_nick'}>{uInfo.prf_nick}님</div>
                 <img alt={''} src={tmp} className={'tmp_img'}/>
                 <div className={'tmp_circle'} style={{backgroundColor:tmpCol}}></div>

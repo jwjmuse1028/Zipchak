@@ -42,4 +42,10 @@
     <select id="getProfileByNum" parameterType="int" resultType="Map">
         select prf_nick, prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
     </select>
+    <select id="getTmp" parameterType="int" resultType="double">
+        SELECT prf_tmp FROM BitFinalTeam2.ur_prf where ur_num=#{ur_num}
+    </select>
+    <update id="updateTmp" parameterType="map">
+        update ur_prf set prf_tmp=#{avgtmp} where ur_num=#{ur_num}
+    </update>
 </mapper>

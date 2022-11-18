@@ -12,6 +12,8 @@ import util.FileUtil;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -71,4 +73,17 @@ public class UserController {
         return uploadFileName;
     }
 
+    @GetMapping("/updatetmp")
+    public void updatetmp(int ur_num, int newtmp){
+        if (newtmp==0){
+            newtmp=1;
+        }
+        double pretmp=userMapper.getTmp(ur_num);
+        double avgtmp1=(newtmp+pretmp)/2;
+        double avgtmp=Math.round(avgtmp1*10)/10.0;
+        Map<String,Object> map=new HashMap<>();
+        map.put("ur_num",ur_num);
+        map.put("avgtmp",avgtmp);
+        userMapper.updateTmp(map);
+    }
 }
