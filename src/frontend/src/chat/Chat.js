@@ -72,7 +72,6 @@ function Chat(props) {
                              sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
             </div>
-            <ChatNotification/>
         </div>
     );
 }

@@ -8,6 +8,7 @@ function Menus(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
     const navi = useNavigate();
+    const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -80,7 +81,7 @@ function Menus(props) {
                     </div>
                     :
                     <div style={{float:"right"}}>
-                        <Avatar src={prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
+                        <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                     </div>
             }
