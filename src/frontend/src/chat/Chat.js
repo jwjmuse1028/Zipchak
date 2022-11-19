@@ -11,7 +11,7 @@ function Chat(props) {
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=Number(sessionStorage.ur_num);
-    const [noti,setNoti]=useState('안녕');
+    const [noti,setNoti]=useState('채팅 입장');
     //함수
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);

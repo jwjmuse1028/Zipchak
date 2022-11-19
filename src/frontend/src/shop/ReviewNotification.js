@@ -4,19 +4,22 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-function ChatNotification(props) {
+function ReviewNotification(props) {
     const ur_num=sessionStorage.ur_num;
     const nick=sessionStorage.prf_nick;
-    const [msgCnt,setMsgCnt]=useState(0);
+    const [reviewCnt,setReviewCnt]=useState(0);
     const navi=useNavigate();
 
-    const getMsgNoti=()=>{
+    const checkrv=()=>{
         if(ur_num!=null){
-            let getMsgNotiUrl=localStorage.url+"/chat/noti?ur_num="+ur_num;
-            axios.get(getMsgNotiUrl).then(res=>setMsgCnt(res.data))
+            let checkrvUrl=localStorage.url+"/checkrv?ur_num="+ur_num;
+            axios.get(checkrvUrl).then(res=>{
+                //console.log(res.data)
+                setReviewCnt(res.data);
+            })
         }
     }
-    const notify = () => toast.info( nick+'님, 읽지 않은 '+msgCnt+'개의 메시지가 있습니다', {
+    const notify = () => toast.info( nick+'님, '+reviewCnt+'개 상품의 구매 후기를 남겨주세요!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -27,13 +30,13 @@ function ChatNotification(props) {
         onClick:toastclick
     });
     const toastclick=()=>{
-        navi('/chat');
+        navi('/mypage');
     }
-    useEffect(()=>getMsgNoti(),[]);
+    useEffect(()=>checkrv(),[]);
     useEffect(()=>{
-        if(msgCnt!==0){
+        if(reviewCnt!==0){
             notify();
-        }},[msgCnt]);
+        }},[reviewCnt]);
     return (
         <div>
             <ToastContainer theme="colored"/>
@@ -41,4 +44,4 @@ function ChatNotification(props) {
     );
 }
 
-export default ChatNotification;
+export default ReviewNotification;

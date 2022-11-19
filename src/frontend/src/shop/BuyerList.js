@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import { blue } from '@material-ui/core/colors';
 import axios from "axios";
-import UpdateTemp from "../user/UpdateTemp";
+import UpdateTemp from "./UpdateTemp";
 const useStyles = makeStyles({
     avatar: {
         backgroundColor: blue[100],
@@ -19,15 +19,14 @@ const useStyles = makeStyles({
 function BuyerList(props) {
     const {buyerlistOpen,buyerlistClose,sp_num}=props;
     const [buyers,setBuyers]=useState([]);
-    const [toUser,setToUser]=useState(0);
+    const [touser,setTouser]=useState(0);
     const [updateTempOpen,setUpdateTempOpen]=useState(false);
     const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
 
     const handleListItemClick = (buyer) => {
-        setToUser(buyer);
+        setTouser(buyer);
         setUpdateTempOpen(true);
-
     };
 
     const getbuyer=()=>{
@@ -38,7 +37,7 @@ function BuyerList(props) {
     }
     const updatetemprate=(val)=>{
         setUpdateTempOpen(false);
-        buyerlistClose(toUser);
+        buyerlistClose(touser);
     }
     useEffect(()=>getbuyer(),[]);
     return (
@@ -58,7 +57,7 @@ function BuyerList(props) {
                     </ListItem>
                 ))}
             </List>
-            <UpdateTemp toUser={toUser} updateTempOpen={updateTempOpen} updatetemprate={updatetemprate}/>
+            <UpdateTemp touser={touser} updateTempOpen={updateTempOpen} updatetemprate={updatetemprate} sp_num={sp_num}/>
         </Dialog>
     );
 }

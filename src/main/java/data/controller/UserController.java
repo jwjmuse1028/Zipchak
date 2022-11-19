@@ -1,5 +1,6 @@
 package data.controller;
 
+import data.dto.ReviewDto;
 import data.dto.UserDto;
 import data.mapper.UserMapper;
 import data.service.S3Service;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -73,17 +75,25 @@ public class UserController {
         return uploadFileName;
     }
 
-    @GetMapping("/updatetmp")
-    public void updatetmp(int ur_num, int newtmp){
-        if (newtmp==0){
-            newtmp=1;
+    @PostMapping("/updatetmp")
+    public void updatetmp(@RequestBody ReviewDto dto){
+        int rv_tmp=dto.getRv_tmp();
+        if (rv_tmp==0){
+            rv_tmp=1;
         }
-        double pretmp=userMapper.getTmp(ur_num);
-        double avgtmp1=(newtmp+pretmp)/2;
+        userMapper.insertRv(dto);
+        double pretmp=userMapper.getTmp(dto.getTouser());
+        double avgtmp1=(rv_tmp+pretmp)/2;
         double avgtmp=Math.round(avgtmp1*10)/10.0;
         Map<String,Object> map=new HashMap<>();
-        map.put("ur_num",ur_num);
+        map.put("ur_num",dto.getTouser());
         map.put("avgtmp",avgtmp);
         userMapper.updateTmp(map);
+    }
+
+    @GetMapping("/checkrv")
+    public int checkRv(int ur_num)
+    {
+        return userMapper.checkRv(ur_num);
     }
 }

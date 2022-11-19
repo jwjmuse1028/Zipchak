@@ -32,4 +32,7 @@
             join ur_prf on buyer_num=ur_num
         where sp_num=#{sp_num}
     </select>
+    <select id="getChatCnt" parameterType="int" resultType="int">
+        SELECT count(*) from cr where sp_num=#{sp_num};
+    </select>
 </mapper>

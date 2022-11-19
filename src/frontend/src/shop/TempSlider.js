@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Slider from "@material-ui/core/Slider";
 const useStyles = makeStyles({
     root: {
-        width: 300
+        width: 400,
+        margin:'auto'
     }
 });
 const marks = [
@@ -19,8 +20,7 @@ const marks = [
     {value: 90, label: '🥰'},
     {value: 100, label: '😍'}
 ];
-
-const valuetext=(value)=> {
+function valuetext(value) {
     return value;
 }
 function valueLabelFormat(value) {
@@ -28,27 +28,28 @@ function valueLabelFormat(value) {
 }
 function TempSlider(props) {
     const {sendrate}=props;
+    const classes = useStyles();
+    //const [value, setValue] = React.useState(36.5);
 
-    const handleChange = (event, newValue) => {
-        //console.log(newValue)
+    const handleSliderChange = (event, newValue) => {
+        console.log('slider'+newValue);
         sendrate(newValue);
     };
-    const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <div style={{height:'30px'}}></div>
+            <div style={{height:'20px'}}></div>
             <Slider
-                defaultValue={36.5}
+                defaultValue={50}
                 valueLabelFormat={valueLabelFormat}
                 getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider"
-                valueLabelDisplay="auto"
+                valueLabelDisplay="on"
                 step={10}
                 marks={marks}
                 min={0}
                 max={100}
-                onChange={handleChange}
+                onChange={handleSliderChange}
             />
         </div>
     );

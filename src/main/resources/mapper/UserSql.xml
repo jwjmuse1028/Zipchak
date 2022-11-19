@@ -48,4 +48,12 @@
     <update id="updateTmp" parameterType="map">
         update ur_prf set prf_tmp=#{avgtmp} where ur_num=#{ur_num}
     </update>
+    <insert id="insertRv" parameterType="rvdto">
+        insert into rv values (null,#{sp_num},#{touser},#{rv_tmp},#{rv_txt},now())
+    </insert>
+    <select id="checkRv" parameterType="int" resultType="int">
+        select count(*) cnt from
+            (select rv1.sp_num, count(*) cnt from rv as rv1 where rv1.touser=#{ur_num} group by rv1.sp_num) as rv2
+        where rv2.cnt =1
+    </select>
 </mapper>

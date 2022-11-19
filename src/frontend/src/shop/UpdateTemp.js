@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,12 +12,14 @@ import axios from "axios";
 import {blue} from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 import TempSlider from "./TempSlider";
+import {TextField} from "@material-ui/core";
 
 const styles = (theme) => ({
     root: {
-        margin: 0,
         padding: theme.spacing(2),
+        margin: 'auto',
     },
+
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),
@@ -43,6 +45,7 @@ const DialogTitle = withStyles(styles)((props) => {
 const DialogContent = withStyles((theme) => ({
     root: {
         padding: theme.spacing(2),
+        margin:'auto'
     },
 }))(MuiDialogContent);
 
@@ -54,47 +57,55 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function UpdateTemp(props) {
-    const {toUser, updateTempOpen,updatetemprate}=props;
+    const {touser, updateTempOpen,updatetemprate,sp_num}=props;
     const [uinfo,setUinfo]=useState({});
-    const [rate,setRate]=useState(0);
+    const [rv_tmp,setRv_tmp]=useState(50);
+    const [rv_txt,setRv_txt]=useState();
     const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const getUInfo=()=>{
-        let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+toUser;
+        let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+touser;
         axios.get(uinfoUrl).then(res=>{
             setUinfo(res.data);
         })
     }
-    const handleClose = () => {
-        let updateTempUrl=localStorage.url+"/updatetmp?ur_num="+toUser+"&newtmp="+rate;
-        axios.get(updateTempUrl).then(res=>"");
-        updatetemprate('성공');
+    const sendReview = () => {
+        let updateTempUrl=localStorage.url+"/updatetmp";
+        console.log(rv_tmp);
+        console.log(rv_txt);
+        axios.post(updateTempUrl,{sp_num,touser,rv_tmp,rv_txt})
+       .then(res=>{
+           updatetemprate('성공');
+       });
+
     };
     const sendrate=(value)=>{
-        setRate(value);
+        setRv_tmp(value);
+        console.log('setRv_tmp'+rv_tmp);
     }
 
-    useEffect(()=>getUInfo(),[toUser]);
+    useEffect(()=>getUInfo(),[touser]);
     return (
-        <div>
-            <Dialog aria-labelledby="customized-dialog-title" open={updateTempOpen}>
-                <DialogTitle id="customized-dialog-title" >
-                    <div style={{display:"flex"}}>
-                    <Avatar className={classes.avatar}>
-                        <img alt={''} src={prfUrl+uinfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
-                    </Avatar>
-                    <div>{uinfo.prf_nick}님과의 거래가 어땠나요?</div></div>
-                </DialogTitle>
-                <DialogContent dividers>
-                    <TempSlider sendrate={sendrate}/>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose} color="primary">
-                        후기 보내기
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+        <Dialog aria-labelledby="customized-dialog-title"
+                open={updateTempOpen} >
+            <DialogTitle id="customized-dialog-title" >
+                <div style={{display:"flex"}}>
+                <Avatar className={classes.avatar}>
+                    <img alt={''} src={prfUrl+uinfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
+                </Avatar>
+                <div>&nbsp;{uinfo.prf_nick}님과의 거래가 어땠나요?</div></div>
+            </DialogTitle>
+            <DialogContent  >
+                <TempSlider sendrate={sendrate} />
+                <TextField type={'text'} id="outlined-basic" label="간단한 후기를 남겨주세요" variant="outlined"
+                           onChange={(e)=>setRv_txt(e.target.value)}   style={{width:'500px',marginTop:'30px'}}/>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={sendReview} color="primary">
+                    후기 보내기
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
 

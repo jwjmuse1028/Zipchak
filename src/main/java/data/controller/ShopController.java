@@ -1,6 +1,7 @@
 package data.controller;
 
 import data.dto.*;
+import data.mapper.ChatRoomMapper;
 import data.mapper.ProductMapper;
 import data.mapper.ShopMapper;
 import data.mapper.UserMapper;
@@ -29,6 +30,8 @@ public class ShopController {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    ChatRoomMapper crmapper;
     List<String> totalImages=new ArrayList<>();
 
     public ShopController(S3Service s3Service) {
@@ -189,5 +192,10 @@ public class ShopController {
     public void deleteShop(@RequestParam int pd_num)
     {
         productMapper.deleteShop(pd_num);
+    }
+    @GetMapping("/getchatcnt")
+    public int getChatCnt(int sp_num)
+    {
+        return crmapper.getChatCnt(sp_num);
     }
 }
