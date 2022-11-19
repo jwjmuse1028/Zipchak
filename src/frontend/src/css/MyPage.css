@@ -1,0 +1,39 @@
+.mypage_chat_ul{
+}
+.mypage_chat_li{
+    list-style: none;
+    margin-bottom: 10px;
+    border: 1px solid #38B9E0;
+    border-radius: 10px;
+    padding: 3px;
+    width: 70%;
+    min-width: 500px;
+    position: relative;
+}
+
+img.mypage_sp_img{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #38B9E0;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+div.mypage_sp_title{
+    height: 50px;
+    line-height: 50px;
+}
+.mypage_btn{
+    width: 150px;
+    color: #38B9E0;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+}
+.mypage_btn:hover {
+    background-color: #38B9E0;
+    color: white;
+}

@@ -24,5 +24,6 @@ public interface UserMapper {
     public void updateTmp(Map<String,Object> map);
     public void insertRv(ReviewDto dto);
     public int checkRv(int ur_num);
+    public List<Map<String,Object>> chatlistwithreview(int ur_num);
 
 }

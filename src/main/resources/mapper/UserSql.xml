@@ -37,7 +37,6 @@
     <select id="getUserdataByUr" parameterType="int" resultType="UserDto">-- 닉네임님이 로그인중입니다
     select prf_nick,prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
     </select>
-
     <!--  ur_num 으로 profile Map에 담아 가져오기  -->
     <select id="getProfileByNum" parameterType="int" resultType="Map">
         select prf_nick, prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
@@ -55,5 +54,16 @@
         select count(*) cnt from
             (select rv1.sp_num, count(*) cnt from rv as rv1 where rv1.touser=#{ur_num} group by rv1.sp_num) as rv2
         where rv2.cnt =1
+    </select>
+    <select id="chatlistwithreview" parameterType="int" resultType="map">
+--         select sp.sp_num, sp.ur_num, sp.sp_title,pd_img.img_name, IFNULL(rv.rvcnt, 0) rvcnt from cr
+--             join sp on sp.sp_num=cr.sp_num
+--             join (select * from pd_img group by pd_num) as pd_img on sp.pd_num=pd_img.pd_num
+--             left outer join (select rv.sp_num, rv.touser, count(*) rvcnt from rv group by sp_num) as rv  on rv.sp_num=sp.sp_num
+        select sp.sp_num, sp.ur_num, sp.sp_title,pd_img.img_name, count(*) rvcnt from cr
+            join sp on sp.sp_num=cr.sp_num
+            join (select * from pd_img group by pd_num) as pd_img on sp.pd_num=pd_img.pd_num
+            join rv on rv.sp_num=sp.sp_num
+        where cr.buyer_num=#{ur_num} group by sp_num
     </select>
 </mapper>
