@@ -1,18 +1,19 @@
 
-.a {
+a {
     cursor: pointer;
     text-decoration: none;
 }
 
-.a:hover{
+a:hover{
     text-decoration: none;
+    color: black;
 }
 
 .feed_container {
     margin-right: auto;
     margin-left: auto;
     width: calc(100% - 120px);
-    max-width: 70%;
+    max-width: 100%;
     min-width: 400px;
     box-sizing: border-box;
     min-height: 1px;
