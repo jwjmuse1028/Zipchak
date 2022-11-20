@@ -17,7 +17,6 @@ import {
     MoreVert
 } from "@material-ui/icons";
 import BuyerList from "./BuyerList";
-import tmp from "../image/tmp.png";
 import UserTemp from "../user/UserTemp";
 
 function ShopDetail(props) {
@@ -42,8 +41,6 @@ function ShopDetail(props) {
     const numberFormat=(inputNumber) =>{
         return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
-
 
     const onDetailData=()=>{
         let url=sessionStorage.url+"/shop/detail?sp_num="+sp_num;
@@ -78,6 +75,9 @@ function ShopDetail(props) {
     const buyerlistClose = (value) => {
         setBuyerlistOpen(false);
         setSelectedValue(value);
+        if(value===0){
+            return;
+        }
         let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
         axios.post(url)
             .then(res => {

@@ -27,7 +27,7 @@ function valueLabelFormat(value) {
     return marks.findIndex((mark) => mark.value === value) *10 +'°C';
 }
 function TempSlider(props) {
-    const {sendrate}=props;
+    const {sendrate, rv_tmp}=props;
     const classes = useStyles();
     //const [value, setValue] = React.useState(36.5);
 
@@ -40,7 +40,7 @@ function TempSlider(props) {
         <div className={classes.root}>
             <div style={{height:'20px'}}></div>
             <Slider
-                defaultValue={50}
+                defaultValue={rv_tmp}
                 valueLabelFormat={valueLabelFormat}
                 getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider"

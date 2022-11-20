@@ -20,10 +20,4 @@ public interface UserMapper {
     public String getProfile(String ur_id);
     public UserDto getUserdata(String ur_id);
     public Map<String,Object> getProfileByNum(int ur_num);
-    public double getTmp(int ur_num);
-    public void updateTmp(Map<String,Object> map);
-    public void insertRv(ReviewDto dto);
-    public int checkRv(int ur_num);
-    public List<Map<String,Object>> chatlistwithreview(int ur_num);
-
 }

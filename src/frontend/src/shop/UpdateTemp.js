@@ -15,17 +15,11 @@ import TempSlider from "./TempSlider";
 import {TextField} from "@material-ui/core";
 
 const styles = (theme) => ({
-    root: {
-        padding: theme.spacing(2),
-        margin: 'auto',
-    },
+    // root: {
+    //     padding: theme.spacing(2),
+    //     margin: "auto",
+    // },
 
-    closeButton: {
-        position: 'absolute',
-        right: theme.spacing(1),
-        top: theme.spacing(1),
-        color: theme.palette.grey[500],
-    },
 });
 const useStyles = makeStyles({
     avatar: {
@@ -33,6 +27,7 @@ const useStyles = makeStyles({
         color: blue[600],
     },
 });
+
 const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
@@ -41,7 +36,6 @@ const DialogTitle = withStyles(styles)((props) => {
         </MuiDialogTitle>
     );
 });
-
 const DialogContent = withStyles((theme) => ({
     root: {
         padding: theme.spacing(2),
@@ -57,13 +51,14 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function UpdateTemp(props) {
-    const {touser, updateTempOpen,updatetemprate,sp_num}=props;
+    const {touser, updateTempOpen,updatetemprate,sp_num,fromseller}=props;
     const [uinfo,setUinfo]=useState({});
     const [rv_tmp,setRv_tmp]=useState(50);
     const [rv_txt,setRv_txt]=useState();
     const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const getUInfo=()=>{
+        //console.log(touser+","+sp_num+","+fromseller);
         let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+touser;
         axios.get(uinfoUrl).then(res=>{
             setUinfo(res.data);
@@ -71,32 +66,41 @@ function UpdateTemp(props) {
     }
     const sendReview = () => {
         let updateTempUrl=localStorage.url+"/updatetmp";
-        console.log(rv_tmp);
-        console.log(rv_txt);
-        axios.post(updateTempUrl,{sp_num,touser,rv_tmp,rv_txt})
+        //console.log(rv_tmp);
+        //console.log(rv_txt);
+        axios.post(updateTempUrl,{sp_num,touser,rv_tmp,rv_txt,fromseller})
        .then(res=>{
-           updatetemprate('성공');
+           updatetemprate(sp_num);
        });
 
     };
+    const onClose=()=>{
+        updatetemprate(0);
+    }
     const sendrate=(value)=>{
         setRv_tmp(value);
         console.log('setRv_tmp'+rv_tmp);
     }
-
     useEffect(()=>getUInfo(),[touser]);
     return (
         <Dialog aria-labelledby="customized-dialog-title"
                 open={updateTempOpen} >
             <DialogTitle id="customized-dialog-title" >
-                <div style={{display:"flex"}}>
-                <Avatar className={classes.avatar}>
-                    <img alt={''} src={prfUrl+uinfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
-                </Avatar>
-                <div>&nbsp;{uinfo.prf_nick}님과의 거래가 어땠나요?</div></div>
+                <div style={{display:"flex",justifyContent: 'space-between'}}>
+                    <div style={{display:"flex"}}>
+                        <Avatar className={classes.avatar}>
+                            <img alt={''} src={prfUrl+uinfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
+                        </Avatar>
+                        <div>&nbsp;{uinfo.prf_nick}님과의 거래가 어땠나요?</div>
+                    </div>
+                        <IconButton aria-label="close"
+                                    onClick={onClose}>
+                          <CloseIcon />
+                        </IconButton>
+                </div>
             </DialogTitle>
             <DialogContent  >
-                <TempSlider sendrate={sendrate} />
+                <TempSlider sendrate={sendrate} rv_tmp={rv_tmp} />
                 <TextField type={'text'} id="outlined-basic" label="간단한 후기를 남겨주세요" variant="outlined"
                            onChange={(e)=>setRv_txt(e.target.value)}   style={{width:'500px',marginTop:'30px'}}/>
             </DialogContent>

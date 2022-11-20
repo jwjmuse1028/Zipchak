@@ -74,26 +74,4 @@ public class UserController {
         uploadFileName=s3Service.upload(uploadFile, "prf_img");
         return uploadFileName;
     }
-
-    @PostMapping("/updatetmp")
-    public void updatetmp(@RequestBody ReviewDto dto){
-        int rv_tmp=dto.getRv_tmp();
-        if (rv_tmp==0){
-            rv_tmp=1;
-        }
-        userMapper.insertRv(dto);
-        double pretmp=userMapper.getTmp(dto.getTouser());
-        double avgtmp1=(rv_tmp+pretmp)/2;
-        double avgtmp=Math.round(avgtmp1*10)/10.0;
-        Map<String,Object> map=new HashMap<>();
-        map.put("ur_num",dto.getTouser());
-        map.put("avgtmp",avgtmp);
-        userMapper.updateTmp(map);
-    }
-
-    @GetMapping("/checkrv")
-    public int checkRv(int ur_num)
-    {
-        return userMapper.checkRv(ur_num);
-    }
 }

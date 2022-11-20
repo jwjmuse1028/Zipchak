@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.MyPageMapper">
+    <select id="getTmp" parameterType="int" resultType="double">
+        SELECT prf_tmp FROM BitFinalTeam2.ur_prf where ur_num=#{ur_num}
+    </select>
+    <update id="updateTmp" parameterType="map">
+        update ur_prf set prf_tmp=#{avgtmp} where ur_num=#{ur_num}
+    </update>
+    <insert id="insertRv" parameterType="rvdto">
+        insert into rv values (null,#{sp_num},#{touser},#{rv_tmp},#{rv_txt},now(),#{fromseller})
+    </insert>
+    <select id="checkRv" parameterType="int" resultType="int">
+        select count(*) from
+            (select sp.sp_title, pd_img.img_name, rv.touser, sp.pd_num,
+                    sp.ur_num, sp.sp_num, min(fromseller) fromseller from rv
+                        join sp on sp.sp_num=rv.sp_num                                                                                                            join pd_img on pd_img.pd_num=sp.pd_num
+             where touser=#{ur_num} or
+                     touser= ANY (select sp.ur_num from sp
+                         join rv on rv.sp_num= sp.sp_num
+                                  where touser=#{ur_num} group by sp.ur_num)
+             group by sp_num) as rvlist
+        where rvlist.touser=#{ur_num} and rvlist.ur_num!=#{ur_num} and fromseller=1
+    </select>
+    <select id="buylistforreview" parameterType="int" resultType="rvdto">
+        select * from
+            (select sp.sp_title, pd_img.img_name, rv.touser, sp.pd_num,
+                    sp.ur_num, sp.sp_num, min(fromseller) fromseller from rv
+                        join sp on sp.sp_num=rv.sp_num                                                                                                            join pd_img on pd_img.pd_num=sp.pd_num
+             where touser=#{ur_num} or
+                     touser= ANY (select sp.ur_num from sp
+                         join rv on rv.sp_num= sp.sp_num
+                                  where touser=#{ur_num} group by sp.ur_num)
+             group by sp_num) as rvlist
+        where rvlist.touser=#{ur_num} and rvlist.ur_num !=#{ur_num}
+    </select>
+    <select id="getRvList" parameterType="int" resultType="rvdto">
+        select sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num
+        from cr
+            join sp on sp.sp_num=cr.sp_num
+            join pd_img on pd_img.pd_num=sp.pd_num
+            join rv on rv.sp_num=sp.sp_num
+        where touser=#{ur_num}
+        group by rv_num
+    </select>
+</mapper>

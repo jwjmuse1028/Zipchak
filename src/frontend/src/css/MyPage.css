@@ -17,6 +17,7 @@ img.mypage_sp_img{
     border: 1px solid #38B9E0;
     border-radius: 10px;
     margin-right: 10px;
+    cursor: pointer;
 }
 div.mypage_sp_title{
     height: 50px;
