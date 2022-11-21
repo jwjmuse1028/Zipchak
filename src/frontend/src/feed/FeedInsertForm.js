@@ -164,6 +164,8 @@ function FeedInsertForm(props) {
             ...dto,
             ["fd_txt"]: editorRef.current?.getInstance().getHTML(),
         })
+        setData(editorRef.current?.getInstance().getHTML())
+        console.log(data)
     }
 
 
@@ -315,19 +317,37 @@ function FeedInsertForm(props) {
             />
             {/*<div dangerouslySetInnerHTML={ {__html: data} } id={"editorContent"}/>*/}
             {
-                window.document.getElementsByTagName('img').item(0) &&
-                window.document.getElementsByTagName('img').item(0)
+                document.getElementsByTagName('img').item(0) &&
+                document.getElementsByTagName('img').item(0)
                     .addEventListener("click",(e)=> {
 
-                        var img =  window.document.getElementsByTagName('img').item(0)
+                        var img =  document.getElementsByTagName('img').item(0)
+                        img.setAttribute("usemap","#imgtag")
 
-                        createElement("map")
+                        let map_tag = document.createElement("map")
+
+                        img.appendChild(map_tag)
+                        map_tag.setAttribute("name","imgtag")
+
+                        let link = document.createElement("area")
+                        link.setAttribute("shape","circle")
+                        link.setAttribute("target","_self")
+                        link.setAttribute("href","www.naver.com")
+                        link.setAttribute("coords","100,100,50")
+                        map_tag.appendChild(link)
+
+
+
+                        setData(editorRef.current?.getInstance().getHTML())
+
+
                         console.log(
                             "X 좌표 : " + e.offsetX + ", width : " + img.clientWidth + "percentage" + e.offsetX/img.clientWidth*100 +"%",
                             "Y 좌표 : " + e.offsetY + ", height : " + img.clientHeight + "percentage" + e.offsetY/img.clientHeight*100 +"%"
                         )
                     })
             }
+            {/*<div dangerouslySetInnerHTML={{__html:data}}/>*/}
 
         </div>
     );
