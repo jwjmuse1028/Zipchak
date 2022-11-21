@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import TempSlider from "../shop/TempSlider";
+import {useNavigate} from "react-router-dom";
 
 function ProfileGetRvList(props) {
     const [rvlist,setRvlist]=useState([]);
+    const navi=useNavigate();
     const ur_num=sessionStorage.ur_num;
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
     const marks = [
@@ -23,15 +24,19 @@ function ProfileGetRvList(props) {
         let rvlistURL=localStorage.url+"/getrv?ur_num="+ur_num;
         axios.get(rvlistURL).then(res=>setRvlist(res.data))
     }
+    const spinfoClick=(item)=>{
+        navi(`/shop/detail/${item.pd_num}/${item.sp_num}/1`);
+    }
     useEffect(()=>getrvlist(),[ur_num])
     return (
         <ul>
             <div>받은 후기 리스트</div>
-            {rvlist.map((rv)=>
-                <li key={rv.rv_num} className={'mypage_chat_li'}>
+            {rvlist.map((rv,i)=>
+                <li key={i} className={'mypage_chat_li'}>
                     <div>
                         <div style={{display:"flex"}}>
-                            <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'} />
+                            <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'}
+                                onClick={()=>spinfoClick(rv)}/>
                             <div className={'mypage_sp_title'}>{rv.sp_title}</div>
                         </div>
                         <div >

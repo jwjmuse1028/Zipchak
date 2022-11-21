@@ -19,14 +19,14 @@ function ReviewNotification(props) {
             })
         }
     }
-    const notify = () => toast.info( nick+'님, '+reviewCnt+'개 상품의 구매 후기를 남겨주세요!', {
+    const notify = () => toast.success( nick+'님, '+reviewCnt+'개 상품의 구매 후기를 남겨주세요!', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "colored",
         onClick:toastclick
     });
     const toastclick=()=>{

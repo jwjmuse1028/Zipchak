@@ -4,6 +4,7 @@ import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import MessageNotification from "./MessageNotification";
 
 function Chat(props) {
     //변수
@@ -67,12 +68,13 @@ function Chat(props) {
                 {
                     roomno==0
                         ?
-                        <div className={'sellect_user'}>채팅할 상대를 선택해주세요</div>
+                        <h1 className={'sellect_user'}>채팅할 상대를 선택해주세요</h1>
                         :
                         <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} roomno={roomno}
                              sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
             </div>
+            <MessageNotification cr_num={cr_num} sendnoti={sendnoti}/>
         </div>
     );
 }

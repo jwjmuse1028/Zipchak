@@ -28,8 +28,7 @@ public class ChatMessageController {
     UserMapper umapper;
     private final S3Service s3Service;
     @MessageMapping("/chat")
-    public void sendMessage(ChatMessageDto chatDto, SimpMessageHeaderAccessor accessor) {
-        //System.out.println(chatDto.getSender()+chatDto.getMsg());
+    public void sendMessage(ChatMessageDto chatDto) {
         int cm_num=cmmapper.insertChatMessage(chatDto);
         //System.out.println(cm_num);
         //ChatMessageDto sendDto=cmmapper.getMsg(cm_num);
@@ -95,9 +94,12 @@ public class ChatMessageController {
         return map;
     }
 
-    @GetMapping("/chat/noti")
-    public int getMsgNoti(int ur_num){
+    @GetMapping("/chat/cntnoti")
+    public int getMsgNotiCnt(int ur_num){
+        return cmmapper.getMsgNotiCnt(ur_num);
+    }
+    @GetMapping("/chat/msgnoti")
+    public List<Map<String,Object>> getMsgNoti(int ur_num){
         return cmmapper.getMsgNoti(ur_num);
     }
-
 }

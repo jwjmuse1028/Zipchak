@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenStatef,sendnoti,noti,cr_num,roomno}=props;
+    const {ur_num, cr_click, screenStatef,sendnoti,noti,roomno}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
     const navi=useNavigate();
@@ -25,9 +25,33 @@ function ChatRoomList(props) {
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+    //몇 분전 등
+    function elapsedTime(date) {
+        const start = new Date(date);
+        const end = new Date(); // 현재 날짜
+        const diff = (end - start); // 경과 시간 구하기
+
+        const times = [
+            { time: "분", milliSeconds: 1000 * 60 },
+            { time: "시간", milliSeconds: 1000 * 60 * 60 },
+            { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
+            { time: "개월", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
+            { time: "년", milliSeconds: 1000 * 60 * 60 * 24 * 365 },
+        ].reverse();
+        for (const value of times) {
+            const betweenTime = Math.floor(diff / value.milliSeconds);
+
+            // 큰 단위는 0보다 작은 소수점 값이 나옴
+            if (betweenTime > 0) {
+                return `${betweenTime}${value.time} 전`;
+            }
+        }
+        // 모든 단위가 맞지 않을 시
+        return "방금 전";
+    }
     useEffect(()=>{
         chatRoomList();
-        console.log(noti);
+        //console.log(noti);
     },[noti,roomno]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -37,8 +61,7 @@ function ChatRoomList(props) {
     }, []);
     return (
         <div >
-            <br/>
-            <ul>
+            <ul style={{paddingLeft:'10px',paddingTop:'10px'}}>
                 {
                 chatRoom &&
                 chatRoom.map((cr,i)=>
@@ -70,7 +93,7 @@ function ChatRoomList(props) {
                                         </>
                                         :
                                         cr.msg}</div>
-                            <div className={'cm_wdate'}>{cr.cm_wdate.substring(5,11)}</div>
+                            <div className={'cm_wdate'}>{elapsedTime(cr.cm_wdate)}</div>
                         </div>
                     </li>
                 )

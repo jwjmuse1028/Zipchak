@@ -97,9 +97,7 @@ function ChatMessageList(props) {
         <div className={'msg_container'}>
             <div className={'msg_list_box'} >
                 {/*상대방 정보*/}
-                <div >
                     <ChatMessageInfo screenStatef={screenStatef} uInfo={uInfo} uTmp={uTmp} cr_num={cr_num}/>
-                </div>
                 {/* 채팅 메시지 리스트 */}
                 <div  className={'msg_list'} onScroll={handleScroll} >
                     <div style={{textAlign:'center',display:`${isloading?'block':'none'}`}}>

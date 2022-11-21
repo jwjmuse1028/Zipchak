@@ -35,7 +35,7 @@
         where rvlist.touser=#{ur_num} and rvlist.ur_num !=#{ur_num}
     </select>
     <select id="getRvList" parameterType="int" resultType="rvdto">
-        select sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num
+        select sp.sp_num, sp.sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num
         from cr
             join sp on sp.sp_num=cr.sp_num
             join pd_img on pd_img.pd_num=sp.pd_num
