@@ -1,12 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
 import axios from "axios";
 import '../css/ChatRoomList.css';
+import {useNavigate} from "react-router-dom";
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenStatef,sendnoti,noti}=props;
+    const {ur_num, cr_click, screenStatef,sendnoti,noti,cr_num,roomno}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
+    const navi=useNavigate();
     const chatRoomList=()=>{
         let url=localStorage.url+"/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -18,7 +20,7 @@ function ChatRoomList(props) {
         setIsActive(i);
         sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
-        axios.get(readUrl).then(res=>"")
+        axios.get(readUrl).then(res=>navi(`/chat/${i}`))
     }
     const handleResize = () => {
         setResize(window.innerWidth);
@@ -26,7 +28,7 @@ function ChatRoomList(props) {
     useEffect(()=>{
         chatRoomList();
         console.log(noti);
-    },[noti]);
+    },[noti,roomno]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         return () => {
@@ -43,7 +45,7 @@ function ChatRoomList(props) {
                     <li key={i} className={'crlist' + (cr.cr_num===isActive?' crlist_click':'')}
                         id={'chatroom_'+cr.cr_num}
                         onClick={()=>{
-                            cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num,'click');
+                            cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num);
                             resize<=800?screenStatef(2):screenStatef(0);
                             clickEvent(cr.cr_num);
                             }} >

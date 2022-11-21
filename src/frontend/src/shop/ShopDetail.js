@@ -107,7 +107,7 @@ function ShopDetail(props) {
         let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
         axios.get(createRoomURL).then(res=>{
                 alert(res.data.msg);
-                navi("/chat");
+                navi(`/chat/${res.data.cr_num}`);
             }
         )
     }

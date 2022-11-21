@@ -35,4 +35,9 @@
     <select id="getChatCnt" parameterType="int" resultType="int">
         SELECT count(*) from cr where sp_num=#{sp_num};
     </select>
+    <select id="getUnum" parameterType="int" resultType="map">
+        select buyer_num, ur_num from cr
+            join sp on sp.sp_num=cr.sp_num
+        where cr_num=#{cr_num}
+    </select>
 </mapper>

@@ -56,4 +56,14 @@ public class ChatRoomController {
     public List<Map<String,Object>> getBuyer(int sp_num){
         return crmapper.getBuyer(sp_num);
     }
+    @GetMapping("/getunum")
+    public int getUnum(int cr_num,int ur_num)
+    {
+        Map<String,Integer> map=crmapper.getUnum(cr_num);
+        System.out.println(map.get("ur_num"));
+        System.out.println(map.get("buyer_num"));
+        if (ur_num==map.get("ur_num")) {return map.get("buyer_num");}
+        else{return map.get("ur_num"); }
+    }
+
 }

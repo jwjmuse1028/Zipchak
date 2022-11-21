@@ -2,16 +2,19 @@ import React, {useEffect, useState} from 'react';
 import '../css/Chat.css';
 import ChatRoomList from "./ChatRoomList";
 import ChatMessageList from "./ChatMessageList";
-import ChatNotification from "./ChatNotification";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 function Chat(props) {
     //변수
-    const [cr_num,setCr_num]=useState(0);
+    const {roomno}=useParams();
     const [u_num,setU_num]=useState(0);
     const [resize, setResize] = useState();
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=Number(sessionStorage.ur_num);
     const [noti,setNoti]=useState('채팅 입장');
+    const [cr_num,setCr_num]=useState(roomno);
+    //console.log(cr_num);
     //함수
     const cr_click=(cr_num,u_num)=>{
         setCr_num(cr_num);
@@ -39,6 +42,7 @@ function Chat(props) {
             }
         }
     }
+
     //useEffect
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -46,9 +50,6 @@ function Chat(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-    useEffect(()=>{
-        reactsize();
-    },[])
     useEffect(()=>{
         reactsize();
     },[resize])
@@ -59,16 +60,16 @@ function Chat(props) {
             >
             <div className={"chatroom-list"}
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=800?"none":"block"}`}}>
-                <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti}
+                <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti} roomno={roomno}
                               noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {
-                    cr_num===0
+                    roomno==0
                         ?
                         <div className={'sellect_user'}>채팅할 상대를 선택해주세요</div>
                         :
-                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num}
+                        <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} roomno={roomno}
                              sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
             </div>

@@ -27,7 +27,7 @@ function ChatNotification(props) {
         onClick:toastclick
     });
     const toastclick=()=>{
-        navi('/chat');
+        navi('/chat/0');
     }
     useEffect(()=>getMsgNoti(),[]);
     useEffect(()=>{
