@@ -25,7 +25,7 @@
                                                      join cr on cr.sp_num=sp.sp_num
         where cr.cr_num=#{cr_num} limit 1
     </select>
-    <select id="getMsgNoti" parameterType="int" resultType="int">
+    <select id="getMsgNotiCnt" parameterType="int" resultType="int">
         select count(*) from cm
                                  join cr on cr.cr_num=cm.cr_num
                                  join sp on sp.sp_num=cr.sp_num
@@ -33,5 +33,15 @@
     </select>
     <select id="getCntMsg" parameterType="int" resultType="int">
         SELECT count(*) FROM cm where cr_num=#{cr_num}
+    </select>
+    <select id="getMsgNoti" parameterType="int" resultType="map">
+        select cm.cr_num, cm.msg, max(cm.cm_wdate) cm_wdate, ur_prf.prf_nick from cr
+            join sp on sp.sp_num=cr.sp_num
+            join (select cm1.cm_num, cm1.cr_num,cm1.msg, cm1.cm_wdate, cm1.sender, cm1.is_read from cm as cm1,
+                 (select msg, cr_num, max(cm_wdate) as max_date from cm group by cr_num) as cm2
+                  where cm1.cm_wdate = cm2.max_date ) as cm on cr.cr_num=cm.cr_num
+            join ur_prf on ur_prf.ur_num=cm.sender
+        where (cr.buyer_num=#{ur_num} or sp.ur_num=#{ur_num}) and is_read=0 and sender!=#{ur_num}
+        group by cr_num
     </select>
 </mapper>

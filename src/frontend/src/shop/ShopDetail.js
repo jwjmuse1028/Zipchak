@@ -16,7 +16,8 @@ import {
     DeleteOutline,
     MoreVert
 } from "@material-ui/icons";
-import BuyerList from "../chat/BuyerList";
+import BuyerList from "./BuyerList";
+import UserTemp from "../user/UserTemp";
 
 function ShopDetail(props) {
     const {pd_num,sp_num,currentPage}=useParams();
@@ -24,6 +25,18 @@ function ShopDetail(props) {
     const [detail,setDetail]=useState('');
     const navi=useNavigate();
     const ur_num=Number(sessionStorage.ur_num);
+
+    //채팅 수
+    const [chatCnt,setChatCnt]=useState(0);
+
+    //함수
+    //채팅 수 출력
+    const getChatCnt=()=>{
+        let getChatCntUrl=localStorage.url+"/shop/getchatcnt?sp_num="+sp_num;
+        axios.get(getChatCntUrl).
+        then(res=>setChatCnt(res.data))
+    }
+
 
     const numberFormat=(inputNumber) =>{
         return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -51,28 +64,27 @@ function ShopDetail(props) {
     }
     const [buyerlistOpen, setBuyerlistOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(0);
+    //판매완료 클릭시
+    const updateSoldOut=()=> {
+        if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후 수정 할 수 없습니다"))
+        { setBuyerlistOpen(true);}
+        else {return;}
+        //console.log('shopdetail:'+buyerlistOpen);
 
+    }
     const buyerlistClose = (value) => {
         setBuyerlistOpen(false);
         setSelectedValue(value);
-    };
-    const updateSoldOut=()=> {
-        setBuyerlistOpen(true);
-        //console.log('shopdetail:'+buyerlistOpen);
-        /*
-        let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
-        if (window.confirm("판매완료 등록을 하시겠습니까? 등록 후 수정 할 수 없습니다")) {
-            axios.post(url)
-                .then(res => {
-                    alert("판매완료 등록되었습니다");
-                    window.location.reload();
-                })
-        } else {
+        if(value===0){
             return;
         }
-        */
-    }
-
+        let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
+        axios.post(url)
+            .then(res => {
+                alert("판매완료 등록되었습니다");
+                window.location.reload();
+            })
+    };
     const settings = {
         dots: true,
         infinite: true,
@@ -95,16 +107,16 @@ function ShopDetail(props) {
         let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
         axios.get(createRoomURL).then(res=>{
                 alert(res.data.msg);
-                navi("/chat");
+                navi(`/chat/${res.data.cr_num}`);
             }
         )
     }
     useEffect(()=>{
         onDetailData();
     },[]);
-
-
-
+    useEffect(()=>{
+        getChatCnt();
+    },[sp_num])
     return (
         <div style={{margin:"auto", width:'35%'}}>
             <Slider {...settings}>
@@ -123,8 +135,10 @@ function ShopDetail(props) {
             <br/>
                 <Avatar src={detail.prf_img}/>
                 <b>{detail.prf_nick}&nbsp;({detail.ur_id})</b>
-                <span style={{float:"right"}}>{detail.prf_tmp}℃</span>
-                <hr/>
+                <div style={{ position:"relative",left:'90%',top:'-60px'}}>
+                    <UserTemp prf_tmp={detail.prf_tmp}/>
+                </div>
+                <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-10px'}}/>
                 <div className={'input-group'}>
                 <IconButton color={"primary"}>
                     <BookmarkBorder fontSize={"large"}/>
@@ -156,7 +170,7 @@ function ShopDetail(props) {
             <br/><br/>
                 <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>
                 <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
-                <span>관심{}</span>·<span>채팅{}</span>·<span>조회 {detail.sp_rdcnt}</span><br/><br/>
+                <span>관심{}</span>·<span>채팅 {chatCnt}</span>·<span>조회 {detail.sp_rdcnt}</span><br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
                     <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>

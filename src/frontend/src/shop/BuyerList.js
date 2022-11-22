@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,12 +7,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 import axios from "axios";
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+import UpdateTemp from "./UpdateTemp";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 const useStyles = makeStyles({
     avatar: {
         backgroundColor: blue[100],
@@ -22,30 +19,42 @@ const useStyles = makeStyles({
     },
 });
 function BuyerList(props) {
-    const classes = useStyles();
-    const {buyerlistOpen,buyerlistClose,selectedValue,sp_num}=props;
+    const {buyerlistOpen,buyerlistClose,sp_num}=props;
     const [buyers,setBuyers]=useState([]);
+    const [touser,setTouser]=useState(0);
+    const [updateTempOpen,setUpdateTempOpen]=useState(false);
+    const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
-    //console.log('buyerlist:'+buyerlistOpen);
 
-    const handleClose = () => {
-        buyerlistClose(selectedValue);
+    const handleListItemClick = (buyer) => {
+        setTouser(buyer);
+        setUpdateTempOpen(true);
+        console.log(buyer);
     };
-
-    const handleListItemClick = (value) => {
-        buyerlistClose(value);
-    };
-
+    const onClose=()=>{
+        buyerlistClose(0);
+    }
     const getbuyer=()=>{
         let getbuyerUrl=localStorage.url+"/getbuyer?sp_num="+sp_num;
         axios.get(getbuyerUrl).then(res=>
             setBuyers(res.data)
         )
     }
+    const updatetemprate=(val)=>{
+        setUpdateTempOpen(false);
+        if (val==0){
+            return;
+        }
+        buyerlistClose(touser);
+    }
     useEffect(()=>getbuyer(),[]);
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={buyerlistOpen}>
-            <DialogTitle id="simple-dialog-title">판매하신 분을 선택해주세요 </DialogTitle>
+        <Dialog aria-labelledby="simple-dialog-title" open={buyerlistOpen}>
+            <DialogTitle id="simple-dialog-title">판매하신 분을 선택해주세요
+                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
             <List>
                 {
                     buyers &&
@@ -60,6 +69,8 @@ function BuyerList(props) {
                     </ListItem>
                 ))}
             </List>
+            <UpdateTemp touser={touser} updateTempOpen={updateTempOpen}
+                        updatetemprate={updatetemprate} sp_num={sp_num} fromseller={1}/>
         </Dialog>
     );
 }

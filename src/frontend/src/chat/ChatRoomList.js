@@ -1,12 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
 import axios from "axios";
 import '../css/ChatRoomList.css';
+import {useNavigate} from "react-router-dom";
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenStatef,sendnoti,noti}=props;
+    const {ur_num, cr_click, screenStatef,sendnoti,noti,roomno}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
+    const navi=useNavigate();
     const chatRoomList=()=>{
         let url=localStorage.url+"/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
@@ -18,15 +20,39 @@ function ChatRoomList(props) {
         setIsActive(i);
         sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
-        axios.get(readUrl).then(res=>"")
+        axios.get(readUrl).then(res=>navi(`/chat/${i}`))
     }
     const handleResize = () => {
         setResize(window.innerWidth);
     };
+    //몇 분전 등
+    function elapsedTime(date) {
+        const start = new Date(date);
+        const end = new Date(); // 현재 날짜
+        const diff = (end - start); // 경과 시간 구하기
+
+        const times = [
+            { time: "분", milliSeconds: 1000 * 60 },
+            { time: "시간", milliSeconds: 1000 * 60 * 60 },
+            { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
+            { time: "개월", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
+            { time: "년", milliSeconds: 1000 * 60 * 60 * 24 * 365 },
+        ].reverse();
+        for (const value of times) {
+            const betweenTime = Math.floor(diff / value.milliSeconds);
+
+            // 큰 단위는 0보다 작은 소수점 값이 나옴
+            if (betweenTime > 0) {
+                return `${betweenTime}${value.time} 전`;
+            }
+        }
+        // 모든 단위가 맞지 않을 시
+        return "방금 전";
+    }
     useEffect(()=>{
         chatRoomList();
-        console.log(noti);
-    },[noti]);
+        //console.log(noti);
+    },[noti,roomno]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         return () => {
@@ -35,15 +61,14 @@ function ChatRoomList(props) {
     }, []);
     return (
         <div >
-            <br/>
-            <ul>
+            <ul style={{paddingLeft:'10px',paddingTop:'10px'}}>
                 {
                 chatRoom &&
                 chatRoom.map((cr,i)=>
                     <li key={i} className={'crlist' + (cr.cr_num===isActive?' crlist_click':'')}
                         id={'chatroom_'+cr.cr_num}
                         onClick={()=>{
-                            cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num,'click');
+                            cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num);
                             resize<=800?screenStatef(2):screenStatef(0);
                             clickEvent(cr.cr_num);
                             }} >
@@ -68,7 +93,7 @@ function ChatRoomList(props) {
                                         </>
                                         :
                                         cr.msg}</div>
-                            <div className={'cm_wdate'}>{cr.cm_wdate.substring(5,11)}</div>
+                            <div className={'cm_wdate'}>{elapsedTime(cr.cm_wdate)}</div>
                         </div>
                     </li>
                 )

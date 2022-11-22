@@ -37,7 +37,6 @@
     <select id="getUserdataByUr" parameterType="int" resultType="UserDto">-- 닉네임님이 로그인중입니다
     select prf_nick,prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
     </select>
-
     <!--  ur_num 으로 profile Map에 담아 가져오기  -->
     <select id="getProfileByNum" parameterType="int" resultType="Map">
         select prf_nick, prf_img, prf_tmp from ur_prf where ur_num = #{ur_num}
