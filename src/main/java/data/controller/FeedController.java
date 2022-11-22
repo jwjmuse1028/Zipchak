@@ -45,5 +45,10 @@ public class FeedController {
         return feedServiceInter.getFeedDetail(fd_num);
     }
 
+    @PostMapping("/loginur")
+    public Map<String,Object> getProfileByNum(int ur_num) {
+        return feedServiceInter.getProfileByNum(ur_num);
+    }
+
 
 }

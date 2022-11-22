@@ -7,6 +7,14 @@ function FeedDetailView(props) {
     const {fd_num}=useParams();
     const navi=useNavigate();
     const [fdata,setFdata]=useState('');
+    const [cmt_txt,setCmt_txt]=useState('');
+
+    const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
+
+    const ur_num=sessionStorage.ur_num;
+    // 로그인한 사람 사진과 닉네임 출력(getPrfByNum으로 axios 가져오기 실패...)
+    const prf_img=sessionStorage.prf_img;
+    const prf_nick=sessionStorage.prf_nick;
 
     const getFeedDetail=()=>{
         const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num;
@@ -23,6 +31,10 @@ function FeedDetailView(props) {
         getFeedDetail();
     },[]);
 
+    const onCmtSubmit=(e)=>{
+        e.preventDefault();
+
+    }
 
     return (
         <div>
@@ -34,7 +46,7 @@ function FeedDetailView(props) {
                         <div className="css-jduq9v e1tspjql3"></div>
                     </div>
 
-                    <div className={"cover_img"} style={{backgroundImage:`url(https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
+                    <div className={"cover_img"} style={{backgroundImage:`url(${imgUrl}/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
                     </div>
                     </div>
                 <div className="content-detail-content-section">
@@ -46,7 +58,7 @@ function FeedDetailView(props) {
                             <div className="content-detail-header__bottom">
                                 <a className="content-detail-header__author" href="/users/8830844">
                                 <div className="content-detail-header__author-image">
-                                    <img className="image" alt="" src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdata.prf_map.prf_img}`}/>
+                                    <img className="image" alt="" src={`${imgUrl}/prf_img/${fdata.prf_map.prf_img}`}/>
                                 </div>
                                 <div className="content-detail-header__author-name">{fdata.prf_map.prf_nick}</div>
                                 <div className="content-detail-header__author-date">{fdata.dto.fd_wdate}</div>
@@ -57,19 +69,19 @@ function FeedDetailView(props) {
                             <dl className="project-detail-metadata-overview">
                                 <div className="project-detail-metadata-overview-item">
                                     <dt className="project-detail-metadata-detail-item">공간</dt>
-                                    <dd className="project-detail-metadata-overview-item__text">아파트</dd>
+                                    <dd className="project-detail-metadata-overview-item__text">{fdata.dto.fd_lvtp}</dd>
                                 </div>
                                 <div className="project-detail-metadata-overview-item">
                                     <dt className="project-detail-metadata-detail-item">평수</dt>
-                                    <dd className="project-detail-metadata-overview-item__text">30평</dd>
+                                    <dd className="project-detail-metadata-overview-item__text">{fdata.dto.fd_spc}</dd>
                                 </div>
                                 <div className="project-detail-metadata-overview-item">
                                     <dt className="project-detail-metadata-detail-item">가족형태</dt>
-                                    <dd className="project-detail-metadata-overview-item__text">리모델링</dd>
+                                    <dd className="project-detail-metadata-overview-item__text">{fdata.dto.fd_fml}</dd>
                                 </div>
                                 <div className="project-detail-metadata-overview-item">
                                     <dt className="project-detail-metadata-detail-item">스타일</dt>
-                                    <dd className="project-detail-metadata-overview-item__text">신혼부부</dd>
+                                    <dd className="project-detail-metadata-overview-item__text">{fdata.dto.fd_style}</dd>
                                 </div>
                             </dl>
                         </section>
@@ -84,6 +96,23 @@ function FeedDetailView(props) {
                 </div>
             </div>
             }  {/* fdata&& 끝 */}
+
+            {/* cmt 입력 부분 */}
+            { ur_num &&
+            <div className={"input-group"}>
+                <img src={`${imgUrl}/prf_img/${prf_img}`} style={{height: '30px', width: '30px', borderRadius:'100%'}}/>
+                <span>{prf_nick}</span>
+                <form onSubmit={onCmtSubmit}>
+                    <input type={'text'} className={'form-control'}
+                           style={{height: '30px', fontSize: '15px'}}
+                           placeholder={'내용을 입력하세요.'} name={"cmt_txt"} value={cmt_txt} required
+                           onChange={(e)=>setCmt_txt(e.target.value)}/>
+                </form>
+            </div>
+            }
+
+
+
 
 
         </div>
