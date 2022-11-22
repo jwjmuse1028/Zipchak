@@ -40,7 +40,7 @@ function ReviewNotification(props) {
         }},[reviewCnt]);
     return (
         <div>
-            <ToastContainer theme="colored" transition={Zoom}/>
+            <ToastContainer theme="colored" transition={Bounce}/>
         </div>
     );
 }

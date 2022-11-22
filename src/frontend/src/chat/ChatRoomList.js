@@ -9,16 +9,19 @@ function ChatRoomList(props) {
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
     const navi=useNavigate();
+    //채팅 리스트 출력
     const chatRoomList=()=>{
         let url=localStorage.url+"/chat/list?ur_num="+ur_num;
         axios.get(url).then(res=>{
             setChatRoom(res.data);
         })
+
     }
+    //채팅방 클릭했을 때,
     const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
         setIsActive(i);
-        sendnoti('연결:'+i+'번 방' );
+        //sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
         axios.get(readUrl).then(res=>"");
         navi(`/chat/${i}`)
@@ -27,7 +30,7 @@ function ChatRoomList(props) {
     const handleResize = () => {
         setResize(window.innerWidth);
     };
-    //몇 분전 등
+    //몇 분전으로 날짜 출력
     function elapsedTime(date) {
         const start = new Date(date);
         const end = new Date(); // 현재 날짜
@@ -53,7 +56,6 @@ function ChatRoomList(props) {
     }
     useEffect(()=>{
         chatRoomList();
-        console.log(noti);
     },[noti,roomno]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -78,7 +80,7 @@ function ChatRoomList(props) {
                             <div className={'room_box_top_text'}>
                                 <b>{ur_num!==cr.buyer_num?cr.buyer_nick:cr.seller_nick}님&nbsp;|</b>
                                 &nbsp;&nbsp;{cr.sp_title}</div>
-                            <div className={'read_sign'} id={`msg_sign${cr.cr_num}`} style={{backgroundColor:cr.sender===ur_num?"gray":cr.is_read===0?"#38B9E0":"gray"}}></div>
+                            <div className={'read_sign'} id={`msg_sign${cr.cr_num}`} style={{backgroundColor:cr.sender===ur_num?"gray":cr.is_read===0?"#35C5F0":"gray"}}></div>
 
                         </div>
                         <div className={'room-box-btm'}>
@@ -106,4 +108,4 @@ function ChatRoomList(props) {
     );
 }
 
-export default ChatRoomList;
+export default React.memo(ChatRoomList);

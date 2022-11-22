@@ -1,20 +1,57 @@
-.mypage_chat_ul{
+div.mypage_otr_container{
+    width:100%;
+    max-width:1136px;
+    margin:auto;
 }
-.mypage_chat_li{
+div.mypage_container{
+    display: grid;
+
+}
+/*프로필*/
+div.mypage_prf_box{
+    padding: 10px;
+    margin: auto;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 100%;
+}
+div.mypage_prf_img_box{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 1px solid gray;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+}
+img.mypage_prf_img{
+    width: 100%;
+}
+div.mypage_prf_nick{
+    font-size: 30px;
+    text-align: center;
+}
+
+/*후기리스트*/
+.mypage_ul{
+    width: 100%;
+}
+.mypage_li{
     list-style: none;
     margin-bottom: 10px;
-    border: 1px solid #38B9E0;
+    border: 1px solid #35C5F0;
     border-radius: 10px;
     padding: 3px;
     width: 70%;
-    min-width: 500px;
     position: relative;
 }
 
 img.mypage_sp_img{
     width: 50px;
     height: 50px;
-    border: 1px solid #38B9E0;
+    border: 1px solid #35C5F0;
     border-radius: 10px;
     margin-right: 10px;
     cursor: pointer;
@@ -25,7 +62,7 @@ div.mypage_sp_title{
 }
 .mypage_btn{
     width: 150px;
-    color: #38B9E0;
+    color: #35C5F0;
     border: 1px solid white;
     border-radius: 10px;
     background-color: white;
@@ -35,6 +72,23 @@ div.mypage_sp_title{
     padding: 15px;
 }
 .mypage_btn:hover {
-    background-color: #38B9E0;
+    background-color: #35C5F0;
     color: white;
+}
+/*반응형*/
+@media screen and (min-width: 768px) {
+    div.mypage_container{
+        grid-template-columns: 30% 70%;
+    }
+    div.mypage_prf_box{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 768px) {
+    div.mypage_container{
+        grid-template-rows: 200px 1fr;
+    }
+    div.mypage_prf_box{
+        width: 100%;
+    }
 }

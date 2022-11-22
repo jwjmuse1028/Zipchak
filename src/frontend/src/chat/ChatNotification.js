@@ -37,7 +37,7 @@ function ChatNotification(props) {
         }},[msgCnt]);
     return (
         <div>
-            <ToastContainer theme="colored" transition={Zoom}/>
+            <ToastContainer theme="colored" transition={Bounce}/>
         </div>
     );
 }

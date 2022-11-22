@@ -9,7 +9,6 @@ function ChatMessageList(props) {
     //변수
     const {cr_num, u_num, screenStatef,screenState,sendnoti,noti,roomno}=props;
     const [uInfo,setUinfo]=useState({});
-    const [uTmp,setUTmp]=useState();
     const [resize, setResize] = useState();
     const [chatList, setChatList] = useState([]);
     const [perpage,setPerpage]=useState(9);
@@ -17,8 +16,10 @@ function ChatMessageList(props) {
     const scrollRef=useRef();
     const [totalmsg,setTotalmsg]=useState(0);
     const timerDebounceRef = useRef();
-    const [u_numfromurl,setU_numfromurl]=useState(0);
+    const [u_numfinal,setU_numfinal]=useState(0);
     const ur_num=sessionStorage.ur_num;
+    const [addMsgnoti,setAddMsgnoti]=useState();
+    const [inrHeight,setInrHeight]=useState();
 
     //함수
     //상품에서 왔을 때
@@ -26,10 +27,10 @@ function ChatMessageList(props) {
         if(u_num==0){
         let getUnumURL = localStorage.url + "/getunum?cr_num=" + roomno + "&ur_num=" + ur_num;
         axios.get(getUnumURL).then(res => {
-            setU_numfromurl(res.data);
+            setU_numfinal(res.data);
             getUInfo();
         })}else {
-            setU_numfromurl(u_num);
+            setU_numfinal(u_num);
             getUInfo();
         }
 
@@ -37,15 +38,15 @@ function ChatMessageList(props) {
     //상대방 정보 출력
     const getUInfo=()=>{
         //console.log("u_num:"+u_numfromurl);
-        let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+u_numfromurl;
+        let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+u_numfinal;
         axios.get(uinfoUrl).then(res=>{
             setUinfo(res.data);
-            setUTmp(res.data.prf_tmp);
         })
     }
     //화면 사이즈 입력
     const handleResize = () => {
         setResize(window.innerWidth);
+        setInrHeight(window.innerHeight);
     };
     //db에서 메시지 가져옴
     const getChatMessage=()=>{
@@ -60,6 +61,7 @@ function ChatMessageList(props) {
     const addMsg=(msg)=>{
         setChatList((prev)=>[...prev,msg]);
         sendnoti(msg);
+        setAddMsgnoti(msg);
     }
 
     const handleScroll = (e) => {
@@ -68,8 +70,8 @@ function ChatMessageList(props) {
         }
         timerDebounceRef.current = setTimeout(() => {
             if (e.target.scrollTop===0){
-                if (perpage<totalmsg+4){
-                    setPerpage(perpage+9);
+                if (perpage<totalmsg+6){
+                    setPerpage(perpage+6);
                     //console.log("currentmsg="+perpage);
                     setIsloading(true);
                 }
@@ -80,7 +82,7 @@ function ChatMessageList(props) {
     useEffect(()=>{
         getUInfofromurl();
         setPerpage(9);
-    },[cr_num,u_numfromurl])
+    },[cr_num,u_numfinal])
 
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -96,13 +98,13 @@ function ChatMessageList(props) {
     useEffect(()=>{
         getChatMessage()
         //console.log(noti+'메시지 출력중');
-    },[cr_num,perpage,noti])
-
+    },[cr_num,noti,addMsgnoti,perpage,chatList])
     return (
         <div className={'msg_container'}>
             <div className={'msg_list_box'} >
                 {/*상대방 정보*/}
-                    <ChatMessageInfo screenStatef={screenStatef} uInfo={uInfo} uTmp={uTmp} cr_num={cr_num}/>
+                    <ChatMessageInfo screenStatef={screenStatef} uInfo={uInfo}
+                                     u_numfinal={u_numfinal} cr_num={cr_num}/>
                 {/* 채팅 메시지 리스트 */}
                 <div  className={'msg_list'} onScroll={handleScroll} >
                     <div style={{textAlign:'center',display:`${isloading?'block':'none'}`}}>

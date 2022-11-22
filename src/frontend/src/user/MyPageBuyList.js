@@ -32,12 +32,12 @@ function MyPageBuyList(props) {
     useEffect(()=>buylistforreview(),[ur_num,chk])
     return (
         <div>
-            <ul className={'mypage_chat_ul'} >
+            <ul className={'mypage_ul'} >
                 <div>구매리스트</div>
                 {buylist && buylist.map((item,i)=>
                     <div key={i}>
                         {ur_num===item.ur_num?"":
-                            <li  className={'mypage_chat_li'}>
+                            <li  className={'mypage_li'}>
                                 <div style={{display:"flex"}} >
                                     <img alt={''} src={spURL+item.img_name}
                                          onClick={()=>spinfoClick(item)} className={'mypage_sp_img'} />

@@ -28,7 +28,7 @@ div.msg_list{
     width: 10px;
 }
 .msg_list::-webkit-scrollbar-thumb {
-    background-color: #38B9E0;
+    background-color: #35C5F0;
     border-radius: 10px;
     border: 1px solid white;
 }
@@ -75,7 +75,7 @@ div.msg_list{
 .loader4:before{
     content: "";
     position: absolute;
-    background-color: #38B9E0;
+    background-color: #35C5F0;
     top: 0px;
     left: 0px;
     height: 20px;
@@ -90,7 +90,7 @@ div.msg_list{
 
 .loader4:after{
     content: "LOADING ...";
-    color: #38B9E0;
+    color: #35C5F0;
     font-weight: 200;
     font-size: 16px;
     position: absolute;
@@ -130,7 +130,7 @@ div.i_read{
     bottom: 5px;
     width: 50px;
     text-align: right;
-    color: #38B9E0;
+    color: #35C5F0;
 }
 div.i_msg_box{
     margin-right: 10px;
@@ -139,7 +139,7 @@ div.i_msg_box{
     margin-bottom: 5px;
     width: 30%;
     min-width: 200px;
-    background-color: #38B9E0;
+    background-color: #35C5F0;
     padding: 5px 15px;
     color: white;
 }
@@ -150,7 +150,7 @@ div.i_msg_box{
     left:30%;
     margin-top: -10px;
     border: 10px solid transparent;
-    border-left: 15px solid #38B9E0;
+    border-left: 15px solid #35C5F0;
 }
 div.u_msg_box_w_prf{
     position: relative;
@@ -162,7 +162,7 @@ div.chat_prf_box{
     width: 45px;
     height: 45px;
     border-radius: 100px;
-    border: 1px solid #38B9E0;
+    border: 1px solid #35C5F0;
     background: 50% 50% no-repeat;
     background-size: cover;
 }

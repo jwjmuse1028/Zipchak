@@ -3,9 +3,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 function ProfileGetRvList(props) {
+    const {user}=props;
     const [rvlist,setRvlist]=useState([]);
     const navi=useNavigate();
-    const ur_num=sessionStorage.ur_num;
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
     const marks = [
         {value: 0, label: '🤬'},
@@ -21,18 +21,18 @@ function ProfileGetRvList(props) {
         {value: 100, label: '😍'}
     ];
     const getrvlist=()=>{
-        let rvlistURL=localStorage.url+"/getrv?ur_num="+ur_num;
+        let rvlistURL=localStorage.url+"/getrv?ur_num="+user;
         axios.get(rvlistURL).then(res=>setRvlist(res.data))
     }
     const spinfoClick=(item)=>{
         navi(`/shop/detail/${item.pd_num}/${item.sp_num}/1`);
     }
-    useEffect(()=>getrvlist(),[ur_num])
+    useEffect(()=>getrvlist(),[user])
     return (
         <ul>
             <div>받은 후기 리스트</div>
             {rvlist.map((rv,i)=>
-                <li key={i} className={'mypage_chat_li'}>
+                <li key={i} className={'mypage_li'}>
                     <div>
                         <div style={{display:"flex"}}>
                             <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'}

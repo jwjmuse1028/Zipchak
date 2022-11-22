@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 function MessageNotification(props) {
-    const {cr_num,sendnoti}=props;
+    const {cr_num,noti}=props;
     const ur_num=sessionStorage.ur_num;
     const [msgList,setMsgList]=useState([]);
     const navi=useNavigate();
@@ -55,7 +55,7 @@ function MessageNotification(props) {
         window.location.replace(`/chat/${from_cr_num}`);
 
     }
-    useEffect(()=>getMsgNoti(),[cr_num]);
+    useEffect(()=>getMsgNoti(),[cr_num,noti]);
     useEffect(()=>{
         msgList.map((msgitem,i)=>{
             notify(msgitem);
