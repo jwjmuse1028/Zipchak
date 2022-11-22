@@ -29,4 +29,6 @@ public class ShopProductDto {
     private String prf_nick;
     private String prf_img;
     private double prf_tmp;
+    private int totallikes;
+    private int userlike;
 }

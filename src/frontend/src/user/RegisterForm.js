@@ -202,7 +202,7 @@ function RegisterForm(props) {
                                 <input type={"file"}  id={'filephoto'}
                                        style={{visibility: 'hidden'}}
                                        onChange={photoUploadEvent}/>
-                                <img src={prf_img} onError={onErrorImg}
+                                <img src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${prf_img}`} onError={onErrorImg}
                                      style={{width: '200px',height:'200px', borderRadius: '150px'}}/>
 
                                 <br/><br/>

@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
+    Bookmark,
     BookmarkBorder,
     BuildOutlined,
     Chat,
@@ -16,8 +17,17 @@ import {
     DeleteOutline,
     MoreVert
 } from "@material-ui/icons";
+
+import Slide from "@material-ui/core/Slide";
+import Fade from "@material-ui/core/Fade";
+import Snackbar from "@material-ui/core/Snackbar";
+function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 import BuyerList from "./BuyerList";
 import UserTemp from "../user/UserTemp";
+
 
 function ShopDetail(props) {
     const {pd_num,sp_num,currentPage}=useParams();
@@ -43,7 +53,8 @@ function ShopDetail(props) {
     }
 
     const onDetailData=()=>{
-        let url=sessionStorage.url+"/shop/detail?sp_num="+sp_num;
+        let ur_num=sessionStorage.ur_num;
+        let url=sessionStorage.url+"/shop/detail?sp_num="+sp_num+"&ur_num="+ur_num;
         axios.get(url)
             .then(res=>{
                 setDetail(res.data);
@@ -114,9 +125,45 @@ function ShopDetail(props) {
     useEffect(()=>{
         onDetailData();
     },[]);
+
+    const onClickLike= (Transition) =>()=>{
+        let ur_num=sessionStorage.ur_num;
+        let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
+        if (sessionStorage.loginok==null){
+            alert("로그인 후 이용해주세요");
+            return;
+        }
+        axios.get(url)
+            .then(res=>{
+                setDetail(
+                    {
+                        ...detail,
+                        totallikes: res.data.totallikes,
+                        userlike: res.data.userlike
+                    }
+                    );
+                setState({
+                    open: true,
+                    Transition,
+                });
+            })
+    }
+    const [state, setState] = React.useState({
+        open: false,
+        Transition: Fade,
+    });
+
+    const likeClose = () => {
+        setState({
+            ...state,
+            open: false,
+        });
+    };
+
     useEffect(()=>{
         getChatCnt();
     },[sp_num])
+
     return (
         <div style={{margin:"auto", width:'35%'}}>
             <Slider {...settings}>
@@ -133,15 +180,18 @@ function ShopDetail(props) {
                     <p className={'soldouttxtdetail'}>판매완료</p>:''
             }
             <br/>
-                <Avatar src={detail.prf_img}/>
+                <Avatar src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${detail.prf_img}`}/>
                 <b>{detail.prf_nick}&nbsp;({detail.ur_id})</b>
                 <div style={{ position:"relative",left:'90%',top:'-60px'}}>
                     <UserTemp prf_tmp={detail.prf_tmp}/>
                 </div>
                 <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-10px'}}/>
                 <div className={'input-group'}>
-                <IconButton color={"primary"}>
-                    <BookmarkBorder fontSize={"large"}/>
+                <IconButton color={"primary"} onClick={onClickLike(SlideTransition)}>
+                    {
+                        <Bookmark fontSize={"large"}/>
+                        // detail.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
+                    }
                 </IconButton>
                 <b style={{fontSize:'2.2em'}}>{detail.sp_title}</b>
                 </div>
@@ -157,6 +207,14 @@ function ShopDetail(props) {
                         <MoreVert/>
                     </IconButton> : ''
             }
+            <Snackbar
+                open={state.open}
+                onClose={likeClose}
+                autoHideDuration={2000}
+                TransitionComponent={state.Transition}
+                message= {detail.userlike===1?"상품을 찜 하였습니다!!":"상품을 찜해제 하였습니다ㅠㅠ"}
+                key={state.Transition.name}
+            />
                 <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -170,7 +228,7 @@ function ShopDetail(props) {
             <br/><br/>
                 <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>
                 <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
-                <span>관심{}</span>·<span>채팅 {chatCnt}</span>·<span>조회 {detail.sp_rdcnt}</span><br/><br/>
+                <span>관심&nbsp;{detail.totallikes}·채팅&nbsp;{chatCnt}·조회&nbsp;{detail.sp_rdcnt}</span><br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
                     <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>

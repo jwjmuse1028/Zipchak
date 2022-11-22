@@ -2,26 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {
     Button,
     Fab,
-    FormControlLabel,
     MenuItem,
-    Radio,
-    RadioGroup,
     Select,
     TextField
 } from "@mui/material";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import {BookmarkBorder, Create} from "@material-ui/icons";
+import {Bookmark, BookmarkBorder, Create} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
+import Slide from "@material-ui/core/Slide";
+import Fade from "@material-ui/core/Fade";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: '21%',
+        minWidth: 240
     },
     media: {
         height: 0,
@@ -39,37 +40,96 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+}
+
 function ShopList() {
     const classes = useStyles();
     const navi = useNavigate();
-     const {currentPage}=useParams();
+    const {currentPage}=useParams();
+    // console.log("샵넘="+sp_num);
     const [data, setData]=useState('');
-    // const imageUrl = sessionStorage.url+"/image/";
+    const [search_col, setSearch_col]=useState('sp_title');
+    const [search_word, setSearch_word]=useState('');
+    const [viewPaging,setViewPaging]=useState(true);
+    // const [chkSoldOut,setChkSoldOut]=useState(true);
+    // const [like, setLike]=useState(false);
+    // const [bookmark, setBookmark]=useState('unlike');
 
     const getList=()=>{
-        let url = sessionStorage.url+"/shop/list?currentPage="+currentPage;
+        let ur_num=sessionStorage.ur_num;
+        let url = sessionStorage.url+"/shop/list?currentPage="+currentPage+"&ur_num="+ur_num;
         axios.get(url)
             .then(res=>{
                 setData(res.data);
-                // console.log("res.data.length="+res.data.list.length);
+                setViewPaging(true);
+                setSearch_word('');
             })
     }
-    const numberFormat=(inputNumber) =>{
-        return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const searchbutton=()=>{
+
+        let ur_num=sessionStorage.ur_num;
+        let url = sessionStorage.url+"/shop/list?search_col="+search_col+"&search_word="+search_word+"&ur_num="+ur_num;
+        axios.get(url)
+            .then(res=>{
+                // alert("성공");
+                setData(res.data);
+                if(search_word==null || search_word.length==0){
+                    setViewPaging(true);
+                }else{
+                    setViewPaging(false);
+                }
+                setSearch_word('');
+            })
     }
+
     useEffect(() => {
-           getList();
+            getList();
         },
         [currentPage]);
 
+    const numberFormat=(inputNumber) =>{
+        return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // const onClickLike= (Transition) =>()=>{
+    //     let ur_num=sessionStorage.ur_num;
+    //     let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
+    //     if (sessionStorage.loginok==null){
+    //         alert("로그인 후 이용해주세요");
+    //         return;
+    //     }
+    //     axios.get(url)
+    //         .then(res=>{
+    //             setData(
+    //                 {
+    //                     ...data,
+    //                     totallikes: res.data.totallikes,
+    //                     userlike: res.data.userlike
+    //                 }
+    //             );
+    //             setState({
+    //                 open: true,
+    //                 Transition,
+    //             });
+    //         })
+    // }
+    // const [state, setState] = React.useState({
+    //     open: false,
+    //     Transition: Fade,
+    // });
+    //
+    // const likeClose = () => {
+    //     setState({
+    //         ...state,
+    //         open: false,
+    //     });
+    // };
     return (
         <div style={{margin:"auto", width:'70%'}}>
-            {/*{*/}
-            {/*    data &&*/}
-            {/*    <h1>중고 글 수:{data.list.length}개</h1>*/}
-            {/*}*/}
             <div>
-                <Fab color="primary" variant="extended" onClick={() => {
+                <Fab color="info" variant="extended" onClick={() => {
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요");
                             return
@@ -79,74 +139,30 @@ function ShopList() {
                         }}>
                         <Create/>&nbsp;판매글작성
                 </Fab>
-
-                    {/*<label><input type={"radio"} name={'pd_status'} checked/>&nbsp;전체보기</label>&nbsp;&nbsp;&nbsp;*/}
-                    {/*<label><input type={"radio"} name={'pd_status'}/>&nbsp;판매중인 상품만 보기</label>*/}
-                        <RadioGroup row aria-label="position" name="status" defaultValue="전체보기" style={{float:"right"}}>
-                            <FormControlLabel
-                                control={<Radio/>}
-                                value="전체보기"
-                                label="전체보기"
-                            />
-                            <FormControlLabel
-                                control={<Radio/>}
-                                value="판매중인 상품만 보기"
-                                label="판매중인 상품만 보기"
-                            />
-                        </RadioGroup>
+                    {/*    <RadioGroup row aria-label="position" name="status" defaultValue="전체보기" style={{float:"right"}}>*/}
+                    {/*        <FormControlLabel*/}
+                    {/*            control={<Radio/>}*/}
+                    {/*            value="전체보기"*/}
+                    {/*            label="전체보기"*/}
+                    {/*        />*/}
+                    {/*        <FormControlLabel*/}
+                    {/*            control={<Radio/>}*/}
+                    {/*            value="판매중인 상품만 보기"*/}
+                    {/*            label="판매중인 상품만 보기"*/}
+                    {/*        />*/}
+                    {/*    </RadioGroup>*/}
+                <div style={{justifyContent:"center"}} className={'input-group'}>
+                    <Select style={{width:'7%', textAlign:"center"}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>
+                        <MenuItem value={'sp_title'}>제목</MenuItem>
+                        <MenuItem value={'sp_txt'}>내용</MenuItem>
+                    </Select>
+                    <TextField placeholder={'검색어'} style={{width:'30%'}} value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
+                    <Button variant="contained" color="info" style={{width:'7%'}} onClick={searchbutton}>검색</Button>
+                </div>
             </div>
                 <br/>
             {
                 data.list && data.list.map((row,idx)=>
-                        // <div style={{verticalAlign: "middle",
-                        //     display: "block",
-                        //     position: "relative",
-                        //     overflow: "hidden",
-                        //     paddingTop: "55%"}}>
-                        //     <span
-                        //         style={{
-                        //              backgroundImage:
-                        //             // `url(${
-                        //             //     imageUrl + r.thumbnailImage
-                        //             // })`,
-                        //             `url(${row.img_first})`,
-                        //             verticalAlign: "top",
-                        //             backgroundSize: "cover",
-                        //             position: "absolute",
-                        //             top: "0",
-                        //             left: "0",
-                        //             width:'150px',
-                        //             height:'150px'
-                        //             // width: "100%",
-                        //             // height: "100%"
-                        //         }}
-                        //     >
-                        //         {row.pd_status=="soldout" ? (
-                        //             <span style={{
-                        //                 display: "table",
-                        //                 width: "102%",
-                        //                 height: "102%",
-                        //                 background: "rgba(0, 0, 0, 0.6)",
-                        //                 color: "#fff",
-                        //                 textAlign: "center",
-                        //                 zIndex: "0",
-                        //                 fontSize: "17px"
-                        //             }}>
-                        //                 <em className='label'
-                        //                 style={{
-                        //                     display: "table-cell",
-                        //                     verticalAlign: "middle"
-                        //                 }}>
-                        //                     판매완료
-                        //                 </em>
-                        //             </span>
-                        //         )  : null}
-                        //     </span>
-                        //
-                        // </div>
-                        // <span style={{backgroundImage:`url(${row.img_first})`}}>
-                        //     { row.pd_status=="soldout"?<span></span>:null}
-                        // </span>
                     <Card className={classes.root} style={{float:'left',margin:'2%'}} key={idx}
                     >
                         <CardMedia
@@ -163,45 +179,50 @@ function ShopList() {
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
                             <IconButton color={"primary"}>
-                                {/*<Bookmark/>*/}
-                                <BookmarkBorder/>
+                                {
+                                    <BookmarkBorder/>
+                                    // row.userlike===1?<Bookmark/>:<BookmarkBorder/>
+                                }
                             </IconButton>
                         </CardActions>
                             <CardContent>
                                 <b className={'list-title'}
                                    onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
                                 <span>{numberFormat(row.pd_price)}원</span><br/>
-                                <span style={{color:"gray", fontSize:'0.9em'}}>관심{}</span>·<span style={{color:"gray", fontSize:'0.9em'}}>채팅{}</span>
+                                <span style={{color:"gray", fontSize:'0.9em'}}>관심&nbsp;{row.totallikes}·채팅&nbsp;{}</span>
                             </CardContent>
                         </div>
                     </Card>
                 )
-            }<br/>
-            <div style={{textAlign:"center"}} className={'input-group'}>
-                <Select style={{width:'7%'}} defaultValue={'제목'}>
-                    <MenuItem value={'제목'} selected={true}>제목</MenuItem>
-                    <MenuItem value={'내용'}>내용</MenuItem>
-                </Select>
-            <TextField placeholder={'검색어'} style={{width:'30%'}}/>
-            <Button variant="contained" color="info" style={{width:'7%'}}>검색</Button>
-            </div>
+            }
+            {/*<Snackbar*/}
+            {/*    open={state.open}*/}
+            {/*    onClose={likeClose}*/}
+            {/*    autoHideDuration={2000}*/}
+            {/*    TransitionComponent={state.Transition}*/}
+            {/*    message= {data.userlike===1?"상품을 찜! 하였습니다":"상품을 찜해제ㅠㅠ 하였습니다"}*/}
+            {/*    key={state.Transition.name}*/}
+            {/*/>*/}
             <br/>
-            <div className={'page'} variant="outlined" shape="rounded" style={{clear:'both'}}>
-                {
-                    data.startPage>1?
-                        <Link to={`/shop/list/${data.startPage-1}`} className={'pageprev'}>이전</Link> : ''
-                }
-                {
-                    data.parr &&
-                    data.parr.map((n,i)=>
-                        <Link to={`/shop/list/${n}`} className={'pagenum'} key={i}>
-                            <b style={{color:n==currentPage?'#38B9E0':'black'}}>{n}</b></Link>)
-                }
-                {
-                    data.endPage<data.totalPage?
-                        <Link to={`/shop/list/${data.endPage+1}`} className={'pagenext'}>다음</Link> : ''
-                }
-            </div>
+            {
+                viewPaging &&
+                <div className={'page'} variant="outlined" shape="rounded" style={{clear: 'both'}}>
+                    {
+                        data.startPage > 1 ?
+                            <Link to={`/shop/list/${data.startPage - 1}`} className={'pageprev'}>이전</Link> : ''
+                    }
+                    {
+                        data.parr &&
+                        data.parr.map((n, i) =>
+                            <Link to={`/shop/list/${n}`} className={'pagenum'} key={i}>
+                                <b style={{color: n == currentPage ? '#38B9E0' : 'black'}}>{n}</b></Link>)
+                    }
+                    {
+                        data.endPage < data.totalPage ?
+                            <Link to={`/shop/list/${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
+                    }
+                </div>
+            }
         </div>
     );
 }

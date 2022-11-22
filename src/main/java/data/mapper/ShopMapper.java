@@ -6,12 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
+
 @Mapper
 public interface ShopMapper {
 
     public int getTotalCount();
     public void insertShop(ShopDto dto);
-    public List<ShopProductDto> getPagingList(Map<String,Integer> map);
+    public List<ShopProductDto> getPagingList(Map<String, Object> map);
     public ShopProductDto getData(int sp_num);
     public void updateShop(ShopDto dto);
     public void updateReadCount(int sp_num);

@@ -18,4 +18,5 @@ public class ShopDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private Timestamp sp_wdate;
     private int sp_rdcnt;
+
 }
