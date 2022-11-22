@@ -2,6 +2,7 @@ package data.controller;
 
 import com.amazonaws.services.simpleworkflow.flow.core.TryCatch;
 import data.dto.*;
+import data.mapper.ChatRoomMapper;
 import data.mapper.ProductMapper;
 import data.mapper.ShopLikeMapper;
 import data.mapper.ShopMapper;
@@ -34,6 +35,9 @@ public class ShopController {
     @Autowired
     ShopLikeMapper likeMapper;
 
+    @Autowired
+    ChatRoomMapper crmapper;
+    
     List<String> totalImages=new ArrayList<>();
 
     public ShopController(S3Service s3Service) {
@@ -227,5 +231,10 @@ public class ShopController {
     public void deleteShop(@RequestParam int pd_num)
     {
         productMapper.deleteShop(pd_num);
+    }
+    @GetMapping("/getchatcnt")
+    public int getChatCnt(int sp_num)
+    {
+        return crmapper.getChatCnt(sp_num);
     }
 }

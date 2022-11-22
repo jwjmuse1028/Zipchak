@@ -9,7 +9,7 @@
                  join ur on sp.ur_num=ur.ur_num
                  join (
             select cm1.cm_num, cm1.cr_num,cm1.msg, cm1.cm_wdate, cm1.sender, cm1.is_read from cm as cm1,
-                                                                                              (select msg, cr_num, max(cm_wdate) as max_date from cm group by cr_num) as cm2
+                 (select msg, cr_num, max(cm_wdate) as max_date from cm group by cr_num) as cm2
             where cm1.cm_wdate = cm2.max_date ) as cm on cr.cr_num=cm.cr_num
                  join ur_prf on ur_prf.ur_num=cr.buyer_num
                  join ur_prf as ur_prf_seller on ur_prf_seller.ur_num=sp.ur_num
@@ -31,5 +31,13 @@
         select buyer_num, ur_prf.prf_nick buyer_nick, ur_prf.prf_img from cr
             join ur_prf on buyer_num=ur_num
         where sp_num=#{sp_num}
+    </select>
+    <select id="getChatCnt" parameterType="int" resultType="int">
+        SELECT count(*) from cr where sp_num=#{sp_num};
+    </select>
+    <select id="getUnum" parameterType="int" resultType="map">
+        select buyer_num, ur_num from cr
+            join sp on sp.sp_num=cr.sp_num
+        where cr_num=#{cr_num}
     </select>
 </mapper>

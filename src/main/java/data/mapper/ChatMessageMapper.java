@@ -15,6 +15,6 @@ public interface ChatMessageMapper {
     public void updateReadAfterMsg(Map<String,Integer> map);
     public Map<String,Object> getSpInfo(int cr_num);
     public int getCntMsg(int cr_num);
-    public int getMsgNoti(int ur_num);
-
+    public int getMsgNotiCnt(int ur_num);
+    public List<Map<String,Object>> getMsgNoti(int ur_num);
     }

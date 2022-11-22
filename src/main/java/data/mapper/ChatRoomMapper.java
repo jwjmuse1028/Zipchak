@@ -13,5 +13,6 @@ public interface ChatRoomMapper {
     public int getSeller(int sp_num);
     public Map<String,Integer> getRoomChk(ChatRoomDto crdto);
     public List<Map<String,Object>>  getBuyer(int sp_num);
-
+    public int getChatCnt(int sp_num);
+    public Map<String,Integer> getUnum(int cr_num);
 }

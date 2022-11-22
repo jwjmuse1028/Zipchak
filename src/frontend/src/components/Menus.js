@@ -93,7 +93,7 @@ function Menus(props) {
                 <NavLink onClick={()=>{navi("/shop/list/1"); window.location.reload()}}>중고</NavLink>
             </li>
             <li>
-                <NavLink to={"/chat/"}>채팅</NavLink>
+                <NavLink to={"/chat/0"}>채팅</NavLink>
             </li>
             {/*<li>*/}
             {/*    <NavLink to={"/board/list"}>게시판</NavLink>*/}

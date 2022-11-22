@@ -45,6 +45,7 @@ function ChatMessageInput(props) {
             const json_body = JSON.parse(body.body);
             //console.dir(json_body);
             //addMsg(json_body);
+            //sendnoti("메시지받음,"+cr_num+");
         });
 
     };

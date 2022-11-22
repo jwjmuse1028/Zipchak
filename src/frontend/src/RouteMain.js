@@ -44,7 +44,8 @@ function RouteMain(props) {
                     <Route path='detail/:pd_num/:sp_num/:currentPage' element={<ShopDetail/>}/>
                 </Route>
 
-                <Route path='/chat' element={<Chat/>}>
+                <Route path='/chat'>
+                    <Route path=':roomno' element={<Chat/>}/>
                     <Route path='list/' element={<ChatRoomList/>}/>
                 </Route>
                 {/*<Route path='/board'>*/}
