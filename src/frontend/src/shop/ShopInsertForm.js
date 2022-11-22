@@ -94,7 +94,7 @@ function ShopInsertForm(props) {
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:'white'}}>
+                <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:"white"}}>
                     <caption align={'top'}><h2>상품등록</h2></caption>
                     <tbody>
                         <tr><th></th></tr>
@@ -108,7 +108,8 @@ function ShopInsertForm(props) {
                         <tr>
                             <th>카테고리&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <Select variant={"standard"} style={{width:'50%'}} required
+                                <Select value={pd_ctg} variant={"standard"} style={{width:'50%'}} required displayEmpty
+                                        renderValue={pd_ctg !== "" ? undefined : () => "카테고리를 선택해주세요"}
                                 onChange={(e)=>setPd_ctg(e.target.value)}>
                                     {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택해주세요"}>카테고리를 선택해주세요</MenuItem>*/}
                                     <MenuItem value={'남성의류'}>남성의류</MenuItem>
@@ -144,7 +145,7 @@ function ShopInsertForm(props) {
                             </td>
                         </tr>
                         <tr>
-                            <th><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <th rowSpan={2}><br/><br/><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
                                        onChange={uploadPhoto}/><br/>
@@ -169,11 +170,21 @@ function ShopInsertForm(props) {
                                            </figure>
                                        )
                                    }
-
                             </td>
                         </tr>
                         <tr>
-                            <th>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                            <td>
+                                <p style={{color:'#1194c7'}}>
+                                    - 상품 이미지는 80x80에 최적화 되어 있습니다.<br/>
+                                    - 상품 이미지는 1:1 비율로 보여집니다.<br/>
+                                    - 큰 이미지일 경우 이미지가 깨지는 경우가 발생할 수 있습니다.<br/>
+                                    - 이미지는 최대 10장까지 첨부 가능합니다.<br/>
+                                    - 이미지는 삭제 할 수 있고, 첫번째 이미지가 대표이미지로 자동 등록됩니다.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><br/>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <TextField multiline ref={sp_txtRef} style={{width:'100%'}} required
                                            placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
