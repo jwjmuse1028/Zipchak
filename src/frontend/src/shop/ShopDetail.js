@@ -1,3 +1,5 @@
+import BuyerList from "./BuyerList";
+import UserTemp from "../user/UserTemp";
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import Slider from "react-slick";
@@ -25,8 +27,6 @@ function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
 }
 
-import BuyerList from "./BuyerList";
-import UserTemp from "../user/UserTemp";
 
 
 function ShopDetail(props) {

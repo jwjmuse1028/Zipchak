@@ -8,7 +8,7 @@ import '../css/ChatMessageInput.css';
 
 function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
-    const {cr_num, sendnoti } = props;
+    const {cr_num, sendnoti,addMsg } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
@@ -27,7 +27,7 @@ function ChatMessageInput(props) {
     const publish = (msg) => {
         if (!client.current.connected) return;
         client.current.publish({
-            destination: '/pub/chat',
+            destination: '/pub/chat/'+cr_num,
             body: JSON.stringify({
                 sender : ur_num,
                 cr_num: cr_num,
@@ -43,8 +43,13 @@ function ChatMessageInput(props) {
     const subscribe = () => {
         client.current.subscribe('/sub/chat/' + cr_num, (body) => {
             const json_body = JSON.parse(body.body);
-            //console.dir(json_body);
-            //addMsg(json_body);
+            const currentT = new Date();
+            const date = currentT.toISOString().split('T')[0];
+            const time = currentT.toTimeString().split(' ')[0].substring(0,5);
+            //console.log(date+time);
+            json_body.cm_wdate=date+" "+time;
+            //console.log(json_body);
+            addMsg(json_body);
             //sendnoti("메시지받음,"+cr_num+");
         });
 

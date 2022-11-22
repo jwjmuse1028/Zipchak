@@ -84,8 +84,8 @@ div.msg_list{
     opacity: 1;
     -webkit-transform-origin:  100% 0%;
     transform-origin:  100% 0% ;
-    -webkit-animation: loader4 3s ease-in-out infinite;
-    animation: loader4 3s ease-in-out infinite;
+    -webkit-animation: loader4 1s ease-in-out infinite;
+    animation: loader4 1s ease-in-out infinite;
 }
 
 .loader4:after{

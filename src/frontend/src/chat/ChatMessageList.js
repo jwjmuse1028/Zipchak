@@ -47,7 +47,7 @@ function ChatMessageList(props) {
     const handleResize = () => {
         setResize(window.innerWidth);
     };
-
+    //db에서 메시지 가져옴
     const getChatMessage=()=>{
         let url=localStorage.url+"/chat/cm?cr_num="+cr_num+"&perpage="+perpage;
         axios.get(url).then(res=>{
@@ -55,6 +55,11 @@ function ChatMessageList(props) {
             setTotalmsg(res.data.totalmsg);
             setTimeout(() => setIsloading(false), 1000);
         })
+    }
+    //ws에서 가져옴
+    const addMsg=(msg)=>{
+        setChatList((prev)=>[...prev,msg]);
+        sendnoti(msg);
     }
 
     const handleScroll = (e) => {
@@ -91,7 +96,7 @@ function ChatMessageList(props) {
     useEffect(()=>{
         getChatMessage()
         //console.log(noti+'메시지 출력중');
-    },[chatList,cr_num])
+    },[cr_num,perpage,noti])
 
     return (
         <div className={'msg_container'}>
@@ -110,7 +115,7 @@ function ChatMessageList(props) {
                     <div ref={scrollRef} id={'chat_end'} style={{height:'1px'}}></div>
                 </div >
                 {/*채팅 입력 창*/}
-                <ChatMessageInput cr_num={cr_num} sendnoti={sendnoti} style={{width:'100%'}}/>
+                <ChatMessageInput cr_num={cr_num} sendnoti={sendnoti} style={{width:'100%'}} addMsg={addMsg}/>
             </div>
         </div>
     );

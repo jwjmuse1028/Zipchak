@@ -54,16 +54,23 @@ function Chat(props) {
     useEffect(()=>{
         reactsize();
     },[resize])
-
+    useEffect(()=>{
+        if (roomno!=0){
+            let readUrl=localStorage.url+"/chat/read?cr_num="+roomno+"&ur_num="+ur_num;
+            axios.get(readUrl).then(res=>"");
+        }
+        },[]
+    )
     return (
-        <div className={'main-box'} style={{width:`${resize<=800?'600px':'80%'}`,
+        <div className={'main-box'} style={{width:`${resize<=768?'600px':'100%'}`,
+            maxWidth:'1136px',
             gridTemplateColumns:`${screenState===0?"30% 70%":screenState===1?"100% 0%":"0% 100%"}`}}
             >
             <div className={"chatroom-list"}
-            style={{display:`${screenState===0?"block":screenState===1?"block":resize<=800?"none":"block"}`}}>
+            style={{display:`${screenState===0?"block":screenState===1?"block":resize<=768?"none":"block"}`}}>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti} roomno={roomno}
                               noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
-            <div id={"chat_message"} style={{width:`${resize<=800?"590px":"100%"}`,
+            <div id={"chat_message"} style={{width:`${resize<=768?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {
                     roomno==0

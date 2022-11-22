@@ -20,8 +20,10 @@ function ChatRoomList(props) {
         setIsActive(i);
         sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
-        axios.get(readUrl).then(res=>navi(`/chat/${i}`))
+        axios.get(readUrl).then(res=>"");
+        navi(`/chat/${i}`)
     }
+
     const handleResize = () => {
         setResize(window.innerWidth);
     };
@@ -51,7 +53,7 @@ function ChatRoomList(props) {
     }
     useEffect(()=>{
         chatRoomList();
-        //console.log(noti);
+        console.log(noti);
     },[noti,roomno]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -69,7 +71,7 @@ function ChatRoomList(props) {
                         id={'chatroom_'+cr.cr_num}
                         onClick={()=>{
                             cr_click(cr.cr_num, ur_num!==cr.buyer_num?cr.buyer_num:cr.ur_num);
-                            resize<=800?screenStatef(2):screenStatef(0);
+                            resize<=768?screenStatef(2):screenStatef(0);
                             clickEvent(cr.cr_num);
                             }} >
                         <div className={'room_box_top'}>
