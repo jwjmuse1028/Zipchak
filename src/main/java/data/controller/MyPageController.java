@@ -19,15 +19,9 @@ public class MyPageController {
 
     @PostMapping("/updatetmp")
     public void updatetmp(@RequestBody ReviewDto dto){
-        int rv_tmp=dto.getRv_tmp();
-        if (rv_tmp==0){
-            rv_tmp=1;
-        }
-        //seller인지 buyer인지 확인
-
         mpmapper.insertRv(dto);
         double pretmp=mpmapper.getTmp(dto.getTouser());
-        double avgtmp1=(rv_tmp+pretmp)/2;
+        double avgtmp1=(dto.getRv_tmp()+pretmp)/2;
         double avgtmp=Math.round(avgtmp1*10)/10.0;
         Map<String,Object> map=new HashMap<>();
         map.put("ur_num",dto.getTouser());
@@ -51,5 +45,16 @@ public class MyPageController {
     public List<ReviewDto> getRvList(int ur_num)
     {
         return mpmapper.getRvList(ur_num);
+    }
+
+    @GetMapping("/getselllist")
+    public List<Map<String,Object>> getSellList(int ur_num)
+    {
+        return mpmapper.getSellList(ur_num);
+    }
+    @GetMapping("/getfeedlist")
+    public List<Map<String,Object>> getFeedList(int ur_num)
+    {
+        return mpmapper.getFeedList(ur_num);
     }
 }

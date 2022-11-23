@@ -1,64 +1,149 @@
 div.mypage_otr_container{
-    width:100%;
+    width:95%;
     max-width:1136px;
     margin:auto;
 }
 div.mypage_container{
     display: grid;
-
+    height: 100%;
+    margin-bottom: 50px;
 }
 /*프로필*/
 div.mypage_prf_box{
-    padding: 10px;
-    margin: auto;
     border: 1px solid lightgray;
-    border-radius: 5px;
-    height: 100%;
+    border-radius: 15px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+    padding:30px;
+    height: 250px;
 }
 div.mypage_prf_img_box{
     width: 100px;
     height: 100px;
     overflow: hidden;
     border-radius: 100px;
-    border: 1px solid gray;
     position: relative;
     left: 50%;
     transform: translate(-50%);
     text-align: center;
+    box-shadow: rgba(53, 197, 240, 0.5) 0 0 0 3px;
 }
 img.mypage_prf_img{
     width: 100%;
+}
+div.mypage_prf_nick_tmp{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    left: 40px;
 }
 div.mypage_prf_nick{
     font-size: 30px;
     text-align: center;
 }
+/*리스트*/
+.mypage_title{
+    margin-left:30px ;
+    cursor: pointer;
+}
 
-/*후기리스트*/
+/*리스트 이미지카드형*/
+.mypage_ul_card{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.mypage_li_card{
+    margin-bottom: 10px;
+    /*border: 1px solid #35C5F0;*/
+    border-radius: 10px;
+    padding: 3px;
+    width: 30%;
+    height: 30%;
+    overflow: hidden;
+    margin-right: 1%;
+
+}
+img.mypage_sp_img_card{
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.mypage_fd_title_card{
+    margin-left: 10px;
+    text-align: center;
+    width: calc(90% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.mypage_sp_title_card{
+    margin-left: 10px;
+    text-align: center;
+    width: calc(90% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.mypage_pd_status_card{
+    width: 100%;
+    height: 30px;
+    color: #35C5F0;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: white;
+    text-align: center;
+}
+/*리스트 목록형*/
 .mypage_ul{
     width: 100%;
 }
 .mypage_li{
     list-style: none;
     margin-bottom: 10px;
-    border: 1px solid #35C5F0;
     border-radius: 10px;
     padding: 3px;
-    width: 70%;
+    width: 90%;
     position: relative;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
-
+.mypage_li:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
 img.mypage_sp_img{
     width: 50px;
     height: 50px;
     border: 1px solid #35C5F0;
     border-radius: 10px;
     margin-right: 10px;
-    cursor: pointer;
+
 }
 div.mypage_sp_title{
     height: 50px;
-    line-height: 50px;
+}
+.mypage_pd_status{
+    width: 100px;
+    color: #35C5F0;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    text-align: right;
 }
 .mypage_btn{
     width: 150px;
@@ -78,7 +163,7 @@ div.mypage_sp_title{
 /*반응형*/
 @media screen and (min-width: 768px) {
     div.mypage_container{
-        grid-template-columns: 30% 70%;
+        grid-template-columns: 25% 75%;
     }
     div.mypage_prf_box{
         width: 100%;

@@ -43,4 +43,13 @@
         where touser=#{ur_num}
         group by rv_num
     </select>
+    <select id="getSellList" parameterType="int" resultType="map">
+        SELECT sp.sp_num, sp.pd_num, sp.sp_title, pd_img.img_name, pd_status FROM sp
+            join pd_img on pd_img.pd_num=sp.pd_num
+            join pd on pd.pd_num=sp.sp_num
+        where ur_num=#{ur_num} group by sp.sp_num
+    </select>
+    <select id="getFeedList" parameterType="int" resultType="map">
+        select ur_num,fd_num, fd_title,fd_img from fd where ur_num=#{ur_num}
+    </select>
 </mapper>

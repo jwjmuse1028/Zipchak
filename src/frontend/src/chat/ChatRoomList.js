@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 function ChatRoomList(props) {
     const [chatRoom, setChatRoom]=useState([]);
-    const {ur_num, cr_click, screenStatef,sendnoti,noti,roomno}=props;
+    const {ur_num, cr_click, screenStatef,sendnoti,noti,roomno,cr_num}=props;
     const [resize, setResize] = useState();
     const [isActive, setIsActive]=useState(false);
     const navi=useNavigate();
@@ -15,15 +15,13 @@ function ChatRoomList(props) {
         axios.get(url).then(res=>{
             setChatRoom(res.data);
         })
-
     }
     //채팅방 클릭했을 때,
     const clickEvent=(i)=>{
         document.getElementById(`msg_sign${i}`).style.backgroundColor='gray';
         setIsActive(i);
-        //sendnoti('연결:'+i+'번 방' );
         let readUrl=localStorage.url+"/chat/read?cr_num="+i+"&ur_num="+ur_num;
-        axios.get(readUrl).then(res=>"");
+        axios.get(readUrl).then(res=>sendnoti('연결:'+i+'번 방' ));
         navi(`/chat/${i}`)
     }
 
@@ -56,7 +54,7 @@ function ChatRoomList(props) {
     }
     useEffect(()=>{
         chatRoomList();
-    },[noti,roomno]);
+    },[noti,roomno,cr_num]);
     useEffect(() => {
         window.addEventListener("resize", handleResize);
         return () => {

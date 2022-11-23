@@ -59,20 +59,20 @@ function Chat(props) {
     useEffect(()=>{
         if (roomno!=0){
             let readUrl=localStorage.url+"/chat/read?cr_num="+roomno+"&ur_num="+ur_num;
-            axios.get(readUrl).then(res=>"");
+            axios.get(readUrl).then(res=>sendnoti('연결:'+roomno+'번 방' ));
             //console.log("url로 읽음처리")
         }
         },[roomno]
     )
     return (
-        <div className={'main-box'} style={{width:`${resize<=768?'600px':'100%'}`,
+        <div className={'main-box'} style={{width:`${resize<=768?'600px':'95%'}`,
             maxWidth:'1136px',
             gridTemplateColumns:`${screenState===0?"30% 70%":screenState===1?"100% 0%":"0% 100%"}`}}
             >
             <div className={"chatroom-list"}
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=768?"none":"block"}`}}>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti} roomno={roomno}
-                              noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
+                              cr_num={cr_num} noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
             <div id={"chat_message"} style={{width:`${resize<=768?"590px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {
