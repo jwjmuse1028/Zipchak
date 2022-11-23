@@ -39,6 +39,7 @@ public class ShopController {
     ChatRoomMapper crmapper;
     
     List<String> totalImages=new ArrayList<>();
+    List<String> newTotalImages=new ArrayList<>();
 
     public ShopController(S3Service s3Service) {
         this.s3Service = s3Service;
@@ -170,18 +171,31 @@ public class ShopController {
             totalImages.add(s3Service.upload(multi, "sp_img"));
         }
         return totalImages;
+    }
+    @PostMapping("/upload2")
+    public List<String> fileUpload2(@RequestParam List<MultipartFile> uploadFile)throws IOException
+    {
+        newTotalImages.clear();//지운후 마지막 업로드한것만 저장
 
+        for(MultipartFile multi:uploadFile){
+            String names=s3Service.upload(multi, "sp_img");
+            newTotalImages.add(names);
+            totalImages.add(names);
+        }
+        return newTotalImages;
     }
 
     @DeleteMapping("/imagedelete")
     public void imageDelete(@RequestParam int idx, HttpServletRequest request)
     {
-        String path = request.getSession().getServletContext().getRealPath("/image");
-        String fname=totalImages.get(idx);
-        File file=new File(path+"/"+fname);
-        if(file.exists())
-            file.delete();
+//        String path = request.getSession().getServletContext().getRealPath("/image");
+//        String fname=totalImages.get(idx);
+//        File file=new File(path+"/"+fname);
+//        if(file.exists())
+//            file.delete();
+
         totalImages.remove(idx);
+
     }
 
     @GetMapping("/imageclear")
@@ -212,6 +226,19 @@ public class ShopController {
 
         sppddto.setImages(images); //첨부된 사진중에 첫번째 사진을 대표이미지로
 
+        return sppddto;
+    }
+
+    @GetMapping("/updateform")
+    public ShopProductDto updateform(int sp_num)
+    {
+        ShopProductDto sppddto=shopMapper.getData(sp_num);
+        List<String> images=productMapper.getImages(sppddto.getPd_num());
+
+
+        sppddto.setImages(images); //첨부된 사진중에 첫번째 사진을 대표이미지로
+
+        totalImages=sppddto.getImages();
         return sppddto;
     }
 

@@ -31,7 +31,7 @@ figure.photos{
     overflow: hidden;
     white-space: nowrap;
     display: block;
-    max-width: 150px;
+    max-width: 200px;
 }
 .soldouttxt{
     font-size: large;
@@ -40,7 +40,7 @@ figure.photos{
     /*top: -120px;*/
     /*left: 38%;*/
     position: absolute;
-    margin-left: 5.5%;
+    margin-left: 6%;
     margin-top: -6%;
 }
 .page{
