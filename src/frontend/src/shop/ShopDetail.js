@@ -1,3 +1,5 @@
+import BuyerList from "./BuyerList";
+import UserTemp from "../user/UserTemp";
 import React, {useEffect, useState} from 'react';
 import BuyerList from "./BuyerList";
 import UserTemp from "../user/UserTemp";

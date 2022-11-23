@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { Slide, Zoom, Flip, Bounce} from 'react-toastify';
 
 function ChatNotification(props) {
     const ur_num=sessionStorage.ur_num;
@@ -36,7 +37,7 @@ function ChatNotification(props) {
         }},[msgCnt]);
     return (
         <div>
-            <ToastContainer theme="colored"/>
+            <ToastContainer theme="colored" transition={Bounce}/>
         </div>
     );
 }

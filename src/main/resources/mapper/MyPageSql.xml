@@ -43,4 +43,27 @@
         where touser=#{ur_num}
         group by rv_num
     </select>
+    <select id="getSellList" parameterType="int" resultType="map">
+        SELECT sp.sp_num, sp.pd_num, sp.sp_title, pd_img.img_name, pd_status FROM sp
+            join pd_img on pd_img.pd_num=sp.pd_num
+            join pd on pd.pd_num=sp.sp_num
+        where ur_num=#{ur_num} group by sp.sp_num
+    </select>
+    <select id="getFeedList" parameterType="int" resultType="map">
+        select ur_num,fd_num, fd_title,fd_img from fd where ur_num=#{ur_num}
+    </select>
+    <select id="getBookmarkList" parameterType="int" resultType="map">
+        select sp_like.sp_num, sp.sp_title, sp.pd_num, pd_img.img_name, pd.pd_status
+        from sp_like
+            join sp on sp.sp_num=sp_like.sp_num
+            join pd_img on pd_img.pd_num=sp.pd_num
+            join pd on pd.pd_num=sp.pd_num
+        where sp_like.ur_num=#{ur_num}
+    </select>
+    <select id="getLikeList" parameterType="int" resultType="map">
+        select fd_like.fd_num, fd.fd_title,fd.fd_img
+        from fd_like
+            join fd on fd.fd_num=fd_like.fd_num
+        where fd_like.ur_num=#{ur_num}
+    </select>
 </mapper>

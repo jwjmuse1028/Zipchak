@@ -3,10 +3,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import { Flip} from 'react-toastify';
 
 function MessageNotification(props) {
-    const {cr_num,sendnoti}=props;
+    const {cr_num,noti}=props;
     const ur_num=sessionStorage.ur_num;
     const [msgList,setMsgList]=useState([]);
     const navi=useNavigate();
@@ -43,12 +42,12 @@ function MessageNotification(props) {
         }
     const notify = (msgitem) => toast.info( msgitem.prf_nick+'님으로 부터 "'+msgitem.msg+'" 메시지가 도착했습니다 ('+elapsedTime(msgitem.cm_wdate)+')', {
         position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
+        autoClose: 1000,
+        hideProgressBar: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "colored",
+        theme: "light",
         toastId:msgitem.cr_num,
         onClick:()=>toastclick(msgitem.cr_num)
     });
@@ -56,7 +55,7 @@ function MessageNotification(props) {
         window.location.replace(`/chat/${from_cr_num}`);
 
     }
-    useEffect(()=>getMsgNoti(),[cr_num]);
+    useEffect(()=>getMsgNoti(),[cr_num,noti]);
     useEffect(()=>{
         msgList.map((msgitem,i)=>{
             notify(msgitem);
@@ -64,7 +63,7 @@ function MessageNotification(props) {
         },[msgList]);
     return (
         <div>
-            <ToastContainer theme="colored" transition={Flip}/>
+            <ToastContainer theme="colored" />
         </div>
     );
 }

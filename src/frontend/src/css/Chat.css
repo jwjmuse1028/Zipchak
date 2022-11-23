@@ -3,7 +3,7 @@ div.main-box{
     margin: auto;
     display: grid;
     /*grid-template-columns: 30% 70%;*/
-    border: 3px solid #38B9E0;
+    border: 2px solid #35C5F0;
     border-radius: 10px;
 }
 h1.sellect_user{
@@ -12,7 +12,7 @@ h1.sellect_user{
     padding-top: 50px;
     padding-left: 30px;
     font-size: 30px;
-    color: #38B9E0;
+    color: #35C5F0;
     overflow: hidden;
     font-weight: bold;
 }
