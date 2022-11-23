@@ -17,16 +17,6 @@
         </if>
         where fd_num=#{fd_num}
     </update>
-<!--    !!이전 버전!! order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
-<!--    <select id="getAllFeeds" parameterType="Map" resultType="FeedListDto">-->
-<!--        select * from fd-->
-<!--        <if test="search_col!=null and search_word!=null">-->
-<!--            where ${search_col} like concat('%',#{search_word},'%')-->
-<!--        </if>-->
-<!--        <if test="order_col!=null">-->
-<!--            order by ${order_col}-->
-<!--        </if>-->
-<!--    </select>-->
     <!-- order_col: 정렬기준, search_col: 검색내용찾을컬럼, search_word: 검색단어 -->
     <!--  prf와 likes 합친 Join 버전  -->
     <select id="getAllFeeds" parameterType="Map" resultType="FeedListDto">
@@ -60,6 +50,7 @@
     <select id="checkFeedLike" parameterType="Map" resultType="int">
         select count(ur_num) as fd_like from fd_like where ur_num=#{ur_num} and fd_num=#{fd_num};
     </select>
+
     <!-- 피드 최신 번호 가져오기 -->
     <select id="getRecentFeedNum" resultType="int">
         select ifnull(max(fd_num),0) from fd
