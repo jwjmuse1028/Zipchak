@@ -19,19 +19,17 @@ public class ImageController {
 
     private final S3Service s3Service;
 
+    @Autowired
     FeedMapper feedMapper;
 
     @PostMapping ("/insert")
     public String insertImg(@RequestParam("file") MultipartFile multipartFile) throws IOException {
 
-        int fidx = feedMapper.getRecentFeedNum();
-        String imgName = s3Service.upload(multipartFile, "fd_img/"+fidx);
+        int fidx = feedMapper.getRecentFeedNum()+1;
+        String dir = "fd_img/"+fidx;
+        String filename=s3Service.upload(multipartFile, dir);
 
-//        Map<Integer, String> map = new HashMap<>();
-//        map.put()
-//        feedMapper.insertFeedImage();
-
-        return imgName;
+        return s3Service.getUrl(filename,dir);
     }
 
 

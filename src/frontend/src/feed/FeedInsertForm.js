@@ -1,7 +1,7 @@
-import React, {createElement, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import "../css/FeedForm.css";
 
-import {Editor, Viewer} from "@toast-ui/react-editor";
+import {Editor} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor.css'
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
@@ -9,8 +9,6 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
 
 import {useNavigate} from "react-router-dom";
-import {getWidth} from "react-slick/lib/utils/innerSliderUtils";
-
 
 function FeedInsertForm(props) {
 
@@ -125,6 +123,14 @@ function FeedInsertForm(props) {
             return;
         }
 
+        onChange()
+
+        var trash = dto.fd_txt.indexOf("<img class=")
+        setDto({
+            ...dto,
+            ["fd_txt"]:dto.fd_txt.substring(0,trash)
+        })
+
         const formData = new FormData();
         formData.append("file", file);
         formData.append("dto",new Blob([JSON.stringify(dto)], {
@@ -155,19 +161,24 @@ function FeedInsertForm(props) {
         });
     }
 
-    const editorRef=useRef();
-
-    const [data,setData]=useState('')
-
-    const onChange=()=>{
-        setDto({
-            ...dto,
-            ["fd_txt"]: editorRef.current?.getInstance().getHTML(),
-        })
-        setData(editorRef.current?.getInstance().getHTML())
-        console.log(data)
+    const imageWidth=()=>{
+        var imgNum = document.getElementsByTagName("img").length
+        for(let i=0;i<imgNum;i++){
+            document.getElementsByTagName("img").item(i).setAttribute("width","100%")
+        }
     }
 
+    const editorRef=useRef();
+
+    const onChange=()=>{
+
+        setDto({
+            ...dto,
+            ["fd_txt"]:editorRef.current?.getInstance().getHTML()
+        })
+    }
+
+    // const html = document.getElementsByClassName("ProseMirror toastui-editor-contents").item(0)
 
     return (
         <div className={"form_container"}>
@@ -296,7 +307,7 @@ function FeedInsertForm(props) {
                     ['ul', 'ol', 'task', 'indent', 'outdent'],
                     ['table', 'image', 'link'],
                 ]}
-               /* hooks={{
+                hooks={{
                     addImageBlobHook: async (blob, callback) => {
 
                         const formData = new FormData()
@@ -306,48 +317,41 @@ function FeedInsertForm(props) {
 
                         axios.post(url, formData, {
                             header: {"content-type": "multipart/formdata"}
+                        }).then(res=>{
+                            callback(res.data)
+                            imageWidth()
                         })
-                            .then(res=>{
-                                callback(res.data)
-                            })
                     }
-                }}*/
+                }}
                 onChange={onChange}
                 ref={editorRef}
+
             />
             {/*<div dangerouslySetInnerHTML={ {__html: data} } id={"editorContent"}/>*/}
             {
-                document.getElementsByTagName('img').item(0) &&
-                document.getElementsByTagName('img').item(0)
-                    .addEventListener("click",(e)=> {
-
-                        var img =  document.getElementsByTagName('img').item(0)
-                        img.setAttribute("usemap","#imgtag")
-
-                        let map_tag = document.createElement("map")
-
-                        img.appendChild(map_tag)
-                        map_tag.setAttribute("name","imgtag")
-
-                        let link = document.createElement("area")
-                        link.setAttribute("shape","circle")
-                        link.setAttribute("target","_self")
-                        link.setAttribute("href","www.naver.com")
-                        link.setAttribute("coords","100,100,50")
-                        map_tag.appendChild(link)
+                // document.getElementsByTagName('img').item(0) &&
+                // document.getElementsByTagName('img').item(0)
+                //     .addEventListener("click",(e)=> {
 
 
+                        // var img =  document.getElementsByTagName('img').item(0)
+                        // img.setAttribute("usemap","#imgtag")
+                        // img.setAttribute("width","100%")
 
-                        setData(editorRef.current?.getInstance().getHTML())
+                        // let map_tag = document.createElement("map")
 
+                        // img.appendChild(map_tag)
+                        // map_tag.setAttribute("name","imgtag")
 
-                        console.log(
-                            "X 좌표 : " + e.offsetX + ", width : " + img.clientWidth + "percentage" + e.offsetX/img.clientWidth*100 +"%",
-                            "Y 좌표 : " + e.offsetY + ", height : " + img.clientHeight + "percentage" + e.offsetY/img.clientHeight*100 +"%"
-                        )
-                    })
+                    //     let link = document.createElement("area")
+                    //     link.setAttribute("shape","circle")
+                    //     link.setAttribute("target","_self")
+                    //     link.setAttribute("href","www.naver.com")
+                    //     link.setAttribute("coords",`${e.offsetX},${e.offsetY},10`)
+                    //     html.insertAdjacentElement("afterbegin",link)
+                    //
+                    // })
             }
-            {/*<div dangerouslySetInnerHTML={{__html:data}}/>*/}
 
         </div>
     );

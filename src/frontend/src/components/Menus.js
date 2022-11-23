@@ -104,6 +104,9 @@ function Menus(props) {
             <li>
                 <NavLink to={"/feed/insertform"}>피드글쓰기</NavLink>
             </li>
+            <li>
+                <NavLink to={"/feed/addtag"}>태그 추가</NavLink>
+            </li>
             {/*{*/}
             {/*    localStorage.loginok==null?*/}
             {/*        <li>*/}
@@ -118,9 +121,6 @@ function Menus(props) {
             {/*                        localStorage.removeItem("myid");*/}
             {/*                        localStorage.removeItem("myname");*/}
             {/*                        window.location.reload(); //새로고침*/}
-            <li>
-                <NavLink to={"/feed/detail"}>피드상세페이지</NavLink>
-            </li>
 
             {
                 sessionStorage.loginok==null?

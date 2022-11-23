@@ -51,4 +51,9 @@ public class S3Service {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
         return fileName;
     }
+
+    public String getUrl(String fileName,String dirName){
+        String dir=bucket+"/"+dirName;
+        return s3Client.getUrl(dir,fileName).toString();
+    }
 }
