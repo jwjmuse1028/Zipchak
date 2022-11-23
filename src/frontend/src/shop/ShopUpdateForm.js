@@ -1,34 +1,35 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, MenuItem, Select, TextareaAutosize, TextField} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/ShopList.css";
 import {AddPhotoAlternateOutlined, CancelRounded} from "@material-ui/icons";
 import white from "../image/white.png"
 
-function ShopInsertForm(props) {
-    const [sp_title, setSp_title]=useState('');
-    const [pd_ctg, setPd_ctg]=useState('');
-    const [pd_price, setPd_price]=useState('');
+function ShopUpdateForm(props) {
+    const [shopdata, setShopdata]=useState('');
     const [img_name, setImg_name]=useState([]);
-
-    const sp_txtRef = useRef('');
+    const [newImage, setNewImage]=useState([]);
 
     const navi = useNavigate();
+    const {pd_num,sp_num, currentPage} = useParams();
+    // console.log("spnum="+sp_num+"pdnum="+pd_num+"cp="+currentPage);
+    const url=sessionStorage.url+"/shop/updateform?sp_num="+sp_num;
 
-    // const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const value: string = e.target.value;
-    //     const removedCommaValue: number = Number(value.replaceAll(",", ""));
-    //     setPd_price(removedCommaValue.toLocaleString());
-    // };
+    const getShopData=()=>{ //해당 디테일의 기존의 데이타 불러옴
+        axios.get(url)
+            .then(res=>{
+                setShopdata(res.data);
+                setImg_name(res.data.images);
+            })
+        }
+    useEffect(()=>{
+        getShopData();
+    },[]);
 
-    // const imageUrl = sessionStorage.url+"/image/";
     const uploadPhoto=(e)=>{
-        // if(img_name.length==10){
-        //     alert("사진은 10장까지만 첨부 가능합니다");
-        //     return;
-        // }
-        let uploadUrl = sessionStorage.url+"/shop/upload";
+
+        let uploadUrl = sessionStorage.url+"/shop/upload2";
 
         let total=img_name.length+e.target.files.length; //사진 10장 제한
         if(total>10){
@@ -46,37 +47,23 @@ function ShopInsertForm(props) {
             data:uploadFile,
             headers:{'Content-Type':'multipart/form-data'}
         }).then(res=>{
-            setImg_name(res.data);
+            // setImg_name(res.data);
+            //setNewImage(res.data);
+            setImg_name([
+                ...img_name,
+                res.data
+            ])
         });
     }
 
-    //img_name이 변경되면 useEffect가 호출, 새로고침할 경우 img_name의 값이 사라지기때문에 백엔드에서도 이미지 데이타가 다 클리어 되도록
-    useEffect(() => {
-        if(img_name.length==0){
-            // console.log("image length 0");
-            let url = sessionStorage.url+"/shop/imageclear";
-            axios.get(url)
-                .then(res=>{});
-        }
-    }, [img_name]);
-
-    const onSubmit=(e)=>{
-        e.preventDefault();
-
-        const ur_num=sessionStorage.ur_num;
-        const sp_txt=sp_txtRef.current.value;
-
-        let url = localStorage.url+"/shop/insert";
-
-        axios.post(url, {ur_num, sp_title, pd_ctg, pd_price, sp_txt})
-            .then(res=>{
-                setSp_title('');
-                setPd_ctg('');
-                setPd_price('');
-                sp_txtRef.current.value='';
-                navi(`/shop/detail/${res.data.pd_num}/${res.data.sp_num}/1`); //일단 리스트로하고 나중에 바꾼다 디테일로 바로가게 max num
-            });
-    }
+    // useEffect(() => {
+    //     if(img_name.length==0){
+    //         // console.log("image length 0");
+    //         let url = sessionStorage.url+"/shop/imageclear";
+    //         axios.get(url)
+    //             .then(res=>{});
+    //     }
+    // }, [img_name]);
 
     const onPhotoDelete=(idx)=>{
         setImg_name(img_name.filter((a,i)=>i!==idx));
@@ -87,13 +74,20 @@ function ShopInsertForm(props) {
 
             })
     }
-    // const imgerror = (e) => {
-    //     e.target.src = white
-    // }
+
+    const onSubmit=(e)=>{
+        e.preventDefault();
+        let url = sessionStorage.url+"/shop/update";
+
+        axios.post(url,shopdata)
+            .then(res=>{
+                navi(`/shop/detail/${pd_num}/${sp_num}/${currentPage}`);
+            })
+    }
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:'white'}}>
+                <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:"white"}}>
                     <caption align={'top'}><h2>상품수정</h2></caption>
                     <tbody>
                     <tr><th></th></tr>
@@ -101,49 +95,68 @@ function ShopInsertForm(props) {
                         <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td style={{width:'80%'}}>
                             <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} inputProps={{ maxLength: 20 }} variant={"standard"} style={{width:'100%'}}
-                                       onChange={(e)=>setSp_title(e.target.value)}/>
+                                       value={shopdata.sp_title}
+                                       onChange={(e)=>{
+                                           setShopdata({
+                                               ...shopdata,
+                                               sp_title:e.target.value
+                                           })
+                                       }}/>
                         </td>
                     </tr>
                     <tr>
                         <th>카테고리&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
-                        <td>
-                            <Select variant={"standard"} style={{width:'50%'}} required
-                                    onChange={(e)=>setPd_ctg(e.target.value)}>
-                                {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택해주세요"}>카테고리를 선택해주세요</MenuItem>*/}
-                                <MenuItem value={'남성의류'}>남성의류</MenuItem>
-                                <MenuItem value={'여성의류'}>여성의류</MenuItem>
-                                <MenuItem value={'신발'}>신발</MenuItem>
-                                <MenuItem value={'가방'}>가방</MenuItem>
-                                <MenuItem value={'시계/쥬얼리'}>시계/쥬얼리</MenuItem>
-                                <MenuItem value={'액세서리'}>액세서리</MenuItem>
-                                <MenuItem value={'디지털/가전'}>디지털/가전</MenuItem>
-                                <MenuItem value={'스포츠/레저'}>스포츠/레저</MenuItem>
-                                <MenuItem value={'차량/오토바이'}>차량/오토바이</MenuItem>
-                                <MenuItem value={'스타굿즈'}>스타굿즈</MenuItem>
-                                <MenuItem value={'키덜트'}>키덜트</MenuItem>
-                                <MenuItem value={'예술/희귀/수집품'}>예술/희귀/수집품</MenuItem>
-                                <MenuItem value={'음반/악기'}>음반/악기</MenuItem>
-                                <MenuItem value={'도서/티켓/문구'}>도서/티켓/문구</MenuItem>
-                                <MenuItem value={'뷰티/미용'}>뷰티/미용</MenuItem>
-                                <MenuItem value={'가구/인테리어'}>가구/인테리어</MenuItem>
-                                <MenuItem value={'생활/가공식품'}>생활/가공식품</MenuItem>
-                                <MenuItem value={'유아동/출산'}>유아동/출산</MenuItem>
-                                <MenuItem value={'반려동물용품'}>반려동물용품</MenuItem>
+
+                        <td>{
+                            shopdata &&
+                            <Select variant={"standard"} style={{width: '50%'}} required
+                                // renderValue={pd_ctg !== "" ? undefined : () => "카테고리를 선택해주세요"} displayEmpty
+                                    defaultValue={shopdata.pd_ctg}
+                                    // onChange={(e) => {
+                                    //     setShopdata({
+                                    //         ...shopdata,
+                                    //         pd_ctg: e.target.value
+                                    //     })
+                                    // }}
+                            >
+                                {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택주세요"}>카테고리를 선택해주세요</MenuItem>*/}
+                                <MenuItem value={'가구'}>가구</MenuItem>
+                                <MenuItem value={'데코'}>데코</MenuItem>
+                                <MenuItem value={'식물'}>식물</MenuItem>
+                                <MenuItem value={'패브릭'}>패브릭</MenuItem>
+                                <MenuItem value={'가전·디지털'}>가전·디지털</MenuItem>
+                                <MenuItem value={'주방용품'}>주방용품</MenuItem>
+                                <MenuItem value={'조명'}>조명</MenuItem>
+                                <MenuItem value={'수납·정리'}>수납·정리</MenuItem>
+                                <MenuItem value={'생활용품'}>생활용품</MenuItem>
+                                <MenuItem value={'생필품'}>생필품</MenuItem>
+                                <MenuItem value={'유아·아동'}>유아·아동</MenuItem>
+                                <MenuItem value={'반려동물'}>반려동물</MenuItem>
+                                <MenuItem value={'실내운동'}>실내운동</MenuItem>
+                                <MenuItem value={'캠핑용품'}>캠핑용품</MenuItem>
+                                <MenuItem value={'공구·DIY'}>공구·DIY</MenuItem>
                                 <MenuItem value={'기타'}>기타</MenuItem>
                             </Select>
+                        }
                         </td>
                     </tr>
                     <tr>
                         <th>가격&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td>
                             {/*<TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>*/}
-                            <TextField type="number" max value={pd_price} required placeholder={"숫자만 입력해주세요 (최대 9자)"} variant={"standard"} style={{width:'50%'}}
-                                       onChange={e => setPd_price(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))}/><b>원</b>
+                            <TextField type="number" max required placeholder={"숫자만 입력해주세요 (최대 9자)"} variant={"standard"} style={{width:'50%'}}
+                                       value={shopdata.pd_price}
+                                       onChange={(e) => {
+                                           setShopdata({
+                                               ...shopdata,
+                                               pd_price:e.target.value
+                                           });
+                                           setShopdata(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))}}/><b>원</b>
 
                         </td>
                     </tr>
                     <tr>
-                        <th><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                        <th rowSpan={2}><br/><br/><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td>
                             <input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
                                    onChange={uploadPhoto}/><br/>
@@ -168,15 +181,34 @@ function ShopInsertForm(props) {
                                     </figure>
                                 )
                             }
-
                         </td>
                     </tr>
                     <tr>
-                        <th>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td>
-                            <TextField multiline ref={sp_txtRef} style={{width:'100%'}} required
-                                       placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
-                                           "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}/>
+                            <p style={{color:'#1194c7'}}>
+                                <b>- 이미지는 최소 1장 필수첨부 해야합니다.</b><br/>
+                                - 대표이미지는 새상품 이미지 사용을 권장드립니다.<br/>
+                                - 미리보기 이미지는 80x80에 최적화 되어 있습니다.<br/>
+                                - 미리보기 이미지는 1:1 비율로 보여집니다.<br/>
+                                - 큰 이미지일 경우 이미지가 깨지는 경우가 발생할 수 있습니다.<br/>
+                                - 이미지는 최대 10장까지 첨부 가능합니다.<br/>
+                                - 이미지는 삭제 할 수 있고, 첫번째 이미지가 대표이미지로 자동 등록됩니다.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><br/><br/>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                        <td>
+                                <textarea className={'form-control'} style={{width:'100%', height:'200px', boxShadow:"none"}} required
+                                          placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
+                                              "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}
+                                          value={shopdata.sp_txt}
+                                          onChange={(e)=>{
+                                              setShopdata({
+                                                  ...shopdata,
+                                                  sp_txt:e.target.value
+                                              })
+                                          }}/>
                         </td>
                     </tr>
                     <tr>
@@ -185,6 +217,7 @@ function ShopInsertForm(props) {
                             <Button type={"submit"} color={"info"} variant={"contained"}>상품수정</Button>
                         </td>
                     </tr>
+                    <tr><th></th></tr>
                     </tbody>
                 </table>
             </form>
@@ -192,4 +225,4 @@ function ShopInsertForm(props) {
     );
 }
 
-export default ShopInsertForm;
+export default ShopUpdateForm;

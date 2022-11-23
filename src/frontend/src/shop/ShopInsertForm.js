@@ -66,7 +66,7 @@ function ShopInsertForm(props) {
         const ur_num=sessionStorage.ur_num;
         const sp_txt=sp_txtRef.current.value;
 
-        let url = localStorage.url+"/shop/insert";
+        let url = sessionStorage.url+"/shop/insert";
 
         axios.post(url, {ur_num, sp_title, pd_ctg, pd_price, sp_txt})
             .then(res=>{
@@ -112,25 +112,21 @@ function ShopInsertForm(props) {
                                         renderValue={pd_ctg !== "" ? undefined : () => "카테고리를 선택해주세요"}
                                 onChange={(e)=>setPd_ctg(e.target.value)}>
                                     {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택해주세요"}>카테고리를 선택해주세요</MenuItem>*/}
-                                    <MenuItem value={'남성의류'}>남성의류</MenuItem>
-                                    <MenuItem value={'여성의류'}>여성의류</MenuItem>
-                                    <MenuItem value={'신발'}>신발</MenuItem>
-                                    <MenuItem value={'가방'}>가방</MenuItem>
-                                    <MenuItem value={'시계/쥬얼리'}>시계/쥬얼리</MenuItem>
-                                    <MenuItem value={'액세서리'}>액세서리</MenuItem>
-                                    <MenuItem value={'디지털/가전'}>디지털/가전</MenuItem>
-                                    <MenuItem value={'스포츠/레저'}>스포츠/레저</MenuItem>
-                                    <MenuItem value={'차량/오토바이'}>차량/오토바이</MenuItem>
-                                    <MenuItem value={'스타굿즈'}>스타굿즈</MenuItem>
-                                    <MenuItem value={'키덜트'}>키덜트</MenuItem>
-                                    <MenuItem value={'예술/희귀/수집품'}>예술/희귀/수집품</MenuItem>
-                                    <MenuItem value={'음반/악기'}>음반/악기</MenuItem>
-                                    <MenuItem value={'도서/티켓/문구'}>도서/티켓/문구</MenuItem>
-                                    <MenuItem value={'뷰티/미용'}>뷰티/미용</MenuItem>
-                                    <MenuItem value={'가구/인테리어'}>가구/인테리어</MenuItem>
-                                    <MenuItem value={'생활/가공식품'}>생활/가공식품</MenuItem>
-                                    <MenuItem value={'유아동/출산'}>유아동/출산</MenuItem>
-                                    <MenuItem value={'반려동물용품'}>반려동물용품</MenuItem>
+                                    <MenuItem value={'가구'}>가구</MenuItem>
+                                    <MenuItem value={'데코'}>데코</MenuItem>
+                                    <MenuItem value={'식물'}>식물</MenuItem>
+                                    <MenuItem value={'패브릭'}>패브릭</MenuItem>
+                                    <MenuItem value={'가전·디지털'}>가전·디지털</MenuItem>
+                                    <MenuItem value={'주방용품'}>주방용품</MenuItem>
+                                    <MenuItem value={'조명'}>조명</MenuItem>
+                                    <MenuItem value={'수납·정리'}>수납·정리</MenuItem>
+                                    <MenuItem value={'생활용품'}>생활용품</MenuItem>
+                                    <MenuItem value={'생필품'}>생필품</MenuItem>
+                                    <MenuItem value={'유아·아동'}>유아·아동</MenuItem>
+                                    <MenuItem value={'반려동물'}>반려동물</MenuItem>
+                                    <MenuItem value={'실내운동'}>실내운동</MenuItem>
+                                    <MenuItem value={'캠핑용품'}>캠핑용품</MenuItem>
+                                    <MenuItem value={'공구·DIY'}>공구·DIY</MenuItem>
                                     <MenuItem value={'기타'}>기타</MenuItem>
                                 </Select>
                             </td>
@@ -175,8 +171,10 @@ function ShopInsertForm(props) {
                         <tr>
                             <td>
                                 <p style={{color:'#1194c7'}}>
-                                    - 상품 이미지는 80x80에 최적화 되어 있습니다.<br/>
-                                    - 상품 이미지는 1:1 비율로 보여집니다.<br/>
+                                    <b>- 이미지는 최소 1장 필수첨부 해야합니다.</b><br/>
+                                    - 대표이미지는 새상품 이미지 사용을 권장드립니다.<br/>
+                                    - 미리보기 이미지는 80x80에 최적화 되어 있습니다.<br/>
+                                    - 미리보기 이미지는 1:1 비율로 보여집니다.<br/>
                                     - 큰 이미지일 경우 이미지가 깨지는 경우가 발생할 수 있습니다.<br/>
                                     - 이미지는 최대 10장까지 첨부 가능합니다.<br/>
                                     - 이미지는 삭제 할 수 있고, 첫번째 이미지가 대표이미지로 자동 등록됩니다.
@@ -186,7 +184,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th><br/>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                <TextField multiline ref={sp_txtRef} style={{width:'100%'}} required
+                                <textarea className={'form-control'} ref={sp_txtRef} style={{width:'100%', height:'200px', boxShadow:"none"}} required
                                            placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
                                     "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}/>
                             </td>
