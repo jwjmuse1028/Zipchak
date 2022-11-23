@@ -12,8 +12,10 @@ function Profile(props) {
         <div className={'mypage_otr_container'} >
             <h1 style={{textAlign:'center'}}>프로필</h1>
             <div className={'mypage_container'}>
-                <div className={'mypage_prf_box'}>
-                    <MypagePrfBox user={user}/>
+                <div style={{marginBottom:'30px'}}>
+                    <div className={'mypage_prf_box'}>
+                        <MypagePrfBox user={user}/>
+                    </div>
                 </div>
                 <div>
                     <MyPageFeedList user={user}/>

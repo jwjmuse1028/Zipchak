@@ -16,7 +16,7 @@ function MypagePrfBox(props) {
     }
     useEffect(()=>getUInfo());
     return (
-        <div>
+        <div className={'mypage_prf_img_nick_tmp'}>
             <div className={'mypage_prf_img_box'}>
                 <img src={prfUrl+uinfo.prf_img} className={'mypage_prf_img'}/>
             </div>

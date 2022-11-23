@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import UpdateTemp from "../shop/UpdateTemp";
 import {useNavigate} from "react-router-dom";
+import {ArrowDropDown, ArrowDropUp} from "@material-ui/icons";
 
 function MyPageBuyList(props) {
     const ur_num=Number(sessionStorage.ur_num);
@@ -12,9 +13,15 @@ function MyPageBuyList(props) {
     const [chk,setChk]=useState(0);
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
     const navi=useNavigate();
+    const [togglestatus,setTogglestatus]=useState(false);
+    const [cnt,setCnt]=useState(0);
+
     const buylistforreview=()=>{
         let buylistforreviewURL=localStorage.url+"/buylistforreview?ur_num="+ur_num;
-        axios.get(buylistforreviewURL).then(res=>setBuylist(res.data))
+        axios.get(buylistforreviewURL).then(res=>{
+            setBuylist(res.data);
+            setCnt(res.data.length);
+        })
     }
     const clickEvent=(item)=>{
         //console.log(item.ur_num);
@@ -29,18 +36,22 @@ function MyPageBuyList(props) {
     const spinfoClick=(item)=>{
         navi(`/shop/detail/${item.pd_num}/${item.sp_num}/1`);
     }
+    const clicktoggle=()=>{
+        setTogglestatus(!togglestatus);
+    }
     useEffect(()=>buylistforreview(),[ur_num,chk])
     return (
         <div>
-            <ul className={'mypage_ul'} >
-                <div>구매리스트</div>
+            <div className={'mypage_title'}  onClick={clicktoggle}>구매리스트 ({cnt}) {
+                togglestatus?<ArrowDropUp/>:<ArrowDropDown/>} </div>
+            <ul className={'mypage_ul'} style={{display:togglestatus?"block":"none"}} >
                 {buylist && buylist.map((item,i)=>
                     <div key={i}>
                         {ur_num===item.ur_num?"":
-                            <li  className={'mypage_li'}>
+                            <li  className={'mypage_li'} onClick={()=>spinfoClick(item)}>
                                 <div style={{display:"flex"}} >
                                     <img alt={''} src={spURL+item.img_name}
-                                         onClick={()=>spinfoClick(item)} className={'mypage_sp_img'} />
+                                          className={'mypage_sp_img'} />
                                     <div className={'mypage_sp_title'}>{item.sp_title}</div>
                                 </div>
                                 {

@@ -9,6 +9,7 @@ function ProfileGetRvList(props) {
     const navi=useNavigate();
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
     const [togglestatus,setTogglestatus]=useState(false);
+    const [cnt, setCnt]=useState();
     const marks = [
         {value: 0, label: '🤬'},
         {value: 10, label: '😡'},
@@ -24,7 +25,10 @@ function ProfileGetRvList(props) {
     ];
     const getrvlist=()=>{
         let rvlistURL=localStorage.url+"/getrv?ur_num="+user;
-        axios.get(rvlistURL).then(res=>setRvlist(res.data))
+        axios.get(rvlistURL).then(res=>{
+            setRvlist(res.data);
+            setCnt(res.data.length);
+        })
     }
     const spinfoClick=(item)=>{
         navi(`/shop/detail/${item.pd_num}/${item.sp_num}/1`);
@@ -35,8 +39,8 @@ function ProfileGetRvList(props) {
     useEffect(()=>getrvlist(),[user])
     return (
         <div>
-            <h3 className={'mypage_title'} onClick={clicktoggle}>받은 후기 리스트 {
-                togglestatus?<ArrowDropUp/>:<ArrowDropDown/>}</h3>
+            <div className={'mypage_title'} onClick={clicktoggle}>받은 후기 리스트 ({cnt}) {
+                togglestatus?<ArrowDropUp/>:<ArrowDropDown/>}</div>
             <ul className={'mypage_ul'} style={{display:togglestatus?"block":"none"}}>
             {rvlist.map((rv,i)=>
                 <li key={i} className={'mypage_li'} onClick={()=>spinfoClick(rv)}>

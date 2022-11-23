@@ -57,4 +57,14 @@ public class MyPageController {
     {
         return mpmapper.getFeedList(ur_num);
     }
+    @GetMapping("/getbookmarklist")
+    public List<Map<String,Object>> getBookmarkList(int ur_num)
+    {
+        return mpmapper.getBookmarkList(ur_num);
+    }
+    @GetMapping("/getlikelist")
+    public List<Map<String,Object>> getLikeList(int ur_num)
+    {
+        return mpmapper.getLikeList(ur_num);
+    }
 }
