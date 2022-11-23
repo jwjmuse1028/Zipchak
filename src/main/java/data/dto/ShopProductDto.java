@@ -25,6 +25,7 @@ public class ShopProductDto {
     private String pd_status;
     private String img_first;
     List<String> images;
+    List<String> newimages;
     private String ur_id;
     private String prf_nick;
     private String prf_img;

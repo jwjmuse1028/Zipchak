@@ -1,12 +1,13 @@
 import BuyerList from "./BuyerList";
 import UserTemp from "../user/UserTemp";
 import React, {useEffect, useState} from 'react';
+import BuyerList from "./BuyerList";
+import UserTemp from "../user/UserTemp";
 import {useNavigate, useParams} from "react-router-dom";
 import Slider from "react-slick";
-
 import axios from "axios";
 import "../css/ShopDetail.css";
-import {Avatar, Fab, Menu, MenuItem} from "@mui/material";
+import {Alert, Avatar, Button, Fab, Menu, MenuItem} from "@mui/material";
 import IconButton from "@material-ui/core/IconButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,15 +20,13 @@ import {
     DeleteOutline,
     MoreVert
 } from "@material-ui/icons";
-
 import Slide from "@material-ui/core/Slide";
 import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
+
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
 }
-
-
 
 function ShopDetail(props) {
     const {pd_num,sp_num,currentPage}=useParams();
@@ -46,7 +45,6 @@ function ShopDetail(props) {
         axios.get(getChatCntUrl).
         then(res=>setChatCnt(res.data))
     }
-
 
     const numberFormat=(inputNumber) =>{
         return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -126,7 +124,7 @@ function ShopDetail(props) {
         onDetailData();
     },[]);
 
-    const onClickLike= (Transition) =>()=>{
+    const onClickLike = (Transition) => () => {
         let ur_num=sessionStorage.ur_num;
         let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
         if (sessionStorage.loginok==null){
@@ -189,8 +187,8 @@ function ShopDetail(props) {
                 <div className={'input-group'}>
                 <IconButton color={"primary"} onClick={onClickLike(SlideTransition)}>
                     {
-                        <Bookmark fontSize={"large"}/>
-                        // detail.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
+                        // <Bookmark fontSize={"large"}/>
+                        detail.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
                     }
                 </IconButton>
                 <b style={{fontSize:'2.2em'}}>{detail.sp_title}</b>
@@ -208,13 +206,21 @@ function ShopDetail(props) {
                     </IconButton> : ''
             }
             <Snackbar
+                color={'red'}
                 open={state.open}
                 onClose={likeClose}
                 autoHideDuration={2000}
                 TransitionComponent={state.Transition}
                 message= {detail.userlike===1?"상품을 찜 하였습니다!!":"상품을 찜해제 하였습니다ㅠㅠ"}
                 key={state.Transition.name}
-            />
+                action={
+                    detail.userlike===1?
+                    <React.Fragment>
+                        <Button color="info" onClick={()=>{navi("/mypage")}}>
+                            찜 목록 바로가기
+                        </Button>
+                    </React.Fragment>:''
+                }/>
                 <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -246,6 +252,7 @@ function ShopDetail(props) {
                         <Chat/>&nbsp;얘한테 채팅하기
                     </Fab>
             }
+            <br/><br/><br/>
             <BuyerList selectedValue={selectedValue} buyerlistOpen={buyerlistOpen} buyerlistClose={buyerlistClose} sp_num={sp_num}/>
         </div>
     );

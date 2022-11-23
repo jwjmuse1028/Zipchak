@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ShopMapper">
     <select id="getTotalCount" resultType="int">-- 총글개수
-    SELECT count(*) FROM sp
+        SELECT count(*) FROM sp
     </select>
     <insert id="insertShop" parameterType="ShopDto">-- 판매글추가
         INSERT INTO sp (ur_num,pd_num,sp_title,sp_txt,sp_wdate,sp_rdcnt)
@@ -17,24 +17,17 @@
             and ${search_col} like concat('%',#{search_word},'%')
         </if>
         ORDER BY sp_num DESC limit #{startnum}, #{perpage}
-
-<!--        <choose>-->
-<!--            <when test="status=#{status}"> </when>-->
-<!--            <otherwise> where pd.pd_status='onsale'</otherwise>-->
-<!--        </choose>-->
     </select>
-
     <select id="getData" parameterType="int" resultType="ShopProductDto">-- 상세보기
-    SELECT ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt
-    FROM ur,ur_prf,pd,sp
-    WHERE ur.ur_num=ur_prf.ur_num AND sp.ur_num=ur.ur_num AND sp.pd_num=pd.pd_num AND sp.sp_num=#{sp_num}
+        SELECT ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt
+        FROM ur,ur_prf,pd,sp
+        WHERE ur.ur_num=ur_prf.ur_num AND sp.ur_num=ur.ur_num AND sp.pd_num=pd.pd_num AND sp.sp_num=#{sp_num}
     </select>
     <update id="updateShop" parameterType="ShopDto">-- 상품수정
-    UPDATE sp SET sp_title=#{sp_title},sp_txt=#{sp_txt}
-    WHERE sp_num=#{sp_num}
+        UPDATE sp SET sp_title=#{sp_title},sp_txt=#{sp_txt}
+        WHERE sp_num=#{sp_num}
     </update>
-
     <update id="updateReadCount" parameterType="int">-- 조회수증가
-    UPDATE sp SET sp_rdcnt=sp_rdcnt+1 WHERE sp_num=#{sp_num}
+        UPDATE sp SET sp_rdcnt=sp_rdcnt+1 WHERE sp_num=#{sp_num}
     </update>
 </mapper>

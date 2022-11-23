@@ -156,7 +156,7 @@ function Menus(props) {
                 {/*<TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required*/}
                 {/*           onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>*/}
                 {/*<Button type={"submit"}  variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>*/}
-                <DialogTitle>{"로그인+clickEnter"}</DialogTitle>
+                <DialogTitle>{"로그인"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>

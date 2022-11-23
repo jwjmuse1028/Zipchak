@@ -1,11 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {
-    Button,
-    Fab,
-    MenuItem,
-    Select,
-    TextField
-} from "@mui/material";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {Bookmark, BookmarkBorder, Create} from "@material-ui/icons";
@@ -18,6 +11,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from "@material-ui/core/Slide";
 import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
+import {
+    Button,
+    Fab,
+    MenuItem,
+    Select,
+    TextField
+} from "@mui/material";
+import transitions from "@material-ui/core/styles/transitions";
+
+function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,15 +45,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SlideTransition(props) {
-    return <Slide {...props} direction="up" />;
-}
-
 function ShopList() {
     const classes = useStyles();
     const navi = useNavigate();
     const {currentPage}=useParams();
-    // console.log("샵넘="+sp_num);
     const [data, setData]=useState('');
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
@@ -86,48 +86,55 @@ function ShopList() {
 
     useEffect(() => {
             getList();
-        },
-        [currentPage]);
+        },[currentPage,data.userlike]);
+
+    // useEffect(() => {
+    //     getList();
+    // },[data]);
 
     const numberFormat=(inputNumber) =>{
         return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    // console.log("row="+JSON.stringify(data));
+    const onClickLike = (sp_num,Transition,e) => () => {
+        let ur_num=sessionStorage.ur_num;
+        // console.log("spnum="+sp_num,"ur="+ur_num);
+        let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
+        if (sessionStorage.loginok==null){
+            alert("로그인 후 이용해주세요");
+            return;
+        }
+        axios.get(url)
+            .then(res=>{
+                // console.log("성공");
+                setData(
+                    {
+                        ...data,
+                        totallikes: res.data.totallikes,
+                        userlike: res.data.userlike
+                    }
+                );
+                setState({
+                    open: true,
+                    Transition,
+                });
 
-    // const onClickLike= (Transition) =>()=>{
-    //     let ur_num=sessionStorage.ur_num;
-    //     let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
-    //     if (sessionStorage.loginok==null){
-    //         alert("로그인 후 이용해주세요");
-    //         return;
-    //     }
-    //     axios.get(url)
-    //         .then(res=>{
-    //             setData(
-    //                 {
-    //                     ...data,
-    //                     totallikes: res.data.totallikes,
-    //                     userlike: res.data.userlike
-    //                 }
-    //             );
-    //             setState({
-    //                 open: true,
-    //                 Transition,
-    //             });
-    //         })
-    // }
-    // const [state, setState] = React.useState({
-    //     open: false,
-    //     Transition: Fade,
-    // });
-    //
-    // const likeClose = () => {
-    //     setState({
-    //         ...state,
-    //         open: false,
-    //     });
-    // };
+            });
+    }
+
+    const [state, setState] = React.useState({
+        open: false,
+        Transition: Fade,
+    });
+
+    const likeClose = () => {
+        setState({
+            ...state,
+            open: false,
+        });
+    };
     return (
-        <div style={{margin:"auto", width:'70%'}}>
+        <div style={{margin:"auto", width:'100%', maxWidth:'1500px'}}>
             <div>
                 <Fab color="info" variant="extended" onClick={() => {
                         if (sessionStorage.loginok==null){
@@ -178,13 +185,13 @@ function ShopList() {
                         }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
-                            <IconButton color={"primary"}>
+                            <IconButton color={"primary"} onClick={onClickLike(row.sp_num,SlideTransition)}>
                                 {
-                                    <BookmarkBorder/>
-                                    // row.userlike===1?<Bookmark/>:<BookmarkBorder/>
+                                    row.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
                                 }
                             </IconButton>
                         </CardActions>
+
                             <CardContent>
                                 <b className={'list-title'}
                                    onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
@@ -195,14 +202,22 @@ function ShopList() {
                     </Card>
                 )
             }
-            {/*<Snackbar*/}
-            {/*    open={state.open}*/}
-            {/*    onClose={likeClose}*/}
-            {/*    autoHideDuration={2000}*/}
-            {/*    TransitionComponent={state.Transition}*/}
-            {/*    message= {data.userlike===1?"상품을 찜! 하였습니다":"상품을 찜해제ㅠㅠ 하였습니다"}*/}
-            {/*    key={state.Transition.name}*/}
-            {/*/>*/}
+            <Snackbar
+                open={state.open}
+                onClose={likeClose}
+                autoHideDuration={2000}
+                TransitionComponent={state.Transition}
+                message= {data.userlike===1?"상품을 찜 하였습니다!!":"상품을 찜해제 하였습니다ㅠㅠ"}
+                key={state.Transition.name}
+                action={
+                    data.userlike===1?
+                        <React.Fragment>
+                            <Button color="info" onClick={()=>{navi("/mypage")}}>
+                                찜 목록 바로가기
+                            </Button>
+                        </React.Fragment>:''
+                }
+            />
             <br/>
             {
                 viewPaging &&
