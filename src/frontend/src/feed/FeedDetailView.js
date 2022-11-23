@@ -2,19 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/FeedDetail.css";
+import FeedDetailCmt from "./FeedDetailCmt";
 
 function FeedDetailView(props) {
     const {fd_num}=useParams();
     const navi=useNavigate();
     const [fdata,setFdata]=useState('');
-    const [cmt_txt,setCmt_txt]=useState('');
 
     const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
-
-    const ur_num=sessionStorage.ur_num;
-    // 로그인한 사람 사진과 닉네임 출력(getPrfByNum으로 axios 가져오기 실패...)
-    const prf_img=sessionStorage.prf_img;
-    const prf_nick=sessionStorage.prf_nick;
 
     const getFeedDetail=()=>{
         const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num;
@@ -31,10 +26,6 @@ function FeedDetailView(props) {
         getFeedDetail();
     },[]);
 
-    const onCmtSubmit=(e)=>{
-        e.preventDefault();
-
-    }
 
     return (
         <div>
@@ -97,23 +88,8 @@ function FeedDetailView(props) {
             </div>
             }  {/* fdata&& 끝 */}
 
-            {/* cmt 입력 부분 */}
-            { ur_num &&
-            <div className={"input-group"}>
-                <img src={`${imgUrl}/prf_img/${prf_img}`} style={{height: '30px', width: '30px', borderRadius:'100%'}}/>
-                <span>{prf_nick}</span>
-                <form onSubmit={onCmtSubmit}>
-                    <input type={'text'} className={'form-control'}
-                           style={{height: '30px', fontSize: '15px'}}
-                           placeholder={'내용을 입력하세요.'} name={"cmt_txt"} value={cmt_txt} required
-                           onChange={(e)=>setCmt_txt(e.target.value)}/>
-                </form>
-            </div>
-            }
-
-
-
-
+            {/* cmt 부분 */}
+                <FeedDetailCmt fd_num={fd_num}/>
 
         </div>
     );

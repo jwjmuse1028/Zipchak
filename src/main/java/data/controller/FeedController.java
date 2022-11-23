@@ -1,6 +1,7 @@
 package data.controller;
 
 
+import data.dto.FeedCmtDto;
 import data.dto.FeedDto;
 import data.dto.FeedListDto;
 import data.mapper.FeedMapper;
@@ -19,19 +20,18 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/feed")
 public class FeedController {
 
     @Autowired
     FeedServiceInter feedServiceInter;
 
-    @PostMapping("/insert")
+    @PostMapping("/feed/insert")
     public void insertFeed(@RequestPart MultipartFile file, @RequestPart FeedDto dto)
     {
         feedServiceInter.insertFeed(file,dto);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/feed/list")
     public List<FeedListDto> getFeedList(@RequestParam(required = false) String search_col,
                                          @RequestParam(required = false) String search_word,
                                          @RequestParam(required = false) String order_col)
@@ -39,16 +39,29 @@ public class FeedController {
         return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/feed/detail")
     public Map<String,Object> getFeedDetail(int fd_num)
     {
         return feedServiceInter.getFeedDetail(fd_num);
     }
 
-    @PostMapping("/loginur")
+    @PostMapping("/feed/loginur")
     public Map<String,Object> getProfileByNum(int ur_num) {
         return feedServiceInter.getProfileByNum(ur_num);
     }
 
+
+    //  댓글관련
+
+    @PostMapping("fdcmt/insert")
+    public void insertFeedCmt(@RequestBody FeedCmtDto dto)
+    {
+        feedServiceInter.insertFeedCmt(dto);
+    }
+
+    @GetMapping("fdcmt/list")
+    public List<FeedCmtDto> getAllCmtByFdNum(int fd_num) {
+        return feedServiceInter.getAllCmtByFdNum(fd_num);
+    }
 
 }

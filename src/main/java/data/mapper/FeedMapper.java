@@ -1,5 +1,6 @@
 package data.mapper;
 
+import data.dto.FeedCmtDto;
 import data.dto.FeedDto;
 import data.dto.FeedListDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,12 @@ public interface FeedMapper {
     public int checkFeedLike(Map<String,Integer> map);
     public int getRecentFeedNum();
     public void insertFeedImage(Map<Integer,String> map);
+
+    public int getMaxCmtNum();
+    public void insertFeedCmt(FeedCmtDto dto);
+    public void updateCmtRestep(Map<String,Integer> map);
+    public List<FeedCmtDto> getAllCmtByFdNum(int fd_num);
+    public FeedCmtDto getCmtByCmtNum(int cmt_num);
+    public void deleteCmtByNum(int cmt_num);
+
 }
