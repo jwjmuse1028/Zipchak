@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.FeedMapper">
+
+    <!-- cmt_num의 최댓값을 구한다. null이면 0을 출력 -->
+    <select id="getMaxCmtNum" resultType="int">
+        select ifnull(max(cmt_num),0) from fd_cmt
+    </select>
+
+    <insert id="insertFeedCmt" parameterType="FeedCmtDto">
+        insert into fd_cmt values (null,#{fd_num},#{ur_num},#{cmt_txt},#{cmt_rg},#{cmt_rs},#{cmt_rl},now())
+    </insert>
+
+    <!-- restep(글 출력순서) 업데이트하기- 매개변수로 받은 *regroup 값과 같고, restep값보다 큰* 데이터에 한하여 1증가 -->
+    <update id="updateCmtRestep" parameterType="Map">
+        update fd_cmt set cmt_rs=cmt_rs+1 where cmt_rg=#{cmt_rg} and cmt_rs>#{cmt_rs}
+    </update>
+
+    <!--  프로필 사진 및 닉네임까지 가져오기위해 Join  -->
+    <select id="getAllCmtByFdNum" parameterType="int" resultType="FeedCmtDto">
+        select fd_cmt.*, ur_prf.prf_nick, ur_prf.prf_img
+        from fd_cmt, ur_prf where fd_cmt.ur_num=ur_prf.ur_num and fd_num=#{fd_num}
+        order by fd_cmt.cmt_rg desc, fd_cmt.cmt_rs asc;
+    </select>
+
+    <select id="getCmtByCmtNum" parameterType="int" resultType="FeedCmtDto">
+        select * from fd_cmt where cmt_num=#{cmt_num}
+    </select>
+
+    <delete id="deleteCmtByNum" parameterType="int">
+        delete from fd_cmt where fd_num=#{fd_num}
+    </delete>
+
+</mapper>

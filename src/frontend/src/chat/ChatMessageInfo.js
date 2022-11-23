@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     },
 });
 function ChatMessageInfo(props) {
-    const {cr_num,screenStatef,uInfo,uTmp}=props;
+    const {cr_num,screenStatef,uInfo,u_numfinal}=props;
     const [spInfo,setSpinfo]=useState({});
     const navi=useNavigate();
     const classes = useStyles();
@@ -44,14 +44,18 @@ function ChatMessageInfo(props) {
             ><ArrowBackRounded/></span>
             <div className={'uInfoBox'} >
                 <Avatar className={classes.avatar}>
-                    <img alt={''} src={prfUrl+uInfo.prf_img} className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}/>
+                    <img alt={''} src={prfUrl+uInfo.prf_img} onClick={()=>navi('/profile/'+u_numfinal)}
+                         className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}
+                        style={{cursor:'pointer'}}
+                    />
                 </Avatar>
                 <div className={'prf_nick'}>{uInfo.prf_nick}님</div>
                 <UserTemp prf_tmp={uInfo.prf_tmp}/>
                 <div className={'uinfobox_vline'}>  </div>
                 <div className={'spinfo_img'} onClick={spinfoClick}
                      style={{backgroundImage:`url('${spURL+spInfo.img_name}'),url('${noimage}')`}}/>
-                <div className={'spinfo_title'}>{spInfo.sp_title}</div>
+                <div className={'spinfo_title'}>{spInfo.sp_title}
+                    <span>{spInfo.pd_status==='soldout'?" (판매완료)":""}</span></div>
             </div>
         </div>
     );

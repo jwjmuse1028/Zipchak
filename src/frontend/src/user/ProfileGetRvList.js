@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {ArrowDropDown, ArrowDropUp} from "@material-ui/icons";
 
 function ProfileGetRvList(props) {
+    const {user}=props;
     const [rvlist,setRvlist]=useState([]);
     const navi=useNavigate();
-    const ur_num=sessionStorage.ur_num;
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
+    const [togglestatus,setTogglestatus]=useState(false);
+    const [cnt, setCnt]=useState();
     const marks = [
         {value: 0, label: '🤬'},
         {value: 10, label: '😡'},
@@ -21,32 +24,43 @@ function ProfileGetRvList(props) {
         {value: 100, label: '😍'}
     ];
     const getrvlist=()=>{
-        let rvlistURL=localStorage.url+"/getrv?ur_num="+ur_num;
-        axios.get(rvlistURL).then(res=>setRvlist(res.data))
+        let rvlistURL=localStorage.url+"/getrv?ur_num="+user;
+        axios.get(rvlistURL).then(res=>{
+            setRvlist(res.data);
+            setCnt(res.data.length);
+        })
     }
     const spinfoClick=(item)=>{
         navi(`/shop/detail/${item.pd_num}/${item.sp_num}/1`);
     }
-    useEffect(()=>getrvlist(),[ur_num])
+    const clicktoggle=()=>{
+        setTogglestatus(!togglestatus);
+    }
+    useEffect(()=>getrvlist(),[user])
     return (
-        <ul>
-            <div>받은 후기 리스트</div>
+        <div>
+            <div className={'mypage_title'} onClick={clicktoggle}>받은 후기 리스트 ({cnt}) {
+                togglestatus?<ArrowDropUp/>:<ArrowDropDown/>}</div>
+            <ul className={'mypage_ul'} style={{display:togglestatus?"block":"none"}}>
             {rvlist.map((rv,i)=>
-                <li key={i} className={'mypage_chat_li'}>
+                <li key={i} className={'mypage_li'} onClick={()=>spinfoClick(rv)}>
                     <div>
                         <div style={{display:"flex"}}>
                             <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'}
-                                onClick={()=>spinfoClick(rv)}/>
-                            <div className={'mypage_sp_title'}>{rv.sp_title}</div>
+                                />
+                            <div className={'mypage_sp_title'}>
+                                상품명 : {rv.sp_title}
+                                <br/>
+                                후기 : {rv.rv_txt}
+                                &nbsp; ({marks[rv.rv_tmp/10].label + rv.rv_tmp}℃)
+                            </div>
                         </div>
-                        <div >
-                            후기 : {rv.rv_txt}
-                            &nbsp; ({marks[rv.rv_tmp/10].label + rv.rv_tmp}℃)
-                        </div>
+
                     </div>
                 </li>)
             }
-        </ul>
+            </ul>
+        </div>
     );
 }
 

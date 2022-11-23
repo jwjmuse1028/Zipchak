@@ -1,5 +1,6 @@
 package data.service;
 
+import data.dto.FeedCmtDto;
 import data.dto.FeedDto;
 import data.dto.FeedListDto;
 import data.dto.UserDto;
@@ -74,6 +75,8 @@ public class FeedService implements FeedServiceInter{
     public Map<String,Object> getFeedDetail(int fd_num) {
 
         FeedDto dto=getFeedByNum(fd_num);
+
+        // 글쓴이 프로필 가져오기
         int writer_num=dto.getUr_num();
         Map<String,Object> pmap=getProfileByNum(writer_num);
 
@@ -109,4 +112,65 @@ public class FeedService implements FeedServiceInter{
     }
 
 
+
+//  댓글관련
+
+
+    @Override
+    public int getMaxCmtNum() {
+        return feedMapper.getMaxCmtNum();
+    }
+
+    @Override
+    public void insertFeedCmt(FeedCmtDto dto) {
+        // 새글인지 답글인지 판단해서 로직을 짠다
+        int cmt_num=dto.getCmt_num(); //새글(새로운 원글)일 경우 0이 들어가 있음 댓글 form에서 넣을때 빈값-> default인 0 들어감
+        int cmt_rg=dto.getCmt_rg();
+        int cmt_rs=dto.getCmt_rs();
+        int cmt_rl=dto.getCmt_rl();
+
+        if(cmt_num==0) //새글일 경우
+        {
+            cmt_rg=this.getMaxCmtNum()+1; //가장 큰 feedcmtnum가져옴
+            cmt_rs=0;
+            cmt_rl=0;
+
+        }else { //답글일 경우
+            //같은 그룹 중 전달받은 restep보다 큰 값을 가진 데이터들은 모두 restep에 일괄 +1을 해준다.
+            this.updateCmtRestep(cmt_rg,cmt_rs);
+            //그리고 나서 전달받은 값보다 1크게 db에 저장
+            cmt_rs++;
+            cmt_rl++;
+        }
+        //변경된 값들 다시 dto에 넣기
+        dto.setCmt_rg(cmt_rg);
+        dto.setCmt_rs(cmt_rs);
+        dto.setCmt_rl(cmt_rl);
+
+        feedMapper.insertFeedCmt(dto);
+    }
+
+    @Override
+    public void updateCmtRestep(int cmt_rg, int cmt_rs) {
+        Map<String,Integer> map=new HashMap<>();
+        map.put("cmt_rg",cmt_rg);
+        map.put("cmt_rs",cmt_rs);
+
+        feedMapper.updateCmtRestep(map);
+    }
+
+    @Override
+    public List<FeedCmtDto> getAllCmtByFdNum(int fd_num) {
+        return feedMapper.getAllCmtByFdNum(fd_num);
+    }
+
+    @Override
+    public FeedCmtDto getCmtByCmtNum(int cmt_num) {
+        return feedMapper.getCmtByCmtNum(cmt_num);
+    }
+
+    @Override
+    public void deleteCmtByNum(int cmt_num) {
+        feedMapper.deleteCmtByNum(cmt_num);
+    }
 }

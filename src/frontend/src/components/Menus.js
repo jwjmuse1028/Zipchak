@@ -24,6 +24,7 @@ function Menus(props) {
     const [prf_img, setPrf_img]=useState('');
     const navi = useNavigate();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
+    const ur_num=sessionStorage.ur_num;
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -142,7 +143,6 @@ function Menus(props) {
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                     </div>
             }
-
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -156,7 +156,7 @@ function Menus(props) {
                 {/*<TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required*/}
                 {/*           onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>*/}
                 {/*<Button type={"submit"}  variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>*/}
-                <DialogTitle>{"로그인+clickEnter"}</DialogTitle>
+                <DialogTitle>{"로그인"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
@@ -170,6 +170,7 @@ function Menus(props) {
                             onClick={onBtnLogin}>Sign In</Button>
                 </DialogActions>
             </Dialog>
+
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -179,7 +180,7 @@ function Menus(props) {
             >
                 <MenuItem onClick={(e)=>{
                     handleClose();
-                    navi("/profile");
+                    navi("/profile/"+ur_num);
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();

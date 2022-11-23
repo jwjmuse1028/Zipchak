@@ -7,7 +7,9 @@ import data.mapper.UserMapper;
 import data.service.S3Service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,19 @@ public class ChatMessageController {
     @Autowired
     UserMapper umapper;
     private final S3Service s3Service;
-    @MessageMapping("/chat")
-    public void sendMessage(ChatMessageDto chatDto) {
+
+//    @MessageMapping("/chat")
+//    public void sendMessage(ChatMessageDto chatDto) {
+//        int cm_num=cmmapper.insertChatMessage(chatDto);
+//        //System.out.println(cm_num);
+//        //ChatMessageDto sendDto=cmmapper.getMsg(cm_num);
+//        chatDto.setCm_num(cm_num);
+//        //System.out.println(sendDto.getCm_wdate());
+//        //chatDto.setCm_wdate(sendDto.getCm_wdate());
+//        simpMessagingTemplate.convertAndSend("/sub/chat/" + chatDto.getCr_num(), chatDto);
+//    }
+    @MessageMapping("/chat/{cr_num}")
+    public void sendMessage(@PathVariable String cr_num, ChatMessageDto chatDto) {
         int cm_num=cmmapper.insertChatMessage(chatDto);
         //System.out.println(cm_num);
         //ChatMessageDto sendDto=cmmapper.getMsg(cm_num);
