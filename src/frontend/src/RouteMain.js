@@ -15,11 +15,11 @@ import FeedList from "./feed/FeedList";
 import ShopInsertForm from "./shop/ShopInsertForm";
 import ShopUpdateForm from "./shop/ShopUpdateForm";
 import ShopDetail from "./shop/ShopDetail";
-import FeedDetail from "./feed/FeedDetail";
 import FeedDetailView from "./feed/FeedDetailView";
 import MyPage from "./user/MyPage";
 import Profile from "./user/Profile";
 import Footer from "./components/Footer";
+import FeedAddTag from "./feed/FeedAddTag";
 
 
 function RouteMain(props) {
@@ -56,8 +56,8 @@ function RouteMain(props) {
                 <Route path='/feed'>
                     <Route path='insertform' element={<FeedInsertForm/>}/>
                     <Route path='list' element={<FeedList/>}/>
-                    <Route path='detail' element={<FeedDetail/>}/>
                     <Route path='detail/:fd_num' element={<FeedDetailView/>}/>
+                    <Route path='addtag' element={<FeedAddTag/>}/>
                     {/*<Route path='list/:currentPage' element={<BoardList/>}/>*/}
                 </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/FeedDetail.css";
+import {Viewer} from "@toast-ui/react-editor";
 import FeedDetailCmt from "./FeedDetailCmt";
 
 function FeedDetailView(props) {
@@ -79,7 +80,8 @@ function FeedDetailView(props) {
                         <div className="bpd-view project-detail__content-bpd">
                             <div className="project-detail-image-block only-image">
                                 <div className="_33oVJ project-detail-image-block__overlay">
-                                    {fdata.dto.fd_txt}
+                                    <Viewer
+                                    initialValue={fdata.dto.fd_txt}/>
                                 </div>
                             </div>
                         </div>
@@ -90,6 +92,7 @@ function FeedDetailView(props) {
 
             {/* cmt 부분 */}
                 <FeedDetailCmt fd_num={fd_num}/>
+
 
         </div>
     );
