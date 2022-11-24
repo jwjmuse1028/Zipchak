@@ -44,20 +44,20 @@ function MyPageBuyList(props) {
         <div>
             <div className={'mypage_title'}  onClick={clicktoggle}>구매리스트 ({cnt}) {
                 togglestatus?<ArrowDropUp/>:<ArrowDropDown/>} </div>
-            <ul className={'mypage_ul'} style={{display:togglestatus?"block":"none"}} >
+            <ul className={'mypage_ul'} >
                 {buylist && buylist.map((item,i)=>
-                    <div key={i}>
+                    <div key={i} className={(i<3)?'card_show':togglestatus?'card_show':'card_hide'}>
                         {ur_num===item.ur_num?"":
-                            <li  className={'mypage_li'} onClick={()=>spinfoClick(item)}>
+                            <li  className={'mypage_li'} >
                                 <div style={{display:"flex"}} >
-                                    <img alt={''} src={spURL+item.img_name}
+                                    <img alt={''} src={spURL+item.img_name} onClick={()=>spinfoClick(item)}
                                           className={'mypage_sp_img'} />
                                     <div className={'mypage_sp_title'}>{item.sp_title}</div>
                                 </div>
                                 {
                                     item.fromseller &&
                                     item.fromseller===1 ?
-                                        <button className={'mypage_btn'} onClick={()=>clickEvent(item)}>
+                                        <button className={'mypage_btn_shape mypage_btn_rev'} style={{margin:'auto'}} onClick={()=>clickEvent(item)}>
                                             거래 후기 남기기</button> :
                                         ""
                                 }

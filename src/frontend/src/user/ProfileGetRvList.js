@@ -41,10 +41,11 @@ function ProfileGetRvList(props) {
         <div>
             <div className={'mypage_title'} onClick={clicktoggle}>받은 후기 리스트 ({cnt}) {
                 togglestatus?<ArrowDropUp/>:<ArrowDropDown/>}</div>
-            <ul className={'mypage_ul'} style={{display:togglestatus?"block":"none"}}>
+            <ul className={'mypage_ul'} >
             {rvlist.map((rv,i)=>
-                <li key={i} className={'mypage_li'} onClick={()=>spinfoClick(rv)}>
-                    <div>
+                <div key={i}  className={(i<3)?'card_show':togglestatus?'card_show':'card_hide'}>
+                <li className={'mypage_li'} onClick={()=>spinfoClick(rv)}>
+
                         <div style={{display:"flex"}}>
                             <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'}
                                 />
@@ -55,9 +56,7 @@ function ProfileGetRvList(props) {
                                 &nbsp; ({marks[rv.rv_tmp/10].label + rv.rv_tmp}℃)
                             </div>
                         </div>
-
-                    </div>
-                </li>)
+                </li> </div>)
             }
             </ul>
         </div>

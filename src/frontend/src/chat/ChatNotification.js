@@ -14,7 +14,9 @@ function ChatNotification(props) {
     const getMsgCntNoti=()=>{
         if(ur_num!=null){
             let getMsgCntNotiUrl=localStorage.url+"/chat/cntnoti?ur_num="+ur_num;
-            axios.get(getMsgCntNotiUrl).then(res=>setMsgCnt(res.data))
+            axios.get(getMsgCntNotiUrl).then(res=>{
+                setMsgCnt(res.data);
+            })
         }
     }
     const notify = () => toast.info( nick+'님, 읽지 않은 '+msgCnt+'개의 메시지가 있습니다', {
@@ -32,13 +34,12 @@ function ChatNotification(props) {
     }
     useEffect(()=>getMsgCntNoti(),[]);
     useEffect(()=>{
-        if(msgCnt!==0){
+        if(msgCnt!==0 && ur_num!=null){
             notify();
         }},[msgCnt]);
     return (
-        <div>
-            <ToastContainer theme="colored" transition={Bounce}/>
-        </div>
+        <></>
+         //<ToastContainer theme="colored" transition={Bounce}/>
     );
 }
 
