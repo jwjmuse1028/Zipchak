@@ -35,6 +35,24 @@
      position: relative;
      width: 100%;
  }
+.css-vg56 {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 0;
+    box-sizing: border-box;
+    border: 1px solid #35C5F0;
+    border-radius: 4px;
+    display: block;
+    padding: 0px 16px;
+    cursor: text;
+    position: relative;
+    width: 100%;
+}
 .css-11bu34y {
     word-break: break-word;
     cursor: text;
@@ -104,11 +122,6 @@
     margin: 0px 0px 0px 12px;
     border: none;
     background: none transparent;
-    font-style: inherit;
-    font-variant: inherit;
-    font-weight: inherit;
-    font-stretch: inherit;
-    font-family: inherit;
     height: 30px;
     border-radius: 4px;
     font-size: 16px;
@@ -131,9 +144,89 @@
     padding: 0 8px;
     color: #35C5F0;
     font-weight: 700;
-    -webkit-flex-shrink: 0;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     margin-left: 12px;
     padding: 0;
+}
+.css-lw9a6t {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+    color: rgb(130, 140, 148);
+    border: 0px;
+    background: none;
+}
+.css-eayw7z {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+}
+.css-ofv0mw {
+    font-size: 16px;
+    line-height: 24px;
+    color: rgb(47, 52, 56);
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    white-space: pre-line;
+    margin: 8px 0px;
+}
+@media (min-width: 768px) {
+    .css-1fzkxhd {
+        margin-top: 30px;
+    }
+}
+ .css-1fzkxhd {
+     margin-top: 24px;
+ }
+.css-ame6mi {
+    padding-left: 42px;
+}
+ol, ul,li {
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.css-50jqym {
+    position: absolute;
+    top: 0px;
+    left: -42px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+.css-f9yozn {
+    padding: 1px 10px 10px 30px;
+    margin-top: 10px;
+    border-radius: 4px;
+    background: rgb(247, 249, 250);
+}
+.css-nltycz {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    color: rgb(47, 52, 56);
+}
+.css-50jqym {
+    position: absolute;
+    top: 0px;
+    left: -42px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+.css-1iaw8mx {
+    width: 30px;
+    height: 30px;
+    margin-top: 7px;
+    margin-right: 12px;
+    border-radius: 100%;
 }
