@@ -14,6 +14,6 @@ public interface ShopMapper {
     public void insertShop(ShopDto dto);
     public List<ShopProductDto> getPagingList(Map<String, Object> map);
     public ShopProductDto getData(int sp_num);
-    public void updateShop(ShopDto dto);
+    public void updateShop(ShopProductDto dto);
     public void updateReadCount(int sp_num);
 }

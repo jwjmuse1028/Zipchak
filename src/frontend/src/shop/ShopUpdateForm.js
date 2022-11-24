@@ -2,11 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, MenuItem, Select, TextareaAutosize, TextField} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import "../css/ShopList.css";
+// import "../css/ShopList.css";
 import {AddPhotoAlternateOutlined, CancelRounded} from "@material-ui/icons";
 import white from "../image/white.png"
 
 function ShopUpdateForm(props) {
+
     const [shopdata, setShopdata]=useState('');
     const [img_name, setImg_name]=useState([]);
     const [newImage, setNewImage]=useState([]);
@@ -19,7 +20,11 @@ function ShopUpdateForm(props) {
     const getShopData=()=>{ //해당 디테일의 기존의 데이타 불러옴
         axios.get(url)
             .then(res=>{
+                // console.dir(res.data);
                 setShopdata(res.data);
+                // console.log("sp_num="+res.data.sp_num);
+                // console.log("pd_num="+res.data.pd_num);
+
                 setImg_name(res.data.images);
             })
         }
@@ -27,34 +32,34 @@ function ShopUpdateForm(props) {
         getShopData();
     },[]);
 
-    const uploadPhoto=(e)=>{
-
-        let uploadUrl = sessionStorage.url+"/shop/upload2";
-
-        let total=img_name.length+e.target.files.length; //사진 10장 제한
-        if(total>10){
-            alert("사진은 10장까지만 첨부 가능합니다");
-            return;
-        }
-
-        const uploadFile = new FormData();
-        for(let i=0;i<e.target.files.length;i++) {
-            uploadFile.append("uploadFile", e.target.files[i]);
-        }
-        axios({
-            method:'post',
-            url:uploadUrl,
-            data:uploadFile,
-            headers:{'Content-Type':'multipart/form-data'}
-        }).then(res=>{
-            // setImg_name(res.data);
-            //setNewImage(res.data);
-            setImg_name([
-                ...img_name,
-                res.data
-            ])
-        });
-    }
+    // const uploadPhoto=(e)=>{
+    //
+    //     let uploadUrl = sessionStorage.url+"/shop/upload2";
+    //
+    //     let total=img_name.length+e.target.files.length; //사진 10장 제한
+    //     if(total>10){
+    //         alert("사진은 10장까지만 첨부 가능합니다");
+    //         return;
+    //     }
+    //
+    //     const uploadFile = new FormData();
+    //     for(let i=0;i<e.target.files.length;i++) {
+    //         uploadFile.append("uploadFile", e.target.files[i]);
+    //     }
+    //     axios({
+    //         method:'post',
+    //         url:uploadUrl,
+    //         data:uploadFile,
+    //         headers:{'Content-Type':'multipart/form-data'}
+    //     }).then(res=>{
+    //         // setImg_name(res.data);
+    //         //setNewImage(res.data);
+    //         setImg_name([
+    //             ...img_name,
+    //             res.data
+    //         ])
+    //     });
+    // }
 
     // useEffect(() => {
     //     if(img_name.length==0){
@@ -65,21 +70,21 @@ function ShopUpdateForm(props) {
     //     }
     // }, [img_name]);
 
-    const onPhotoDelete=(idx)=>{
-        setImg_name(img_name.filter((a,i)=>i!==idx));
-
-        let url = sessionStorage.url+"/shop/imagedelete?idx="+idx;
-        axios.delete(url)
-            .then(res=>{
-
-            })
-    }
+    // const onPhotoDelete=(idx)=>{
+    //     setImg_name(img_name.filter((a,i)=>i!==idx));
+    //
+    //     let url = sessionStorage.url+"/shop/imagedelete?idx="+idx;
+    //     axios.delete(url)
+    //         .then(res=>{
+    //
+    //         })
+    // }
 
     const onSubmit=(e)=>{
         e.preventDefault();
         let url = sessionStorage.url+"/shop/update";
 
-        axios.post(url,shopdata)
+        axios.post(url, shopdata)
             .then(res=>{
                 navi(`/shop/detail/${pd_num}/${sp_num}/${currentPage}`);
             })
@@ -100,8 +105,9 @@ function ShopUpdateForm(props) {
                                            setShopdata({
                                                ...shopdata,
                                                sp_title:e.target.value
-                                           })
-                                       }}/>
+                                           });
+                                       }}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -112,12 +118,12 @@ function ShopUpdateForm(props) {
                             <Select variant={"standard"} style={{width: '50%'}} required
                                 // renderValue={pd_ctg !== "" ? undefined : () => "카테고리를 선택해주세요"} displayEmpty
                                     defaultValue={shopdata.pd_ctg}
-                                    // onChange={(e) => {
-                                    //     setShopdata({
-                                    //         ...shopdata,
-                                    //         pd_ctg: e.target.value
-                                    //     })
-                                    // }}
+                                    onChange={(e) => {
+                                        setShopdata({
+                                            ...shopdata,
+                                            pd_ctg: e.target.value
+                                        })
+                                    }}
                             >
                                 {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택주세요"}>카테고리를 선택해주세요</MenuItem>*/}
                                 <MenuItem value={'가구'}>가구</MenuItem>
@@ -145,39 +151,42 @@ function ShopUpdateForm(props) {
                         <td>
                             {/*<TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>*/}
                             <TextField type="number" max required placeholder={"숫자만 입력해주세요 (최대 9자)"} variant={"standard"} style={{width:'50%'}}
+
                                        value={shopdata.pd_price}
                                        onChange={(e) => {
                                            setShopdata({
                                                ...shopdata,
-                                               pd_price:e.target.value
+                                               pd_price:e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9)
                                            });
-                                           setShopdata(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))}}/><b>원</b>
+                                           // setShopdata(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))
+                                           }}
+                            /><b>원</b>
 
                         </td>
                     </tr>
                     <tr>
-                        <th rowSpan={2}><br/><br/><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
+                        <th rowSpan={2}><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td>
-                            <input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
-                                   onChange={uploadPhoto}/><br/>
-                            <AddPhotoAlternateOutlined onClick={()=>{
-                                document.getElementById('filephoto').click();
-                            }} style={{cursor:'pointer', color:'gray', fontSize:'5em',float:'left'}}/>
+                            {/*<input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"*/}
+                            {/*       onChange={uploadPhoto}/><br/>*/}
+                            {/*<AddPhotoAlternateOutlined onClick={()=>{*/}
+                            {/*    document.getElementById('filephoto').click();*/}
+                            {/*}} style={{cursor:'pointer', color:'gray', fontSize:'5em',float:'left'}}/>*/}
                             {
                                 img_name.map((img,idx)=>
                                     <figure className={'photos'} key={idx}>
                                         <img alt={''}
                                              src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${img}`} width={'80px'} height={'80px'}/>
-                                        <figcaption>
-                                            <CancelRounded className={'imageclose'} style={{color:'gray'}}
-                                                           onClick={()=>{
-                                                               onPhotoDelete(idx);
-                                                           }}/>
-                                        </figcaption>
-                                        {
-                                            idx==0?
-                                                <span className={'firstimage'}>대표이미지</span>:''
-                                        }
+                                        {/*<figcaption>*/}
+                                        {/*    <CancelRounded className={'imageclose'} style={{color:'gray'}}*/}
+                                        {/*                   onClick={()=>{*/}
+                                        {/*                       onPhotoDelete(idx);*/}
+                                        {/*                   }}/>*/}
+                                        {/*</figcaption>*/}
+                                        {/*{*/}
+                                        {/*    idx==0?*/}
+                                        {/*        <span className={'firstimage'}>대표이미지</span>:''*/}
+                                        {/*}*/}
                                     </figure>
                                 )
                             }
@@ -185,14 +194,8 @@ function ShopUpdateForm(props) {
                     </tr>
                     <tr>
                         <td>
-                            <p style={{color:'#1194c7'}}>
-                                <b>- 이미지는 최소 1장 필수첨부 해야합니다.</b><br/>
-                                - 대표이미지는 새상품 이미지 사용을 권장드립니다.<br/>
-                                - 미리보기 이미지는 80x80에 최적화 되어 있습니다.<br/>
-                                - 미리보기 이미지는 1:1 비율로 보여집니다.<br/>
-                                - 큰 이미지일 경우 이미지가 깨지는 경우가 발생할 수 있습니다.<br/>
-                                - 이미지는 최대 10장까지 첨부 가능합니다.<br/>
-                                - 이미지는 삭제 할 수 있고, 첫번째 이미지가 대표이미지로 자동 등록됩니다.
+                            <p style={{color:'red'}}>
+                                <b>※사기 방지를 위해 첨부 이미지 수정 및 삭제는 불가합니다.</b><br/>
                             </p>
                         </td>
                     </tr>

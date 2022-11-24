@@ -207,7 +207,7 @@ function ShopList() {
                 onClose={likeClose}
                 autoHideDuration={2000}
                 TransitionComponent={state.Transition}
-                message= {data.userlike===1?"상품을 찜 하였습니다!!":"상품을 찜해제 하였습니다ㅠㅠ"}
+                message= {data.userlike===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
                 key={state.Transition.name}
                 action={
                     data.userlike===1?
@@ -237,7 +237,7 @@ function ShopList() {
                             <Link to={`/shop/list/${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
                     }
                 </div>
-            }
+            }<br/>
         </div>
     );
 }

@@ -44,6 +44,16 @@ ul.menu li a:hover{
     border-color: #38B9E0;
     border-style: solid;
 }
+
+div.loginavt{
+    display: flex;
+    margin: 1%;
+    width: 25%;
+    /*gap: 10px;*/
+    align-items: center;
+    float: right;
+    justify-content: right;
+}
 /*#top{*/
 /*    font-weight: bold;*/
 /*    font-size: 15px;*/
