@@ -1,5 +1,3 @@
-import BuyerList from "./BuyerList";
-import UserTemp from "../user/UserTemp";
 import React, {useEffect, useState} from 'react';
 import BuyerList from "./BuyerList";
 import UserTemp from "../user/UserTemp";
@@ -7,7 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Slider from "react-slick";
 import axios from "axios";
 import "../css/ShopDetail.css";
-import {Alert, Avatar, Button, Fab, Menu, MenuItem} from "@mui/material";
+import {Avatar, Button, Fab, Menu, MenuItem} from "@mui/material";
 import IconButton from "@material-ui/core/IconButton";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -163,7 +161,7 @@ function ShopDetail(props) {
     },[sp_num])
 
     return (
-        <div style={{margin:"auto", width:'35%'}}>
+        <div style={{margin:"auto", width:'35%', minWidth:'660px'}}>
             <Slider {...settings}>
                 {
                     detail.images &&
@@ -178,12 +176,14 @@ function ShopDetail(props) {
                     <p className={'soldouttxtdetail'}>판매완료</p>:''
             }
             <br/>
+            <span className={'detailavt'} onClick={()=>navi(`/profile/${ur_num}`)}>
                 <Avatar src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${detail.prf_img}`}/>
                 <b>{detail.prf_nick}&nbsp;({detail.ur_id})</b>
-                <div style={{ position:"relative",left:'90%',top:'-60px'}}>
+            </span>
+                <div style={{ position:"relative",left:'85%',top:'-40px'}}>
                     <UserTemp prf_tmp={detail.prf_tmp}/>
                 </div>
-                <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-10px'}}/>
+                <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-20px'}}/>
                 <div className={'input-group'}>
                 <IconButton color={"primary"} onClick={onClickLike(SlideTransition)}>
                     {
@@ -192,26 +192,28 @@ function ShopDetail(props) {
                     }
                 </IconButton>
                 <b style={{fontSize:'2.2em'}}>{detail.sp_title}</b>
+                    {
+                        sessionStorage.ur_id === detail.ur_id?
+                            <IconButton style={{float: "right"}}
+                                        aria-label="more"
+                                        aria-controls="long-menu"
+                                        aria-haspopup="true"
+                                        onClick={handleClick}
+                            >
+                                <MoreVert/>
+                            </IconButton> : ''
+                    }
                 </div>
             <span style={{color:"gray"}}>{detail.pd_ctg}·{detail.sp_wdate}</span>
-            {
-                sessionStorage.ur_id === detail.ur_id?
-                    <IconButton style={{float: "right"}}
-                                aria-label="more"
-                                aria-controls="long-menu"
-                                aria-haspopup="true"
-                                onClick={handleClick}
-                    >
-                        <MoreVert/>
-                    </IconButton> : ''
-            }
+
+
             <Snackbar
                 color={'red'}
                 open={state.open}
                 onClose={likeClose}
                 autoHideDuration={2000}
                 TransitionComponent={state.Transition}
-                message= {detail.userlike===1?"상품을 찜 하였습니다!!":"상품을 찜해제 하였습니다ㅠㅠ"}
+                message= {detail.userlike===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
                 key={state.Transition.name}
                 action={
                     detail.userlike===1?
@@ -232,15 +234,12 @@ function ShopDetail(props) {
                 <MenuItem onClick={deleteShop}><DeleteOutline/>&nbsp;삭제하기</MenuItem>
                 </Menu>
             <br/><br/>
-                <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>
-                <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
-                <span>관심&nbsp;{detail.totallikes}·채팅&nbsp;{chatCnt}·조회&nbsp;{detail.sp_rdcnt}</span><br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
-                    <Fab color="info" variant="extended" style={{width:'100%'}} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
+                    <Fab color="info" variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
-                    <Fab color="info" variant="extended" style={{width:'100%'}} disabled={detail.pd_status=="soldout"?true:false} onClick={()=>{
+                    <Fab color="info" variant="extended" className={'detailbutton'} disabled={detail.pd_status=="soldout"?true:false} onClick={()=>{
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요")
                             return;
@@ -252,6 +251,10 @@ function ShopDetail(props) {
                         <Chat/>&nbsp;얘한테 채팅하기
                     </Fab>
             }
+                <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>
+                <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
+                <span>관심&nbsp;{detail.totallikes}·채팅&nbsp;{chatCnt}·조회&nbsp;{detail.sp_rdcnt}</span>
+
             <br/><br/><br/>
             <BuyerList selectedValue={selectedValue} buyerlistOpen={buyerlistOpen} buyerlistClose={buyerlistClose} sp_num={sp_num}/>
         </div>

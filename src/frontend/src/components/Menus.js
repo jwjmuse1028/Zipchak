@@ -6,22 +6,48 @@ import {
     Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     Fab,
     Menu,
     MenuItem, Slide, TextField
 } from "@mui/material";
-import {AccountCircle, KeyboardArrowUp} from "@material-ui/icons";
+import {
+    AccountBox,
+    AccountCircle,
+    ForumOutlined,
+    KeyboardArrowUp,
+    ListAlt,
+    PhotoLibrary,
+    Storefront
+} from "@material-ui/icons";
 import axios from "axios";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const actions = [
+    { icon: <AccountBox />, name: '마이페이지' },
+    { icon: <ForumOutlined />, name: '채팅' },
+    { icon: <PhotoLibrary />, name: '피드' },
+    { icon: <Storefront />, name: '중고' },
+];
+
 function Menus(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
+    const [openUp, setOpenUp] = useState('');
+    const handleOpenUp = () => {
+        setOpenUp(true);
+    };
+
+    const handleCloseDown = () => {
+        setOpenUp(false);
+    };
+
     const navi = useNavigate();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const ur_num=sessionStorage.ur_num;
@@ -138,7 +164,7 @@ function Menus(props) {
                         </Fab>
                     </div>
                     :
-                    <div style={{float:"right"}}>
+                    <div className={'loginavt'}>
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
                     </div>
@@ -158,11 +184,11 @@ function Menus(props) {
                 {/*<Button type={"submit"}  variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>*/}
                 <DialogTitle>{"로그인"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                    {/*<DialogContentText>*/}
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
                         <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required
                                    onChange={(e)=>setUr_pw(e.target.value)}/><br/>
-                    </DialogContentText>
+                    {/*</DialogContentText>*/}
                 </DialogContent>
                 <DialogActions>
                     <Button type={"button"} fullWidth variant={"contained"} color={"info"}
@@ -196,9 +222,28 @@ function Menus(props) {
                     navi("/");
                 }}>로그아웃</MenuItem>
             </Menu>
-            <div className="scroll__container">
-                <Fab id="top" onClick={scrollToTop} color={"info"}><KeyboardArrowUp/></Fab>
-            </div>
+
+            <SpeedDial
+                onClick={scrollToTop}
+                className="scroll__container"
+                ariaLabel="SpeedDial openIcon example"
+                icon={<KeyboardArrowUp openIcon={<ListAlt />} />}
+                onClose={handleCloseDown}
+                onOpen={handleOpenUp}
+                open={openUp}
+            >
+                {actions.map((action) => (
+                    <SpeedDialAction
+                        key={action.name}
+                        icon={action.icon}
+                        tooltipTitle={action.name}
+                        onClick={handleCloseDown}
+                    />
+                ))}
+            </SpeedDial>
+            {/*<div>*/}
+            {/*    <Fab id="top" onClick={scrollToTop} color={"info"}><KeyboardArrowUp/></Fab>*/}
+            {/*</div>*/}
         </ul>
     );
 }

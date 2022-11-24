@@ -23,9 +23,10 @@
         FROM ur,ur_prf,pd,sp
         WHERE ur.ur_num=ur_prf.ur_num AND sp.ur_num=ur.ur_num AND sp.pd_num=pd.pd_num AND sp.sp_num=#{sp_num}
     </select>
-    <update id="updateShop" parameterType="ShopDto">-- 상품수정
-        UPDATE sp SET sp_title=#{sp_title},sp_txt=#{sp_txt}
-        WHERE sp_num=#{sp_num}
+    <update id="updateShop" parameterType="ShopProductDto">-- 상품수정
+        UPDATE sp,pd
+        SET sp.sp_title=#{sp_title}, sp.sp_txt=#{sp_txt}, pd.pd_ctg=#{pd_ctg}, pd.pd_price=#{pd_price}
+        WHERE sp.sp_num=#{sp_num} AND pd.pd_num=#{pd_num}
     </update>
     <update id="updateReadCount" parameterType="int">-- 조회수증가
         UPDATE sp SET sp_rdcnt=sp_rdcnt+1 WHERE sp_num=#{sp_num}

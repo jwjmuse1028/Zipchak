@@ -7,6 +7,19 @@
     top: 40%;
     left: 45%;
 }
+span.detailavt{
+    display: flex;
+    margin-left: 3%;
+    /*width: 22%;*/
+    gap: 10px;
+    align-items: center;
+    justify-content: left;
+    cursor: pointer;
+}
+.detailbutton {
+    display: flex;
+    float: right;
+}
 
 /* Arrows */
 .slick-prev,

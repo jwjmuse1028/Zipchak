@@ -144,7 +144,7 @@ function ShopInsertForm(props) {
                             <th rowSpan={2}><br/><br/><br/>사진&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <input type={"file"} multiple id={'filephoto'} required style={{visibility: 'hidden'}} accept="image/jpg, image/jpeg, image/png"
-                                       onChange={uploadPhoto}/><br/>
+                                       onChange={uploadPhoto}/>
                                 <AddPhotoAlternateOutlined onClick={()=>{
                                     document.getElementById('filephoto').click();
                                 }} style={{cursor:'pointer', color:'gray', fontSize:'5em',float:'left'}}/>
@@ -195,6 +195,7 @@ function ShopInsertForm(props) {
                                 <Button type={"submit"} color={"info"} variant={"contained"}>상품등록</Button>
                             </td>
                         </tr>
+                        <tr><th></th></tr>
                     </tbody>
                 </table>
             </form>

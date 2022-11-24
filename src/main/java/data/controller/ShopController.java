@@ -172,18 +172,18 @@ public class ShopController {
         }
         return totalImages;
     }
-    @PostMapping("/upload2")
-    public List<String> fileUpload2(@RequestParam List<MultipartFile> uploadFile)throws IOException
-    {
-        newTotalImages.clear();//지운후 마지막 업로드한것만 저장
-
-        for(MultipartFile multi:uploadFile){
-            String names=s3Service.upload(multi, "sp_img");
-            newTotalImages.add(names);
-            totalImages.add(names);
-        }
-        return newTotalImages;
-    }
+//    @PostMapping("/upload2")
+//    public List<String> fileUpload2(@RequestParam List<MultipartFile> uploadFile)throws IOException
+//    {
+//        newTotalImages.clear();//지운후 마지막 업로드한것만 저장
+//
+//        for(MultipartFile multi:uploadFile){
+//            String names=s3Service.upload(multi, "sp_img");
+//            newTotalImages.add(names);
+//            totalImages.add(names);
+//        }
+//        return newTotalImages;
+//    }
 
     @DeleteMapping("/imagedelete")
     public void imageDelete(@RequestParam int idx, HttpServletRequest request)
@@ -233,6 +233,8 @@ public class ShopController {
     public ShopProductDto updateform(int sp_num)
     {
         ShopProductDto sppddto=shopMapper.getData(sp_num);
+        sppddto.setSp_num(sp_num);
+       // System.out.println(sppddto);
         List<String> images=productMapper.getImages(sppddto.getPd_num());
 
 
@@ -249,9 +251,11 @@ public class ShopController {
     }
 
     @PostMapping("/update")
-    public void updateShop(@RequestBody ShopDto dto)
+    public void updateShop(@RequestBody ShopProductDto dto)
     {
+//        System.out.println(dto);
         shopMapper.updateShop(dto);
+//        System.out.println("수정성공");
     }
 
     @DeleteMapping("/delete")
