@@ -40,7 +40,7 @@ function MyPage(props) {
                         <MypagePrfBox user={ur_num} isprf={0} />
                     </div>
                  </div>
-                <div>
+                <div style={{marginLeft:'30px'}}>
                     <div className={(showlist === 1 || showlist === 2) ? "list_show" : "list_hide"}>
                         <MyPageLikeList />
                     </div>

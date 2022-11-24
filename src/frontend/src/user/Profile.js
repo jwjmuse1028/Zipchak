@@ -30,7 +30,7 @@ function Profile(props) {
                         <MypagePrfBox user={user} isprf={1}/>
                     </div>
                 </div>
-                <div>
+                <div style={{marginLeft:'30px'}}>
                     <div className={(showlist === 1 || showlist === 2) ? "list_show" : "list_hide"}>
                         <MyPageFeedList user={user} />
                     </div >
