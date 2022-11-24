@@ -158,11 +158,11 @@ function Menus(props) {
                 {/*<Button type={"submit"}  variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>*/}
                 <DialogTitle>{"로그인"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                    {/*<DialogContentText>*/}
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
                         <TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required
                                    onChange={(e)=>setUr_pw(e.target.value)}/><br/>
-                    </DialogContentText>
+                    {/*</DialogContentText>*/}
                 </DialogContent>
                 <DialogActions>
                     <Button type={"button"} fullWidth variant={"contained"} color={"info"}
@@ -184,7 +184,7 @@ function Menus(props) {
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();
-                    navi("/mypage");
+                    navi("/mypage/1");
                 }}>마이페이지</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();

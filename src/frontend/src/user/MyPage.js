@@ -9,34 +9,35 @@ import MyPageSellList from "./MyPageSellList";
 import ProfileGetRvList from "./ProfileGetRvList";
 import MyPageBookmarkList from "./MyPageBookmarkList";
 import MyPageLikeList from "./MyPageLikeList";
+import {useParams} from "react-router-dom";
 
 function MyPage(props) {
+    const {show}=useParams();
     const ur_num=sessionStorage.ur_num;
-    const [showlist,setShowlist]=useState(1);
-
+    const [showlist,setShowlist]=useState(Number(show));
     return (
         <div className={'mypage_otr_container'} >
             <h1 style={{textAlign:'center'}}>마이페이지</h1>
             <br/>
             <div className={'mypage_menu'}>
                 <div className={'mypage_menu_each'}
-                     style={{textDecoration: (showlist === 1 ) ?'underline':"none",textDecorationColor:'#35c5f0'}}
-                     onClick={()=>setShowlist(1)}>전체 목록</div>|
+                     style={{textDecoration: (showlist === 1 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>setShowlist(1)}>&nbsp;전체 목록&nbsp;</div>|
                 <div className={'mypage_menu_each'}
-                     style={{textDecoration: (showlist === 2) ?'underline':"none",textDecorationColor:'#35c5f0'}}
-                     onClick={()=>setShowlist(2)}>관심 목록</div>|
+                     style={{textDecoration: (showlist === 2 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>setShowlist(2)}>&nbsp;관심 목록&nbsp;</div>|
                 <div className={'mypage_menu_each'}
-                     style={{textDecoration: (showlist === 3) ?'underline':"none",textDecorationColor:'#35c5f0'}}
-                     onClick={()=>setShowlist(3)}>내가 작성한 글</div>|
+                     style={{textDecoration: (showlist === 3 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>setShowlist(3)}>&nbsp;내가 작성한 글&nbsp;</div>|
                 <div className={'mypage_menu_each'}
-                     style={{textDecoration: (showlist === 4) ?'underline':"none",textDecorationColor:'#35c5f0'}}
-                     onClick={()=>setShowlist(4)}>구매/후기 리스트</div>
+                     style={{textDecoration: (showlist === 4 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>setShowlist(4)}>&nbsp;구매/후기 리스트&nbsp; </div>
             </div>
             <br/>
             <div className={'mypage_container'}>
                 <div style={{marginBottom:'30px'}}>
                     <div className={'mypage_prf_box'}>
-                        <MypagePrfBox user={ur_num} />
+                        <MypagePrfBox user={ur_num} isprf={0} />
                     </div>
                  </div>
                 <div>

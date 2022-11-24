@@ -12,13 +12,12 @@ import axios from "axios";
 import {blue} from "@material-ui/core/colors";
 import Avatar from "@material-ui/core/Avatar";
 import TempSlider from "./TempSlider";
-import {TextField} from "@material-ui/core";
+import {TextField, ThemeProvider} from "@material-ui/core";
 
 const styles = (theme) => ({
-    // root: {
-    //     padding: theme.spacing(2),
-    //     margin: "auto",
-    // },
+    root: {
+
+    },
 
 });
 const useStyles = makeStyles({
@@ -93,16 +92,17 @@ function UpdateTemp(props) {
                         </Avatar>
                         <div>&nbsp;{uinfo.prf_nick}님과의 거래가 어땠나요?</div>
                     </div>
-                        <IconButton aria-label="close"
+                        <IconButton aria-label="close" style={{position:'relative',top:'-5px'}}
                                     onClick={onClose}>
                           <CloseIcon />
                         </IconButton>
                 </div>
             </DialogTitle>
-            <DialogContent  >
+            <DialogContent className={classes.root} >
                 <TempSlider sendrate={sendrate} rv_tmp={rv_tmp} />
-                <TextField type={'text'} id="outlined-basic" label="간단한 후기를 남겨주세요" variant="outlined"
-                           onChange={(e)=>setRv_txt(e.target.value)}   style={{width:'500px',marginTop:'30px'}}/>
+                <TextField type={'text'}
+                           id="standard-basic" label="간단한 후기를 남겨주세요"
+                           onChange={(e)=>setRv_txt(e.target.value)}  style={{width:'500px',marginTop:'30px'}}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={sendReview} color="primary">

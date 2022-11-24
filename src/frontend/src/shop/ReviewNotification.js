@@ -31,7 +31,7 @@ function ReviewNotification(props) {
         onClick:toastclick
     });
     const toastclick=()=>{
-        navi('/mypage');
+        navi('/mypage/4');
     }
     useEffect(()=>checkrv(),[]);
     useEffect(()=>{

@@ -14,7 +14,7 @@ function Chat(props) {
     const [screenState,setScreenState]=useState(0); //0이면 둘다 보임, 1이면 room만, 2면 챗만
     const ur_num=Number(sessionStorage.ur_num);
     const [noti,setNoti]=useState();
-    const [cr_num,setCr_num]=useState(roomno);
+    const [cr_num,setCr_num]=useState(Number(roomno));
     //console.log(cr_num);
     //함수
     const cr_click=(cr_num,u_num)=>{
@@ -53,6 +53,10 @@ function Chat(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+    useEffect(()=>{
+        setResize(window.innerWidth);
+        reactsize();
+    },[])
     useEffect(()=>{
         reactsize();
     },[resize])

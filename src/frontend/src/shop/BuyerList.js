@@ -51,7 +51,7 @@ function BuyerList(props) {
     return (
         <Dialog aria-labelledby="simple-dialog-title" open={buyerlistOpen}>
             <DialogTitle id="simple-dialog-title">판매하신 분을 선택해주세요
-                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                <IconButton aria-label="close" onClick={onClose} style={{position:"relative",top:'-3px'}}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>

@@ -32,7 +32,7 @@
                          join rv on rv.sp_num= sp.sp_num
                                   where touser=#{ur_num} group by sp.ur_num)
              group by sp_num) as rvlist
-        where rvlist.touser=#{ur_num} and rvlist.ur_num !=#{ur_num}
+        where rvlist.touser=#{ur_num} and rvlist.ur_num !=#{ur_num} order by fromseller desc
     </select>
     <select id="getRvList" parameterType="int" resultType="rvdto">
         select sp.sp_num, sp.sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num

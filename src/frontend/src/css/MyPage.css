@@ -14,14 +14,15 @@ div.mypage_prf_box{
     border: 1px solid lightgray;
     border-radius: 15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-    height: 250px;
+    height: 270px;
 }
 div.mypage_prf_img_box{
     width: 100px;
     height: 100px;
     overflow: hidden;
     border-radius: 100px;
-    box-shadow: rgba(53, 197, 240, 0.5) 0 0 0 3px;
+    border: 1px solid #35c5f0;
+    /*box-shadow: rgba(53, 197, 240, 0.5) 0 0 0 3px;*/
 }
 img.mypage_prf_img{
     width: 100px;
@@ -33,6 +34,33 @@ div.mypage_prf_nick_tmp{
     gap: 20px;
     position: relative;
     left: 20px;
+}
+div.mypage_update_img_box{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 1px solid #35c5f0;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    /*box-shadow: rgba(53, 197, 240, 0.5) 0 0 0 3px;*/
+}
+img.mypage_update_img{
+    width: 100px;
+    height: 100px;
+}
+div.mypage_update_img_btn{
+    position:relative;
+    top:-40px;
+    left:57%;
+    width:40px;
+    height:40px;
+    padding-top: 7px;
+    background-color:lightgray;
+    border-radius:100px;
+    cursor: pointer;
 }
 div.mypage_prf_nick{
     font-size: 20px;
@@ -49,11 +77,9 @@ div.mypage_prf_nick{
     justify-content: center;
     cursor: pointer;
 }
-.mypage_menu_each{
-    text-decoration-color: #35c5f0;
-}
+
 .mypage_menu_each:hover{
-    color: #35c5f0;
+    text-decoration: underline wavy #35c5f0 3px;
 }
 .list_show{
     display: block;
@@ -115,6 +141,7 @@ img.mypage_sp_img_card{
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    word-break: keep-all;
 }
 .mypage_sp_title_card{
     margin-left: 10px;
@@ -177,18 +204,25 @@ div.mypage_sp_title{
     padding: 15px;
     text-align: right;
 }
-.mypage_btn{
-    width: 150px;
+.mypage_btn_shape{
     color: #35C5F0;
     border: 1px solid white;
     border-radius: 10px;
     background-color: white;
+    padding: 15px;
+}
+.mypage_btn_prf{
+    width: auto;
+    margin:0 auto;
+    display:block;
+}
+.mypage_btn_rev{
+    width: 150px;
     position: absolute;
     top: 0;
     right: 0;
-    padding: 15px;
 }
-.mypage_btn:hover {
+.mypage_btn_shape:hover {
     background-color: #35C5F0;
     color: white;
 }
@@ -220,7 +254,7 @@ div.mypage_sp_title{
         text-align: center;
     }
     .mypage_prf_nick_tmp {
-        margin-top: 15px;
+        margin-top: 20px;
         width: 100%;
     }
 }
