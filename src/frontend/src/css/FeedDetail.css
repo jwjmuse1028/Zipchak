@@ -48,12 +48,6 @@
     margin: 60px 0;
 }
 
-footer, header, main {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-}
-
 .content-detail-header__title {
     word-break: keep-all;
     overflow-wrap: break-word;
@@ -603,6 +597,73 @@ content-detail-header__bottom {
     }
 }
 
+    .css-1u9iwi4 {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+        margin: 0 -15px;
+        padding: 24px 15px;
+        border-bottom: 10px solid #f7f8fa;
+    }
+.likebtn{
+    width: 50px;
+    height: 50px;
+    font-size: 12px;
+    background-color: #fff;
+    color: #35c5f0;
+    cursor: pointer;
+    border: transparent;
+    border-radius: 100%;
+}
+@media (min-width: 1000px)
+{
+    .likebtn{
+        width: 80px;
+        height: 80px;
+        font-size: 18px;
+        background-color: #fff;
+        color: #35c5f0;
+        cursor: pointer;
+        border: transparent;
+        border-radius: 100%;
+    }
+}
+.likebtn:hover {
+    background-color: rgba(172, 226, 245, 0.18);
+}
+.btns{
+    width: 80px;
+    height: 40px;
+    line-height: 36px;
+    padding: 0;
+    vertical-align: bottom;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #fff;
+    border-color: rgba(148, 148, 148, 0.9);
+    color: rgba(148, 148, 148, 0.9);
+    user-select: none;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.btncls{
+    font-family: 'Noto Sans KR';
+    font-size: 16px;
+    width: 125px;
+}
 .css-1u9iwi4 {
     display: -webkit-box;
     display: -webkit-flex;

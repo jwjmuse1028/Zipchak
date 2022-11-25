@@ -8,7 +8,7 @@ function FeedDetailCmt({fd_num}) {
     const [cmtlist, setCmtlist] = useState([]);
     const [count, setCount] = React.useState(0); //아이템 총 개수
     const [page, setPage] = React.useState(1); //현재페이지
-    const [postPerPage] = React.useState(7); //페이지당 아이템 개수
+    const [postPerPage] = React.useState(6); //페이지당 아이템 개수
 
     const [indexOfLastPost, setIndexOfLastPost] = React.useState(0);
     const [indexOfFirstPost, setIndexOfFirstPost] = React.useState(0);
@@ -43,21 +43,17 @@ function FeedDetailCmt({fd_num}) {
             .then(res => {
                 setCmtlist(res.data);
                 setCount(res.data.length);
-                let pp=page * postPerPage;
-                let fp=postPerPage;
-                let cnt=0;
-                console.log(res.data[pp-1].cmt_rl);
-                while(res.data[pp-1].cmt_rl>0)
-                {
-                    console.log("whilepp:"+pp--);
-                    fp--;
-                    cnt++;
-                }
-                console.log(pp);
-                console.log(fp*page);
-                console.log(cnt);
-                // setIndexOfFirstPost(pp-fp);
-                setCurrentPosts(res.data.slice(pp-fp, pp-1));
+                // let pp=page * postPerPage;
+                // let fp=postPerPage;
+                // console.log(res.data[pp-1].cmt_rl);
+                // while(res.data[pp-1].cmt_rl>0)
+                // {
+                //     console.log("whilepp:"+pp--);
+                //     fp--;
+                // }
+                setIndexOfLastPost(page * postPerPage);
+                setIndexOfFirstPost(indexOfLastPost-postPerPage)
+                setCurrentPosts(res.data.slice(indexOfFirstPost, indexOfLastPost));
 
             })
     }
@@ -236,7 +232,11 @@ function FeedDetailCmt({fd_num}) {
                         }
                     </div>))
             }
-            <Paging count={count} page={page} setPage={setPage}/>
+            { count>0 &&
+                <div style={{marginTop: '60px',marginBottom:'100px'}}>
+                    <Paging count={count} page={page} setPage={setPage}/>
+                </div>
+            }
         </div>
     )
 }

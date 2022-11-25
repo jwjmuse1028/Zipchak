@@ -15,10 +15,15 @@ public interface FeedMapper {
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
     public void updateFeed(FeedDto dto);
+    public void insertFeedLike(Map<String,Integer> map);
+    public void deleteFeedLike(Map<String,Integer> map);
     public int getFeedLikes(int fd_num);
     public int checkFeedLike(Map<String,Integer> map);
+    public void updateReadCount(int fd_num);
+
     public int getRecentFeedNum();
     public void insertFeedImage(Map<Integer,String> map);
+
 
     public int getMaxCmtNum();
     public void insertFeedCmt(FeedCmtDto dto);
