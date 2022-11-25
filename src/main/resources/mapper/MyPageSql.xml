@@ -66,4 +66,22 @@
             join fd on fd.fd_num=fd_like.fd_num
         where fd_like.ur_num=#{ur_num}
     </select>
+    <update id="updateprf" parameterType="map">
+        update ur_prf set prf_nick=#{prf_nick}
+        <if test="prf_img!=null">
+            , prf_img=#{prf_img}
+        </if>
+        where ur_num=#{ur_num}
+    </update>
+    <select id="getpersonaldata" parameterType="int" resultType="UserDto">
+        select * from ur_info where ur_num=#{ur_num}
+    </select>
+    <update id="updateinfo" parameterType="UserDto">
+        update ur_prf,ur_info set ur_prf.prf_nick=#{prf_nick},
+            ur_info.info_addr=#{info_addr}, ur_info.info_hp=#{info_hp}, ur_info.info_email=#{info_email}
+        <if test="prf_img!=null">
+            , ur_prf.prf_img=#{prf_img}
+        </if>
+        where ur_prf.ur_num=#{ur_num} and ur_info.ur_num=#{ur_num}
+    </update>
 </mapper>

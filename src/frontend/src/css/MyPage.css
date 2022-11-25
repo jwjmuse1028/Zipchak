@@ -67,11 +67,22 @@ div.mypage_prf_nick{
     text-align: center;
     margin-top: 10px;
 }
+div.updateinfo_title{
+    width: 80px;
+    padding-left: 10px;
+}
+.updateinfo_input{
+    width: 270px;
+}
 /*리스트*/
+.mypage_prf_subject{
+    text-align: center;
+    font-size: 25px;
+}
 .mypage_menu{
     display: flex;
     width: 100%;
-    font-size: 25px;
+    font-size: 20px;
     gap: 10px;
     text-align: center;
     justify-content: center;
@@ -90,7 +101,7 @@ div.mypage_prf_nick{
 .mypage_title{
     font-size: 20px;
     font-weight: bold;
-    margin-left:50px ;
+    margin-left:10px ;
     cursor: pointer;
     width: 100%;
     margin-bottom: 10px;
@@ -213,7 +224,7 @@ div.mypage_sp_title{
 }
 .mypage_btn_prf{
     width: auto;
-    margin:0 auto;
+    margin:5px auto;
     display:block;
 }
 .mypage_btn_rev{
@@ -278,10 +289,12 @@ div.mypage_sp_title{
         margin-bottom: 10px;
     }
     .mypage_prf_img_nick_tmp{
+        min-width: 550px;
         height: 100%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        gap:10px;
     }
     .mypage_prf_nick_tmp {
         width: auto;

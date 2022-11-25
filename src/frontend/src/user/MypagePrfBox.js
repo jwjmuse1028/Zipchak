@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import UserTemp from "./UserTemp";
 import axios from "axios";
-import CreateIcon from '@material-ui/icons/Create';
-import {IconButton} from "@mui/material";
 import UserUpdateForm from "./UserUpdateForm";
+import UserInfoUpdateForm from "./UserInfoUpdateForm";
 
 function MypagePrfBox(props) {
     const {user,isprf}=props;
@@ -19,8 +18,16 @@ function MypagePrfBox(props) {
         })
     }
 
-    const dialogClose = () => {
+    const dialogClose = (prf_nick,prf_img,ischangeprf) => {
         setOpen(false);
+        if(ischangeprf){
+            sessionStorage.prf_nick=prf_nick;
+            if (prf_img==="no"){
+                return;
+            }
+            sessionStorage.prf_img=prf_img;
+            // window.location.reload();
+        }
     };
     const updateinfo=()=>{
         setOpen(true);
@@ -43,7 +50,10 @@ function MypagePrfBox(props) {
                         {isprf===0? "나의 정보 " :"프로필 "}
                         수정하기</button>:""
             }
-            <UserUpdateForm open={open} dialogClose={dialogClose} uinfo={uinfo} isprf={isprf}/>
+            {isprf===1?
+            <UserUpdateForm open={open} dialogClose={dialogClose} uinfo={uinfo} />
+            :
+            <UserInfoUpdateForm open={open} dialogClose={dialogClose} uinfo={uinfo}/>}
         </div>
     );
 }

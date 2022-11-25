@@ -123,12 +123,10 @@ function FeedInsertForm(props) {
             return;
         }
 
-        onChange()
-
-        var trash = dto.fd_txt.indexOf("<img class=")
+        console.log(dto.fd_txt.replace("<img class=\"ProseMirror-separator\" alt=\"\" width=\"100%\">",''))
         setDto({
             ...dto,
-            ["fd_txt"]:dto.fd_txt.substring(0,trash)
+            ["fd_txt"]:dto.fd_txt.replace("<img class=\"ProseMirror-separator\" alt=\"\" width=\"100%\">",'')
         })
 
         const formData = new FormData();
@@ -159,13 +157,6 @@ function FeedInsertForm(props) {
         }).then(res => {
             navi("/feed/list");
         });
-    }
-
-    const imageWidth=()=>{
-        var imgNum = document.getElementsByTagName("img").length
-        for(let i=0;i<imgNum;i++){
-            document.getElementsByTagName("img").item(i).setAttribute("width","100%")
-        }
     }
 
     const editorRef=useRef();
@@ -319,7 +310,6 @@ function FeedInsertForm(props) {
                             header: {"content-type": "multipart/formdata"}
                         }).then(res=>{
                             callback(res.data)
-                            imageWidth()
                         })
                     }
                 }}

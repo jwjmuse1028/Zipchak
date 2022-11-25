@@ -10,6 +10,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {CameraAlt} from "@material-ui/icons";
 import axios from "axios";
+import DaumPostcode from "react-daum-postcode";
+import * as PropTypes from "prop-types";
+import {styled} from "@mui/material";
+import AddrSearch from "./AddrSearch";
 
 const styles = (theme) => ({
     root: {
@@ -50,7 +54,8 @@ const DialogActions = withStyles((theme) => ({
         padding: theme.spacing(1),
     },
 }))(MuiDialogActions);
-function UserUpdateForm(props) {
+
+function UserInfoUpdateForm(props) {
     const {open, dialogClose,uinfo}=props;
     const [prf_nick,setPrf_nick]=useState(sessionStorage.prf_nick);
     const [chknickstatus,setChknickstatus]=useState(0);
@@ -58,9 +63,18 @@ function UserUpdateForm(props) {
     const [ischangeimg,setIschangeimg]=useState(0);
     const [preimg,setPreimg]=useState('');
     const [file, setFile] = useState(null);
+    const [personaldata,setPersonaldata]=useState({});
+    const [addropen, setAddropen]=useState(false);
     const pre_nick=sessionStorage.prf_nick;
+    const prev_prf_img=sessionStorage.prf_img;
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const ur_num=sessionStorage.ur_num;
+
+    const getpersonaldata=()=>{
+        let getpersonaldataurl=localStorage.url+"/getpersonaldata?ur_num="+ur_num;
+        axios.get(getpersonaldataurl).then(res=>setPersonaldata(res.data))
+    }
+
     const updateImg=()=>{
         document.getElementById('img_file').click();
     }
@@ -86,6 +100,7 @@ function UserUpdateForm(props) {
         axios.get(chknickurl).then(res=>{
             if (prf_nick===pre_nick){
                 setChknickstatus(0);
+                setIschangenick(true);
             }else {
                 setChknickstatus(res.data);
                 setIschangenick(true);
@@ -98,36 +113,68 @@ function UserUpdateForm(props) {
         setIschangenick(false);
     }
     const noupdateDialogClose=()=>{
+        getpersonaldata();
         dialogClose(pre_nick,uinfo.prf_img,false);
     }
-    const updateprf=()=>{
+    const updateinfo=()=>{
         if (ischangenick===false ){
             alert('중복체크를 해주세요');
             return;}
         if (chknickstatus===1){
             return;
         }
-        let updateprfUrl=localStorage.url+"/updateprf";
+        let updateinfoUrl=localStorage.url+"/updateinfo";
         const formdata=new FormData();
         formdata.append("file",file);
         formdata.append("ur_num",ur_num);
         formdata.append("prf_nick",prf_nick);
+        console.log(personaldata);
+        formdata.append("dto",new Blob([JSON.stringify(personaldata)], {
+            type: "application/json"
+        }));
         axios({
             method: 'post',
-            url: updateprfUrl,
+            url: updateinfoUrl,
             data: formdata,
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res =>{
+            if (res.data.prf_img==null){
+                dialogClose(res.data.prf_nick,prev_prf_img,true);
+            }
+            else {
             dialogClose(res.data.prf_nick,res.data.prf_img,true);
+            }
         } );
 
     }
+    const onChangeData = (e) => {
+        const {name, value} = e.target;
+        console.log(value);
+        setPersonaldata({
+            ...personaldata,
+            [name]: value,
+        })
+        console.log(personaldata);
+    }
+    const addrsearchclick=()=>{
+        setAddropen(true);
+    }
+    const addrdidalogclose=(newaddr)=>{
+
+        setPersonaldata({
+            ...personaldata,
+            ["info_addr"]: newaddr,
+        });
+        setAddropen(false);
+    }
+
     useEffect(()=>setPrf_nick(pre_nick),[open]);
+    useEffect(()=>getpersonaldata(),[open]);
     return (
         <div>
             <Dialog onClose={dialogClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={noupdateDialogClose}>
-                    프로필 수정하기
+                    나의 정보 수정하기
                 </DialogTitle>
                 <DialogContent dividers >
                     <div className={'mypage_update_img_box'} >
@@ -141,24 +188,48 @@ function UserUpdateForm(props) {
                         <CameraAlt style={{display:'block',margin:'auto'}}/>
                     </div>
                     <input type={"file"} id={'img_file'} style={{display:"none"}} onChange={onUploadChange}/>
-                    <div style={{display:'flex'}}>
-                        <input type={'text'} defaultValue={prf_nick} className={'form-control'}
-                            onChange={changenick} style={{width:'200px'}}/>
-                        <Button color="primary" onClick={chknick} style={{width:'70px',color:'#35c5f0'}}>중복체크</Button>
+                    <div>
+                        <div style={{display:'flex'}}>
+                            <div className={'updateinfo_title'}>닉네임</div>
+                            <input type={'text'} defaultValue={prf_nick} className={'form-control updateinfo_input'}
+                                onChange={changenick} />
+                            <Button color="primary" onClick={chknick} style={{width:'70px',color:'#35c5f0'}}>중복체크</Button>
+                        </div>
+                        <div style={{color:chknickstatus===1?"red":"green", fontSize:'12px', marginLeft:'85px'}}>
+                            {chknickstatus===1?"이미 존재하는 닉네임입니다":"사용 가능한 닉네임입니다"}
+                        </div>
                     </div>
-                    <div style={{color:chknickstatus===1?"red":"green", fontSize:'12px', marginLeft:'5px'}}>
-                        {chknickstatus===1?"이미 존재하는 닉네임입니다":"사용 가능한 닉네임입니다"}
+                    <div>
+                        <div style={{display:'flex'}}>
+                            <div className={'updateinfo_title'}>이메일</div>
+                            <input type={'text'} defaultValue={personaldata.info_email} className={'form-control updateinfo_input'}
+                                   onChange={onChangeData} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={{display:'flex'}}>
+                            <div className={'updateinfo_title'}>연락처</div>
+                            <input type={'text'} defaultValue={personaldata.info_hp} className={'form-control updateinfo_input'}
+                                   onChange={onChangeData} />
+                        </div>
+                    </div>
+                    <div>
+                        <div style={{display:'flex'}}>
+                            <div className={'updateinfo_title'}>주소</div>
+                            <input type={'text'} defaultValue={personaldata.info_addr} className={'form-control updateinfo_input'} />
+                            <Button color="primary" onClick={addrsearchclick} style={{width:'70px',color:'#35c5f0'}} >주소검색</Button>
+                        </div>
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={updateprf} color="primary" style={{color:'#35c5f0'}}>
+                    <Button onClick={updateinfo} color="primary" style={{color:'#35c5f0'}}>
                         수정하기
                     </Button>
                 </DialogActions>
             </Dialog>
-
+            <AddrSearch open={addropen} addrdidalogclose={addrdidalogclose} />
         </div>
     );
 }
 
-export default UserUpdateForm;
+export default UserInfoUpdateForm;

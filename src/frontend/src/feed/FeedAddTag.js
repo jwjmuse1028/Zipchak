@@ -33,39 +33,58 @@ function FeedAddTag(props) {
         let imgtag = null
         try {
             imgtag=document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByTagName('img')
+            document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByClassName('ProseMirror-separator').item(0).remove()
         }catch (e) {
             return
         }
 
         const imgNum = imgtag.length
         for(let i=0;i<imgNum;i++) {
-
             const divtag = document.createElement("div")
             divtag.innerHTML = imgtag.item(i).outerHTML
             divtag.setAttribute("style","position:relative")
             divtag.insertAdjacentHTML("beforeend",
                 "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
-            divtag.getElementsByTagName("button").item(0).addEventListener("click", editTagBtn)
+            divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
+            divtag.getElementsByTagName("img").item(0).addEventListener("click",edittag)
             imgtag.item(i).replaceWith(divtag)
     }}
 
-    const editTagBtn=(e)=>{
-        console.log(e)
-        // var img =  document.getElementsByTagName('img').item(0)
-        // img.setAttribute("usemap","#imgtag")
-        // img.setAttribute("width","100%")
-        //
-        // let map_tag = document.createElement("map")
-        //
-        // img.appendChild(map_tag)
-        // map_tag.setAttribute("name","imgtag")
+    const changebtn=(e)=>{
 
-        // let link = document.createElement("area")
-        // link.setAttribute("shape","circle")
-        // link.setAttribute("target","_self")
-        // link.setAttribute("href","www.naver.com")
-        // link.setAttribute("coords",`${e.offsetX},${e.offsetY},10`)
-        // document.getElementsByTagName('img').item(0).insertAdjacentElement("afterbegin",link)
+        if (e.target.innerText==="태그 완료") {
+            e.target.innerText = "태그 편집"
+        }
+        else {
+            e.target.innerText = "태그 완료"
+        }
+    }
+
+    const edittag=(e)=>{
+        // console.log(e)
+
+        let img = e.target
+        let tagstate = e.target.nextSibling.innerText
+        if(img.getAttribute("usemap")==null || tagstate==='태그 완료') {
+            img.setAttribute("usemap", "#imgtag")
+            let map_tag = document.createElement("map")
+            map_tag.setAttribute("name", "imgtag")
+            img.appendChild(map_tag)
+        }
+
+        img.addEventListener('click', function (e) {
+            let link = document.createElement("area")
+            link.setAttribute("shape", "circle")
+            link.setAttribute("target", "_self")
+            link.setAttribute("href", "www.naver.com")
+            link.setAttribute("coords", `${e.offsetX},${e.offsetY},10`)
+            link.setAttribute("onMouseOver", showdetail)
+            img.firstElementChild.appendChild(link)
+        })
+    }
+
+    const showdetail=()=>{
+        alert("da")
     }
 
     return (
