@@ -12,7 +12,7 @@ function MyPageLikeList(props) {
     const navi=useNavigate();
     const [resize, setResize] = useState();
     const fdinfoClick=(item)=>{
-        navi(`/like/detail/${item.fd_num}`);
+        navi(`/feed/detail/${item.fd_num}`);
     }
     const getlikeist=()=>{
         let getlikelisturl=localStorage.url+"/getlikelist?ur_num="+ur_num;
