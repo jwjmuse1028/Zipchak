@@ -47,6 +47,32 @@ public class FeedService implements FeedServiceInter{
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void deleteFeed(int fd_num) {
+
+    }
+
+    @Override
+    public void updateFeed(MultipartFile file, FeedDto dto)
+    {
+        String uploadFileName;
+        //커버 사진 업로드-S3 bucket
+        //경로는 fd_img로 동일하므로 parameter로 안받음
+        if (file!=null){
+            try {
+                uploadFileName= s3service.upload(file,"fd_img/"+dto.getFd_num());
+                System.out.println("uploadFileName:"+uploadFileName);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            //s3에 업로드한 파일이름 dto의 fd_img에 넣기
+            dto.setFd_img(uploadFileName);
+        }
+        //DB에 dto 저장
+        feedMapper.updateFeed(dto);
+    }
 
     @Override
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col) {
@@ -99,14 +125,17 @@ public class FeedService implements FeedServiceInter{
         // 좋아요 수
         int fd_likes = feedMapper.getFeedLikes(fd_num);
 
-        // 로그인한 계정 해당 게시물 좋아요여부
-        int chk_like=this.checkFeedLike(fd_num,ur_num);
-
         Map<String,Object> map=new HashMap<>();
         map.put("dto",dto);
         map.put("prf_map",pmap);
         map.put("fd_likes",fd_likes);
-        map.put("chk_like",chk_like);
+
+        // 로그인한 계정 해당 게시물 좋아요여부
+        if(ur_num>0)
+        {
+            int chk_like=this.checkFeedLike(fd_num,ur_num);
+            map.put("chk_like",chk_like);
+        }
 
         return map;
     }
@@ -127,15 +156,6 @@ public class FeedService implements FeedServiceInter{
         feedMapper.updateReadCount(fd_num);
     }
 
-    @Override
-    public void deleteFeed(int fd_num) {
-
-    }
-
-    @Override
-    public void updateFeed(FeedDto dto) {
-
-    }
 
 
 

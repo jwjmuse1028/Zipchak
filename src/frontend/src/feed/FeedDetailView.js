@@ -6,16 +6,26 @@ import {Viewer} from "@toast-ui/react-editor";
 import FeedDetailCmt from "./FeedDetailCmt";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import {Menu, MenuItem} from "@mui/material";
+import {BuildOutlined, DeleteOutline, MoreVert} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 function FeedDetailView(props) {
     const {fd_num}=useParams();
     const navi=useNavigate();
     const [fdata,setFdata]=useState('');
+    const [ur_num,setUr_num]=useState(0);
 
-    const ur_num = sessionStorage.ur_num;
+
     const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
+    console.log("ur_num:"+ur_num);
 
     const getFeedDetail=()=>{
+        //set 함수도 비동기라서 처음에 안됨
+        if(sessionStorage.ur_num) {
+            setUr_num(parseInt(sessionStorage.ur_num));
+        }
         const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
         console.log("detailUrl:"+detailUrl);
 
@@ -48,6 +58,15 @@ function FeedDetailView(props) {
                 getFeedDetail();
             })
     }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <div>
@@ -75,17 +94,43 @@ function FeedDetailView(props) {
                                         <div className="content-detail-header__author-name">{fdata.prf_map.prf_nick}</div>
                                         <div className="content-detail-header__author-date">{fdata.dto.fd_wdate}</div>
                                     </a>
-                                    <div className="content-detail-header__user-actions">
-                                        {fdata.chk_like==0?
-                                        <button className="content-detail-header__likes" onClick={insertLike}>
+                                    <div>
+                                        {ur_num>0 && fdata.chk_like==0?
+                                        <button className="likebtn" onClick={insertLike}>
                                             <FavoriteBorderIcon/>&nbsp;{fdata.fd_likes}
                                         </button>
                                         :
-                                        <button className="content-detail-header__likes" onClick={deleteLike}>
+                                        <button className="likebtn" onClick={deleteLike}>
                                             <FavoriteIcon/>&nbsp;{fdata.fd_likes}
                                         </button>}
                                     </div>
                                 </div>
+                                {fdata.dto.ur_num==ur_num &&
+                                    <div>
+                                        <IconButton style={{float: "right"}}
+                                                    aria-label="more"
+                                                    aria-controls="long-menu"
+                                                    aria-haspopup="true"
+                                                    onClick={handleClick}>
+                                            <MoreVert/>
+                                        </IconButton>
+                                        <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}>
+                                            <MenuItem className={"btncls"} style={{color:'rgba(65, 65, 65, 0.8)'}}
+                                                      onClick={()=>{navi(`/feed/update/${fdata.dto.fd_num}`);}}>
+                                                <EditOutlinedIcon style={{fontSize:'18px'}}/>&nbsp;수정하기
+                                            </MenuItem>
+                                            <MenuItem className={"btncls"} style={{color:'rgba(255, 84, 84, 0.9)'}}>
+                                                <DeleteOutline style={{fontSize:'18px'}}/>&nbsp;삭제하기
+                                            </MenuItem>
+                                        </Menu>
+                                    </div>
+                                }
+
                             </header>
                             <section className="project-detail-metadata">
                                 <dl className="project-detail-metadata-overview">

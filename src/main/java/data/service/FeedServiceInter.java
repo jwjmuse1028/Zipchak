@@ -13,7 +13,7 @@ public interface FeedServiceInter {
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col);
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
-    public void updateFeed(FeedDto dto);
+    public void updateFeed(MultipartFile file, FeedDto dto);
     public void insertFeedLike(int fd_num,int ur_num);
     public void deleteFeedLike(int fd_num,int ur_num);
     public Map<String,Object> getProfileByNum(int ur_num);

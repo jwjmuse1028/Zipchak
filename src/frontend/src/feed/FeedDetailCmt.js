@@ -232,7 +232,11 @@ function FeedDetailCmt({fd_num}) {
                         }
                     </div>))
             }
-            <Paging count={count} page={page} setPage={setPage}/>
+            { count>0 &&
+                <div style={{marginTop: '60px',marginBottom:'100px'}}>
+                    <Paging count={count} page={page} setPage={setPage}/>
+                </div>
+            }
         </div>
     )
 }

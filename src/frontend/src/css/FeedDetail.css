@@ -606,8 +606,34 @@ content-detail-header__bottom {
         padding: 24px 15px;
         border-bottom: 10px solid #f7f8fa;
     }
-.content-detail-header__likes{
-    width: 100px;
+.likebtn{
+    width: 50px;
+    height: 50px;
+    font-size: 12px;
+    background-color: #fff;
+    color: #35c5f0;
+    cursor: pointer;
+    border: transparent;
+    border-radius: 100%;
+}
+@media (min-width: 1000px)
+{
+    .likebtn{
+        width: 80px;
+        height: 80px;
+        font-size: 18px;
+        background-color: #fff;
+        color: #35c5f0;
+        cursor: pointer;
+        border: transparent;
+        border-radius: 100%;
+    }
+}
+.likebtn:hover {
+    background-color: rgba(172, 226, 245, 0.18);
+}
+.btns{
+    width: 80px;
     height: 40px;
     line-height: 36px;
     padding: 0;
@@ -616,25 +642,22 @@ content-detail-header__bottom {
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    padding: 9px 10px;
     font-size: 15px;
     background-color: #fff;
-    border-color: rgba(53, 197, 240, 0.53);
-    color: #35c5f0;
+    border-color: rgba(148, 148, 148, 0.9);
+    color: rgba(148, 148, 148, 0.9);
     user-select: none;
     display: inline-block;
     box-sizing: border-box;
     text-align: center;
     cursor: pointer;
-    margin: 0px;
-    padding: 0px;
     border-width: 2px;
     border-style: solid;
-    border-image: initial;
     text-decoration: none;
-    transition: color 0.1s ease 0s, background-color 0.1s ease 0s, border-color 0.1s ease 0s;
     border-radius: 4px;
 }
-.content-detail-header__likes:hover {
-    background-color: rgba(53, 197, 240, 0.18);
+.btncls{
+    font-family: 'Noto Sans KR';
+    font-size: 16px;
+    width: 125px;
 }
