@@ -1,8 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
-import '../css/Menu.css';
+import '../css/Header.css';
+import axios from "axios";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
+import mainlogo from '../image/mainlogo.png';
 import {
-    Avatar,
+    Avatar, Badge,
     Button,
     Dialog, DialogActions,
     DialogContent,
@@ -14,29 +19,18 @@ import {
 import {
     AccountBox,
     AccountCircle,
-    ForumOutlined,
+    ForumOutlined, ForumRounded, KeyboardArrowDown,
     KeyboardArrowUp,
     ListAlt,
-    PhotoLibrary,
-    Storefront
+    PhotoLibrary, SmsRounded,
+    Storefront, StoreMallDirectoryRounded
 } from "@material-ui/icons";
-import axios from "axios";
-import SpeedDial from "@material-ui/lab/SpeedDial";
-import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
-import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const actions = [
-    { icon: <AccountBox />, name: '마이페이지' },
-    { icon: <ForumOutlined />, name: '채팅' },
-    { icon: <PhotoLibrary />, name: '피드' },
-    { icon: <Storefront />, name: '중고' },
-];
-
-function Menus(props) {
+function Header(props) {
     const [prf_nick, setPrf_nick]=useState('');
     const [prf_img, setPrf_img]=useState('');
     const [openUp, setOpenUp] = useState('');
@@ -110,27 +104,41 @@ function Menus(props) {
             })
     }
 
+    const actions = [
+        { icon: <AccountBox onClick={()=>{navi("/mypage/1")}}/>, name: '마이페이지' },
+        { icon: <ForumRounded onClick={()=>{navi("/chat/0");}}/>, name: '채팅' },
+        { icon: <PhotoLibrary onClick={()=>{navi("/feed/list");}}/>, name: '집들이' },
+        { icon: <StoreMallDirectoryRounded onClick={()=>{navi("/shop/list/1"); window.location.reload()}}/>, name: '스토어' },
+    ];
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+    const handleClick2 = (event) => {
+        setAnchorEl2(event.currentTarget);
+    };
+
+    const handleClose2 = () => {
+        setAnchorEl2(null);
+    };
+
     return (
+        <header className={"header"}>
         <ul className='menu'>
             <li>
-                <NavLink to={"/"}>Home</NavLink>
+                <img src={mainlogo} style={{width:'80px', cursor:"pointer"}} onClick={()=>{navi("/")}}/>
             </li>
             <li>
                 {/*<NavLink to={"/shop/list/1"} onClick={()=>{window.location.reload()}}>중고</NavLink>*/}
-                <NavLink onClick={()=>{navi("/shop/list/1"); window.location.reload()}}>중고</NavLink>
-            </li>
-            <li>
-                <NavLink to={"/chat/0"}>채팅</NavLink>
+                <NavLink onClick={()=>{navi("/shop/list/1"); window.location.reload()}}>스토어</NavLink>
             </li>
             {/*<li>*/}
-            {/*    <NavLink to={"/board/list"}>게시판</NavLink>*/}
+            {/*    <NavLink to={"/chat/0"}>채팅</NavLink>*/}
             {/*</li>*/}
             <li>
-                <NavLink to={"/feed/list"}>피드목록</NavLink>
+                <NavLink to={"/feed/list"}>집들이</NavLink>
             </li>
-            <li>
-                <NavLink to={"/feed/insertform"}>피드글쓰기</NavLink>
-            </li>
+            {/*<li>*/}
+            {/*    <NavLink to={"/feed/insertform"}>피드글쓰기</NavLink>*/}
+            {/*</li>*/}
             <li>
                 <NavLink to={"/feed/addtag"}>태그 추가</NavLink>
             </li>
@@ -158,15 +166,36 @@ function Menus(props) {
                         {/*<li>*/}
                         {/*    <NavLink to={"/login"}>로그인</NavLink>*/}
                         {/*</li>*/}
-                        <Fab variant="extended" color="info" style={{float:"right", marginRight:'2%'}}
+                        <Fab variant="extended" style={{float:"right", margin:'2%', backgroundColor:'#35c5f0'}}
                                 onClick={handleClickOpen}>
                             <AccountCircle/>&nbsp;로그인
                         </Fab>
                     </div>
                     :
                     <div className={'loginavt'}>
+                        <div onClick={()=>navi("/chat/0")} style={{cursor:"pointer"}}>
+                        <b>집톡</b>&nbsp;
+                        <Badge badgeContent={26} color={"error"} style={{color:'#828C94'}}>
+                            <SmsRounded />
+                        </Badge>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
-                        <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;
+                        <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {/*<Button variant={"contained"} style={{backgroundColor:'#35c5f0'}}>글쓰기<KeyboardArrowDown/></Button>*/}
+                        <Fab style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended"
+                        //     onClick={()=>{
+                        //         if (sessionStorage.loginok!=null){
+                        //             handleClick2();
+                        //         }else {
+                        //             alert("로그인 후 이용해주세요");
+                        //             return;
+                        //         }
+                        //     }
+                        //     }
+                            onClick={handleClick2}
+                        >
+                            글쓰기<KeyboardArrowDown/>
+                        </Fab>
                     </div>
             }
             <Dialog
@@ -182,7 +211,7 @@ function Menus(props) {
                 {/*<TextField label={'Password'} name={'ur_pw'} value={ur_pw} type={"password"} onKeyPress={handleOnKeyPress} required*/}
                 {/*           onChange={(e)=>setUr_pw(e.target.value)}/><br/><br/>*/}
                 {/*<Button type={"submit"}  variant={"contained"} color={"info"} onClick={onSubmitLogin}>Sign In</Button>*/}
-                <DialogTitle>{"로그인"}</DialogTitle>
+                <DialogTitle>{<img src={mainlogo} style={{width:'200px'}}/>}</DialogTitle>
                 <DialogContent>
                     {/*<DialogContentText>*/}
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
@@ -193,7 +222,7 @@ function Menus(props) {
                 <DialogActions>
                     <Button type={"button"} fullWidth variant={"contained"} color={"info"}
                             ref={loginRef}
-                            onClick={onBtnLogin}>Sign In</Button>
+                            onClick={onBtnLogin}>로그인</Button>
                 </DialogActions>
             </Dialog>
 
@@ -223,11 +252,29 @@ function Menus(props) {
                 }}>로그아웃</MenuItem>
             </Menu>
 
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl2}
+                keepMounted
+                open={Boolean(anchorEl2)}
+                onClose={handleClose2}
+            >
+                <MenuItem onClick={(e)=>{
+                    handleClose2();
+                    navi("/feed/insertform");
+                }}><b>집들이글</b><br/><br/><span>나의 공간과 나의 일상을 기록해보세요</span></MenuItem>
+                <MenuItem onClick={(e)=>{
+                    handleClose2();
+                    navi("/shop/insert");
+                }}><b>스토어글</b></MenuItem>
+            </Menu>
+
             <SpeedDial
+                style={{color:'#35c5f0'}}
                 onClick={scrollToTop}
                 className="scroll__container"
                 ariaLabel="SpeedDial openIcon example"
-                icon={<KeyboardArrowUp openIcon={<ListAlt />} />}
+                icon={<SpeedDialIcon openIcon={<KeyboardArrowUp />} />}
                 onClose={handleCloseDown}
                 onOpen={handleOpenUp}
                 open={openUp}
@@ -237,7 +284,7 @@ function Menus(props) {
                         key={action.name}
                         icon={action.icon}
                         tooltipTitle={action.name}
-                        onClick={handleCloseDown}
+                        // onClick={handleCloseDown}
                     />
                 ))}
             </SpeedDial>
@@ -245,7 +292,8 @@ function Menus(props) {
             {/*    <Fab id="top" onClick={scrollToTop} color={"info"}><KeyboardArrowUp/></Fab>*/}
             {/*</div>*/}
         </ul>
+        </header>
     );
 }
 
-export default Menus;
+export default Header;
