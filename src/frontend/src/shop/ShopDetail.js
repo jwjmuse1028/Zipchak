@@ -185,7 +185,7 @@ function ShopDetail(props) {
                 </div>
                 <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-20px'}}/>
                 <div className={'input-group'}>
-                <IconButton color={"primary"} onClick={onClickLike(SlideTransition)}>
+                <IconButton  style={{color:'#35c5f0'}} onClick={onClickLike(SlideTransition)}>
                     {
                         // <Bookmark fontSize={"large"}/>
                         detail.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
@@ -236,7 +236,7 @@ function ShopDetail(props) {
             <br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
-                    <Fab color="info" variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
+                    <Fab style={{backgroundColor:'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
                     <Fab color="info" variant="extended" className={'detailbutton'} disabled={detail.pd_status=="soldout"?true:false} onClick={()=>{
@@ -255,7 +255,6 @@ function ShopDetail(props) {
                 <pre style={{fontSize:'1.2em'}}><p>{detail.sp_txt}</p></pre>
                 <span>관심&nbsp;{detail.totallikes}·채팅&nbsp;{chatCnt}·조회&nbsp;{detail.sp_rdcnt}</span>
 
-            <br/><br/><br/>
             <BuyerList selectedValue={selectedValue} buyerlistOpen={buyerlistOpen} buyerlistClose={buyerlistClose} sp_num={sp_num}/>
         </div>
     );

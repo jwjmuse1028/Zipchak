@@ -192,10 +192,9 @@ function ShopInsertForm(props) {
                         <tr>
                             <th></th>
                             <td align={"center"}>
-                                <Button type={"submit"} color={"info"} variant={"contained"}>상품등록</Button>
+                                <Button type={"submit"} style={{backgroundColor:'#35c5f0'}} variant={"contained"}>상품등록</Button>
                             </td>
                         </tr>
-                        <tr><th></th></tr>
                     </tbody>
                 </table>
             </form>

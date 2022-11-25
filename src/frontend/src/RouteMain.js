@@ -1,5 +1,5 @@
 import React from 'react';
-import Menus from "./components/Menus";
+import Header from "./components/Header";
 import {Route, Routes} from "react-router-dom";
 import Home from "./components/Home";
 
@@ -27,8 +27,8 @@ function RouteMain(props) {
     return (
         <div>
             {/* 항상 나오게 할 컴포넌트는 Routes 밖에 넣는다 */}
-            <Menus/>
-            <br style={{clear:'both'}}/><br/>
+            <Header/>
+            <br style={{clear:'both'}}/><br/><br/><br/><br/><br/>
             <Routes>
                 <Route path='/' element={<Home/>}/>
                 <Route path={'/register'} element={<RegisterForm/>}/>
@@ -67,7 +67,7 @@ function RouteMain(props) {
                         <h1>잘못된 URL 주소입니다</h1>
                     </div>
                 }/>
-            </Routes>
+            </Routes><br/><br/><br/>
             <Footer/>
         </div>
     );

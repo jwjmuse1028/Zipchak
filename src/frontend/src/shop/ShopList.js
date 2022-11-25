@@ -136,7 +136,7 @@ function ShopList() {
     return (
         <div style={{margin:"auto", width:'100%', maxWidth:'1500px'}}>
             <div>
-                <Fab color="info" variant="extended" onClick={() => {
+                <Fab style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={() => {
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요");
                             return
@@ -164,7 +164,7 @@ function ShopList() {
                         <MenuItem value={'sp_txt'}>내용</MenuItem>
                     </Select>
                     <TextField placeholder={'검색어'} style={{width:'30%'}} value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
-                    <Button variant="contained" color="info" style={{width:'7%'}} onClick={searchbutton}>검색</Button>
+                    <Button variant="contained" style={{width:'7%', backgroundColor:'#35c5f0'}} onClick={searchbutton}>검색</Button>
                 </div>
             </div>
                 <br/>
@@ -185,7 +185,7 @@ function ShopList() {
                         }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
-                            <IconButton color={"primary"} onClick={onClickLike(row.sp_num,SlideTransition)}>
+                            <IconButton style={{color:'#35c5f0'}} onClick={onClickLike(row.sp_num,SlideTransition)}>
                                 {
                                     row.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
                                 }
@@ -230,14 +230,14 @@ function ShopList() {
                         data.parr &&
                         data.parr.map((n, i) =>
                             <Link to={`/shop/list/${n}`} className={'pagenum'} key={i}>
-                                <b style={{color: n == currentPage ? '#38B9E0' : 'black'}}>{n}</b></Link>)
+                                <b style={{color: n == currentPage ? '#35c5f0' : 'black'}}>{n}</b></Link>)
                     }
                     {
                         data.endPage < data.totalPage ?
                             <Link to={`/shop/list/${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
                     }
                 </div>
-            }<br/>
+            }
         </div>
     );
 }
