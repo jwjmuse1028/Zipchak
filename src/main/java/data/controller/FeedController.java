@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,10 +40,23 @@ public class FeedController {
         return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
 
+    @GetMapping("/feed/like")
+    public void insertFeedLike(int fd_num,int ur_num){
+        feedServiceInter.insertFeedLike(fd_num,ur_num);
+    }
+    @GetMapping("/feed/likedel")
+    public void deleteFeedLike(int fd_num,int ur_num){
+        feedServiceInter.deleteFeedLike(fd_num,ur_num);
+    }
+    @GetMapping("/feed/uprdcnt")
+    public void updateReadCount(int fd_num){
+        feedServiceInter.updateReadCount(fd_num);
+    }
+
     @GetMapping("/feed/detail")
-    public Map<String,Object> getFeedDetail(int fd_num)
+    public Map<String,Object> getFeedDetail(int fd_num, int ur_num)
     {
-        return feedServiceInter.getFeedDetail(fd_num);
+        return feedServiceInter.getFeedDetail(fd_num,ur_num);
     }
 
     @PostMapping("/feed/loginur")

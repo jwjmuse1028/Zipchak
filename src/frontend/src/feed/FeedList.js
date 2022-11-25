@@ -32,6 +32,15 @@ function FeedList(props) {
         feedList();
     }, []);
 
+    const updaterdcnt=(fd_num)=>{
+
+        const rdcntUrl=localStorage.url+"/feed/uprdcnt?fd_num="+fd_num;
+
+        axios.get(rdcntUrl)
+            .then(res=>{
+                console.log("조회수+1");
+            })
+    }
 
     return (
         <div className="feed_container">
@@ -49,7 +58,7 @@ function FeedList(props) {
                         <div className="col-12 col-md-4">
                             <article className="project-feed__item">
                                 <a className="project-feed__item__link"
-                                   href={`/feed/detail/${fdto.fd_num}`}></a>
+                                   href={`/feed/detail/${fdto.fd_num}`} onClick={()=>{updaterdcnt(fdto.fd_num)}}></a>
                                 <div className="project-feed__item__image">
                                     <img className="image" alt=""
                                          src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdto.fd_num}/${fdto.fd_img}`}/>

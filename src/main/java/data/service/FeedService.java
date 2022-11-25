@@ -66,13 +66,29 @@ public class FeedService implements FeedServiceInter{
     }
 
     @Override
+    public void insertFeedLike(int fd_num,int ur_num){
+        Map<String,Integer> lmap=new HashMap<>();
+        lmap.put("fd_num",fd_num);
+        lmap.put("ur_num",ur_num);
+
+        feedMapper.insertFeedLike(lmap);
+    }
+    public void deleteFeedLike(int fd_num,int ur_num){
+        Map<String,Integer> lmap=new HashMap<>();
+        lmap.put("fd_num",fd_num);
+        lmap.put("ur_num",ur_num);
+
+        feedMapper.deleteFeedLike(lmap);
+    }
+
+    @Override
     public Map<String,Object> getProfileByNum(int ur_num) {
         Map<String,Object> map= userMapper.getProfileByNum(ur_num);
         return map;
     }
 
     @Override
-    public Map<String,Object> getFeedDetail(int fd_num) {
+    public Map<String,Object> getFeedDetail(int fd_num, int ur_num) {
 
         FeedDto dto=getFeedByNum(fd_num);
 
@@ -83,10 +99,14 @@ public class FeedService implements FeedServiceInter{
         // 좋아요 수
         int fd_likes = feedMapper.getFeedLikes(fd_num);
 
+        // 로그인한 계정 해당 게시물 좋아요여부
+        int chk_like=this.checkFeedLike(fd_num,ur_num);
+
         Map<String,Object> map=new HashMap<>();
         map.put("dto",dto);
         map.put("prf_map",pmap);
         map.put("fd_likes",fd_likes);
+        map.put("chk_like",chk_like);
 
         return map;
     }
@@ -99,6 +119,12 @@ public class FeedService implements FeedServiceInter{
         int chk_like = feedMapper.checkFeedLike(lmap);
 
         return chk_like;
+    }
+
+    @Override
+    public void updateReadCount(int fd_num)
+    {
+        feedMapper.updateReadCount(fd_num);
     }
 
     @Override

@@ -14,9 +14,12 @@ public interface FeedServiceInter {
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
     public void updateFeed(FeedDto dto);
+    public void insertFeedLike(int fd_num,int ur_num);
+    public void deleteFeedLike(int fd_num,int ur_num);
     public Map<String,Object> getProfileByNum(int ur_num);
-    public Map<String,Object> getFeedDetail(int fd_num);
+    public Map<String,Object> getFeedDetail(int fd_num,int ur_num);
     public int checkFeedLike(int fd_num, int ur_num);
+    public void updateReadCount(int fd_num);
 
     public int getMaxCmtNum();
     public void insertFeedCmt(FeedCmtDto dto);
