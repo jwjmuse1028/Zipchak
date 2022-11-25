@@ -1,6 +1,7 @@
 package data.mapper;
 
 import data.dto.ReviewDto;
+import data.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface MyPageMapper {
     public List<Map<String,Object>> getFeedList(int ur_num);
     public List<Map<String,Object>> getBookmarkList(int ur_num);
     public List<Map<String,Object>> getLikeList(int ur_num);
+    public void updateprf(Map<String,Object> map);
+    public UserDto getpersonaldata(int ur_num);
+    public void updateinfo(UserDto dto);
 }

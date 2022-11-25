@@ -10,7 +10,7 @@ function Profile(props) {
     const [showlist,setShowlist]=useState(1);
     return (
         <div className={'mypage_otr_container'} >
-            <h1 style={{textAlign:'center'}}>프로필</h1>
+            <div className={'mypage_prf_subject'}>프로필</div>
             <br/>
             <div className={'mypage_menu'}>
                 <div className={'mypage_menu_each'}

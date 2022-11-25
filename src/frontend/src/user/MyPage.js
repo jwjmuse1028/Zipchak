@@ -17,7 +17,7 @@ function MyPage(props) {
     const [showlist,setShowlist]=useState(Number(show));
     return (
         <div className={'mypage_otr_container'} >
-            <h1 style={{textAlign:'center'}}>마이페이지</h1>
+            <div className={'mypage_prf_subject'} >마이페이지</div>
             <br/>
             <div className={'mypage_menu'}>
                 <div className={'mypage_menu_each'}
