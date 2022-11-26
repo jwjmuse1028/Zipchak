@@ -20,7 +20,7 @@ function ChatNotification(props) {
         }
     }
     const notify = () => toast.info( nick+'님, 읽지 않은 '+msgCnt+'개의 메시지가 있습니다', {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
         pauseOnHover: true,

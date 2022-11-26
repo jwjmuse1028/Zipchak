@@ -1,6 +1,7 @@
 import React from 'react';
 import noprfpic from "../image/noprofilepicture.webp";
 import {makeStyles} from "@material-ui/core/styles";
+import MapOnly from "./MapOnly";
 
 function ChatMessageItem(props) {
     const {chat,uInfo}=props;
@@ -24,6 +25,10 @@ function ChatMessageItem(props) {
                                 <div className={'chat-img'}
                                      style={{backgroundImage: `url('${ChatImgUrl+chat.msg.substring(4, chat.msg.length)}')`}}></div>
                                 :
+                                chat.msg.startsWith('map-')?
+                                    <MapOnly locy={chat.msg.substring(4, chat.msg.length).split(",")[0]}
+                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}/>
+                                :
                                 <div>{chat.msg}</div>
                         }
                         {chat.cm_wdate}
@@ -40,6 +45,10 @@ function ChatMessageItem(props) {
                                 ?
                                 <div className={'chat-img'}
                                      style={{backgroundImage: `url('${ChatImgUrl+chat.msg.substring(4, chat.msg.length)}')`}}></div>
+                                :
+                                chat.msg.startsWith('map-')?
+                                    <MapOnly locy={chat.msg.substring(4, chat.msg.length).split(",")[0]}
+                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}/>
                                 :
                                 <div>{chat.msg}</div>
                         }

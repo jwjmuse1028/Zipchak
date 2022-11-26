@@ -41,7 +41,7 @@ function MessageNotification(props) {
         return "방금 전";
         }
     const notify = (msgitem) => toast.info( msgitem.prf_nick+'님으로 부터 "'+msgitem.msg+'" 메시지가 도착했습니다 ('+elapsedTime(msgitem.cm_wdate)+')', {
-        position: "top-right",
+        position: "top-left",
         autoClose: 1000,
         hideProgressBar: true,
         pauseOnHover: true,

@@ -119,7 +119,17 @@ function Header(props) {
     const handleClose2 = () => {
         setAnchorEl2(null);
     };
+    const [msgCnt,setMsgCnt]=useState(0);
 
+    const getMsgCntNoti=()=>{
+        if(ur_num!=null){
+            let getMsgCntNotiUrl=localStorage.url+"/chat/cntnoti?ur_num="+ur_num;
+            axios.get(getMsgCntNotiUrl).then(res=>{
+                setMsgCnt(res.data);
+            })
+        }
+    }
+    useEffect(()=>getMsgCntNoti(),[])
     return (
         <header className={"header"}>
         <ul className='menu'>
@@ -175,7 +185,7 @@ function Header(props) {
                     <div className={'loginavt'}>
                         <div onClick={()=>navi("/chat/0")} style={{cursor:"pointer"}}>
                         <b>집톡</b>&nbsp;
-                        <Badge badgeContent={26} color={"error"} style={{color:'#828C94'}}>
+                        <Badge badgeContent={msgCnt} color={"error"} style={{color:'#828C94'}}>
                             <SmsRounded />
                         </Badge>
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

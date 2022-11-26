@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
+import LandingPage from "../chat/LandingPage";
 
 function Home(props) {
     localStorage.url=process.env.REACT_APP_BACK_URL;
@@ -11,7 +12,6 @@ function Home(props) {
             <ChatNotification/>
             <ReviewNotification/>
             <h1>Home</h1>
-
         </div>
     );
 }

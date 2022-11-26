@@ -3,16 +3,18 @@ import React from 'react';
 import * as StompJs from '@stomp/stompjs';
 import axios from "axios";
 import InputEmoji from 'react-input-emoji'
-import {ImageSearchOutlined, SendRounded} from "@material-ui/icons";
+import {ImageSearchOutlined, LocationOn, SendRounded} from "@material-ui/icons";
 import '../css/ChatMessageInput.css';
+import {LocationOnOutlined} from "@mui/icons-material";
+import MapModal from "./MapModal";
 
 function ChatMessageInput(props) {
     const [msg, setMsg] = useState('');
+    const [mapmodalopen,setMapmodalopen]=useState(false);
     const {cr_num, sendnoti,addMsg } = props;
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
-    let uploadUrl=url+"/photo/upload";
 
     const connect = () => {
         client.current = new StompJs.Client({
@@ -69,10 +71,14 @@ function ChatMessageInput(props) {
     const imgclick=()=>{
         document.getElementById('input-img').click();
     }
+    const locationclick=()=>{
+        setMapmodalopen(true);
+    }
     const mouseclick=()=>{
         handleOnEnter(msg);
     }
     const photoUploadEvent=(e)=>{
+        let uploadUrl=url+"/chat/photo/upload";
         const uploadFile=e.target.files[0];
         //console.log(uploadFile);
         const imageFile=new FormData();
@@ -86,6 +92,15 @@ function ChatMessageInput(props) {
                 //console.log(res.data);
                 handleOnEnter(res.data);
             });
+    }
+
+    const MapModalClose=(flag)=>{
+        setMapmodalopen(flag);
+    }
+    const sendselectloc=(place)=>{
+        console.log(place.y);
+        handleOnEnter("map-"+place.y+","+place.x);
+        setMapmodalopen(false);
     }
     useEffect(() => {
         connect();
@@ -102,8 +117,10 @@ function ChatMessageInput(props) {
                 placeholder="메시지를 입력해주세요"
             />
             <button className={'btn-img'} onClick={imgclick}><ImageSearchOutlined/></button>
+            <button className={'btn-img'} onClick={locationclick}><LocationOnOutlined/></button>
             <button className={'btn-send'} onClick={mouseclick}><SendRounded/></button>
             <input type={'file'} id={'input-img'} style={{display:'none'}} onChange={photoUploadEvent} />
+            <MapModal open={mapmodalopen} MapModalClose={MapModalClose} sendselectloc={sendselectloc}/>
         </div>
     );
 }
