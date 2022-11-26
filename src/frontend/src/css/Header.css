@@ -2,8 +2,9 @@
     position: fixed;
     top: 0;
     width: 100%;
+    height: 100px;
     background-color: white;
-    z-index: 9999;
+    z-index: 10;
     border-bottom: 1px solid #EAEDEF;
 }
 *{
@@ -50,12 +51,15 @@ ul.menu li a:hover{
 
 div.loginavt{
     display: flex;
-    width: 30%;
+    width: 50%;
     line-height: 100px;
     /*gap: 10px;*/
     align-items: center;
     float: right;
     justify-content: right;
+}
+.ziptalk:hover {
+    transform: scale(1.1);
 }
 /*#top{*/
 /*    font-weight: bold;*/

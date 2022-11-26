@@ -188,13 +188,14 @@ function RegisterForm(props) {
                     <table className={'table table-bordered'} style={{width: '50%', margin:'auto', borderColor:'white'}}>
                         <caption align={'top'}><h1>회원가입</h1><span style={{color:'rgb(255, 119, 119)'}}>*</span>표시는 필수기재 항목입니다</caption>
                         <tbody>
+                        <tr><th></th></tr>
                         <tr>
                             <th style={{width:'20%'}}>아이디&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'40%%'}}>
                                 <div className={'input-group'}>
                                     <input className={'form-control'} type={"text"} style={{width: '60%', boxShadow:'none'}} value={ur_id} required autoFocus
                                            onChange={inputIdCheck}/>
-                                    <Button color="info" type={"button"} onClick={btnIdCheck}>중복체크</Button>
+                                    <Button color="info" type={"button"} onClick={btnIdCheck} disabled={ur_id.length==0?'true':''}>중복체크</Button>
                                 </div>
                                 <span style={{color:btnok?"blue":"red"}}>{idmsg}</span>
                             </td>
@@ -204,7 +205,6 @@ function RegisterForm(props) {
                                        onChange={photoUploadEvent}/>
                                 <img src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${prf_img}`} onError={onErrorImg}
                                      style={{width: '200px',height:'200px', borderRadius: '150px'}}/>
-
                                 <br/><br/>
                                 <CameraAlt onClick={()=>{
                                    document.getElementById('filephoto').click();
@@ -245,7 +245,7 @@ function RegisterForm(props) {
                                 <div className={'input-group'}>
                                     <input className={'form-control'} type={"text"} style={{width: '60%'}} value={prf_nick} style={{boxShadow:'none'}} required maxLength={8}
                                            onChange={inputIdCheck2}/>
-                                    <Button color="info" type={"button"} onClick={btnIdCheck2}>중복체크</Button>
+                                    <Button color="info" type={"button"} onClick={btnIdCheck2} disabled={prf_nick.length==0?'true':''}>중복체크</Button>
                                 </div>
                                 <span style={{color:btnok2?"blue":"red"}}>{idmsg2}</span>
                             </td>
@@ -292,10 +292,11 @@ function RegisterForm(props) {
                                 <div className={'input-group'}>
                                     <input className={'form-control'} style={{width: '80%'}} name={info_addr} value={info_addr} style={{boxShadow:'none'}}
                                            onChange={(e) => setInfo_addr(e.target.value)}/>
-                                    <Button variant="contained" color="info" type='button' onClick={handle.clickButton}>주소검색</Button>
+                                    <Button variant="contained" type='button' style={{backgroundColor:'#35c5f0'}} onClick={handle.clickButton}>주소검색</Button>
                                 </div>
                             </td>
                         </tr>
+                        <tr><th></th></tr>
                         <tr>
                             <td colSpan={4} align={"center"}>
                                 <button className={'w-btn w-btn-indigo'}>가입하기</button>
