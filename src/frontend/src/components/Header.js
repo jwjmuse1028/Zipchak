@@ -14,16 +14,17 @@ import {
     DialogTitle,
     Fab,
     Menu,
-    MenuItem, Slide, TextField
+    MenuItem, Slide, TextField,
 } from "@mui/material";
 import {
     AccountBox,
     AccountCircle,
-    ForumOutlined, ForumRounded, HomeRounded, KeyboardArrowDown,
+    ForumRounded,
+    HomeRounded,
+    KeyboardArrowDown,
     KeyboardArrowUp,
-    ListAlt,
-    PhotoLibrary, ShoppingCartRounded, SmsRounded,
-    Storefront, StoreMallDirectoryRounded
+    ShoppingCartRounded,
+    SmsRounded
 } from "@material-ui/icons";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -109,7 +110,7 @@ function Header(props) {
     const actions = [
         { icon: <AccountBox onClick={()=>{navi("/mypage/1")}}/>, name: '마이페이지' },
         { icon: <ForumRounded onClick={()=>{navi("/chat/0");}}/>, name: '집톡' },
-        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list/1"); window.location.reload()}}/>, name: '스토어' },
+        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list/1")}}/>, name: '스토어' },
         { icon: <HomeRounded onClick={()=>{navi("/feed/list");}}/>, name: '집들이' },
     ];
     const [anchorEl2, setAnchorEl2] = React.useState(null);
@@ -143,9 +144,6 @@ function Header(props) {
                         <li>
                             <NavLink to={'/register'} style={{color:(showlist===3)?'#35c5f0':''}} onClick={()=>setShowlist(3)}>회원가입</NavLink>
                         </li>
-                        {/*<li>*/}
-                        {/*    <NavLink to={"/login"}>로그인</NavLink>*/}
-                        {/*</li>*/}
                         <Fab variant="extended" style={{float:"right", margin:'2%', backgroundColor:'#35c5f0', color:"white"}}
                                 onClick={handleClickOpen}>
                             <AccountCircle/>&nbsp;로그인
@@ -153,10 +151,10 @@ function Header(props) {
                     </div>
                     :
                     <div className={'loginavt'}>
-                        <div className={'ziptalk'} onClick={()=>navi("/chat/0")} style={{cursor:"pointer"}}>
+                        <div className={'ziptalk'} onClick={()=>{navi("/chat/0"); setShowlist(4)}} style={{color:(showlist===4)?'#35c5f0':'',cursor:"pointer"}}>
                         <b>집톡</b>&nbsp;
                         <Badge badgeContent={26} color={"error"} style={{color:'#828C94'}}>
-                            <SmsRounded />
+                            <SmsRounded/>
                         </Badge>
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
@@ -232,9 +230,7 @@ function Header(props) {
                     navi("/shop/insert");
                 }}><div><b>스토어 글쓰기</b><br/><span style={{color:'#828C94', fontSize:'0.8em'}}>가구나 물건 등을 사고팔고 해보세요</span></div></MenuItem>
             </Menu>
-
             <SpeedDial
-                sx={{ '& .MuiFab-primary': { backgroundColor: '#35c5f0 !important'} }}
                 onClick={scrollToTop}
                 className="scroll__container"
                 ariaLabel="SpeedDial openIcon example"
@@ -242,6 +238,7 @@ function Header(props) {
                 onClose={handleCloseDown}
                 onOpen={handleOpenUp}
                 open={openUp}
+                FabProps={{style: { backgroundColor: "#35c5f0" } }}
             >
                 {actions.map((action) => (
                     <SpeedDialAction

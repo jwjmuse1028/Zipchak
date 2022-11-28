@@ -14,12 +14,10 @@ import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
 import {
     Button,
-    Fab,
     MenuItem,
     Select,
     TextField
 } from "@mui/material";
-import transitions from "@material-ui/core/styles/transitions";
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
@@ -99,7 +97,7 @@ function ShopList() {
     // console.log("row="+JSON.stringify(data));
     const onClickLike = (sp_num,Transition,e) => () => {
         let ur_num=sessionStorage.ur_num;
-        // console.log("spnum="+sp_num,"ur="+ur_num);
+        // console.log("spnum"+sp_num,"ur"+ur_num);
         let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
         if (sessionStorage.loginok==null){
             alert("로그인 후 이용해주세요");
@@ -135,7 +133,7 @@ function ShopList() {
         });
     };
     return (
-        <div style={{margin:"auto", width:'70%'}}>
+        <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <div>
                 <div style={{justifyContent:"center"}} className={'input-group'}>
                     <Select style={{width:'7%', textAlign:"center"}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>

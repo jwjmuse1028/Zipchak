@@ -15,6 +15,7 @@ ul.menu{
     list-style: none;
     margin: auto;
     width: 70%;
+    min-width: 1000px;
 }
 
 ul.menu li{
@@ -57,9 +58,11 @@ div.loginavt{
     align-items: center;
     float: right;
     justify-content: right;
+    font-size: 1.1em;
 }
 .ziptalk:hover {
     transform: scale(1.1);
+    color: #35c5f0;
 }
 /*#top{*/
 /*    font-weight: bold;*/

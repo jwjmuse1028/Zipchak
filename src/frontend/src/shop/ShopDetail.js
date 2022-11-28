@@ -218,7 +218,7 @@ function ShopDetail(props) {
                 action={
                     detail.userlike===1?
                     <React.Fragment>
-                        <Button color="info" onClick={()=>{navi("/mypage")}}>
+                        <Button color="info" onClick={()=>{navi("/mypage/2")}}>
                             찜 목록 바로가기
                         </Button>
                     </React.Fragment>:''

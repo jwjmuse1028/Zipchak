@@ -40,8 +40,10 @@ figure.photos{
     /*top: -120px;*/
     /*left: 38%;*/
     position: absolute;
-    margin-left: 6%;
-    margin-top: -6%;
+    margin-left: 100px;
+    margin-top: -120px;
+    /*margin-left: 5.5%;*/
+    /*margin-top: -6%;*/
 }
 .page{
     text-align: center;
@@ -62,11 +64,11 @@ figure.photos{
     color:#999999;
     text-decoration:none;
 }
-CardMedia:hover{
+CardMedia:hover{ /*외않되?*/
     transform: scale(0.5); /* 이미지 확대 */
     transition: transform .5s; /* 시간 설정 */
 }
-Card:hover {
+Card:hover {/*외않되?*/
     transform: scale(1.05);
 }
 
