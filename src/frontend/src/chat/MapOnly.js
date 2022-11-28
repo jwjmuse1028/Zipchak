@@ -4,7 +4,7 @@ function MapOnly(props) {
     const { kakao } = window
     const {locy,locx}=props;
     const mapscript = () => {
-        let container = document.getElementById("map");
+        let container = document.getElementById(`kakaomap_${locy}`);
         let options = {
             center: new kakao.maps.LatLng(locy, locx),
             level: 2,
@@ -31,7 +31,7 @@ function MapOnly(props) {
 
     return (
         <a href={`https://map.kakao.com/link/map/전송 받은 위치🏠,${locy},${locx}`} target={"_blank"}>
-            <div id="map" style={{ width: "200px", height: "200px",marginTop:'10px' }}></div></a>)
+            <div id={`kakaomap_${locy}`} style={{ width: "200px", height: "200px",marginTop:'10px' }}></div></a>)
         ;
 }
 

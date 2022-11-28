@@ -27,7 +27,8 @@ function ChatMessageItem(props) {
                                 :
                                 chat.msg.startsWith('map-')?
                                     <MapOnly locy={chat.msg.substring(4, chat.msg.length).split(",")[0]}
-                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}/>
+                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}
+                                             cm_num={chat.cm_num}/>
                                 :
                                 <div>{chat.msg}</div>
                         }
@@ -48,7 +49,9 @@ function ChatMessageItem(props) {
                                 :
                                 chat.msg.startsWith('map-')?
                                     <MapOnly locy={chat.msg.substring(4, chat.msg.length).split(",")[0]}
-                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}/>
+                                             locx={chat.msg.substring(4, chat.msg.length).split(",")[1]}
+
+                                    />
                                 :
                                 <div>{chat.msg}</div>
                         }
