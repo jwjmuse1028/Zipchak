@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import "../css/ShopList.css";
 import {Bookmark, BookmarkBorder, Create} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -13,12 +14,10 @@ import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
 import {
     Button,
-    Fab,
     MenuItem,
     Select,
     TextField
 } from "@mui/material";
-import transitions from "@material-ui/core/styles/transitions";
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
@@ -98,7 +97,7 @@ function ShopList() {
     // console.log("row="+JSON.stringify(data));
     const onClickLike = (sp_num,Transition,e) => () => {
         let ur_num=sessionStorage.ur_num;
-        // console.log("spnum="+sp_num,"ur="+ur_num);
+        // console.log("spnum"+sp_num,"ur"+ur_num);
         let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
         if (sessionStorage.loginok==null){
             alert("로그인 후 이용해주세요");
@@ -134,30 +133,8 @@ function ShopList() {
         });
     };
     return (
-        <div style={{margin:"auto", width:'100%', maxWidth:'1500px'}}>
+        <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <div>
-                <Fab style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={() => {
-                        if (sessionStorage.loginok==null){
-                            alert("로그인 후 이용해주세요");
-                            return
-                        }else {
-                            navi("/shop/insert");
-                        }
-                        }}>
-                        <Create/>&nbsp;판매글작성
-                </Fab>
-                    {/*    <RadioGroup row aria-label="position" name="status" defaultValue="전체보기" style={{float:"right"}}>*/}
-                    {/*        <FormControlLabel*/}
-                    {/*            control={<Radio/>}*/}
-                    {/*            value="전체보기"*/}
-                    {/*            label="전체보기"*/}
-                    {/*        />*/}
-                    {/*        <FormControlLabel*/}
-                    {/*            control={<Radio/>}*/}
-                    {/*            value="판매중인 상품만 보기"*/}
-                    {/*            label="판매중인 상품만 보기"*/}
-                    {/*        />*/}
-                    {/*    </RadioGroup>*/}
                 <div style={{justifyContent:"center"}} className={'input-group'}>
                     <Select style={{width:'7%', textAlign:"center"}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>
                         <MenuItem value={'sp_title'}>제목</MenuItem>
@@ -185,9 +162,9 @@ function ShopList() {
                         }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
-                            <IconButton style={{color:'#35c5f0'}} onClick={onClickLike(row.sp_num,SlideTransition)}>
+                            <IconButton onClick={onClickLike(row.sp_num,SlideTransition)}>
                                 {
-                                    row.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
+                                    row.userlike===0?<BookmarkBorder fontSize={"large"} style={{color:'#828C94'}}/>:<Bookmark style={{color:'#35c5f0'}} fontSize={"large"}/>
                                 }
                             </IconButton>
                         </CardActions>

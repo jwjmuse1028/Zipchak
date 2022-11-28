@@ -15,12 +15,9 @@ function FeedUpdateForm(props) {
 
     //이미지 미리보기
     const [pre_img, setPre_img] = useState('');
+
     const [file, setFile] = useState('');
-
-    //현재로그인한 user 정보
-    const ur_num = sessionStorage.ur_num;
-
-    console.log("ur_num:"+ur_num);
+    const fdimgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/";
 
     const navi = useNavigate();
     //정규식 표현 - 평수 넣을 때 숫자아닌 것 들어가면 메세지 출력
@@ -46,13 +43,30 @@ function FeedUpdateForm(props) {
         fd_style: false
     })
 
-    const getFeed=()=>{
-        const getUrl=localStorage.url+"/feed/getfd?fd_num="+fd_num;
-        console.log(getUrl);
+    // const getFeed=()=>{
+    //     const getfdUrl=localStorage.url+"/feed/getfd?fd_num="+fd_num;
+    //     console.log(getfdUrl);
+    //     console.log(fd_num);
+    //
+    //     axios.get(getfdUrl)
+    //         .then(res=>{
+    //             console.log(res.data);
+    //             setData(res.data);
+    //         })
+    // }
 
-        axios.get(getUrl)
+    const getFeed=()=>{
+        //현재로그인한 user 정보
+        const ur_num = sessionStorage.ur_num;
+
+        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
+        console.log("detailUrl:"+detailUrl);
+
+        axios.get(detailUrl)
             .then(res=>{
-                setDto(res.data);
+                console.log(res.data.dto.fd_img);
+                setDto(res.data.dto);
+                setPre_img(fdimgUrl+fd_num+"/"+res.data.dto.fd_img);
             })
     }
 
@@ -121,12 +135,10 @@ function FeedUpdateForm(props) {
     const onSubmitEvent = (e) => {
         e.preventDefault();
 
+        let ur_num = sessionStorage.ur_num;
+
         if(!ur_num) {
             alert("로그인 해주세요");
-            return;
-        }
-        if(!file) {
-            alert("커버사진을 추가해 주세요");
             return;
         }
 
@@ -265,7 +277,7 @@ function FeedUpdateForm(props) {
             </form>
             {/* 사진 선택--form 밖에 넣어야함! 안에 넣으면 버튼누를시 submit 돼버림 */}
             <div className={'form_img_box'} style={{backgroundImage: `url(${pre_img})`}}>
-                <input type={'file'} id="fileimg" multiple required
+                <input type={'file'} id="fileimg" multiple
                        style={{visibility: 'hidden'}} onChange={onUploadChange}/>
                 {
                     // img가 공백이면(초기값,사진선택 안된상태)안내문구+추가하기버튼, 있으면 변경하기 버튼
@@ -323,7 +335,7 @@ function FeedUpdateForm(props) {
                 ref={editorRef}
 
             />
-            }
+
 
         </div>
     );

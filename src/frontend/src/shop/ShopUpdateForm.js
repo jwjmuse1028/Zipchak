@@ -220,7 +220,6 @@ function ShopUpdateForm(props) {
                             <Button type={"submit"} style={{backgroundColor:'#35c5f0'}} variant={"contained"}>상품수정</Button>
                         </td>
                     </tr>
-                    <tr><th></th></tr>
                     </tbody>
                 </table>
             </form>

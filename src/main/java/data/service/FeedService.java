@@ -49,7 +49,7 @@ public class FeedService implements FeedServiceInter{
     }
     @Override
     public void deleteFeed(int fd_num) {
-
+        feedMapper.deleteFeed(fd_num);
     }
 
     @Override
@@ -77,6 +77,7 @@ public class FeedService implements FeedServiceInter{
     @Override
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col) {
 
+        System.out.println("order_col:"+order_col);
         //데이터 가져오기
         Map<String,String> map=new HashMap<>();
         map.put("search_col",search_col);
@@ -130,12 +131,8 @@ public class FeedService implements FeedServiceInter{
         map.put("prf_map",pmap);
         map.put("fd_likes",fd_likes);
 
-        // 로그인한 계정 해당 게시물 좋아요여부
-        if(ur_num>0)
-        {
-            int chk_like=this.checkFeedLike(fd_num,ur_num);
-            map.put("chk_like",chk_like);
-        }
+        int chk_like=this.checkFeedLike(fd_num,ur_num);
+        map.put("chk_like",chk_like);
 
         return map;
     }
@@ -145,9 +142,8 @@ public class FeedService implements FeedServiceInter{
         Map<String,Integer> lmap=new HashMap<>();
         lmap.put("fd_num",fd_num);
         lmap.put("ur_num",ur_num);
-        int chk_like = feedMapper.checkFeedLike(lmap);
 
-        return chk_like;
+        return feedMapper.checkFeedLike(lmap);
     }
 
     @Override
