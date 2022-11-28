@@ -1,6 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -40,8 +40,13 @@ function MessageNotification(props) {
         // 모든 단위가 맞지 않을 시
         return "방금 전";
         }
-    const notify = (msgitem) => toast.info( msgitem.prf_nick+'님으로 부터 "'+msgitem.msg+'" 메시지가 도착했습니다 ('+elapsedTime(msgitem.cm_wdate)+')', {
-        position: "top-left",
+    const notify = (msgitem) => toast.info( msgitem.prf_nick+'님이 '+(
+        msgitem.msg.startsWith('img-')? '사진을 보냈습니다'
+            :
+        msgitem.msg.startsWith('map-')?'위치를 보냈습니다'
+            :
+            msgitem.msg+'" 메시지를 보냈습니다') +'('+elapsedTime(msgitem.cm_wdate)+')', {
+        position: "bottom-left",
         autoClose: 1000,
         hideProgressBar: true,
         pauseOnHover: true,

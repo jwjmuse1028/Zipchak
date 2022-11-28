@@ -10,10 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {CameraAlt} from "@material-ui/icons";
 import axios from "axios";
-import DaumPostcode from "react-daum-postcode";
-import * as PropTypes from "prop-types";
-import {styled} from "@mui/material";
 import AddrSearch from "./AddrSearch";
+import swal from "sweetalert";
 
 const styles = (theme) => ({
     root: {
@@ -63,8 +61,10 @@ function UserInfoUpdateForm(props) {
     const [ischangeimg,setIschangeimg]=useState(0);
     const [preimg,setPreimg]=useState('');
     const [file, setFile] = useState(null);
-    const [personaldata,setPersonaldata]=useState({});
     const [addropen, setAddropen]=useState(false);
+    const [info_addr, setInfo_addr] = useState('');
+    const [info_hp, setInfo_hp] = useState('');
+    const [info_email, setInfo_email] = useState('');
     const pre_nick=sessionStorage.prf_nick;
     const prev_prf_img=sessionStorage.prf_img;
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
@@ -72,7 +72,11 @@ function UserInfoUpdateForm(props) {
 
     const getpersonaldata=()=>{
         let getpersonaldataurl=localStorage.url+"/getpersonaldata?ur_num="+ur_num;
-        axios.get(getpersonaldataurl).then(res=>setPersonaldata(res.data))
+        axios.get(getpersonaldataurl).then(res=>{
+            setInfo_addr(res.data.info_addr);
+            setInfo_hp(res.data.info_hp);
+            setInfo_email(res.data.info_email);
+        })
     }
 
     const updateImg=()=>{
@@ -94,7 +98,7 @@ function UserInfoUpdateForm(props) {
     }
     const chknick=()=>{
         if (prf_nick===''){
-            alert('닉네임을 입력해주세요');
+            swal('닉네임을 입력해주세요');
             return;}
         let chknickurl = sessionStorage.url + "/user/nickcheck?prf_nick=" + prf_nick;
         axios.get(chknickurl).then(res=>{
@@ -118,7 +122,7 @@ function UserInfoUpdateForm(props) {
     }
     const updateinfo=()=>{
         if (ischangenick===false ){
-            alert('중복체크를 해주세요');
+            swal('닉네임 중복체크를 해주세요',{ icon: "warning",});
             return;}
         if (chknickstatus===1){
             return;
@@ -128,10 +132,9 @@ function UserInfoUpdateForm(props) {
         formdata.append("file",file);
         formdata.append("ur_num",ur_num);
         formdata.append("prf_nick",prf_nick);
-        console.log(personaldata);
-        formdata.append("dto",new Blob([JSON.stringify(personaldata)], {
-            type: "application/json"
-        }));
+        formdata.append("info_email",info_email);
+        formdata.append("info_hp",info_hp);
+        formdata.append("info_addr",info_addr);
         axios({
             method: 'post',
             url: updateinfoUrl,
@@ -139,32 +142,23 @@ function UserInfoUpdateForm(props) {
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res =>{
             if (res.data.prf_img==null){
+                swal('나의 정보가 변경되었습니다.',{ icon: "success",});
                 dialogClose(res.data.prf_nick,prev_prf_img,true);
             }
             else {
-            dialogClose(res.data.prf_nick,res.data.prf_img,true);
+                swal('나의 정보가 변경되었습니다.',{ icon: "success",});
+                dialogClose(res.data.prf_nick,res.data.prf_img,true);
             }
         } );
 
     }
-    const onChangeData = (e) => {
-        const {name, value} = e.target;
-        console.log(value);
-        setPersonaldata({
-            ...personaldata,
-            [name]: value,
-        })
-        console.log(personaldata);
-    }
+
     const addrsearchclick=()=>{
         setAddropen(true);
     }
     const addrdidalogclose=(newaddr)=>{
-
-        setPersonaldata({
-            ...personaldata,
-            ["info_addr"]: newaddr,
-        });
+        setInfo_addr(newaddr);
+        //console.log(info_addr);
         setAddropen(false);
     }
 
@@ -188,7 +182,7 @@ function UserInfoUpdateForm(props) {
                         <CameraAlt style={{display:'block',margin:'auto'}}/>
                     </div>
                     <input type={"file"} id={'img_file'} style={{display:"none"}} onChange={onUploadChange}/>
-                    <div>
+                    <div className={'mypage-row'}>
                         <div style={{display:'flex'}}>
                             <div className={'updateinfo_title'}>닉네임</div>
                             <input type={'text'} defaultValue={prf_nick} className={'form-control updateinfo_input'}
@@ -199,24 +193,34 @@ function UserInfoUpdateForm(props) {
                             {chknickstatus===1?"이미 존재하는 닉네임입니다":"사용 가능한 닉네임입니다"}
                         </div>
                     </div>
-                    <div>
+                    <div className={'mypage-row'}>
                         <div style={{display:'flex'}}>
                             <div className={'updateinfo_title'}>이메일</div>
-                            <input type={'text'} defaultValue={personaldata.info_email} className={'form-control updateinfo_input'}
-                                   onChange={onChangeData} />
+                            <input type={"email"} defaultValue={info_email}
+                                   className={'form-control updateinfo_input'}
+                                   onChange={(e)=>setInfo_email(e.target.value)} />
                         </div>
                     </div>
-                    <div>
+                    <div className={'mypage-row'}>
                         <div style={{display:'flex'}}>
                             <div className={'updateinfo_title'}>연락처</div>
-                            <input type={'text'} defaultValue={personaldata.info_hp} className={'form-control updateinfo_input'}
-                                   onChange={onChangeData} />
+                            <input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                                   defaultValue={info_hp} className={'form-control updateinfo_input'}
+                                   maxLength={13}
+                                   onChange={(e) => {
+                                       if (e.target.value.length === 3 || e.target.value.length === 8) {
+                                           e.target.value = e.target.value + '-';
+                                       }
+                                       setInfo_hp(e.target.value);
+                                   } } />
                         </div>
                     </div>
-                    <div>
+                    <div className={'mypage-row'}>
                         <div style={{display:'flex'}}>
                             <div className={'updateinfo_title'}>주소</div>
-                            <input type={'text'} defaultValue={personaldata.info_addr} className={'form-control updateinfo_input'} />
+                            <input type={'text'} value={info_addr}
+                                   className={'form-control updateinfo_input'}
+                                   onChange={(e) => setInfo_addr(e.target.value)}/>
                             <Button color="primary" onClick={addrsearchclick} style={{width:'70px',color:'#35c5f0'}} >주소검색</Button>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ div.mypage_prf_box{
     border: 1px solid lightgray;
     border-radius: 15px;
     box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-    height: 270px;
+    height: 350px;
 }
 div.mypage_prf_img_box{
     width: 100px;
@@ -74,10 +74,67 @@ div.updateinfo_title{
 .updateinfo_input{
     width: 270px;
 }
+.mypage-row{
+    margin-bottom: 10px;
+}
+.my-swal{
+    z-index: 200000;
+}
+.stamp_box{
+    display: flex;
+    margin: 0 auto 5px;
+    justify-content: center;
+}
+:is(.stamp1,.stamp2,.stamp3,.stamp4,.stamp5){
+    border: 5px double #35c5f0;
+    color: #35c5f0;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    transform: rotate(-40deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px 0 0;
+    font-size: 10px;
+    animation-name:stampani ;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+.stamp1{
+    animation-delay:0s ;
+}
+.stamp2{
+    animation-delay:0.3s ;
+}
+.stamp3{
+    animation-delay:0.6s ;
+}
+.stamp4{
+    animation-delay:0.9s ;
+}
+.stamp5{
+    animation-delay:1.2s ;
+}
+@keyframes stampani {
+    0% {transform: scale(1); opacity: 0;}
+    80% {transform: rotate(-20deg) scale(5);opacity: 0;}
+    100% {transform: rotate(-40deg) scale(1);opacity: 1;}
+}
+.stamp_txt{
+    color: #35c5f0;
+    width: 100%;
+    text-align: center;
+    border-top:1px solid #35c5f0;
+    border-bottom:1px solid #35c5f0;
+}
 /*리스트*/
 .mypage_prf_subject{
     text-align: center;
     font-size: 25px;
+    font-weight: bold;
 }
 .mypage_menu{
     display: flex;
@@ -266,6 +323,7 @@ div.mypage_sp_title{
     }
     .mypage_prf_nick_tmp {
         margin-top: 20px;
+        margin-bottom: 20px;
         width: 100%;
     }
 }
@@ -298,5 +356,8 @@ div.mypage_sp_title{
     }
     .mypage_prf_nick_tmp {
         width: auto;
+    }
+    .mypage_btn_shape{
+        word-break: keep-all;
     }
 }

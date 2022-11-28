@@ -10,6 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {CameraAlt} from "@material-ui/icons";
 import axios from "axios";
+import swal from 'sweetalert';
+
 
 const styles = (theme) => ({
     root: {
@@ -80,7 +82,7 @@ function UserUpdateForm(props) {
     }
     const chknick=()=>{
         if (prf_nick===''){
-            alert('닉네임을 입력해주세요');
+            swal('닉네임을 입력해주세요',{ icon: "warning",});
             return;}
         let chknickurl = sessionStorage.url + "/user/nickcheck?prf_nick=" + prf_nick;
         axios.get(chknickurl).then(res=>{
@@ -102,7 +104,7 @@ function UserUpdateForm(props) {
     }
     const updateprf=()=>{
         if (ischangenick===false ){
-            alert('중복체크를 해주세요');
+            swal('닉네임 중복체크를 해주세요',{ icon: "warning",});
             return;}
         if (chknickstatus===1){
             return;
@@ -118,6 +120,7 @@ function UserUpdateForm(props) {
             data: formdata,
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res =>{
+            swal('프로필이 변경되었습니다.',{ icon: "success",});
             dialogClose(res.data.prf_nick,res.data.prf_img,true);
         } );
 

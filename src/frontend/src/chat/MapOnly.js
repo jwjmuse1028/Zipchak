@@ -30,7 +30,7 @@ function MapOnly(props) {
     }, []);
 
     return (
-        <a href={`https://map.kakao.com/link/map/전송 받은 위치🏠,${locy},${locx}`}>
+        <a href={`https://map.kakao.com/link/map/전송 받은 위치🏠,${locy},${locx}`} target={"_blank"}>
             <div id="map" style={{ width: "200px", height: "200px",marginTop:'10px' }}></div></a>)
         ;
 }

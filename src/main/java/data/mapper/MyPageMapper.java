@@ -22,4 +22,9 @@ public interface MyPageMapper {
     public void updateprf(Map<String,Object> map);
     public UserDto getpersonaldata(int ur_num);
     public void updateinfo(UserDto dto);
+    public List<Integer> sellerking();
+    public List<Integer> buyerking();
+    public List<Integer> tempking();
+    public List<Integer> bookmarkking();
+    public List<Integer> likeking();
 }

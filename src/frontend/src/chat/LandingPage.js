@@ -26,6 +26,7 @@ function LandingPage({sendselectloc}) {
                     <Button type="submit" color="primary" style={{width:'80px',color:'#35c5f0'}}>장소검색</Button>
                 </div>
             </form>
+            <div>마커를 클릭하면 위치가 전송됩니다😆</div>
             <MapContainer searchPlace={Place} sendselectloc={sendselectloc} />
         </>
     )

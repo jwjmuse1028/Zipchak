@@ -94,6 +94,16 @@ function ChatRoomList(props) {
                                             님이 사진을 공유했습니다
                                         </>
                                         :
+                                        cr.msg.startsWith('map-')?
+                                            <>{
+                                                cr.sender === cr.ur_num ?
+                                                    cr.seller_nick
+                                                    :
+                                                    cr.buyer_nick
+                                            }
+                                                님이 위치를 공유했습니다
+                                            </>
+                                            :
                                         cr.msg}</div>
                             <div className={'cm_wdate'}>{elapsedTime(cr.cm_wdate)}</div>
                         </div>

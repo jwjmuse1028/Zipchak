@@ -22,7 +22,7 @@ function MapModal(props) {
 
     const useStyles = makeStyles((theme) => ({
         paper: {
-            position: 'absolute',
+            position: 'absolute',top:'10px',
             // width: 500,
             backgroundColor: theme.palette.background.paper,
             border: '2px solid #000',

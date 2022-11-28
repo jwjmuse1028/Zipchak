@@ -45,10 +45,9 @@ const DialogContent = withStyles((theme) => ({
 
 function AddrSearch(props) {
     const {open,addrdidalogclose}=props;
-    const [newAddr,setNewAddr]=useState('');
     const selectAddress=(data) => {
-        setNewAddr(`(${data.zonecode}) ${data.roadAddress},${data.buildingName}`);
-        addrdidalogclose(newAddr);
+        addrdidalogclose(`(${data.zonecode}) ${data.roadAddress},${data.buildingName}`);
+        //console.log(data);
     }
     const handleClose = () => {
         addrdidalogclose();
