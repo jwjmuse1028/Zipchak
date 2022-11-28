@@ -20,6 +20,7 @@ function FeedDetailView(props) {
 
     const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
     console.log("ur_num:"+ur_num);
+    console.log("chk_like:"+fdata.chk_like);
 
     const getFeedDetail=()=>{
         //set 함수도 비동기라서 처음에 안됨
@@ -41,8 +42,15 @@ function FeedDetailView(props) {
     },[]);
 
     const insertLike=()=>{
+
+        if(ur_num==0)
+        {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
         const likeUrl=localStorage.url+"/feed/like?fd_num="+fd_num+"&ur_num="+ur_num;
 
+        console.log("likeUrl:"+likeUrl);
         axios.get(likeUrl)
             .then(res=>{
                 console.log("like됨");
@@ -50,8 +58,15 @@ function FeedDetailView(props) {
             })
     }
     const deleteLike=()=>{
+
+        if(ur_num==0)
+        {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
         const likedelUrl=localStorage.url+"/feed/likedel?fd_num="+fd_num+"&ur_num="+ur_num;
 
+        console.log("likedelUrl:"+likedelUrl);
         axios.get(likedelUrl)
             .then(res=>{
                 console.log("like 삭제됨");
@@ -95,14 +110,14 @@ function FeedDetailView(props) {
                                         <div className="content-detail-header__author-date">{fdata.dto.fd_wdate}</div>
                                     </a>
                                     <div>
-                                        {ur_num>0 && fdata.chk_like==0?
-                                        <button className="likebtn" onClick={insertLike}>
-                                            <FavoriteBorderIcon/>&nbsp;{fdata.fd_likes}
-                                        </button>
+                                        {fdata.chk_like==1?
+                                            <button className="likebtn" onClick={deleteLike}>
+                                                <FavoriteIcon/>&nbsp;{fdata.fd_likes}
+                                            </button>
                                         :
-                                        <button className="likebtn" onClick={deleteLike}>
-                                            <FavoriteIcon/>&nbsp;{fdata.fd_likes}
-                                        </button>}
+                                            <button className="likebtn" onClick={insertLike}>
+                                                <FavoriteBorderIcon/>&nbsp;{fdata.fd_likes}
+                                            </button>}
                                     </div>
                                 </div>
                                 {fdata.dto.ur_num==ur_num &&

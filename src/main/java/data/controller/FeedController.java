@@ -38,11 +38,11 @@ public class FeedController {
         feedServiceInter.updateFeed(file,dto);
     }
 
-    @GetMapping("/feed/getfd")
-    public void getFeedByNum(int fd_num)
-    {
-        feedServiceInter.getFeedByNum(fd_num);
-    }
+//    @GetMapping("/feed/getfd")
+//    public void getFeedByNum(@RequestParam int fd_num)
+//    {
+//        feedServiceInter.getFeedByNum(fd_num);
+//    }
 
     @GetMapping("/feed/list")
     public List<FeedListDto> getFeedList(@RequestParam(required = false) String search_col,
