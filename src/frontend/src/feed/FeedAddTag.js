@@ -1,23 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {Viewer} from "@toast-ui/react-editor";
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import '../css/FeedDetail.css'
 
-function FeedAddTag(props) {
-    const fd_num = 21
-    const navi = useNavigate();
+function FeedAddTag({data}) {
+    const fd_num=21
     const [fdata, setFdata] = useState('');
+    const [ur_num,setUr_num]=useState(0);
 
     const imgUrl = "https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
 
     const getFeedDetail = () => {
-        const detailUrl = localStorage.url + "/feed/detail?fd_num=" + fd_num;
+        if(sessionStorage.ur_num) {
+            setUr_num(parseInt(sessionStorage.ur_num));
+        }
+        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
 
         axios.get(detailUrl)
             .then(res => {
                 setFdata(res.data);
-
             })
     }
 
@@ -48,16 +49,17 @@ function FeedAddTag(props) {
                 "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
             divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
             divtag.getElementsByTagName("img").item(0).addEventListener("click", edittag)
+            divtag.getElementsByTagName("img").item(0).addEventListener("mouseover", showdetail)
             imgtag.item(i).replaceWith(divtag)
         }
     }
 
     const changebtn = (e) => {
 
-        if (e.target.innerText === "태그 완료") {
+        if (e.target.innerText === "편집 완료") {
             e.target.innerText = "태그 편집"
         } else {
-            e.target.innerText = "태그 완료"
+            e.target.innerText = "편집 완료"
         }
     }
 
@@ -68,7 +70,7 @@ function FeedAddTag(props) {
 
         if(tagstate==='편집 완료') {
 
-            if (img.getAttribute("usemap") == null) {
+            /*if (img.getAttribute("usemap") == null) {
                 img.setAttribute("usemap", "#imgtag")
                 let map_tag = document.createElement("map")
                 map_tag.setAttribute("name", "imgtag")
@@ -78,16 +80,24 @@ function FeedAddTag(props) {
             let link = document.createElement("area")
             link.setAttribute("shape", "circle")
             link.setAttribute("target", "_self")
-            // link.setAttribute("href", "http://www.naver.com")
+            link.setAttribute("href", "http://www.naver.com")
             link.setAttribute("coords", `${e.offsetX},${e.offsetY},10`)
-            link.addEventListener("mouseover",showdetail)
-            img.firstElementChild.appendChild(link)
-        }
+            img.firstElementChild.appendChild(link)*/
 
+            let btndiv = document.createElement("div")
+            btndiv.insertAdjacentHTML("afterbegin",
+                "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
+                "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
+                "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
+            btndiv.setAttribute("class","circle")
+            btndiv.style.left = e.offsetX+'px'
+            btndiv.style.top = e.offsetY+'px';
+            // btndiv.style.visibility='hidden'
+            img.parentNode.append(btndiv)
+        }
     }
 
-    const showdetail = (e) => {
-        console.log(e.target)
+    const showdetail = (e) =>{
     }
 
     return (
@@ -100,7 +110,7 @@ function FeedAddTag(props) {
                         </div>
 
                         <div className={"cover_img"}
-                             style={{backgroundImage: `url(${imgUrl}/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
+                              style={{backgroundImage: `url(${imgUrl}/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
                         </div>
                     </div>
                     <div className="content-detail-content-section">
@@ -153,7 +163,6 @@ function FeedAddTag(props) {
                     </div>
                 </div>
             } {/* fdata&& 끝 */}
-
         </div>
     )
 }
