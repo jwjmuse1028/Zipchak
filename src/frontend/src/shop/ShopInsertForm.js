@@ -86,7 +86,6 @@ function ShopInsertForm(props) {
            .then(res=>{
 
            })
-
    }
     // const imgerror = (e) => {
     //     e.target.src = white
