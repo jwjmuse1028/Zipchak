@@ -37,6 +37,11 @@ public class FeedController {
     {
         feedServiceInter.updateFeed(file,dto);
     }
+    @GetMapping("/feed/delete")
+    public void insertFeedLike(int fd_num)
+    {
+        feedServiceInter.deleteFeed(fd_num);
+    }
 
 //    @GetMapping("/feed/getfd")
 //    public void getFeedByNum(@RequestParam int fd_num)

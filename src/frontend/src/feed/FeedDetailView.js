@@ -15,25 +15,26 @@ function FeedDetailView(props) {
     const {fd_num}=useParams();
     const navi=useNavigate();
     const [fdata,setFdata]=useState('');
-    const [ur_num,setUr_num]=useState(0);
-
+    const [ur_num,setUr_num]=useState(sessionStorage.ur_num);
 
     const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
-    console.log("ur_num:"+ur_num);
-    console.log("chk_like:"+fdata.chk_like);
 
     const getFeedDetail=()=>{
-        //set 함수도 비동기라서 처음에 안됨
-        if(sessionStorage.ur_num) {
-            setUr_num(parseInt(sessionStorage.ur_num));
+        // setUr_num을 어디에 해도 됐다 안됐다 함. useState default값을 sessionStorage로 주고 set 0으로하면 undefined가 가고
+        // default를 0으로 주면 그냥 ur_num이 다 0으로 되어버림. 따라서 detailUrl자체를 두개로 분류
+        if(!sessionStorage.ur_num)
+        {
+            setUr_num(0);
+            var detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num=0";
+        }else{
+            var detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
         }
-        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
         console.log("detailUrl:"+detailUrl);
 
         axios.get(detailUrl)
             .then(res=>{
-                console.log("success");
                 setFdata(res.data);
+                console.log("then_chk_like:"+res.data.chk_like);
             })
     }
 
@@ -73,6 +74,16 @@ function FeedDetailView(props) {
                 getFeedDetail();
             })
     }
+
+    const deleteFeed=()=>{
+        const deleteUrl=localStorage.url+"/feed/delete?fd_num="+fd_num;
+        axios.get(deleteUrl)
+            .then(res=>{
+                console.log("feed 삭제됨");
+                navi("/feed/list");
+            })
+    }
+
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -139,7 +150,8 @@ function FeedDetailView(props) {
                                                       onClick={()=>{navi(`/feed/update/${fdata.dto.fd_num}`);}}>
                                                 <EditOutlinedIcon style={{fontSize:'18px'}}/>&nbsp;수정하기
                                             </MenuItem>
-                                            <MenuItem className={"btncls"} style={{color:'rgba(255, 84, 84, 0.9)'}}>
+                                            <MenuItem className={"btncls"} style={{color:'rgba(255, 84, 84, 0.9)'}}
+                                                      onClick={deleteFeed}>
                                                 <DeleteOutline style={{fontSize:'18px'}}/>&nbsp;삭제하기
                                             </MenuItem>
                                         </Menu>
