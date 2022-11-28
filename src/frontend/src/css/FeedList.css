@@ -19,6 +19,51 @@ a:hover{
     min-height: 1px;
 }
 
+.fsearch{
+    transition: border-color .2s,box-shadow .2s,background-color .2s;
+    display: block;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 15px;
+    line-height: 40px;
+    border-radius: 4px !important;
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    color: #424242;
+}
+.fsearch:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #35C5F0;
+    outline: 0;
+    box-shadow: none;
+}
+.fsel{
+    width: 100px;
+    margin-right: 10px;
+    font-size: 14px;
+    transition: border-color .2s,box-shadow .2s,background-color .2s;
+    display: block;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 0 15px;
+    line-height: 30px;
+    border-radius: 100px !important;
+    border: 1px solid #d2d2d2;
+    background-color: #fff;
+    color: #424242;
+}
+.fsel:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #35C5F0;
+    outline: 0;
+    box-shadow: none;
+}
+.fsel>option{
+    border-radius: 100px;
+}
+
 .virtualized-list row {
     display: flex;
     flex-wrap: wrap;
