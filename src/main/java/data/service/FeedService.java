@@ -77,6 +77,7 @@ public class FeedService implements FeedServiceInter{
     @Override
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col) {
 
+        System.out.println("order_col:"+order_col);
         //데이터 가져오기
         Map<String,String> map=new HashMap<>();
         map.put("search_col",search_col);
