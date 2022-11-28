@@ -21,6 +21,7 @@ import {
 import Slide from "@material-ui/core/Slide";
 import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
+import swal from 'sweetalert';
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
@@ -88,7 +89,7 @@ function ShopDetail(props) {
         let url = sessionStorage.url + "/shop/soldout?pd_num=" + pd_num;
         axios.post(url)
             .then(res => {
-                alert("판매완료 등록되었습니다");
+                swal("판매완료 등록되었습니다");
                 window.location.reload();
             })
     };
@@ -113,7 +114,7 @@ function ShopDetail(props) {
     const createRoom=()=>{
         let createRoomURL=localStorage.url+"/chat/create?buyer_num="+ur_num+"&sp_num="+sp_num;
         axios.get(createRoomURL).then(res=>{
-                alert(res.data.msg);
+                swal(res.data.msg,{icon:'success',});
                 navi(`/chat/${res.data.cr_num}`);
             }
         )

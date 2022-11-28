@@ -84,4 +84,32 @@
         </if>
         where ur_prf.ur_num=#{ur_num} and ur_info.ur_num=#{ur_num}
     </update>
+    <select id="sellerking" resultType="int">
+        select sp.ur_num from sp
+        group by ur_num
+        having count(*)=(select max(cnt) from (select ur_num, count(*) cnt from sp group by ur_num ) as mx)
+    </select>
+    <select id="buyerking" resultType="int">
+        select rv.touser from rv
+        where fromseller=1
+        group by touser
+        having count(*)=
+               (select max(cnt) from (select touser, count(*) cnt from rv where fromseller=1 group by touser) as mx)
+    </select>
+    <select id="tempking" resultType="int">
+        select ur_num from ur_prf as tb1
+        where tb1.prf_tmp=(select max(tb2.prf_tmp) from ur_prf as tb2)
+    </select>
+    <select id="bookmarkking" resultType="int">
+        select sp_like.ur_num from sp_like
+        group by ur_num
+        having count(*)=
+               (select max(cnt) from (select ur_num, count(*) cnt from sp_like group by ur_num ) as mx)
+    </select>
+    <select id="likeking" resultType="int">
+        select fd_like.ur_num from fd_like
+        group by ur_num
+        having count(*)=
+               (select max(cnt) from (select ur_num, count(*) cnt from fd_like group by ur_num ) as mx)
+    </select>
 </mapper>

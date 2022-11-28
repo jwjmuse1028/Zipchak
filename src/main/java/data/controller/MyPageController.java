@@ -72,7 +72,7 @@ public class MyPageController {
     }
 
     @PostMapping("/updateprf")
-    public Map<String, String> updateprf(@RequestPart MultipartFile file,
+    public Map<String, String> updateprf(@RequestPart(required=false) MultipartFile file,
                                          @RequestParam String prf_nick,
                                          @RequestParam int ur_num) throws IOException {
         Map<String, Object> map = new HashMap<>();
@@ -103,7 +103,10 @@ public class MyPageController {
     public Map<String, String> updateinfo(@RequestPart(required=false) MultipartFile file,
                                           @RequestParam String prf_nick,
                                           @RequestParam int ur_num,
-                                          @RequestPart UserDto dto) throws IOException {
+                                          @RequestParam String info_email,
+                                          @RequestParam String info_hp,
+                                          @RequestParam String info_addr) throws IOException {
+        UserDto dto=new UserDto();
         String uploadimg=null;
         if (file != null) {
             uploadimg = s3Service.upload(file, "prf_img");
@@ -111,6 +114,9 @@ public class MyPageController {
         }
         dto.setUr_num(ur_num);
         dto.setPrf_nick(prf_nick);
+        dto.setInfo_email(info_email);
+        dto.setInfo_hp(info_hp);
+        dto.setInfo_addr(info_addr);
         //System.out.println(prf_nick);
         //System.out.println(map.get("prf_nick"));
         mpmapper.updateinfo(dto);
@@ -119,5 +125,20 @@ public class MyPageController {
         sendmap.put("prf_nick", prf_nick);
         sendmap.put("prf_img", uploadimg);
         return sendmap;
+    }
+    @GetMapping("/searchking")
+    public Map<String, List<Integer>> searchking(){
+        List<Integer> sellerking=mpmapper.sellerking();
+        List<Integer> buyerking=mpmapper.buyerking();
+        List<Integer> tempking=mpmapper.tempking();
+        List<Integer> bookmarkking=mpmapper.bookmarkking();
+        List<Integer> likeking=mpmapper.likeking();
+        Map<String, List<Integer>> map= new HashMap<>();
+        map.put("sellerking",sellerking);
+        map.put("buyerking",buyerking);
+        map.put("tempking",tempking);
+        map.put("bookmarkking",bookmarkking);
+        map.put("likeking",likeking);
+        return map;
     }
 }

@@ -88,10 +88,10 @@ public class ChatMessageController {
             map.put("sender",ur_num);
             cmmapper.updateReadAfterMsg(map);
     }
-    @PostMapping("/photo/upload")
+    @PostMapping("/chat/photo/upload")
     public String imgupload(@RequestParam MultipartFile uploadFile) throws IOException
     {
-        System.out.println("React로 부터 이미지 업로드");
+        //System.out.println("React로 부터 이미지 업로드");
         return "img-"+s3Service.upload(uploadFile, "chat_img");
     }
 
