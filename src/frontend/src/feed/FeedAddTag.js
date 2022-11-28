@@ -1,102 +1,116 @@
 import React, {useEffect, useState} from 'react';
 import {Viewer} from "@toast-ui/react-editor";
-import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import '../css/FeedDetail.css'
 
-function FeedAddTag(props) {
+function FeedAddTag({data}) {
     const fd_num=21
-    const navi=useNavigate();
-    const [fdata,setFdata]=useState('');
+    const [fdata, setFdata] = useState('');
+    const [ur_num,setUr_num]=useState(0);
 
-    const imgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
+    const imgUrl = "https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
 
-    const getFeedDetail=()=>{
-        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num;
+    const getFeedDetail = () => {
+        if(sessionStorage.ur_num) {
+            setUr_num(parseInt(sessionStorage.ur_num));
+        }
+        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
 
         axios.get(detailUrl)
-            .then(res=>{
+            .then(res => {
                 setFdata(res.data);
-
             })
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getFeedDetail()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         addTagBtn();
-    },[fdata])
+    }, [fdata])
 
-    const addTagBtn=()=>{
+    const addTagBtn = () => {
 
         let imgtag = null
         try {
-            imgtag=document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByTagName('img')
+            imgtag = document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByTagName('img')
             document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByClassName('ProseMirror-separator').item(0).remove()
-        }catch (e) {
+        } catch (e) {
             return
         }
 
         const imgNum = imgtag.length
-        for(let i=0;i<imgNum;i++) {
+        for (let i = 0; i < imgNum; i++) {
             const divtag = document.createElement("div")
             divtag.innerHTML = imgtag.item(i).outerHTML
-            divtag.setAttribute("style","position:relative")
+            divtag.setAttribute("style", "position:relative")
             divtag.insertAdjacentHTML("beforeend",
                 "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
             divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
-            divtag.getElementsByTagName("img").item(0).addEventListener("click",edittag)
+            divtag.getElementsByTagName("img").item(0).addEventListener("click", edittag)
+            divtag.getElementsByTagName("img").item(0).addEventListener("mouseover", showdetail)
             imgtag.item(i).replaceWith(divtag)
-    }}
-
-    const changebtn=(e)=>{
-
-        if (e.target.innerText==="태그 완료") {
-            e.target.innerText = "태그 편집"
-        }
-        else {
-            e.target.innerText = "태그 완료"
         }
     }
 
-    const edittag=(e)=>{
-        // console.log(e)
+    const changebtn = (e) => {
+
+        if (e.target.innerText === "편집 완료") {
+            e.target.innerText = "태그 편집"
+        } else {
+            e.target.innerText = "편집 완료"
+        }
+    }
+
+    const edittag = (e) => {
 
         let img = e.target
         let tagstate = e.target.nextSibling.innerText
-        if(img.getAttribute("usemap")==null || tagstate==='태그 완료') {
-            img.setAttribute("usemap", "#imgtag")
-            let map_tag = document.createElement("map")
-            map_tag.setAttribute("name", "imgtag")
-            img.appendChild(map_tag)
-        }
 
-        img.addEventListener('click', function (e) {
+        if(tagstate==='편집 완료') {
+
+            /*if (img.getAttribute("usemap") == null) {
+                img.setAttribute("usemap", "#imgtag")
+                let map_tag = document.createElement("map")
+                map_tag.setAttribute("name", "imgtag")
+                img.appendChild(map_tag)
+            }
+
             let link = document.createElement("area")
             link.setAttribute("shape", "circle")
             link.setAttribute("target", "_self")
-            link.setAttribute("href", "www.naver.com")
+            link.setAttribute("href", "http://www.naver.com")
             link.setAttribute("coords", `${e.offsetX},${e.offsetY},10`)
-            link.setAttribute("onMouseOver", showdetail)
-            img.firstElementChild.appendChild(link)
-        })
+            img.firstElementChild.appendChild(link)*/
+
+            let btndiv = document.createElement("div")
+            btndiv.insertAdjacentHTML("afterbegin",
+                "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
+                "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
+                "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
+            btndiv.setAttribute("class","circle")
+            btndiv.style.left = e.offsetX+'px'
+            btndiv.style.top = e.offsetY+'px';
+            // btndiv.style.visibility='hidden'
+            img.parentNode.append(btndiv)
+        }
     }
 
-    const showdetail=()=>{
-        alert("da")
+    const showdetail = (e) =>{
     }
 
     return (
         <div>
-            { fdata &&
+            {fdata &&
                 <div className="content-detail">
                     <div className="css-o6xhe7 e1tspjql5">
                         <div className="css-1y5ijfs e1tspjql4">
                             <div className="css-jduq9v e1tspjql3"></div>
                         </div>
 
-                        <div className={"cover_img"} style={{backgroundImage:`url(${imgUrl}/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
+                        <div className={"cover_img"}
+                              style={{backgroundImage: `url(${imgUrl}/fd_img/${fd_num}/${fdata.dto.fd_img})`}}>
                         </div>
                     </div>
                     <div className="content-detail-content-section">
@@ -108,9 +122,11 @@ function FeedAddTag(props) {
                                 <div className="content-detail-header__bottom">
                                     <a className="content-detail-header__author" href="/users/8830844">
                                         <div className="content-detail-header__author-image">
-                                            <img className="image" alt="" src={`${imgUrl}/prf_img/${fdata.prf_map.prf_img}`}/>
+                                            <img className="image" alt=""
+                                                 src={`${imgUrl}/prf_img/${fdata.prf_map.prf_img}`}/>
                                         </div>
-                                        <div className="content-detail-header__author-name">{fdata.prf_map.prf_nick}</div>
+                                        <div
+                                            className="content-detail-header__author-name">{fdata.prf_map.prf_nick}</div>
                                         <div className="content-detail-header__author-date">{fdata.dto.fd_wdate}</div>
                                     </a>
                                 </div>
@@ -146,8 +162,7 @@ function FeedAddTag(props) {
                         </div>
                     </div>
                 </div>
-            }  {/* fdata&& 끝 */}
-
+            } {/* fdata&& 끝 */}
         </div>
     )
 }
