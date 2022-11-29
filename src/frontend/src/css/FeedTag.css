@@ -1,0 +1,45 @@
+.tag_ul{
+    margin-left: 10px;
+    width: 100%;
+}
+.tag_li{
+    list-style: none;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 3px;
+    width: 90%;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+}
+
+img.tag_sp_img{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #35C5F0;
+    border-radius: 10px;
+    margin-right: 10px;
+
+}
+div.tag_sp_title{
+    width: 200px;
+    height: 50px;
+}
+.tag_btn{
+    padding: 6px 15px;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    background-color: #35c5f0;
+    border-radius: 4px;
+    transition: background-color .1s;
+    border: white;
+    width: 70px;
+}
+.tag_btn:hover {
+    border: 3px double darkblue;
+}

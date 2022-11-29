@@ -27,8 +27,9 @@ public class FeedController {
     FeedServiceInter feedServiceInter;
 
     @PostMapping("/feed/insert")
-    public void insertFeed(@RequestPart MultipartFile file, @RequestPart FeedDto dto)
+    public void insertFeed(@RequestPart MultipartFile file, @RequestPart FeedDto dto, @RequestPart String fd_txt)
     {
+        dto.setFd_txt(fd_txt);
         feedServiceInter.insertFeed(file,dto);
     }
 

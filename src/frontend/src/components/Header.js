@@ -145,9 +145,6 @@ function Header(props) {
             <li>
                 <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
             </li>
-            <li>
-                <NavLink to={"/feed/addtag"}>태그 추가</NavLink>
-            </li>
             {
                 sessionStorage.loginok==null?
                     <div>

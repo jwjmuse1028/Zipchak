@@ -9,7 +9,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
 
 import {useNavigate} from "react-router-dom";
-import FeedAddTag from "./FeedAddTag";
+import FeedTagPopover from "./FeedTagPopover";
 
 function FeedInsertForm(props) {
 
@@ -121,16 +121,11 @@ function FeedInsertForm(props) {
             return;
         }
 
-        // setDto({
-        //     ...dto,
-        //     ["fd_txt"]: dto.fd_txt.replace("<img class=\"ProseMirror-separator\" alt=\"\" width=\"100%\">", '')
-        // })
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("dto", new Blob([JSON.stringify(dto)], {
-            type: "application/json"
-        }));
+        let fdtxt = document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild
+        let fdbtn = fdtxt.getElementsByTagName("button").length
+        for (let i = 0; i < fdbtn; i++) {
+            fdtxt.getElementsByTagName("button").item(i).remove()
+        }
 
         // 위의 Blob 사용안하면 각각 넣어줘야함->controller에서 @ModelAttribute Dto로 받으면 되긴함
         // formData.append("fd_title",dto.fd_title);
@@ -145,6 +140,12 @@ function FeedInsertForm(props) {
         // formData.append("dto",dto);
 
         // insert 메서드로 보내기
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("fd_txt", fdtxt.innerHTML);
+        formData.append("dto", new Blob([JSON.stringify(dto)], {
+            type: "application/json"
+        }));
         let insertUrl = localStorage.url + "/feed/insert";
         axios({
             method: 'post',
@@ -159,6 +160,14 @@ function FeedInsertForm(props) {
     const editorRef = useRef();
 
     const [submit, setSubmit] = useState(false)
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const popoveropen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const popoverclose = () => {
+        setAnchorEl(null);
+    }
 
     const onChange = () => {
 
@@ -181,21 +190,18 @@ function FeedInsertForm(props) {
         let imgtag = null
         try {
             imgtag = document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByTagName('img')
-            document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByClassName('ProseMirror-separator').item(0).remove()
+            const imgNum = imgtag.length
+            for (let i = 0; i < imgNum; i++) {
+                const divtag = document.createElement("div")
+                divtag.innerHTML = imgtag.item(i).outerHTML
+                divtag.setAttribute("style", "position:relative")
+                divtag.insertAdjacentHTML("beforeend",
+                    "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
+                divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
+                divtag.getElementsByTagName("img").item(0).addEventListener("click", edittag)
+                imgtag.item(i).replaceWith(divtag)
+            }
         } catch (e) {
-            console.log("못가져옴")
-        }
-
-        const imgNum = imgtag.length
-        for (let i = 0; i < imgNum; i++) {
-            const divtag = document.createElement("div")
-            divtag.innerHTML = imgtag.item(i).outerHTML
-            divtag.setAttribute("style", "position:relative")
-            divtag.insertAdjacentHTML("beforeend",
-                "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
-            divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
-            divtag.getElementsByTagName("img").item(0).addEventListener("click", edittag)
-            imgtag.item(i).replaceWith(divtag)
         }
     }
 
@@ -209,7 +215,7 @@ function FeedInsertForm(props) {
 
         setDto({
             ...dto,
-            ["fd_txt"]:document.getElementsByClassName("toastui-editor-contents").item(0).innerHTML
+            ["fd_txt"]: document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild.innerHTML
         })
     }
 
@@ -218,7 +224,7 @@ function FeedInsertForm(props) {
         let img = e.target
         let tagstate = e.target.nextSibling.innerText
 
-        if(tagstate==='편집 완료') {
+        if (tagstate === '편집 완료') {
 
             /*if (img.getAttribute("usemap") == null) {
                 img.setAttribute("usemap", "#imgtag")
@@ -239,10 +245,10 @@ function FeedInsertForm(props) {
                 "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
                 "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
                 "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
-            btndiv.setAttribute("class","circle")
-            btndiv.style.left = e.offsetX+'px'
-            btndiv.style.top = e.offsetY+'px';
-            // btndiv.style.visibility='hidden'
+            btndiv.setAttribute("class", "circle")
+            btndiv.addEventListener("click", popoveropen)
+            btndiv.style.left = e.offsetX + 'px'
+            btndiv.style.top = e.offsetY + 'px';
             img.parentNode.append(btndiv)
         }
     }
@@ -375,41 +381,42 @@ function FeedInsertForm(props) {
             </div>
 
             {
-                submit?<Viewer initialValue={dto.fd_txt}/>
+                submit ? <Viewer initialValue={dto.fd_txt}/>
                     :
-                <Editor
-                    previewStyle="vertical" // 미리보기 스타일 지정
-                    height="1000px" // 에디터 창 높이
-                    initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-                    plugins={[colorSyntax]}
-                    hideModeSwitch={true}
-                    toolbarItems={[
-                        // 툴바 옵션 설정
-                        ['heading', 'bold', 'italic', 'strike'],
-                        ['hr', 'quote'],
-                        ['ul', 'ol', 'task', 'indent', 'outdent'],
-                        ['table', 'image', 'link'],
-                    ]}
-                    hooks={{
-                        addImageBlobHook: async (blob, callback) => {
+                    <Editor
+                        previewStyle="vertical" // 미리보기 스타일 지정
+                        height="1000px" // 에디터 창 높이
+                        initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+                        plugins={[colorSyntax]}
+                        hideModeSwitch={true}
+                        toolbarItems={[
+                            // 툴바 옵션 설정
+                            ['heading', 'bold', 'italic', 'strike'],
+                            ['hr', 'quote'],
+                            ['ul', 'ol', 'task', 'indent', 'outdent'],
+                            ['table', 'image', 'link'],
+                        ]}
+                        hooks={{
+                            addImageBlobHook: async (blob, callback) => {
 
-                            const formData = new FormData()
-                            formData.append('file', blob)
+                                const formData = new FormData()
+                                formData.append('file', blob)
 
-                            let url = localStorage.url + "/image/insert"
+                                let url = localStorage.url + "/image/insert"
 
-                            axios.post(url, formData, {
-                                header: {"content-type": "multipart/formdata"}
-                            }).then(res => {
-                                callback(res.data)
-                            })
-                        }
-                    }}
-                    onChange={onChange}
-                    ref={editorRef}
-                />
+                                axios.post(url, formData, {
+                                    header: {"content-type": "multipart/formdata"}
+                                }).then(res => {
+                                    callback(res.data)
+                                })
+                            }
+                        }}
+                        onChange={onChange}
+                        ref={editorRef}
+                    />
             }
             <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
+            <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose}/>
         </div>
 
     );

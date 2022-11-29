@@ -19,7 +19,6 @@ import FeedDetailView from "./feed/FeedDetailView";
 import MyPage from "./user/MyPage";
 import Profile from "./user/Profile";
 import Footer from "./components/Footer";
-import FeedAddTag from "./feed/FeedAddTag";
 import FeedUpdateForm from "./feed/FeedUpdateForm";
 
 
@@ -59,7 +58,6 @@ function RouteMain(props) {
                     <Route path='list' element={<FeedList/>}/>
                     <Route path='detail/:fd_num' element={<FeedDetailView/>}/>
                     <Route path='update/:fd_num' element={<FeedUpdateForm/>}/>
-                    <Route path='addtag' element={<FeedAddTag/>}/>
                 </Route>
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}
                 <Route path='*' element={
