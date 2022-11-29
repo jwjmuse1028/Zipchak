@@ -20,6 +20,7 @@ import MyPage from "./user/MyPage";
 import Profile from "./user/Profile";
 import Footer from "./components/Footer";
 import FeedUpdateForm from "./feed/FeedUpdateForm";
+import SearchList from "./components/SearchList";
 
 
 function RouteMain(props) {
@@ -59,6 +60,8 @@ function RouteMain(props) {
                     <Route path='detail/:fd_num' element={<FeedDetailView/>}/>
                     <Route path='update/:fd_num' element={<FeedUpdateForm/>}/>
                 </Route>
+                <Route path='/search' element={<SearchList/>}/>
+
                 {/* 지정된 주소 외 주소는 잘못된 url주소라고 출력 */}
                 <Route path='*' element={
                     <div>

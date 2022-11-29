@@ -112,4 +112,23 @@
         having count(*)=
                (select max(cnt) from (select ur_num, count(*) cnt from fd_like group by ur_num ) as mx)
     </select>
+    <select id="getSearchFeeds" parameterType="String" resultType="FeedListDto">
+        SELECT a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, count(b.ur_num) as fd_likes
+        from fd a
+                 left outer join fd_like b
+                                 on a.fd_num=b.fd_num
+                 left outer join ur_prf c
+                                 on a.ur_num=c.ur_num
+        where fd_title like concat('%',#{search_word},'%') or
+              fd_txt like concat('%',#{search_word},'%') or prf_nick like concat('%',#{search_word},'%')
+        group by a.fd_num
+    </select>
+    <select id="getSearchShops" parameterType="String" resultType="ShopProductDto">
+        select sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first from sp
+            join ur_prf on ur_prf.ur_num=sp.ur_num
+            join pd_img on pd_img.pd_num=sp.pd_num
+        where sp_title like concat('%',#{search_word},'%')
+           or sp_txt like concat('%',#{search_word},'%') or prf_nick like concat('%',#{search_word},'%')
+        group by sp.sp_num
+    </select>
 </mapper>
