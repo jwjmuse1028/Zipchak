@@ -679,7 +679,6 @@ content-detail-header__bottom {
 
 img{
     width: 100%;
-
 }
 
 .circle{
@@ -690,7 +689,7 @@ img{
     height: 32px;
     border-radius: 50%;
     transform: translate(-50%,-50%);
-    z-index: 999;
     cursor: pointer;
+    /*visibility: hidden;*/
 }
 

@@ -1,23 +1,25 @@
 import React, {useEffect, useRef, useState} from 'react';
 import "../css/FeedForm.css";
 
-import {Editor} from "@toast-ui/react-editor";
+import {Editor, Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor.css'
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import {Wrapper} from "@googlemaps/react-wrapper";
 
 function FeedUpdateForm(props) {
 
-    const {fd_num}=useParams();
+    const {fd_num} = useParams();
+    const [render,setRender] = useState(0)
 
     //이미지 미리보기
     const [pre_img, setPre_img] = useState('');
 
     const [file, setFile] = useState('');
-    const fdimgUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/";
+    const fdimgUrl = "https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/";
 
     const navi = useNavigate();
     //정규식 표현 - 평수 넣을 때 숫자아닌 것 들어가면 메세지 출력
@@ -55,25 +57,29 @@ function FeedUpdateForm(props) {
     //         })
     // }
 
-    const getFeed=()=>{
+    const getFeed = () => {
         //현재로그인한 user 정보
         const ur_num = sessionStorage.ur_num;
 
-        const detailUrl=localStorage.url+"/feed/detail?fd_num="+fd_num+"&ur_num="+ur_num;
-        console.log("detailUrl:"+detailUrl);
+        const detailUrl = localStorage.url + "/feed/detail?fd_num=" + fd_num + "&ur_num=" + ur_num;
+        console.log("detailUrl:" + detailUrl);
 
         axios.get(detailUrl)
-            .then(res=>{
+            .then(res => {
                 console.log(res.data.dto.fd_img);
                 setDto(res.data.dto);
-                setPre_img(fdimgUrl+fd_num+"/"+res.data.dto.fd_img);
+                setPre_img(fdimgUrl + fd_num + "/" + res.data.dto.fd_img);
+                setRender(1)
             })
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getFeed();
-    },[]);
+    }, []);
 
+    useEffect(() => {
+        editorRef.current?.getInstance().setHTML(dto.fd_txt)
+    }, [render]);
 
     const onChangeData = (e) => {
         const {name, value} = e.target;
@@ -84,11 +90,10 @@ function FeedUpdateForm(props) {
 
         //빈 값 없는지 확인
         validate(e);
-
     }
 
     //onClick 시 touched=true로 변경
-    const onClickData=(e)=>{
+    const onClickData = (e) => {
         setTouched({
             ...touched,
             [e.target.name]: true,
@@ -96,19 +101,17 @@ function FeedUpdateForm(props) {
         validate(e);
     }
 
-    const validate=(e)=>{
+    const validate = (e) => {
 
-        if(!e.target.value)
-        {
+        if (!e.target.value) {
             setErrors({
                 ...errors,
-                [e.target.name]:"empty error",
+                [e.target.name]: "empty error",
             });
-        }
-        else{
+        } else {
             setErrors({
                 ...errors,
-                [e.target.name]:"",
+                [e.target.name]: "",
             });
         }
 
@@ -137,25 +140,20 @@ function FeedUpdateForm(props) {
 
         let ur_num = sessionStorage.ur_num;
 
-        if(!ur_num) {
+        if (!ur_num) {
             alert("로그인 해주세요");
             return;
         }
 
-        onChange()
+        dto.fd_txt.replace("태그 편집", " ")
+        console.log(dto.fd_txt)
 
-        var trash = dto.fd_txt.indexOf("<img class=")
-        setDto({
-            ...dto,
-            ["fd_txt"]:dto.fd_txt.substring(0,trash)
-        })
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("dto",new Blob([JSON.stringify(dto)], {
+        formData.append("dto", new Blob([JSON.stringify(dto)], {
             type: "application/json"
         }));
-
 
         // update 메서드로 보내기
         let updateUrl = localStorage.url + "/feed/update";
@@ -169,24 +167,79 @@ function FeedUpdateForm(props) {
         });
     }
 
-    const imageWidth=()=>{
-        var imgNum = document.getElementsByTagName("img").length
-        for(let i=0;i<imgNum;i++){
-            document.getElementsByTagName("img").item(i).setAttribute("width","100%")
-        }
-    }
+    const editorRef = useRef();
 
-    const editorRef=useRef();
+    const [submit, setSubmit] = useState(false)
 
-    const onChange=()=>{
-
+    const onChange = () => {
         setDto({
             ...dto,
-            ["fd_txt"]:editorRef.current?.getInstance().getHTML()
+            ["fd_txt"]: editorRef.current?.getInstance().getHTML()
         })
     }
 
-    // const html = document.getElementsByClassName("ProseMirror toastui-editor-contents").item(0)
+    const addtag = () => {
+        setSubmit(true)
+    }
+
+    useEffect(() => {
+        addTagBtn();
+    }, [submit])
+
+    const addTagBtn = () => {
+
+        let imgtag = null
+        try {
+            imgtag = document.getElementsByClassName("toastui-editor-contents").item(0).getElementsByTagName('img')
+            const imgNum = imgtag.length
+            for (let i = 0; i < imgNum; i++) {
+                const divtag = document.createElement("div")
+                divtag.innerHTML = imgtag.item(i).outerHTML
+                divtag.setAttribute("style", "position:relative")
+                divtag.insertAdjacentHTML("beforeend",
+                    "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
+                divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
+                divtag.getElementsByTagName("img").item(0).addEventListener("click", edittag)
+                imgtag.item(i).replaceWith(divtag)
+            }
+        } catch (e) {
+        }
+    }
+
+    const changebtn = (e) => {
+
+        if (e.target.innerText === "편집 완료") {
+            e.target.innerText = "태그 편집"
+        } else {
+            e.target.innerText = "편집 완료"
+        }
+
+        setDto({
+            ...dto,
+            ["fd_txt"]: document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild.innerHTML
+        })
+    }
+
+    const edittag = (e) => {
+
+        let img = e.target
+        let tagstate = e.target.nextSibling.innerText
+
+        if (tagstate === '편집 완료') {
+
+            let btndiv = document.createElement("div")
+            btndiv.insertAdjacentHTML("afterbegin",
+                "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
+                "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
+                "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
+            btndiv.setAttribute("class", "circle")
+            btndiv.style.left = e.offsetX + 'px'
+            btndiv.style.top = e.offsetY + 'px';
+            // btndiv.style.visibility='hidden'
+            img.parentNode.append(btndiv)
+        }
+    }
+
 
     return (
         <div className={"form_container"}>
@@ -238,26 +291,28 @@ function FeedUpdateForm(props) {
                                 <option value="룸메이트와 함께 사는 집">룸메이트와 함께 사는 집</option>
                                 <option value="기타">기타</option>
                             </select>
-                            {touched.fd_fml && errors.fd_fml&&
+                            {touched.fd_fml && errors.fd_fml &&
                                 <div className="form_empty_msg">필수 입력 항목입니다.</div>
                             }
                         </div>
-                    </div> {/* form_row */}
+                    </div>
+                    {/* form_row */}
                     <div className="form_row">
                         <div className="form_row_title">평수<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
-                        <div style={{width: '130px' ,marginRight: '80px', display: 'block'}}>
-                            <input type={'text'}  className={`form-control ${errors.fd_spc}`} required
+                        <div style={{width: '130px', marginRight: '80px', display: 'block'}}>
+                            <input type={'text'} className={`form-control ${errors.fd_spc}`} required
                                    name={"fd_spc"} value={dto.fd_spc} onChange={onChangeData} onClick={onClickData}/>
-                            {!touched.fd_spc?'':errors.fd_spc=="empty error"?
+                            {!touched.fd_spc ? '' : errors.fd_spc == "empty error" ?
                                 <div className="form_empty_msg">필수 입력 항목입니다.</div>
-                                :!regex.test(dto.fd_spc)?<div className="form_empty_msg">숫자만 입력 가능합니다.</div>
-                                    :''
+                                : !regex.test(dto.fd_spc) ? <div className="form_empty_msg">숫자만 입력 가능합니다.</div>
+                                    : ''
                             }
                         </div>
                         <div className="form_row_title">스타일<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '220px'}}>
                             <select className={`form-select ${errors.fd_style}`} required
-                                    name={"fd_style"} value={dto.fd_style} onChange={onChangeData} onClick={onClickData}>
+                                    name={"fd_style"} value={dto.fd_style} onChange={onChangeData}
+                                    onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="모던">모던</option>
                                 <option value="미니멀&심플">미니멀&심플</option>
@@ -301,42 +356,43 @@ function FeedUpdateForm(props) {
                         </div>
                 }
             </div>
+            {
+                submit ? <Viewer initialValue={dto.fd_txt}/>
+                    :
+                dto.fd_txt &&
+                <Editor
+                    previewStyle="vertical" // 미리보기 스타일 지정
+                    height="1000px" // 에디터 창 높이
+                    initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+                    plugins={[colorSyntax]}
+                    hideModeSwitch={true}
+                    toolbarItems={[
+                        // 툴바 옵션 설정
+                        ['heading', 'bold', 'italic', 'strike'],
+                        ['hr', 'quote'],
+                        ['ul', 'ol', 'task', 'indent', 'outdent'],
+                        ['table', 'image', 'link'],
+                    ]}
+                    hooks={{
+                        addImageBlobHook: async (blob, callback) => {
 
-            <Editor
-                previewStyle="vertical" // 미리보기 스타일 지정
-                height="500px" // 에디터 창 높이
-                initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-                plugins={[colorSyntax]}
-                hideModeSwitch={true}
-                toolbarItems={[
-                    // 툴바 옵션 설정
-                    ['heading', 'bold', 'italic', 'strike'],
-                    ['hr', 'quote'],
-                    ['ul', 'ol', 'task', 'indent', 'outdent'],
-                    ['table', 'image', 'link'],
-                ]}
-                hooks={{
-                    addImageBlobHook: async (blob, callback) => {
+                            const formData = new FormData()
+                            formData.append('file', blob)
 
-                        const formData = new FormData()
-                        formData.append('file', blob)
+                            let url = localStorage.url + "/image/insert"
 
-                        let url = localStorage.url + "/image/insert"
-
-                        axios.post(url, formData, {
-                            header: {"content-type": "multipart/formdata"}
-                        }).then(res=>{
-                            callback(res.data)
-                            imageWidth()
-                        })
-                    }
-                }}
-                onChange={onChange}
-                ref={editorRef}
-
-            />
-
-
+                            axios.post(url, formData, {
+                                header: {"content-type": "multipart/formdata"}
+                            }).then(res => {
+                                callback(res.data)
+                            })
+                        }
+                    }}
+                    onChange={onChange}
+                    ref={editorRef}
+                />
+            }
+            <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
         </div>
     );
 }
