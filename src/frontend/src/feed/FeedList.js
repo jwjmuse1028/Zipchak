@@ -7,9 +7,9 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 function FeedList(props) {
     const navi = useNavigate();
     const [feedlist, setFeedlist] = useState([]);
-    const [search_col,setSearch_col] = useState("");
-    const [search_word,setSearch_word] = useState('');
-    const [order_col,setOrder_col] = useState("");
+    const [search_col,setSearch_col] = useState(null);
+    const [search_word,setSearch_word] = useState(null);
+    const [order_col,setOrder_col] = useState(null);
     const [option, setOption] = useState({
         spc: '',
         lvtp: '',
@@ -67,10 +67,6 @@ function FeedList(props) {
         }
     }
 
-    const selectOrder=(e)=>{
-        new Promise((e)=>{setOrder_col(e.target.value)}
-        ).then(()=>{searchFeed()})
-    }
     const setOptionSelect=(e)=>{
         const {name, value} = e.target;
         setOption({
@@ -78,19 +74,29 @@ function FeedList(props) {
             [name]: value,
         })
     }
+    const getSearchList = () => {
+        // let result = feedlist;
+        // if(주거형태 != null) {
+        //     result.filter
+        // }
+        // ...
+        //
+        // return result;
 
+    // .option.lvtp==''?false:filter((data)=>data.fd_lvtp.includes(option.lvtp))
+    }
 
     return (
         <div className="feed_container">
-            <div className="input-group" style={{margin:"50px auto"}}>
-                <select className="form-select fsel" name="order_col"
-                        onChange={(e)=>{selectOrder(e)}}>
+            <div className="input-group" style={{margin:"20px auto"}}>
+                <select className="form-select fsel" name="order_col" style={{width: "10%",margin:"0 20px 0 0",maxWidth:'150px'}}
+                        onChange={(e)=>setOrder_col(e.target.value)}>
                     <option value="" selected disabled>정렬</option>
                     <option value="fd_num" >최신순</option>
                     <option value="fd_rdcnt">조회순</option>
                     <option value="fd_likes">좋아요순</option>
                 </select>
-                <select className="form-select fsel" name="style"
+                <select className="form-select fsel" name="style" style={{width: "10%",margin:"0 20% 0 0",maxWidth:'150px'}}
                         onChange={setOptionSelect}>
                     <option value="" selected disabled>스타일</option>
                     <option value="모던">모던</option>
@@ -102,19 +108,18 @@ function FeedList(props) {
                     <option value="러블리&로맨틱">러블리&로맨틱</option>
                     <option value="한국&아시아">한국&아시아</option>
                 </select>
-                <select className="form-select fsel" name="search_col"
-                        onChange={(e)=>setSearch_col(e.target.value)}>
-                    <option value="fd_title" >제목</option>
-                    <option value="prf_nick">작성자</option>
-                    <option value="fd_txt">내용</option>
-                </select>
-                <select className="form-select fsel" name="search_col"
-                        onChange={(e)=>setSearch_col(e.target.value)}>
-                    <option value="fd_title" >제목</option>
-                    <option value="prf_nick">작성자</option>
-                    <option value="fd_txt">내용</option>
-                </select>
-                <span style={{color:"#777", lineHeight:"40px"}}>총 {feedlist.length}개 게시물</span>
+                {/*<select className="form-select fsel" name="search_col"*/}
+                {/*        onChange={(e)=>setSearch_col(e.target.value)}>*/}
+                {/*    <option value="fd_title" >제목</option>*/}
+                {/*    <option value="prf_nick">작성자</option>*/}
+                {/*    <option value="fd_txt">내용</option>*/}
+                {/*</select>*/}
+                {/*<select className="form-select fsel" name="search_col"*/}
+                {/*        onChange={(e)=>setSearch_col(e.target.value)}>*/}
+                {/*    <option value="fd_title" >제목</option>*/}
+                {/*    <option value="prf_nick">작성자</option>*/}
+                {/*    <option value="fd_txt">내용</option>*/}
+                {/*</select>*/}
                 <div className="input-group" style={{width: "40%",margin:"0 0 0 auto"}}>
                     <select className="form-select fsearch" style={{width: "100px"}} name="search_col"
                         onChange={(e)=>setSearch_col(e.target.value)}>
@@ -131,6 +136,8 @@ function FeedList(props) {
                 </div>
             </div>
 
+            <div style={{color:"#777", marginBottom:"10px"}}>총 {feedlist.length}개 게시물</div>
+
             {/*<input type={'file'} id="fileimg" multiple required*/}
             {/*       style={{visibility: 'hidden'}} onChange={uploadDB}/>*/}
             {/*<button className="btn btn-danger" onClick={() => {*/}
@@ -139,7 +146,8 @@ function FeedList(props) {
 
             <div className="virtualized-list row">
                 {
-                    feedlist?feedlist.filter((data)=>data.fd_style.includes(option.style))
+                    feedlist &&
+                    feedlist.filter((data)=>data.fd_style.includes(option.style))
                         .map((fdto, idx) => (
 
                         <div className="col-12 col-md-4">
@@ -166,7 +174,7 @@ function FeedList(props) {
                                 </footer>
                             </article>
                         </div>
-                    )):null
+                    ))
                 }
             </div>
 
