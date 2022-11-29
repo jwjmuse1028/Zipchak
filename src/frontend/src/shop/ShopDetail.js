@@ -209,18 +209,18 @@ function ShopDetail(props) {
 
 
             <Snackbar
-                color={'red'}
                 open={state.open}
                 onClose={likeClose}
                 autoHideDuration={2000}
                 TransitionComponent={state.Transition}
                 message= {detail.userlike===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
                 key={state.Transition.name}
+
                 action={
                     detail.userlike===1?
                     <React.Fragment>
                         <Button color="info" onClick={()=>{navi("/mypage/2")}}>
-                            찜 목록 바로가기
+                            <b>찜 목록 바로가기</b>
                         </Button>
                     </React.Fragment>:''
                 }/>
@@ -240,7 +240,8 @@ function ShopDetail(props) {
                     <Fab style={{backgroundColor:detail.pd_status=='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
-                    <Fab style={{backgroundColor:detail.pd_status=='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} disabled={detail.pd_status=="soldout"?true:false} onClick={()=>{
+                    <Fab style={{backgroundColor:detail.pd_status=='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} disabled={detail.pd_status=="soldout"?true:false}
+                         onClick={()=>{
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요")
                             return;

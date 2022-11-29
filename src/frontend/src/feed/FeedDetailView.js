@@ -42,6 +42,7 @@ function FeedDetailView(props) {
         getFeedDetail();
     },[]);
 
+
     const insertLike=()=>{
 
         if(ur_num==0)

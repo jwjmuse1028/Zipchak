@@ -93,7 +93,7 @@ function ShopInsertForm(props) {
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <table className={'table table-bordered'} style={{width:'40%', margin:"auto", borderColor:"white"}}>
+                <table className={'table table-bordered'} style={{width:'40%',minWidth:'500px', margin:"auto", borderColor:"white"}}>
                     <caption align={'top'}><h2>상품등록</h2></caption>
                     <tbody>
                         <tr><th></th></tr>
