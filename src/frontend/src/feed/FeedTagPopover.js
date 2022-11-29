@@ -49,23 +49,24 @@ function FeedTagPopover(props) {
             className={classes.popover}
         >
             <div style={{marginTop:'15px'}}>
-                <ul className={'tag_ul'} >
-                    {selllist && selllist.map((item,i)=>
-                        <div key={i} >
-                            {ur_num===item.ur_num?"":
-                                <li  className={'tag_li'} >
-                                    <div style={{display:"flex"}} >
-                                        <img alt={''} src={spURL+item.img_name}
-                                             className={'tag_sp_img'} />
-                                        <div className={'tag_sp_title'}>{item.sp_title}</div>
-                                        <button className={'tag_btn'}>선택</button>
-                                    </div>
-                                </li>
-                            }
-                        </div>
-                    )
-                    }
-                </ul>
+
+            <ul className={'tag_ul'} >
+                {selllist && selllist.map((item,i)=>
+                    <div key={i} >
+                        {ur_num===item.ur_num?"":
+                            <li  className={'tag_li'} >
+                                <div style={{display:"flex"}} >
+                                    <img alt={''} src={spURL+item.img_name}
+                                         className={'tag_sp_img'} />
+                                    <div className={'tag_sp_title'}>{item.sp_title}</div>
+                                    <button className={'tag_btn'}>선택</button>
+                                </div>
+                            </li>
+                        }
+                    </div>
+                )
+                }
+            </ul>
             </div>
         </Popover>
     );

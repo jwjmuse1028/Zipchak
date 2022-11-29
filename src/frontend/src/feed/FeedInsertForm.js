@@ -25,7 +25,7 @@ function FeedInsertForm(props) {
     const navi = useNavigate();
 
     //정규식 표현 - 평수 넣을 때 숫자아닌 것 들어가면 메세지 출력
-    const regex = /[0-9]/
+    const regex = /^[0-9]+$/
 
     const [dto, setDto] = useState({
         fd_title: '',

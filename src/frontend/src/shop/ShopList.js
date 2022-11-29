@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/ShopList.css";
-import {Bookmark, BookmarkBorder, Create} from "@material-ui/icons";
+import {Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from "@material-ui/core/Slide";
 import Fade from "@material-ui/core/Fade";
 import Snackbar from "@material-ui/core/Snackbar";
+import white from "../image/white.png"
+
 import {
     Button,
     MenuItem,
@@ -26,7 +28,8 @@ function SlideTransition(props) {
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: '21%',
-        minWidth: 240
+        minWidth: 240,
+        boxShadow: "none"
     },
     media: {
         height: 0,
@@ -52,8 +55,9 @@ function ShopList() {
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
     const [viewPaging,setViewPaging]=useState(true);
+
     // const [chkSoldOut,setChkSoldOut]=useState(true);
-    // const [like, setLike]=useState(false);
+     const [like, setLike]=useState(false);
     // const [bookmark, setBookmark]=useState('unlike');
 
     const getList=()=>{
@@ -87,6 +91,7 @@ function ShopList() {
             getList();
         },[currentPage,data.userlike]);
 
+
     // useEffect(() => {
     //     getList();
     // },[data]);
@@ -95,7 +100,7 @@ function ShopList() {
         return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     // console.log("row="+JSON.stringify(data));
-    const onClickLike = (sp_num,Transition,e) => () => {
+    const onClickLike = (idx,sp_num,Transition,e) => () => {
         let ur_num=sessionStorage.ur_num;
         // console.log("spnum"+sp_num,"ur"+ur_num);
         let url=sessionStorage.url+"/shop/likes?sp_num="+sp_num+"&ur_num="+ur_num;
@@ -105,7 +110,7 @@ function ShopList() {
         }
         axios.get(url)
             .then(res=>{
-                // console.log("성공");
+                console.log("성공");
                 setData(
                     {
                         ...data,
@@ -113,6 +118,9 @@ function ShopList() {
                         userlike: res.data.userlike
                     }
                 );
+
+                setLike(res.data.userlike);
+
                 setState({
                     open: true,
                     Transition,
@@ -140,8 +148,8 @@ function ShopList() {
                         <MenuItem value={'sp_title'}>제목</MenuItem>
                         <MenuItem value={'sp_txt'}>내용</MenuItem>
                     </Select>
-                    <TextField placeholder={'검색어'} style={{width:'30%'}} value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
-                    <Button variant="contained" style={{width:'7%', backgroundColor:'#35c5f0'}} onClick={searchbutton}>검색</Button>
+                    <TextField placeholder={'검색어'} inputProps={{style:{borderColor:'#35c5f0'}}} style={{width:'30%'}} value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
+                    <Button variant="contained" style={{width:'7%', backgroundColor:'#35c5f0'}} onClick={searchbutton}><SearchRounded/></Button>
                 </div>
             </div>
                 <br/>
@@ -151,8 +159,7 @@ function ShopList() {
                     >
                         <CardMedia
                             className={classes.media}
-                            // image={row.img_first} //대표사진
-                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`}
+                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`} //e
                             style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
                             onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />
@@ -162,11 +169,13 @@ function ShopList() {
                         }
                         <div className={'input-group'}>
                         <CardActions disableSpacing>
-                            <IconButton onClick={onClickLike(row.sp_num,SlideTransition)}>
+                            <IconButton onClick={onClickLike(idx,row.sp_num,SlideTransition)}>
                                 {
+
                                     row.userlike===0?<BookmarkBorder fontSize={"large"} style={{color:'#828C94'}}/>:<Bookmark style={{color:'#35c5f0'}} fontSize={"large"}/>
                                 }
                             </IconButton>
+
                         </CardActions>
 
                             <CardContent>
@@ -184,18 +193,19 @@ function ShopList() {
                 onClose={likeClose}
                 autoHideDuration={2000}
                 TransitionComponent={state.Transition}
-                message= {data.userlike===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
+                // message= {data.userlike===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
+                message= {like===1?"관심목록에 추가하였습니다":"관심목록에서 삭제하였습니다"}
                 key={state.Transition.name}
                 action={
-                    data.userlike===1?
+                    like===1?
                         <React.Fragment>
-                            <Button color="info" onClick={()=>{navi("/mypage")}}>
-                                찜 목록 바로가기
+                            <Button color="info" onClick={()=>{navi("/mypage/2")}}>
+                                <b>찜 목록 바로가기</b>
                             </Button>
                         </React.Fragment>:''
                 }
             />
-            <br/>
+            <img src={white} height={'1px'}/>
             {
                 viewPaging &&
                 <div className={'page'} variant="outlined" shape="rounded" style={{clear: 'both'}}>

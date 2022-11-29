@@ -41,5 +41,5 @@ div.tag_sp_title{
     width: 70px;
 }
 .tag_btn:hover {
-    border: 3px double darkblue;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }

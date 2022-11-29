@@ -41,8 +41,7 @@ function FeedDetailView(props) {
         getFeedDetail();
     }, []);
 
-    const insertLike = () => {
-
+    const insertLike=()=>{
         if (ur_num == 0) {
             alert("로그인 후 이용해주세요");
             return;

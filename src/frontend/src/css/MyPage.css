@@ -139,6 +139,7 @@ div.updateinfo_title{
 .mypage_menu{
     display: flex;
     width: 100%;
+    min-width: 600px;
     font-size: 20px;
     gap: 10px;
     text-align: center;
@@ -356,6 +357,7 @@ div.mypage_sp_title{
     }
     .mypage_prf_nick_tmp {
         width: auto;
+        margin-bottom: 20px;
     }
     .mypage_btn_shape{
         word-break: keep-all;
