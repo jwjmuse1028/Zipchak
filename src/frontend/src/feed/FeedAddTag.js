@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Viewer} from "@toast-ui/react-editor";
 import axios from "axios";
 import '../css/FeedDetail.css'
+import FeedTagPopover from "./FeedTagPopover";
 
 function FeedAddTag({data}) {
     const fd_num=21
@@ -54,6 +55,7 @@ function FeedAddTag({data}) {
         }
     }
 
+
     const changebtn = (e) => {
 
         if (e.target.innerText === "편집 완료") {
@@ -90,6 +92,7 @@ function FeedAddTag({data}) {
                 "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
                 "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
             btndiv.setAttribute("class","circle")
+            btndiv.addEventListener("click",popoveropen)
             btndiv.style.left = e.offsetX+'px'
             btndiv.style.top = e.offsetY+'px';
             // btndiv.style.visibility='hidden'
@@ -97,6 +100,13 @@ function FeedAddTag({data}) {
         }
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const popoveropen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const popoverclose=()=>{
+        setAnchorEl(null);
+    }
     const showdetail = (e) =>{
     }
 
@@ -163,6 +173,7 @@ function FeedAddTag({data}) {
                     </div>
                 </div>
             } {/* fdata&& 끝 */}
+            <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose}/>
         </div>
     )
 }
