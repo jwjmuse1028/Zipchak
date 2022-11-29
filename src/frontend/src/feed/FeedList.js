@@ -7,8 +7,15 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 function FeedList(props) {
     const navi = useNavigate();
     const [feedlist, setFeedlist] = useState([]);
-    const [search_col,setSearch_col] = useState("fd_title");
+    const [search_col,setSearch_col] = useState("");
     const [search_word,setSearch_word] = useState('');
+    const [order_col,setOrder_col] = useState("");
+    const [option, setOption] = useState({
+        spc: '',
+        lvtp: '',
+        fml: '',
+        style: '',
+    })
 
     const feedList = () => {
 
@@ -47,7 +54,7 @@ function FeedList(props) {
     }
     const searchFeed = ()=>{
         console.log("search_col:"+search_col);
-        const searchUrl = localStorage.url + "/feed/list?search_col="+search_col+"&search_word="+search_word;
+        const searchUrl = localStorage.url + "/feed/list?search_col="+search_col+"&search_word="+search_word+"&order_col="+order_col;
 
         axios.get(searchUrl)
             .then(res => {
@@ -60,20 +67,40 @@ function FeedList(props) {
         }
     }
 
+    const selectOrder=(e)=>{
+        new Promise((e)=>{setOrder_col(e.target.value)}
+        ).then(()=>{searchFeed()})
+    }
+    const setOptionSelect=(e)=>{
+        const {name, value} = e.target;
+        setOption({
+            ...option,
+            [name]: value,
+        })
+    }
+
+
     return (
         <div className="feed_container">
             <div className="input-group" style={{margin:"50px auto"}}>
-                <select className="form-select fsel" name="search_col"
-                        onChange={(e)=>setSearch_col(e.target.value)}>
-                    <option value="fd_title" >제목</option>
-                    <option value="prf_nick">작성자</option>
-                    <option value="fd_txt">내용</option>
+                <select className="form-select fsel" name="order_col"
+                        onChange={(e)=>{selectOrder(e)}}>
+                    <option value="" selected disabled>정렬</option>
+                    <option value="fd_num" >최신순</option>
+                    <option value="fd_rdcnt">조회순</option>
+                    <option value="fd_likes">좋아요순</option>
                 </select>
-                <select className="form-select fsel" name="search_col"
-                        onChange={(e)=>setSearch_col(e.target.value)}>
-                    <option value="fd_title" >제목</option>
-                    <option value="prf_nick">작성자</option>
-                    <option value="fd_txt">내용</option>
+                <select className="form-select fsel" name="style"
+                        onChange={setOptionSelect}>
+                    <option value="" selected disabled>스타일</option>
+                    <option value="모던">모던</option>
+                    <option value="미니멀&심플">미니멀&심플</option>
+                    <option value="내추럴">내추럴</option>
+                    <option value="북유럽">북유럽</option>
+                    <option value="빈티지&레트로">빈티지&레트로</option>
+                    <option value="클래식&앤틱">클래식&앤틱</option>
+                    <option value="러블리&로맨틱">러블리&로맨틱</option>
+                    <option value="한국&아시아">한국&아시아</option>
                 </select>
                 <select className="form-select fsel" name="search_col"
                         onChange={(e)=>setSearch_col(e.target.value)}>
@@ -112,7 +139,8 @@ function FeedList(props) {
 
             <div className="virtualized-list row">
                 {
-                    feedlist.map((fdto, idx) => (
+                    feedlist?feedlist.filter((data)=>data.fd_style.includes(option.style))
+                        .map((fdto, idx) => (
 
                         <div className="col-12 col-md-4">
                             <article className="project-feed__item">
@@ -138,7 +166,7 @@ function FeedList(props) {
                                 </footer>
                             </article>
                         </div>
-                    ))
+                    )):null
                 }
             </div>
 

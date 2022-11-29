@@ -26,12 +26,12 @@
         on a.fd_num=b.fd_num
         left outer join ur_prf c
         on a.ur_num=c.ur_num
-        <if test="search_col!=null and search_word!=null">
+        <if test="search_col!=null and search_word!=null and search_col!='' and search_word!=''">
             where ${search_col} like concat('%',#{search_word},'%')
         </if>
         group by a.fd_num
-        <if test="order_col!=null">
-            order by ${order_col}
+        <if test="order_col!=null and order_col!=''">
+            order by ${order_col} desc
         </if>
     </select>
     <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
