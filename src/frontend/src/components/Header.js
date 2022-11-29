@@ -145,9 +145,6 @@ function Header(props) {
             <li>
                 <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
             </li>
-            <li>
-                <NavLink to={"/feed/addtag"}>태그 추가</NavLink>
-            </li>
             {
                 sessionStorage.loginok==null?
                     <div>
@@ -206,13 +203,16 @@ function Header(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                {/*onClick={()=>{navi("/chat/0"); setShowlist(4)}}*/}
                 <MenuItem onClick={(e)=>{
                     handleClose();
                     navi("/profile/"+ur_num);
+                    setShowlist(5);
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();
                     navi("/mypage/1");
+                    setShowlist(6);
                 }}>마이페이지</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();
@@ -221,6 +221,7 @@ function Header(props) {
                     sessionStorage.removeItem("prf_nick");
                     sessionStorage.removeItem("prf_img");
                     sessionStorage.removeItem("ur_num");
+                    setShowlist(7);
                     navi("/");
                 }}>로그아웃</MenuItem>
             </Menu>
@@ -235,10 +236,12 @@ function Header(props) {
                 <MenuItem onClick={(e)=>{
                     handleClose2();
                     navi("/feed/insertform");
+                    setShowlist(1);
                 }}><div><b>집들이 글쓰기</b><br/><span style={{color:'#828C94', fontSize:'0.8em'}}>나의 공간과 나의 일상을 기록해보세요</span></div></MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose2();
                     navi("/shop/insert");
+                    setShowlist(2);
                 }}><div><b>스토어 글쓰기</b><br/><span style={{color:'#828C94', fontSize:'0.8em'}}>가구나 물건 등을 사고팔고 해보세요</span></div></MenuItem>
             </Menu>
             <SpeedDial

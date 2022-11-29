@@ -71,4 +71,11 @@ CardMedia:hover{ /*외않되?*/
 Card:hover {/*외않되?*/
     transform: scale(1.05);
 }
+.txtfield:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #35C5F0;
+    outline: 0;
+    box-shadow: none;
+}
 
