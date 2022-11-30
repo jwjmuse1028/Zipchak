@@ -10,6 +10,7 @@ import {Menu, MenuItem} from "@mui/material";
 import {BuildOutlined, DeleteOutline, MoreVert} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import FeedTagPopover from "./FeedTagPopover";
 
 function FeedDetailView(props) {
     const {fd_num} = useParams();
@@ -40,6 +41,17 @@ function FeedDetailView(props) {
     useEffect(() => {
         getFeedDetail();
     }, []);
+
+    const tagclick=()=>{
+        let tagnum = document.getElementsByClassName("circle").length
+        for(let i=0;i<tagnum;i++){
+            document.getElementsByClassName("circle").item(i).addEventListener("click",popoveropen)
+        }
+    }
+
+    useEffect(()=>{
+        tagclick()
+    },[fdata])
 
     const insertLike=()=>{
         if (ur_num == 0) {
@@ -80,7 +92,19 @@ function FeedDetailView(props) {
             })
     }
 
+    const [sp_num, setSp_num] = useState('')
+
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+    const detail = true
+
+    const popoveropen = (e) => {
+        setAnchorEl2(e.currentTarget);
+        setSp_num(e.currentTarget.getAttribute("id"))
+    };
+    const popoverclose = () => {
+        setAnchorEl2(null);
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -189,6 +213,7 @@ function FeedDetailView(props) {
                 </div>
             } {/* fdata&& 끝 */}
 
+            <FeedTagPopover anchorEl={anchorEl2} popoverclose={popoverclose} sp_num={sp_num} detail={detail}/>
 
             {/* cmt 부분 */}
             <FeedDetailCmt fd_num={fd_num}/>

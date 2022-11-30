@@ -8,12 +8,12 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
-import {Wrapper} from "@googlemaps/react-wrapper";
+import FeedTagPopover from "./FeedTagPopover";
 
 function FeedUpdateForm(props) {
 
     const {fd_num} = useParams();
-    const [render,setRender] = useState(0)
+    const [render, setRender] = useState(0)
 
     //이미지 미리보기
     const [pre_img, setPre_img] = useState('');
@@ -35,7 +35,6 @@ function FeedUpdateForm(props) {
         fd_style: ''
     })
 
-
     //onClick 시 touched=true로 변경
     const [touched, setTouched] = useState({
         fd_title: false,
@@ -45,17 +44,7 @@ function FeedUpdateForm(props) {
         fd_style: false
     })
 
-    // const getFeed=()=>{
-    //     const getfdUrl=localStorage.url+"/feed/getfd?fd_num="+fd_num;
-    //     console.log(getfdUrl);
-    //     console.log(fd_num);
-    //
-    //     axios.get(getfdUrl)
-    //         .then(res=>{
-    //             console.log(res.data);
-    //             setData(res.data);
-    //         })
-    // }
+    const [sp_num, setSp_num] = useState('')
 
     const getFeed = () => {
         //현재로그인한 user 정보
@@ -138,19 +127,14 @@ function FeedUpdateForm(props) {
     const onSubmitEvent = (e) => {
         e.preventDefault();
 
-        let ur_num = sessionStorage.ur_num;
-
-        if (!ur_num) {
-            alert("로그인 해주세요");
-            return;
+        let fdtxt = document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild
+        while(fdtxt.getElementsByTagName("button").length > 0){
+            fdtxt.getElementsByTagName("button").item(0).remove()
         }
-
-        dto.fd_txt.replace("태그 편집", " ")
-        console.log(dto.fd_txt)
-
 
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("fd_txt", fdtxt.innerHTML);
         formData.append("dto", new Blob([JSON.stringify(dto)], {
             type: "application/json"
         }));
@@ -170,6 +154,42 @@ function FeedUpdateForm(props) {
     const editorRef = useRef();
 
     const [submit, setSubmit] = useState(false)
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const [tagtarget, setTagtarget] = useState()
+
+    const [detail,setDetail] = useState(true)
+
+    const tagpdnum = (x) => {
+        document.getElementsByClassName(tagtarget).item(0).setAttribute("id", x)
+        setDetail(false)
+    }
+
+    const popoveropen = (x) => {
+        setAnchorEl(x);
+        setSp_num(x.getAttribute("id"))
+        setTagtarget(x.getAttribute("class"))
+    };
+
+    const popoveropen2 = (e) => {
+        setAnchorEl(e.currentTarget);
+        setSp_num(e.currentTarget.getAttribute("id"))
+        setTagtarget(e.currentTarget.getAttribute("class"))
+    };
+
+    const popoverclose = (e) => {
+        setAnchorEl(null);
+        setSp_num('')
+        deletetag()
+    }
+
+    const deletetag = () => {
+        let tag = document.getElementsByClassName(tagtarget).item(0)
+        if (tag!=null && tag.getAttribute("id") === "0") {
+            tag.remove()
+        }
+    }
 
     const onChange = () => {
         setDto({
@@ -210,8 +230,10 @@ function FeedUpdateForm(props) {
 
         if (e.target.innerText === "편집 완료") {
             e.target.innerText = "태그 편집"
+            setDetail(true)
         } else {
             e.target.innerText = "편집 완료"
+            setDetail(false)
         }
 
         setDto({
@@ -219,6 +241,8 @@ function FeedUpdateForm(props) {
             ["fd_txt"]: document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild.innerHTML
         })
     }
+
+    var i = 1
 
     const edittag = (e) => {
 
@@ -232,14 +256,15 @@ function FeedUpdateForm(props) {
                 "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
                 "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
                 "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
-            btndiv.setAttribute("class", "circle")
+            btndiv.setAttribute("class", `circle circleidx_${i++}`)
+            btndiv.setAttribute("id", "0")
+            btndiv.addEventListener("click",popoveropen2)
             btndiv.style.left = e.offsetX + 'px'
             btndiv.style.top = e.offsetY + 'px';
-            // btndiv.style.visibility='hidden'
             img.parentNode.append(btndiv)
+            popoveropen(btndiv)
         }
     }
-
 
     return (
         <div className={"form_container"}>
@@ -359,40 +384,41 @@ function FeedUpdateForm(props) {
             {
                 submit ? <Viewer initialValue={dto.fd_txt}/>
                     :
-                dto.fd_txt &&
-                <Editor
-                    previewStyle="vertical" // 미리보기 스타일 지정
-                    height="1000px" // 에디터 창 높이
-                    initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-                    plugins={[colorSyntax]}
-                    hideModeSwitch={true}
-                    toolbarItems={[
-                        // 툴바 옵션 설정
-                        ['heading', 'bold', 'italic', 'strike'],
-                        ['hr', 'quote'],
-                        ['ul', 'ol', 'task', 'indent', 'outdent'],
-                        ['table', 'image', 'link'],
-                    ]}
-                    hooks={{
-                        addImageBlobHook: async (blob, callback) => {
+                    <Editor
+                        previewStyle="vertical" // 미리보기 스타일 지정
+                        height="1000px" // 에디터 창 높이
+                        initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+                        plugins={[colorSyntax]}
+                        hideModeSwitch={true}
+                        toolbarItems={[
+                            // 툴바 옵션 설정
+                            ['heading', 'bold', 'italic', 'strike'],
+                            ['hr', 'quote'],
+                            ['ul', 'ol', 'task', 'indent', 'outdent'],
+                            ['table', 'image', 'link'],
+                        ]}
+                        hooks={{
+                            addImageBlobHook: async (blob, callback) => {
 
-                            const formData = new FormData()
-                            formData.append('file', blob)
+                                const formData = new FormData()
+                                formData.append('file', blob)
 
-                            let url = localStorage.url + "/image/insert"
+                                let url = localStorage.url + "/image/insert"
 
-                            axios.post(url, formData, {
-                                header: {"content-type": "multipart/formdata"}
-                            }).then(res => {
-                                callback(res.data)
-                            })
-                        }
-                    }}
-                    onChange={onChange}
-                    ref={editorRef}
-                />
+                                axios.post(url, formData, {
+                                    header: {"content-type": "multipart/formdata"}
+                                }).then(res => {
+                                    callback(res.data)
+                                })
+                            }
+                        }}
+                        onChange={onChange}
+                        ref={editorRef}
+                    />
             }
             <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
+            <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose} sp_num={sp_num} tagpdnum={tagpdnum}
+                            detail={detail}/>
         </div>
     );
 }

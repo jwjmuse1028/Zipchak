@@ -17,6 +17,8 @@ function FeedInsertForm(props) {
     const [pre_img, setPre_img] = useState('');
     const [file, setFile] = useState('');
 
+    const [sp_num, setSp_num] = useState('')
+
     //현재로그인한 user 정보
     const ur_num = sessionStorage.ur_num;
 
@@ -162,11 +164,39 @@ function FeedInsertForm(props) {
     const [submit, setSubmit] = useState(false)
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const popoveropen = (event) => {
-        setAnchorEl(event.currentTarget);
+
+    const [tagtarget, setTagtarget] = useState()
+
+    const [detail,setDetail] = useState(true)
+
+    const tagpdnum = (x) => {
+        document.getElementsByClassName(tagtarget).item(0).setAttribute("id", x)
+        setDetail(false)
+    }
+
+    const popoveropen = (x) => {
+        setAnchorEl(x);
+        setSp_num(x.getAttribute("id"))
+        setTagtarget(x.getAttribute("class"))
     };
-    const popoverclose = () => {
+
+    const popoveropen2 = (e) => {
+        setAnchorEl(e.currentTarget);
+        setSp_num(e.currentTarget.getAttribute("id"))
+        setTagtarget(e.currentTarget.getAttribute("class"))
+    };
+
+    const popoverclose = (e) => {
         setAnchorEl(null);
+        setSp_num('')
+        deletetag()
+    }
+
+    const deletetag = () => {
+        let tag = document.getElementsByClassName(tagtarget).item(0)
+        if (tag!=null && tag.getAttribute("id") === "0") {
+            tag.remove()
+        }
     }
 
     const onChange = () => {
@@ -209,8 +239,10 @@ function FeedInsertForm(props) {
 
         if (e.target.innerText === "편집 완료") {
             e.target.innerText = "태그 편집"
+            setDetail(true)
         } else {
             e.target.innerText = "편집 완료"
+            setDetail(false)
         }
 
         setDto({
@@ -219,6 +251,8 @@ function FeedInsertForm(props) {
         })
     }
 
+    var i = 1
+
     const edittag = (e) => {
 
         let img = e.target
@@ -226,30 +260,18 @@ function FeedInsertForm(props) {
 
         if (tagstate === '편집 완료') {
 
-            /*if (img.getAttribute("usemap") == null) {
-                img.setAttribute("usemap", "#imgtag")
-                let map_tag = document.createElement("map")
-                map_tag.setAttribute("name", "imgtag")
-                img.appendChild(map_tag)
-            }
-
-            let link = document.createElement("area")
-            link.setAttribute("shape", "circle")
-            link.setAttribute("target", "_self")
-            link.setAttribute("href", "http://www.naver.com")
-            link.setAttribute("coords", `${e.offsetX},${e.offsetY},10`)
-            img.firstElementChild.appendChild(link)*/
-
             let btndiv = document.createElement("div")
             btndiv.insertAdjacentHTML("afterbegin",
                 "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\">" +
                 "<circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"rgba(53,197,240,.8)\"></circle>" +
                 "<path stroke=\"#FFF\" stroke-linecap=\"square\" stroke-width=\"2\" d=\"M16 24V8m-8 8h16\"></path></svg>")
-            btndiv.setAttribute("class", "circle")
-            btndiv.addEventListener("click", popoveropen)
+            btndiv.setAttribute("class", `circle circleidx_${i++}`)
+            btndiv.setAttribute("id", "0")
+            btndiv.addEventListener("click", popoveropen2)
             btndiv.style.left = e.offsetX + 'px'
             btndiv.style.top = e.offsetY + 'px';
             img.parentNode.append(btndiv)
+            popoveropen(btndiv)
         }
     }
 
@@ -416,7 +438,8 @@ function FeedInsertForm(props) {
                     />
             }
             <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
-            <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose}/>
+            <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose} sp_num={sp_num} tagpdnum={tagpdnum}
+                            detail={detail}/>
         </div>
 
     );
