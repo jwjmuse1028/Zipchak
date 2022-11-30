@@ -37,7 +37,7 @@ function MyPageLikeList(props) {
     useEffect(()=>getlikeist(),[ur_num]);
     return (
         <div>
-            <div className={'mypage_title'}  onClick={clicktoggle}>관심 집들이 리스트 ({cnt}) {
+            <div className={'mypage_title'}  onClick={clicktoggle}>관심 집들이 ({cnt}) {
                 togglestatus?<ArrowDropUp/>:<ArrowDropDown/>} </div>
             <ul className={'mypage_ul_card'} >
                 {likelist.map((item,i)=>

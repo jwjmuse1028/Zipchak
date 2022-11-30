@@ -1,7 +1,6 @@
 package data.mapper;
 
-import data.dto.ReviewDto;
-import data.dto.UserDto;
+import data.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,4 +26,6 @@ public interface MyPageMapper {
     public List<Integer> tempking();
     public List<Integer> bookmarkking();
     public List<Integer> likeking();
+    public List<FeedListDto> getSearchFeeds(String search_word);
+    public List<ShopProductDto> getSearchShops(String search_word);
 }

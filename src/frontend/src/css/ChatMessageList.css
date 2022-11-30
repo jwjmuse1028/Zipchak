@@ -182,7 +182,7 @@ div.u_msg_box{
     content: "";
     position: absolute;
     bottom: 20px;
-    left: -25px;
+    left: -24px;
     margin-top: -10px;
     border: 10px solid transparent;
     border-right: 15px solid lightgray;

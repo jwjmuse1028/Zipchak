@@ -37,7 +37,7 @@ function MyPageSellList(props) {
     useEffect(()=>getselllist(),[user]);
     return (
         <div>
-            <div className={'mypage_title'}  onClick={clicktoggle}>판매리스트 ({cnt}) {
+            <div className={'mypage_title'}  onClick={clicktoggle}>판매상품 ({cnt}) {
                 togglestatus?<ArrowDropUp/>:<ArrowDropDown/>} </div>
             <ul className={'mypage_ul_card'} >
             {selllist.map((item,i)=>

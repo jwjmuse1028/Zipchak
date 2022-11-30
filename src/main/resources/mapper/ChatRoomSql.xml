@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ChatRoomMapper">
     <select id="getChatRoomByUr" parameterType="int" resultType="crdto">
-        SELECT cr.cr_num, ur.ur_num, cr.buyer_num,sp.sp_title, ur.ur_id, cm.msg, sender, cm.cm_wdate, cm.is_read, ur_prf.prf_nick buyer_nick, ur_prf.prf_img buyer_img, ur_prf_seller.prf_nick seller_nick, ur_prf_seller.prf_img seller_img
+        SELECT cr.cr_num, ur.ur_num, cr.buyer_num,sp.sp_title, cr.cr_status,
+               ur.ur_id, cm.msg, sender, cm.cm_wdate, cm.is_read, ur_prf.prf_nick buyer_nick, ur_prf.prf_img buyer_img, ur_prf_seller.prf_nick seller_nick, ur_prf_seller.prf_img seller_img
         FROM cr
                  join sp on sp.sp_num=cr.sp_num
                  join pd on sp.pd_num=pd.pd_num
@@ -13,10 +14,10 @@
             where cm1.cm_wdate = cm2.max_date ) as cm on cr.cr_num=cm.cr_num
                  join ur_prf on ur_prf.ur_num=cr.buyer_num
                  join ur_prf as ur_prf_seller on ur_prf_seller.ur_num=sp.ur_num
-        where ur.ur_num=#{ur_num} or cr.buyer_num=#{ur_num} order by cm_wdate desc
+        where cr_status=1 and (ur.ur_num=#{ur_num} or cr.buyer_num=#{ur_num}) order by cm_wdate desc
     </select>
     <insert id="insertRoom" parameterType="crdto">
-        insert into cr values (null, #{sp_num}, #{buyer_num}, now())
+        insert into cr values (null, #{sp_num}, #{buyer_num}, now(), true)
         <selectKey keyProperty="cr_num" resultType="int" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -39,5 +40,14 @@
         select buyer_num, ur_num from cr
             join sp on sp.sp_num=cr.sp_num
         where cr_num=#{cr_num}
+    </select>
+    <update id="crstatusFalse" parameterType="int">
+        update cr set cr_status = false where cr_num=#{cr_num};
+    </update>
+    <update id="crstatusTrue" parameterType="int">
+        update cr set cr_status = true where cr_num=#{cr_num};
+    </update>
+    <select id="getSptitle" parameterType="int" resultType="String">
+        select sp_title from sp where sp_num=#{sp_num}
     </select>
 </mapper>
