@@ -10,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import {makeStyles} from "@material-ui/core/styles";
 import {blue} from "@material-ui/core/colors";
 import UserTemp from "../user/UserTemp";
+import swal from "sweetalert";
 const useStyles = makeStyles({
     avatar: {
         backgroundColor: blue[100],
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
 function ChatMessageInfo(props) {
     const {cr_num,screenStatef,uInfo,u_numfinal}=props;
     const [spInfo,setSpinfo]=useState({});
+    const [exitsignal,setExitsignal]=useState(0);
     const navi=useNavigate();
     const classes = useStyles();
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
@@ -34,6 +36,14 @@ function ChatMessageInfo(props) {
     }
     const spinfoClick=()=>{
         navi(`/shop/detail/${spInfo.pd_num}/${spInfo.sp_num}/1`);
+    }
+
+    const changeCrstatus=()=>{
+        let crstatusfalseUrl=localStorage.url+"/crstatusfalse?cr_num="+cr_num;
+        axios.get(crstatusfalseUrl).then(res=>{
+            swal('채팅방을 나갔습니다',{ icon: "success",});
+            navi("/chat/0");
+        })
     }
     useEffect(()=>{
         getSpInfo();
@@ -57,6 +67,7 @@ function ChatMessageInfo(props) {
                 <div className={'spinfo_title'}>{spInfo.sp_title}
                     <span>{spInfo.pd_status==='soldout'?" (판매완료)":""}</span></div>
             </div>
+            <div className={'cr_exit'} onClick={changeCrstatus}>나가기</div>
         </div>
     );
 }

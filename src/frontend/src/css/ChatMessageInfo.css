@@ -40,6 +40,15 @@ div.spinfo_title{
     /*overflow: hidden;*/
     /*white-space: nowrap;*/
 }
+.cr_exit{
+    float:right;
+    width:70px;
+    height:50px;
+    line-height:50px;
+    cursor: pointer;
+    color: #35c5f0;
+    font-weight: bold;
+}
 div.spinfo_img{
     position:relative;
     left: -40px;

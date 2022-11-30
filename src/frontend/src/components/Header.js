@@ -133,6 +133,14 @@ function Header(props) {
             })
         }
     }
+    const seachclick=()=>{
+        navi(`/search?word=${searchword}`);
+    }
+    const seachkeydown=(e)=>{
+        if(e.key==="Enter"){
+            seachclick();
+        }
+    }
     useEffect(()=>getMsgCntNoti(),[])
     return (
         <header className={"header"}>
@@ -147,8 +155,10 @@ function Header(props) {
                 <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
             </li>
             <div className={'search_bar'}>
-                <input type={'text'} className={'form-control'} value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
-                <NavLink to={`/search?word=${searchword}`}><button className={'btn_search_bar'} ><SearchIcon/></button></NavLink>
+                <input type={'text'} className={'form-control'}
+                       placeholder={'통합 검색'} onKeyDown={seachkeydown}
+                       value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
+                &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
             </div>
             {
                 sessionStorage.loginok==null?

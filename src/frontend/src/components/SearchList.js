@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { useLocation, useSearchParams} from 'react-router-dom';
-import {ArrowDropDown, ArrowDropUp} from "@material-ui/icons";
+import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import axios from "axios";
+import '../css/Search.css';
+import SearchListSp from "./SearchListSp";
+import SearchListFd from "./SearchListFd";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -10,43 +12,72 @@ function SearchList(props) {
     let query=useQuery();
     const [fdlist,setFdlist]=useState([]);
     const [splist,setSplist]=useState([]);
-    const fdURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/';
-    const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
+    const [more,setMore]=useState(1);
+    const [spviewlimit,setSpiewlimit]=useState(true);
+    const [fdviewlimit,setFdiewlimit]=useState(true);
     const word=query.get("word");
     const searchtotal=()=>{
         let searchurl=localStorage.url+"/getsearchtotal?word="+word;
         axios.get(searchurl).then(res=>{
-            setFdlist(res.data.fdlist);
             setSplist(res.data.splist);
+            setFdlist(res.data.fdlist);
         })
+    }
+    const clickmore=(num)=>{
+        if(num===1){
+            setMore(1);
+            setSpiewlimit(true);
+            setFdiewlimit(true);
+        }
+        else if(num===2){
+            setMore(2);
+            setSpiewlimit(false);
+        }
+        else if(num==3){
+            setMore(3);
+            setFdiewlimit(false);
+        }
     }
     useEffect(()=>searchtotal(),[word]);
     return (
-        <div>
-            <div className={'mypage_title'} >상품 리스트  </div>
-            <ul className={'mypage_ul_card'} >
-                {splist.map((item,i)=>
-                    i<3 &&
-                    <div key={i} className={'mypage_li_card'}>
-                        <img alt={''} src={spURL+item.img_first}
-                             className={'mypage_sp_img_card'} />
-                        <div className={'mypage_fd_title_card'}>{item.sp_title}</div>
-                    </div>
-                )
+        <div className={'search_box'}>
+            <div className={'mypage_menu'}>
+                <div className={'mypage_menu_each'}
+                     style={{textDecoration: (more === 1 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>clickmore(1)}>&nbsp;전체 목록&nbsp;</div>|
+                <div className={'mypage_menu_each'}
+                     style={{textDecoration: (more === 2 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>{clickmore(2);
+                     }}>&nbsp;상품리스트&nbsp;</div>|
+                <div className={'mypage_menu_each'}
+                     style={{textDecoration: (more === 3 ) ?'underline wavy #35c5f0 3px':"none"}}
+                     onClick={()=>clickmore(3)}>&nbsp;집들이 리스트&nbsp;</div>|
+            </div><br/>
+            <div className={more===1 || more===2?"list_show":"list_hide"}>
+            <ul className={'search_ul_card'} >
+                <div className={'search_title'} >상품 리스트
+                    <span className={more===2?'list_hide':''+' search_more'}
+                          onClick={()=>clickmore(2)}>더보기</span> </div>
+                {spviewlimit?
+                    splist.map((item,i)=>
+                    i<4 &&  <SearchListSp item={item} key={i}/>)
+                    :
+                    splist.map((item,i)=>  <SearchListSp item={item} key={i}/>)
                 }
             </ul>
-            <div className={'mypage_title'} >집들이 리스트</div>
-            <ul className={'mypage_ul_card'} >
-                {fdlist.map((item,i)=>
-                    i<3 &&
-                    <div key={i} className={'mypage_li_card'}>
-                        <img alt={''} src={fdURL+item.fd_num+"/"+item.fd_img}
-                           className={'mypage_sp_img_card'} />
-                        <div className={'mypage_fd_title_card'}>{item.fd_title}</div>
-                    </div>
-                )
+            </div>
+            <div className={more===1 || more===3?"list_show":"list_hide"}>
+            <ul className={'search_ul_card'} >
+                <div className={'search_title'} >집들이 리스트
+                    <span className={more===3?'list_hide':''+' search_more'}
+                          onClick={()=>clickmore(3)}>더보기</span></div>
+                {fdviewlimit?
+                    fdlist.map((item,i)=>i<4 &&  <SearchListFd item={item} key={i}/>)
+                :
+                    fdlist.map((item,i)=> <SearchListFd item={item} key={i}/>)
                 }
             </ul>
+            </div>
         </div>
     );
 }
