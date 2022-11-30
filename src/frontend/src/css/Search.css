@@ -15,17 +15,19 @@
     justify-content: center;
 }
 div.search_prf_img_box{
-    width: 25px;
-    height: 27px;
-    overflow: hidden;
-    border-radius: 100px;
+    line-height: 25px;
+    /*width: 25px;*/
+    /*height: 25px;*/
+    /*overflow: hidden;*/
+    /*border-radius: 100px;*/
     /*border: 1px solid #35c5f0;*/
-    background-color: #ededed;
     /*box-shadow: rgba(53, 197, 240, 0.5) 0 0 0 3px;*/
 }
 img.search_prf_img{
+    background-color: #ededed;
     width: 25px;
     height: 25px;
+    border-radius: 100px;
 }
 div.search_prf_nick{
     height: 25px;

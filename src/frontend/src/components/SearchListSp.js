@@ -13,8 +13,14 @@ function SearchListSp(props) {
             <div className={'search_li_card'}>
                 <img alt={''} src={spURL+item.img_first}
                      className={'search_sp_img_card'}   onClick={()=>spinfoClick(item)}/>
-
                 <div className={'search_sp_title_card'}>{item.sp_title}</div>
+                <div className={'search_pd_status_card'}>
+                    <span style={{color:item.pd_status==='onsale'?"black":"gray",
+                        textDecoration:item.pd_status==='onsale'?"none":"line-through"
+                    }}> {item.pd_price}원 </span> &nbsp; &nbsp;
+                    {
+                    item.pd_status==='onsale'?'판매중':'판매완료'
+                }</div>
                 <div className={'search_prf_box'}>
                     <div className={'search_prf_img_box'}>
                         <img className={'search_prf_img'}

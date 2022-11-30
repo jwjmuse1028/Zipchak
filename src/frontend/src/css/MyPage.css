@@ -145,6 +145,7 @@ div.updateinfo_title{
     text-align: center;
     justify-content: center;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .mypage_menu_each:hover{
@@ -260,6 +261,10 @@ img.mypage_sp_img{
 }
 div.mypage_sp_title{
     height: 50px;
+    line-height: 50px;
+}
+div.mypage_sp_title_for_rv{
+    height: 50px;
 }
 .mypage_pd_status{
     width: 100px;
@@ -296,6 +301,7 @@ div.mypage_sp_title{
     color: white;
 }
 /*반응형*/
+/*폭클경우*/
 @media screen and (min-width: 768px) {
     div.mypage_container{
         grid-template-columns: 25% 75%;
@@ -328,6 +334,8 @@ div.mypage_sp_title{
         width: 100%;
     }
 }
+
+/*폭작을경우*/
 @media screen and (max-width: 768px) {
     div.mypage_container{
         grid-template-rows: auto 1fr;
@@ -361,5 +369,8 @@ div.mypage_sp_title{
     }
     .mypage_btn_shape{
         word-break: keep-all;
+    }
+    .mypage_prf_with_stamp{
+        margin-left: 35px;
     }
 }

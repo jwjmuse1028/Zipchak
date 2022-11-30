@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 function SearchListFd(props) {
     const {item}=props;
@@ -22,7 +23,10 @@ function SearchListFd(props) {
                     </div>
                     <div className={'search_prf_nick'}>{item.prf_nick}</div>
                 </div>
-
+                <div style={{textAlign:"center",fontSize:'15px',color:'gray'}}>
+                    <span style={{marginRight:'5px'}}>좋아요 {item.fd_likes}</span>·
+                    <span >조회 {item.fd_rdcnt}</span>
+                </div>
             </div>
     );
 }
