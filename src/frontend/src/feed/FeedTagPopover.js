@@ -3,9 +3,10 @@ import {Popover} from "@mui/material";
 import axios from "axios";
 import {makeStyles} from "@material-ui/core/styles";
 import '../css/FeedTag.css'
+import {MdOutlineDeleteOutline} from "react-icons/md";
 
 function FeedTagPopover(props) {
-    const {anchorEl, popoverclose, tagpdnum, sp_num, detail} = props;
+    const {anchorEl, popoverclose, tagpdnum, sp_num, detail, fd_ur_num} = props;
     const ur_num = sessionStorage.ur_num;
     const [selllist, setSelllist] = useState([]);
     const spURL = 'https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
@@ -24,7 +25,7 @@ function FeedTagPopover(props) {
     const id = open ? 'simple-popover' : undefined;
 
     const getselllist = () => {
-        let getselllisturl = localStorage.url + "/getselllist?ur_num=" + ur_num;
+        let getselllisturl = localStorage.url + "/getselllist?ur_num=" + (fd_ur_num == null ? ur_num : fd_ur_num);
         axios.get(getselllisturl).then(res => {
             setSelllist(res.data);
         })
@@ -58,37 +59,42 @@ function FeedTagPopover(props) {
                     <div style={{marginTop: '15px'}}>
                         <ul className={'tag_ul'}>
                             {selllist && selllist.map((item, i) =>
-                                <div key={i}>
-                                    <li className={'tag_li'}>
-                                        <div style={{display: "flex"}}>
-                                            <img alt={''} src={spURL + item.img_name}
-                                                 className={'tag_sp_img'}/>
-                                            <div className={'tag_sp_title'}>{item.sp_title}</div>
-                                            <button className={'tag_btn'} id={item.sp_num} onClick={saveItem}>선택</button>
+                                <li className={'tag_li'} key={i}>
+                                    <div style={{display: "flex"}}>
+                                        <img alt={''} src={spURL + item.img_name}
+                                             className={'tag_sp_img'}/>
+                                        <div className={'tag_sp_title'}>
+                                            {item.sp_title}
                                         </div>
-                                    </li>
-                                </div>
+                                        <div className={'tag_btn_div'}>
+                                            <button className={'tag_btn'} id={item.sp_num} onClick={saveItem}>선택
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
                             )}
                         </ul>
                     </div>
                     :
-                    <div>
-                        {selllist && selllist.map((item, i) =>
-                            item.sp_num==sp_num &&
-                            <div key={i}>
-                                <li className={'tag_li'}>
+                    <div className={"tag_detail"} style={{margin:"5px"}}>
+                            {selllist && selllist.map((item, i) =>
+                                item.sp_num == sp_num &&
+                                <div key={i}>
                                     <div style={{display: "flex"}}>
                                         <img alt={''} src={spURL + item.img_name}
                                              className={'tag_sp_img'}/>
-                                        <div className={'tag_sp_title'}>{item.sp_title}</div>
-                                        {!detail?
-                                            <button className={'tag_btn'} id={"0"} onClick={saveItem}>삭제</button>
+                                        <div className={'tag_sp_title'}>
+                                            <span>{item.sp_title}</span>
+                                        </div>
+                                        {!detail ?
+                                            <div className={'tag_btn_div'}>
+                                                <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"} style={{margin:"auto"}}/>
+                                            </div>
                                             :''
                                         }
                                     </div>
-                                </li>
-                            </div>
-                        )}
+                                </div>
+                            )}
                     </div>
             }
         </Popover>

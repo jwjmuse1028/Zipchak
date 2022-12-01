@@ -216,6 +216,7 @@ function FeedUpdateForm(props) {
                 const divtag = document.createElement("div")
                 divtag.innerHTML = imgtag.item(i).outerHTML
                 divtag.setAttribute("style", "position:relative")
+                divtag.setAttribute("class","img_tag")
                 divtag.insertAdjacentHTML("beforeend",
                     "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
                 divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)

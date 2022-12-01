@@ -7,7 +7,7 @@ import FeedDetailCmt from "./FeedDetailCmt";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Menu, MenuItem} from "@mui/material";
-import {BuildOutlined, DeleteOutline, MoreVert} from "@material-ui/icons";
+import {DeleteOutline, MoreVert} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FeedTagPopover from "./FeedTagPopover";
@@ -17,6 +17,7 @@ function FeedDetailView(props) {
     const navi = useNavigate();
     const [fdata, setFdata] = useState('');
     const [ur_num, setUr_num] = useState(sessionStorage.ur_num);
+    const [fd_ur,setFd_ur]=useState('')
 
     const imgUrl = "https://s3.ap-northeast-2.amazonaws.com/bitcampteam2";
 
@@ -34,6 +35,7 @@ function FeedDetailView(props) {
         axios.get(detailUrl)
             .then(res => {
                 setFdata(res.data);
+                setFd_ur(res.data.dto.ur_num)
                 console.log("then_chk_like:" + res.data.chk_like);
             })
     }
@@ -96,6 +98,7 @@ function FeedDetailView(props) {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorEl2, setAnchorEl2] = React.useState(null);
+
     const detail = true
 
     const popoveropen = (e) => {
@@ -213,7 +216,11 @@ function FeedDetailView(props) {
                 </div>
             } {/* fdata&& 끝 */}
 
-            <FeedTagPopover anchorEl={anchorEl2} popoverclose={popoverclose} sp_num={sp_num} detail={detail}/>
+            {
+                fd_ur &&
+                <FeedTagPopover anchorEl={anchorEl2} popoverclose={popoverclose} sp_num={sp_num} detail={detail}
+                                fd_ur_num={fd_ur}/>
+            }
 
             {/* cmt 부분 */}
             <FeedDetailCmt fd_num={fd_num}/>
