@@ -109,10 +109,10 @@ function Header(props) {
     }
 
     const actions = [
-        { icon: <AccountBox onClick={()=>{navi("/mypage/1")}}/>, name: '마이페이지' },
-        { icon: <ForumRounded onClick={()=>{navi("/chat/0");}}/>, name: '집톡' },
-        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list/1")}}/>, name: '스토어' },
-        { icon: <HomeRounded onClick={()=>{navi("/feed/list");}}/>, name: '집들이' },
+        { icon: <AccountBox onClick={()=>{navi("/mypage/1");setShowlist(0)}}/>, name: '마이페이지' },
+        { icon: <ForumRounded onClick={()=>{navi("/chat/0");setShowlist(0)}}/>, name: '집톡' },
+        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list/1");setShowlist(2)}}/>, name: '스토어' },
+        { icon: <HomeRounded onClick={()=>{navi("/feed/list");setShowlist(1)}}/>, name: '집들이' },
     ];
     const [anchorEl2, setAnchorEl2] = React.useState(null);
 
@@ -135,6 +135,7 @@ function Header(props) {
     }
     const seachclick=()=>{
         navi(`/search?word=${searchword}`);
+        setShowlist(0);
     }
     const seachkeydown=(e)=>{
         if(e.key==="Enter"){
@@ -145,6 +146,7 @@ function Header(props) {
     return (
         <header className={"header"}>
         <ul className='menu'>
+
             <div className='menu_left'>
                 <li>
                     <img src={mainlogo} style={{width:'80px', cursor:"pointer"}} onClick={()=>{navi("/"); setShowlist(0)}}/>
@@ -161,6 +163,7 @@ function Header(props) {
                            value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
                     &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
                 </div>
+
             </div>
             <div className='menu_right'>
             {
@@ -185,7 +188,7 @@ function Header(props) {
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {/*<Button variant={"contained"} style={{backgroundColor:'#35c5f0'}}>글쓰기<KeyboardArrowDown/></Button>*/}
-                        <Fab style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={handleClick2}>
+                        <Fab className={'insertformbtn'} style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={handleClick2}>
                             글쓰기<KeyboardArrowDown/>
                         </Fab>
                     </div>
@@ -200,7 +203,9 @@ function Header(props) {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{<img src={mainlogo} style={{width:'200px'}}/>}</DialogTitle>
+                {/*<DialogTitle>*/}
+                    {<img src={mainlogo} style={{width:'240px'}}/>}
+                {/*</DialogTitle>*/}
                 <DialogContent>
                     {/*<DialogContentText>*/}
                         <TextField label={'ID'} name={'ur_id'} value={ur_id} required onKeyPress={handleOnKeyPress} onChange={(e)=>setUr_id(e.target.value)}/><br/><br/>
@@ -226,12 +231,12 @@ function Header(props) {
                 <MenuItem onClick={(e)=>{
                     handleClose();
                     navi("/profile/"+ur_num);
-                    setShowlist(5);
+                    setShowlist(0);
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();
                     navi("/mypage/1");
-                    setShowlist(6);
+                    setShowlist(0);
                 }}>마이페이지</MenuItem>
                 <MenuItem onClick={(e)=>{
                     handleClose();
@@ -240,7 +245,7 @@ function Header(props) {
                     sessionStorage.removeItem("prf_nick");
                     sessionStorage.removeItem("prf_img");
                     sessionStorage.removeItem("ur_num");
-                    setShowlist(7);
+                    setShowlist(0);
                     navi("/");
                 }}>로그아웃</MenuItem>
             </Menu>
