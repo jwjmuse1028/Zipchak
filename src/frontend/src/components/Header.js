@@ -145,31 +145,33 @@ function Header(props) {
     return (
         <header className={"header"}>
         <ul className='menu'>
-            <li>
-                <img src={mainlogo} style={{width:'80px', cursor:"pointer"}} onClick={()=>{navi("/"); setShowlist(0)}}/>
-            </li>
-            <li>
-                <NavLink style={{color:(showlist===1)?'#35c5f0':''}} onClick={()=>setShowlist(1)} to={"/feed/list"}>집들이</NavLink>
-            </li>
-            <li>
-                <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
-            </li>
-            <div className={'search_bar'}>
-                <input type={'text'} className={'form-control'}
-                       placeholder={'통합 검색'} onKeyDown={seachkeydown}
-                       value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
-                &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
+            <div className='menu_left'>
+                <li>
+                    <img src={mainlogo} style={{width:'80px', cursor:"pointer"}} onClick={()=>{navi("/"); setShowlist(0)}}/>
+                </li>
+                <li>
+                    <NavLink style={{color:(showlist===1)?'#35c5f0':''}} onClick={()=>setShowlist(1)} to={"/feed/list"}>집들이</NavLink>
+                </li>
+                <li>
+                    <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
+                </li>
+                <div className={'search_bar'}>
+                    <input type={'text'} className={'form-control'}
+                           placeholder={'통합 검색'} onKeyDown={seachkeydown}
+                           value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
+                    &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
+                </div>
             </div>
+            <div className='menu_right'>
             {
                 sessionStorage.loginok==null?
-                    <div>
-                        {/*<li>*/}
-                        {/*    <NavLink to={'/register'} style={{color:(showlist===3)?'#35c5f0':''}} onClick={()=>setShowlist(3)}>회원가입</NavLink>*/}
-                        {/*</li>*/}
-                        <Fab variant="extended" style={{float:"right", margin:'2%', backgroundColor:'#35c5f0', color:"white"}}
-                                onClick={handleClickOpen}>
-                            <AccountCircle/>&nbsp;로그인
-                        </Fab>
+                    <div style={{height:'100px',paddingTop:'20px'}}>
+                    <Fab variant="extended"
+                         style={{float:"right", margin:'2%',
+                             backgroundColor:'#35c5f0', color:"white"}}
+                            onClick={handleClickOpen}>
+                        <AccountCircle/>&nbsp;로그인
+                    </Fab>
                     </div>
                     :
                     <div className={'loginavt'}>
@@ -187,7 +189,9 @@ function Header(props) {
                             글쓰기<KeyboardArrowDown/>
                         </Fab>
                     </div>
-            }
+                }
+            </div>
+        </ul>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -279,7 +283,7 @@ function Header(props) {
                     />
                 ))}
             </SpeedDial>
-        </ul>
+
         </header>
     );
 }
