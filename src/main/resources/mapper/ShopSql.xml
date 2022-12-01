@@ -19,7 +19,7 @@
         ORDER BY sp_num DESC limit #{startnum}, #{perpage}
     </select>
     <select id="getData" parameterType="int" resultType="ShopProductDto">-- 상세보기
-        SELECT ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt
+        SELECT ur.ur_num,ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt
         FROM ur,ur_prf,pd,sp
         WHERE ur.ur_num=ur_prf.ur_num AND sp.ur_num=ur.ur_num AND sp.pd_num=pd.pd_num AND sp.sp_num=#{sp_num}
     </select>

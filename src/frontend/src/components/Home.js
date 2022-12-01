@@ -10,6 +10,7 @@ import christmas from "../image/christmas.png";
 import friends from "../image/friends.png";
 import room from "../image/room.png";
 import chat from "../image/chat.png";
+import {Avatar} from "@mui/material";
 
 function Home(props) {
     localStorage.url=process.env.REACT_APP_BACK_URL;
@@ -21,7 +22,8 @@ function Home(props) {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay:1000,
-        arrows: false
+        arrows: false,
+        pauseOnHover:false
     };
 
     return (
@@ -30,12 +32,12 @@ function Home(props) {
             <ReviewNotification/>
             <Slider {...settings}>
                 <div>
-                    <section className={'home_box'}>
+                    <section className={'hmbx home_box'}>
                         <div className={'maintxt'}>
                             <h1><strong>예쁜 방에서 나혼자 산다! 🧡</strong></h1>
-                            <h1>🏅 12월 인기 집들이 BEST 🏅</h1><br/>
-                            <span>10평 방 꾸미기🌙미드센츄리st를 꿈꾸며</span><br/>
-                            <span>매일 퇴근이 기다려지는나의 2평 작은 방</span>
+                            <h1>나만의 공간, 나만의 색으로🎨</h1><br/>
+                            <span>혼자 보기 아까운</span><br/>
+                            <span>인스타감성의</span>
                         </div>
                         <div>
                             <img src={room} style={{width:'600px'}}/>
@@ -43,7 +45,7 @@ function Home(props) {
                     </section>
                 </div>
                 <div>
-                    <section className={'home_box2'}>
+                    <section className={'hmbx home_box2'}>
                         <div className={'maintxt'}>
                             <h1><strong>진아가문제야😒</strong></h1>
                             <h1>문제야 문제 온 세상속에</h1><br/>
@@ -56,10 +58,10 @@ function Home(props) {
                     </section>
                 </div>
                 <div>
-                    <section className={'home_box3'}>
+                    <section className={'hmbx home_box3'}>
                         <div className={'maintxt'}>
                             <h1><strong>이제 곧 크리스마스🎄</strong></h1>
-                            <h1>🎅산타도 놀랄만한 나의 인테리어</h1><br/>
+                            <h1>🎅산타도 놀랄 나만의 인테리어</h1><br/>
                             <span>사실 산타는 없어요</span><br/>
                         </div>
                         <div>
@@ -68,11 +70,11 @@ function Home(props) {
                     </section>
                 </div>
                 <div>
-                    <section className={'home_box4'}>
+                    <section className={'hmbx home_box4'}>
                         <div className={'maintxt'}>
-                            <h1><strong>나만의 공간, 나만의 색으로🎨</strong></h1>
-                            <h1>유저들의 인테리어 시공 리뷰</h1><br/>
-                            <span>없었을 때로 돌아갈 수 없는내돈내산 살림템 5</span><br/>
+                            <h1><strong>🌈집톡으로 바로바로</strong></h1>
+                            <h1>ㅇㅇㅇㅇ</h1><br/>
+                            <span>욕금지</span><br/>
                         </div>
                         <div>
                             <img src={chat} style={{width:'50%'}}/>
@@ -80,7 +82,7 @@ function Home(props) {
                     </section>
                 </div>
                 <div>
-                    <section className={'home_box5'}>
+                    <section className={'hmbx home_box5'}>
                         <div className={'maintxt'}>
                             <h1><strong>착한 사람들만 있어요😊</strong></h1>
                             <h1>믿으세요</h1><br/>
@@ -92,6 +94,21 @@ function Home(props) {
                     </section>
                 </div>
             </Slider>
+            <br/><br/><br/>
+            <div>
+                <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
+            </div>
+                <br/><br/><br/>
+            <div>
+                <h4><strong>👑 이달의 왕 TOP 👑</strong></h4>
+                <div style={{display:'flex'}}>
+                    <Avatar/><b>판매왕</b><span>램지</span>
+                    <Avatar/><b>구매왕</b><span>지나</span>
+                    <Avatar/><b>온도왕</b><span>유선</span>
+                    <Avatar/><b>관심왕</b><span>재웅</span>
+                    <Avatar/><b>좋아왕</b><span>고양이</span>
+                </div>
+            </div>
             <div>
                 <img src={mainad3}/>
                 {/*<p className="animation">집이 최고야</p>*/}

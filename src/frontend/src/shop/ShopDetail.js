@@ -177,8 +177,9 @@ function ShopDetail(props) {
                     <p className={'soldouttxtdetail'}>판매완료</p>:''
             }
             <br/>
-            <span className={'detailavt'} onClick={()=>navi(`/profile/${ur_num}`)}>
-                <Avatar src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${detail.prf_img}`}/>
+            <span className={'detailavt'}>
+                <Avatar src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${detail.prf_img}`} style={{cursor:"pointer"}}
+                        onClick={()=>navi(`/profile/${detail.ur_num}`)}/>
                 <b>{detail.prf_nick}&nbsp;({detail.ur_id})</b>
             </span>
                 <div style={{ position:"relative",left:'85%',top:'-40px'}}>

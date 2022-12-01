@@ -14,7 +14,6 @@ span.detailavt{
     gap: 10px;
     align-items: center;
     justify-content: left;
-    cursor: pointer;
 }
 .detailbutton {
     display: flex;

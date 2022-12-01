@@ -67,7 +67,7 @@ ul.menu div.search_bar{
 
 div.loginavt{
     display: flex;
-    width: 50%;
+    /*width: 50%;*/
     line-height: 100px;
     /*gap: 10px;*/
     align-items: center;
@@ -75,9 +75,19 @@ div.loginavt{
     justify-content: right;
     font-size: 1.1em;
 }
+.insertformbtn:hover{
+    background-color: red;
+}
 .ziptalk:hover {
     transform: scale(1.1);
     color: #35c5f0;
+}
+.totalsearch:focus {
+    /*color: #212529;*/
+    /*background-color: #fff;*/
+    border-color: #35C5F0;
+    /*outline: 0;*/
+    box-shadow: none;
 }
 /*#top{*/
 /*    font-weight: bold;*/
