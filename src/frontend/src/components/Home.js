@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
@@ -11,12 +11,16 @@ import friends from "../image/friends.png";
 import room from "../image/room.png";
 import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
+import axios from "axios";
 
 function Home(props) {
+
+    const [rcfeedlist, setRcfeedlist] = useState([]);
+
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
     const settings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -25,6 +29,24 @@ function Home(props) {
         arrows: false,
         pauseOnHover:false
     };
+    const settings_j = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        initialSlide: 1
+    };
+    const rdcntFeed = ()=>{
+        const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
+        axios.get(rdcntUrl)
+            .then(res => {
+                setRcfeedlist(res.data);
+                console.log(res.data);
+            })
+    }
 
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
@@ -97,6 +119,26 @@ function Home(props) {
             <br/><br/><br/>
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
+                <Slider {...settings_j}>
+                    <div>
+                        <h3>1</h3>
+                    </div>
+                    <div>
+                        <h3>2</h3>
+                    </div>
+                    <div>
+                        <h3>3</h3>
+                    </div>
+                    <div>
+                        <h3>4</h3>
+                    </div>
+                    <div>
+                        <h3>5</h3>
+                    </div>
+                    <div>
+                        <h3>6</h3>
+                    </div>
+                </Slider>
             </div>
                 <br/><br/><br/>
             <div>
