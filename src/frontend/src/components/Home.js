@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
@@ -11,8 +11,12 @@ import friends from "../image/friends.png";
 import room from "../image/room.png";
 import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
+import axios from "axios";
 
 function Home(props) {
+
+    const [rcfeedlist, setRcfeedlist] = useState([]);
+
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
     const settings = {
@@ -35,6 +39,14 @@ function Home(props) {
         slidesToScroll: 1,
         initialSlide: 1
     };
+    const rdcntFeed = ()=>{
+        const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
+        axios.get(rdcntUrl)
+            .then(res => {
+                setRcfeedlist(res.data);
+                console.log(res.data);
+            })
+    }
 
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>

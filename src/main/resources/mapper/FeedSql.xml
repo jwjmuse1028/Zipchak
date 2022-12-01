@@ -33,7 +33,6 @@
         <if test="(order_col != null and !(order_col.equals(''))) ">
         order by ${order_col} desc
         </if>
-
     </select>
     <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
         select * from fd where fd_num=#{fd_num}
