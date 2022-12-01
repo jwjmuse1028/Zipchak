@@ -137,7 +137,7 @@ function FeedDetailView(props) {
                                     className="content-detail-header__category">인테리어 구경하기</p></div>
                                 <h1 className="content-detail-header__title">{fdata.dto.fd_title}</h1>
                                 <div className="content-detail-header__bottom">
-                                    <a className="content-detail-header__author" href={`/profile/${fdata.dto.ur_num}`}>
+                                    <a className="content-detail-header__author" onClick={()=>navi(`/profile/${fdata.dto.ur_num}`)}>
                                         <div className="content-detail-header__author-image">
                                             <img className="image" alt=""
                                                  src={`${imgUrl}/prf_img/${fdata.prf_map.prf_img}`}/>
