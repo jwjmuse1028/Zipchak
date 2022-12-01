@@ -159,7 +159,10 @@ function ShopList() {
         });
     };
 
-    const addshop=()=>{
+    const addshop=(e)=>{
+        const uploadFile = new FormData();
+        uploadFile.append("uploadfile",e.target.files[0])
+
         let url = sessionStorage.url+"/crawling/insertshop"
         axios({
             method:'post',
@@ -177,7 +180,7 @@ function ShopList() {
     
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
-          <button className={"btn btn-danger"} onClick={addshop}>업데이트</button>
+            <input type={"file"} className={"btn btn-danger"} onChange={addshop}/>
             <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
                 <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
                     maxWidth:'250px',height:'50px'}}
