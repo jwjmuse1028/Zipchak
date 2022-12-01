@@ -34,6 +34,19 @@
         order by ${order_col} desc
         </if>
     </select>
+
+    <!--  조회수 상위 10 출력  -->
+    <select id="getBestFeeds" resultType="FeedListDto">
+        SELECT a.fd_num, a.fd_title, a.ur_num, c.prf_nick, c.prf_img, a.fd_txt,a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, count(b.ur_num) as fd_likes
+        from fd a
+        left outer join fd_like b
+        on a.fd_num=b.fd_num
+        left outer join ur_prf c
+        on a.ur_num=c.ur_num
+        group by a.fd_num
+        order by fd_rdcnt desc limit 0,10
+    </select>
+
     <select id="getFeedByNum" parameterType="int" resultType="FeedDto">
         select * from fd where fd_num=#{fd_num}
     </select>

@@ -138,12 +138,9 @@ h2 span {
 
     display: block;
 
-    width: 20px;
-    height: 20px;
+    width: 30px !important;
+    height: 30px !important;
     padding: 0;
-    -webkit-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    transform: translate(0, -50%);
 
     cursor: pointer;
 
@@ -178,11 +175,11 @@ h2 span {
 .slick-next:before
 {
     font-family: 'slick';
-    font-size: 20px;
+    font-size: 30px !important;
     line-height: 1;
 
     opacity: .75;
-    color: black !important;
+    color: rgba(86, 79, 75, 0.4) !important;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -190,11 +187,11 @@ h2 span {
 
 .slick-prev
 {
-    left: -25px;
+    left: -35px !important;
 }
 [dir='rtl'] .slick-prev
 {
-    right: -25px;
+    right: -35px !important;
     left: auto;
 }
 .slick-prev:before
@@ -208,12 +205,12 @@ h2 span {
 
 .slick-next
 {
-    right: -25px;
+    right: -35px !important;
 }
 [dir='rtl'] .slick-next
 {
     right: auto;
-    left: -25px;
+    left: -35px !important;
 }
 .slick-next:before
 {

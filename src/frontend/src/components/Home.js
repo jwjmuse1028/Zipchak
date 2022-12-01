@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
 import "../css/Home.css";
+import "../css/FeedList.css";
 import mainad from "../image/mainad.webp";
 import mainad2 from "../image/mainad2.webp";
 import mainad3 from "../image/mainad3.jpg";
@@ -12,15 +13,16 @@ import room from "../image/room.png";
 import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Home(props) {
-
-    const [rcfeedlist, setRcfeedlist] = useState([]);
+    const navi = useNavigate();
+    const [bestfdlist, setBestfdlist] = useState([]);
 
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
     const settings = {
-        dots: false,
+        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -36,15 +38,27 @@ function Home(props) {
         infinite: true,
         speed: 200,
         slidesToShow: 4,
-        slidesToScroll: 1,
-        initialSlide: 1
+        slidesToScroll: 2,
+        initialSlide: 0
     };
-    const rdcntFeed = ()=>{
-        const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
-        axios.get(rdcntUrl)
+    const bestFeed = ()=>{
+        const bestfdUrl = localStorage.url + "/feed/bestfd";
+        axios.get(bestfdUrl)
             .then(res => {
-                setRcfeedlist(res.data);
+                setBestfdlist(res.data);
                 console.log(res.data);
+            })
+    }
+    useEffect(() => {
+        bestFeed();
+    }, []);
+
+    const updaterdcnt=(fd_num)=>{
+
+        const rdcntUrl=localStorage.url+"/feed/uprdcnt?fd_num="+fd_num;
+
+        axios.get(rdcntUrl)
+            .then(res=>{
             })
     }
 
@@ -119,25 +133,43 @@ function Home(props) {
             <br/><br/><br/>
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
+                <br/>
                 <Slider {...settings_j}>
-                    <div>
-                        <h3>1</h3>
-                    </div>
-                    <div>
-                        <h3>2</h3>
-                    </div>
-                    <div>
-                        <h3>3</h3>
-                    </div>
-                    <div>
-                        <h3>4</h3>
-                    </div>
-                    <div>
-                        <h3>5</h3>
-                    </div>
-                    <div>
-                        <h3>6</h3>
-                    </div>
+                    {
+                        bestfdlist &&
+                        bestfdlist.map((data,idx)=>
+                            <div>
+                                <article className="project-feed__item" style={{width:'90%', margin:"auto"}}>
+                                    <a className="project-feed__item__link"
+                                       onClick={()=>{
+                                           updaterdcnt(data.fd_num);
+                                           navi(`/feed/detail/${data.fd_num}`);
+                                       }}></a>
+                                    <div className="project-feed__item__image">
+                                        <img className="image" alt=""
+                                             src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${data.fd_num}/${data.fd_img}`}/>
+                                    </div>
+                                    <div className="project-feed__item__title" style={{fontSize:"15px", height:'50px', lineHeight:'150%'}}>
+                                        {data.fd_title}
+                                    </div>
+                                    <div className="project-feed__item__writer-wrap">
+                                        <a className="project-feed__item__writer"
+                                           onClick={()=>navi(`/profile/${data.ur_num}`)}>
+                                            <img className="project-feed__item__writer__image" alt="" style={{display: 'inline-block'}}
+                                                 src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${data.prf_img}`}/>
+                                            <span className="project-feed__item__writer__name">{data.prf_nick}</span>
+                                        </a>
+                                    </div>
+
+                                    {/* 스크랩 수, 조회 수 */}
+                                    {/*<footer className="project-feed__item__status">*/}
+                                    {/*    <span className="entry" style={{marginRight: '10px'}}>좋아요 {data.fd_likes}</span>*/}
+                                    {/*    <span className="entry">조회 {data.fd_rdcnt}</span>*/}
+                                    {/*</footer>*/}
+                                </article>
+                            </div>
+                        )
+                    }
                 </Slider>
             </div>
                 <br/><br/><br/>

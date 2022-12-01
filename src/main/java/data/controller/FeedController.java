@@ -74,6 +74,10 @@ public class FeedController {
 
        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
+    @GetMapping("/feed/bestfd")
+    public List<FeedListDto> getBestFeeds(){
+        return feedServiceInter.getBestFeeds();
+    }
 
     @GetMapping("/feed/like")
     public void insertFeedLike(int fd_num,int ur_num){
