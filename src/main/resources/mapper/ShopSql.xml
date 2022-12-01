@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ShopMapper">
-    <select id="getTotalCount" resultType="int">-- 총글개수
-        SELECT count(*) FROM sp
+    <select id="getTotalCount" parameterType="String" resultType="int">-- 총글개수
+    SELECT count(*) FROM sp,pd WHERE sp.pd_num=pd.pd_num
+        <if test="pd_ctg!='all'">
+            and pd_ctg=#{pd_ctg}
+        </if>
     </select>
     <insert id="insertShop" parameterType="ShopDto">-- 판매글추가
         INSERT INTO sp (ur_num,pd_num,sp_title,sp_txt,sp_wdate,sp_rdcnt)
@@ -16,7 +19,10 @@
         <if test="search_col!=null and search_word!=null">
             and ${search_col} like concat('%',#{search_word},'%')
         </if>
-        ORDER BY sp_num DESC limit #{startnum}, #{perpage}
+        <if test="pd_ctg!='all'">
+            and pd_ctg=#{pd_ctg}
+        </if>
+         ORDER BY sp_num DESC limit #{startnum}, #{perpage}
     </select>
     <select id="getData" parameterType="int" resultType="ShopProductDto">-- 상세보기
         SELECT ur.ur_num,ur_id,prf_nick,prf_img,pd.pd_num,prf_tmp,pd_price,pd_ctg,pd_status,sp_title,sp_txt,sp_wdate,sp_rdcnt

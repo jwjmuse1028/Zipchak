@@ -79,7 +79,9 @@ public class ShopController {
                                              @RequestParam(required = false) String search_word,
 //                                             @RequestParam(required = false) int sp_num,
 //                                             int sp_num,
-                                             @RequestParam(value = "ur_num",required = false) String s_ur_num)
+                                             @RequestParam(value = "ur_num",required = false) String s_ur_num,
+                                             @RequestParam(value = "pd_ctg",required = false) String pd_ctg
+                                             )
     {
         int totalCount;
         int perPage=12;
@@ -97,7 +99,7 @@ public class ShopController {
             ur_num=0;
         }
 
-        totalCount=shopMapper.getTotalCount();
+        totalCount=shopMapper.getTotalCount(pd_ctg);
         totalPage=totalCount/perPage+(totalCount%perPage==0?0:1);
 
         startPage=(currentPage-1)/perBlock*perBlock+1;
@@ -114,7 +116,8 @@ public class ShopController {
         map.put("perpage", perPage);
         map.put("search_col",search_col);
         map.put("search_word",search_word);
-
+        //if (pd_ctg==null){pd_ctg="all";}
+        map.put("pd_ctg",pd_ctg);
         List<ShopProductDto> list=shopMapper.getPagingList(map);
         
         for(ShopProductDto sppddto:list)

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.ProductMapper">
     <insert id="insertProduct" parameterType="ProductDto">-- 상품추가
-    INSERT INTO pd (pd_name,pd_price,pd_ctg,pd_status)
-    VALUES (#{pd_name},#{pd_price},#{pd_ctg},'onsale')
+    INSERT INTO pd (pd_price,pd_ctg,pd_status)
+    VALUES (#{pd_price},#{pd_ctg},'onsale')
         <selectKey keyProperty="pd_num" resultType="int" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>

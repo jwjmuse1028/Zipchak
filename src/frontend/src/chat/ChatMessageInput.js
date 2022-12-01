@@ -15,10 +15,12 @@ function ChatMessageInput(props) {
     const client = useRef({});
     let ur_num=sessionStorage.ur_num;
     const url=localStorage.url;
+    const wsurl=url.substring(4,url.length);
+    //console.log(wsurl);
 
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'ws://localhost:9005/ws',
+            brokerURL: 'ws'+wsurl+'/ws',
             onConnect: () => {
                 console.log('connected');
                 subscribe();

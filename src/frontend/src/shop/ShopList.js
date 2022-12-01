@@ -55,6 +55,8 @@ function ShopList() {
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
     const [viewPaging,setViewPaging]=useState(true);
+    const [category, setCategory] = useState('all')
+    const [categorychange,setCategorychange]=useState(false);
     //채팅 수
     const [chatCnt,setChatCnt]=useState(0);
 
@@ -74,19 +76,23 @@ function ShopList() {
     // const [bookmark, setBookmark]=useState('unlike');
 
     const getList=()=>{
+        let newcurrentPage=1
+        if (categorychange==false){newcurrentPage=currentPage;}
         let ur_num=sessionStorage.ur_num;
-        let url = sessionStorage.url+"/shop/list?currentPage="+currentPage+"&ur_num="+ur_num;
+        let url = sessionStorage.url+"/shop/list?currentPage="+newcurrentPage+"&ur_num="+ur_num+"&pd_ctg="+category;
         axios.get(url)
             .then(res=>{
                 setData(res.data);
                 setViewPaging(true);
                 setSearch_word('');
+                setCategorychange(false);
+                window.history.pushState("", null, '/shop/list/'+newcurrentPage);
             })
     }
     const searchbutton=()=>{
 
         let ur_num=sessionStorage.ur_num;
-        let url = sessionStorage.url+"/shop/list?search_col="+search_col+"&search_word="+search_word+"&ur_num="+ur_num;
+        let url = sessionStorage.url+"/shop/list?search_col="+search_col+"&search_word="+search_word+"&ur_num="+ur_num+"&pd_ctg="+category;
         axios.get(url)
             .then(res=>{
                 // alert("성공");
@@ -102,8 +108,7 @@ function ShopList() {
 
     useEffect(() => {
             getList();
-        },[currentPage,data.userlike]);
-
+        },[currentPage,data.userlike,category]);
 
     // useEffect(() => {
     //     getList();
@@ -153,16 +158,42 @@ function ShopList() {
             open: false,
         });
     };
+    const setOptionSelect=(e)=>{
+        setCategorychange(true);
+        setCategory(e.target.value);
+    }
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
-            <div>
-                <div style={{justifyContent:"center"}} className={'input-group'}>
-                    <Select style={{width:'7%', textAlign:"center"}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>
+            <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
+                <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
+                    maxWidth:'250px',height:'50px'}}
+                        onChange={setOptionSelect} value={category}>
+                    <option value={'all'} >카테고리</option>
+                    <option value={'가구'}>가구</option>
+                    <option value={'데코'}>데코</option>
+                    <option value={'식물'}>식물</option>
+                    <option value={'패브릭'}>패브릭</option>
+                    <option value={'가전·디지털'}>가전·디지털</option>
+                    <option value={'주방용품'}>주방용품</option>
+                    <option value={'조명'}>조명</option>
+                    <option value={'수납·정리'}>수납·정리</option>
+                    <option value={'생활용품'}>생활용품</option>
+                    <option value={'생필품'}>생필품</option>
+                    <option value={'유아·아동'}>유아·아동</option>
+                    <option value={'반려동물'}>반려동물</option>
+                    <option value={'실내운동'}>실내운동</option>
+                    <option value={'캠핑용품'}>캠핑용품</option>
+                    <option value={'공구·DIY'}>공구·DIY</option>
+                    <option value={'기타'}>기타</option>
+                </select>
+                <div style={{height:'56px',display:'flex', width:'50%',justifyContent:"flex-end"}}>
+                    <Select style={{width:'20%', textAlign:"center", height:'100%'}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>
                         <MenuItem value={'sp_title'}>제목</MenuItem>
                         <MenuItem value={'sp_txt'}>내용</MenuItem>
                     </Select>
-                    <TextField placeholder={'검색어'} inputProps={{style:{borderColor:'#35c5f0'}}} style={{width:'30%'}} value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
-                    <Button variant="contained" style={{width:'7%', backgroundColor:'#35c5f0'}} onClick={searchbutton}><SearchRounded/></Button>
+                    <TextField placeholder={'검색어'} inputProps={{style:{borderColor:'#35c5f0'}}} style={{width:'50%'}}
+                               value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
+                    <Button variant="contained" style={{width:'7%', height:'100%', backgroundColor:'#35c5f0'}} onClick={searchbutton}><SearchRounded/></Button>
                 </div>
             </div>
                 <br/>
