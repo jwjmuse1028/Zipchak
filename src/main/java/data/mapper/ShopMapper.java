@@ -10,7 +10,7 @@ import java.util.Map;
 @Mapper
 public interface ShopMapper {
 
-    public int getTotalCount();
+    public int getTotalCount(String pd_ctg);
     public void insertShop(ShopDto dto);
     public List<ShopProductDto> getPagingList(Map<String, Object> map);
     public ShopProductDto getData(int sp_num);
