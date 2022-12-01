@@ -25,6 +25,16 @@ function Home(props) {
         arrows: false,
         pauseOnHover:false
     };
+    const settings_j = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        initialSlide: 1
+    };
 
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
@@ -97,6 +107,26 @@ function Home(props) {
             <br/><br/><br/>
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
+                <Slider {...settings_j}>
+                    <div>
+                        <h3>1</h3>
+                    </div>
+                    <div>
+                        <h3>2</h3>
+                    </div>
+                    <div>
+                        <h3>3</h3>
+                    </div>
+                    <div>
+                        <h3>4</h3>
+                    </div>
+                    <div>
+                        <h3>5</h3>
+                    </div>
+                    <div>
+                        <h3>6</h3>
+                    </div>
+                </Slider>
             </div>
                 <br/><br/><br/>
             <div>

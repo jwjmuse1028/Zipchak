@@ -152,7 +152,10 @@ function FeedList(props) {
                         <div className="col-12 col-md-4">
                             <article className="project-feed__item">
                                 <a className="project-feed__item__link"
-                                   href={`/feed/detail/${fdto.fd_num}`} onClick={()=>{updaterdcnt(fdto.fd_num)}}></a>
+                                   onClick={()=>{
+                                       updaterdcnt(fdto.fd_num);
+                                       navi(`/feed/detail/${fdto.fd_num}`);
+                                   }}></a>
                                 <div className="project-feed__item__image">
                                     <img className="image" alt=""
                                          src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${fdto.fd_num}/${fdto.fd_img}`}/>
@@ -160,7 +163,7 @@ function FeedList(props) {
                                 <h1 className="project-feed__item__title">{fdto.fd_title}</h1>
                                 <address className="project-feed__item__writer-wrap">
                                     <a className="project-feed__item__writer"
-                                       href={`/profile/${fdto.ur_num}`}>
+                                       onClick={()=>navi(`/profile/${fdto.ur_num}`)}>
                                         <img className="project-feed__item__writer__image" alt=""
                                              src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdto.prf_img}`}/>
                                         <span className="project-feed__item__writer__name">{fdto.prf_nick}</span>
