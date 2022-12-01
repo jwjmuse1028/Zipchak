@@ -1,8 +1,8 @@
 .tag_ul{
-    margin-left: 10px;
     width: 100%;
 }
 .tag_li{
+    margin: auto;
     list-style: none;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -16,8 +16,8 @@
 }
 
 img.tag_sp_img{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border: 1px solid #35C5F0;
     border-radius: 10px;
     margin-right: 10px;
@@ -25,12 +25,20 @@ img.tag_sp_img{
 }
 div.tag_sp_title{
     width: 200px;
-    height: 50px;
-}
-.tag_btn{
-    padding: 6px 15px;
-    line-height: 20px;
+    height: 60px;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.tag_btn_div{
+    display: flex;
+    vertical-align: middle;
+}
+
+.tag_btn{
+    margin: auto;
+    font-size: 12px;
     font-weight: 700;
     text-align: center;
     color: #fff;
@@ -38,8 +46,20 @@ div.tag_sp_title{
     border-radius: 4px;
     transition: background-color .1s;
     border: white;
-    width: 70px;
+    width: 50px;
+    height: 30px;
 }
 .tag_btn:hover {
     box-shadow: 0 10px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.tag_detail .tag_sp_title{
+    width: 150px;
+    height: 80px;
+    line-height: 80px;
+}
+
+.tag_detail .tag_sp_img{
+    width: 80px;
+    height: 80px;
 }
