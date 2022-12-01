@@ -6,12 +6,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CrawlingImageUpload{
@@ -27,7 +30,7 @@ public class CrawlingImageUpload{
 
         Workbook workbook = new XSSFWorkbook(inputStream);
 
-        Sheet sheet = workbook.getSheet("fd");
+        Sheet sheet = workbook.getSheet("sp");
 
         int rowCount = 0;
 
@@ -43,114 +46,105 @@ public class CrawlingImageUpload{
 
         WebDriver driver = new ChromeDriver();
 
-        String url="https://ohou.se/projects?writer=self";
+        String url="https://store.ohou.se/today_deals";
         driver.get(url);
 
-        try{Thread.sleep(2000);} catch (InterruptedException e ){}
+        WebElement item = driver.findElement(By.className("css-mga9c9"));
 
-        int num=1;
+        try{
+            Thread.sleep(2000);
 
-        while (num<21){
-            List<WebElement> el1 = driver.findElements(By.className("col-md-4"));
+            int num=1;
 
-            el1.get(num).click();
+            while (num<101){
 
-            List<String> excelData = new ArrayList<>();
+                List<WebElement> el1 = driver.findElements(By.className("css-9af4ho"));
 
-            try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
+                el1.get(num).click();
 
-            WebElement el2 = driver.findElement(By.className("content-detail"));
+                List<String> excelData = new ArrayList<>();
 
-            WebElement header = el2.findElement(By.className("content-detail-header"));
-            WebElement body = el2.findElement(By.className("project-detail__content-bpd"));
+                try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
 
-            String fd_title = header.findElement(By.className("content-detail-header__title")).getText();
+                WebElement el2 = driver.findElement(By.className("production-selling-overview"));
 
-            List<WebElement> option = el2.findElements(By.className("project-detail-metadata-overview-item"));
+                String pd_ctg = el2.findElement(By.className("commerce-category-breadcrumb__entry")).findElement(By.tagName("a")).getText();
 
-            String fd_txt = "";
-            String fd_img = el2.findElement(By.tagName("img")).getAttribute("src");
-            String fd_lvtp = option.get(0).getText();
-            String fd_spc = option.get(1).getText().substring(0,option.get(1).getText().length()-1);
-            String fd_style = option.get(2).getText();
-            String fd_fml = option.get(3).getText();
-            String fd_rdcnt = "0";
-            String fd_wdate = "";
-            String fd_udate = "";
+                String sp_title = el2.findElement(By.className("production-selling-header__title__name")).getText();
 
-            List<WebElement> img = body.findElements(By.className("project-detail-image-block__image"));
+                String pd_price = el2.findElement(By.className("production-selling-header__price__price"))
+                        .findElement(By.className("number")).getText().replace(",","");
 
-            List<WebElement> txt = body.findElements(By.tagName("p"));
+                String pd_status = "onsale";
 
-            for(WebElement et:txt)
-                fd_txt+=et.getText();
+                List<WebElement> img = el2.findElements(By.className("production-selling-cover-image__list__item"));
 
-            InputStream is;
-            FileOutputStream fos;
+                InputStream is;
+                FileOutputStream fos;
 
-            //이미지 s3 저장
-            /*for(WebElement wimg:img){
-                int qidx = wimg.getAttribute("src").indexOf('?');
-                String img_info = wimg.getAttribute("src").substring(0,qidx);
+                String img_name = "";
 
-                File iFolder = new File("D:/image/"+num);
-                if(!iFolder.exists()) {
-                    iFolder.mkdirs();
+                //이미지 s3 저장
+                for(WebElement wimg:img){
+                    int qidx = wimg.findElement(By.className("image")).getAttribute("src").indexOf('?');
+                    String img_info = wimg.findElement(By.className("image")).getAttribute("src").substring(0,qidx);
+
+                    File iFolder = new File("D:/image/"+num);
+                    if(!iFolder.exists()) {
+                        iFolder.mkdirs();
+                    }
+
+                    URL iUrl=new URL(img_info);
+                    is=iUrl.openStream();
+                    int sidx = img_info.lastIndexOf('/');
+                    img_info = img_info.substring(sidx);
+
+                    img_name+=img_info+",";
+
+                    fos=new FileOutputStream("D:/image/"+num+"/"+img_info);
+                    int b;
+                    while((b=is.read())!=-1)
+                        fos.write(b);
+
+                    fos.close();
                 }
 
-                URL iUrl=new URL(img_info);
-                is=iUrl.openStream();
-                int sidx = img_info.lastIndexOf('/');
-                img_info = img_info.substring(sidx);
+                img_name = img_name.substring(0,img_name.length()-1);
 
-                fos=new FileOutputStream("D:/image/"+num+"/"+img_info);
-                int b;
-                while((b=is.read())!=-1)
-                    fos.write(b);
+                Row newRow = sheet.createRow(rowCount+1);
+                Row row = sheet.getRow(0);
 
-                fos.close();
-            }*/
+                excelData.add(sp_title);
+                excelData.add(pd_price);
+                excelData.add(pd_ctg);
+                excelData.add(pd_status);
+                excelData.add(img_name);
 
-            /*for(int j=0;j<txt.size();j++){
-                fd_txt+=txt.get(j).getAttribute("src")+",";
-            }
-*/
-            Row newRow = sheet.createRow(rowCount+1);
-            Row row = sheet.getRow(0);
+                for(int j=0;j<5;j++){
+                    Cell cell=newRow.createCell(j);
+                    cell.setCellValue(excelData.get(j));
+                }
 
-            excelData.add(Integer.toString(num));
-            excelData.add(Integer.toString((int)Math.ceil(Math.random()*5)));
-            excelData.add(fd_title);
-            excelData.add(fd_txt);
-            excelData.add(fd_img);
-            excelData.add(fd_spc);
-            excelData.add(fd_wdate);
-            excelData.add(fd_udate);
-            excelData.add(fd_rdcnt);
-            excelData.add(fd_lvtp);
-            excelData.add(fd_fml);
-            excelData.add(fd_style);
+                rowCount++;
+                num++;
 
-            for(int j=0;j<row.getLastCellNum();j++){
-                Cell cell=newRow.createCell(j);
-                cell.setCellValue(excelData.get(j));
+                driver.navigate().back();
+
+                if(num%8==0){
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 1000)",item);
+                }
+
+                try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
             }
 
-            rowCount++;
-            num++;
+            inputStream.close();
 
-            driver.navigate().back();
+            FileOutputStream outputStream=new FileOutputStream(file);
 
-            try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
-        }
+            workbook.write(outputStream);
 
-        inputStream.close();
+            outputStream.close();
 
-        FileOutputStream outputStream=new FileOutputStream(file);
-
-        workbook.write(outputStream);
-
-        outputStream.close();
-
+        } catch (InterruptedException e ){}
     }
 }

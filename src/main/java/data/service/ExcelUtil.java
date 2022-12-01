@@ -35,7 +35,7 @@ public class ExcelUtil {
             XSSFSheet sheet = workbook.getSheetAt(0);
 
             int rowIndex = 1;
-            int columnIndex = 12;
+            int columnIndex = 5;
 
             // 첫번째 행(0)은 컬럼 명이기 때문에 두번째 행(1) 부터 검색
             for (int i=rowIndex; i < sheet.getLastRowNum() + 1; i++) {

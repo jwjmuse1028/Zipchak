@@ -158,12 +158,26 @@ function ShopList() {
             open: false,
         });
     };
+
+    const addshop=()=>{
+        let url = sessionStorage.url+"/crawling/insertshop"
+        axios({
+            method:'post',
+            url:url,
+            data:uploadFile,
+            headers:{'Content-Type':'multipart/form-data'}
+        })
+            .then()
+    }
+
     const setOptionSelect=(e)=>{
         setCategorychange(true);
         setCategory(e.target.value);
     }
+    
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
+          <button className={"btn btn-danger"} onClick={addshop}>업데이트</button>
             <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
                 <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
                     maxWidth:'250px',height:'50px'}}
