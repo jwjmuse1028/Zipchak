@@ -100,7 +100,7 @@ function ShopInsertForm(props) {
                         <tr>
                             <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td style={{width:'80%'}}>
-                                <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} inputProps={{ maxLength: 20 }} variant={"standard"} style={{width:'100%'}}
+                                <TextField type={"text"} autoFocus required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} inputProps={{ maxLength: 20 }} variant={"standard"} style={{width:'100%'}}
                                            onChange={(e)=>setSp_title(e.target.value)}/>
                             </td>
                         </tr>

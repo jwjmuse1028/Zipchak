@@ -39,7 +39,6 @@ a:hover{
     box-shadow: none;
 }
 .fsel{
-    width: 100px;
     margin-right: 10px;
     font-size: 14px;
     transition: border-color .2s,box-shadow .2s,background-color .2s;
@@ -60,10 +59,25 @@ a:hover{
     outline: 0;
     box-shadow: none;
 }
-.fsel>option{
-    border-radius: 100px;
+.fbtn{
+    width: 8%;
+    max-width: 100px;
+    margin-right: 10px;
+    font-size: 13px;
+    transition: border-color .2s,box-shadow .2s,background-color .2s;
+    display: block;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 0 15px;
+    line-height: 25px;
+    border-radius: 100px !important;
+    border: 1px solid #ffffff;
+    background-color: #35C5F0;
+    color: #fff;
 }
-
+.fbtn:hover{
+    background-color: rgba(53, 197, 240, 0.8);
+}
 .virtualized-list row {
     display: flex;
     flex-wrap: wrap;
