@@ -168,9 +168,11 @@ function Header(props) {
             <div className='menu_right'>
             {
                 sessionStorage.loginok==null?
-                    <div style={{height:'100px',paddingTop:'20px'}}>
-                    <Fab variant="extended"
-                         style={{float:"right", margin:'2%',
+                    <div style={{float:"right", margin:'2%',height:'100px',paddingTop:'20px'}}>
+                        <NavLink style={{color:(showlist===3)?'#35c5f0':''}} onClick={()=>setShowlist(3)} to={"/register"}>회원가입</NavLink>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <Fab variant="extended"
+                         style={{
                              backgroundColor:'#35c5f0', color:"white"}}
                             onClick={handleClickOpen}>
                         <AccountCircle/>&nbsp;로그인
@@ -187,10 +189,10 @@ function Header(props) {
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {/*<Button variant={"contained"} style={{backgroundColor:'#35c5f0'}}>글쓰기<KeyboardArrowDown/></Button>*/}
-                        <Fab className={'insertformbtn'} style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={handleClick2}>
-                            글쓰기<KeyboardArrowDown/>
-                        </Fab>
+                        <Button variant={"contained"} style={{backgroundColor:'#35c5f0', height:'40px'}} onClick={handleClick2}>글쓰기<KeyboardArrowDown/></Button>
+                        {/*<Fab className={'insertformbtn'} style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={handleClick2}>*/}
+                        {/*    글쓰기<KeyboardArrowDown/>*/}
+                        {/*</Fab>*/}
                     </div>
                 }
             </div>

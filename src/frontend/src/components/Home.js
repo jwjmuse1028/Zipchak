@@ -20,7 +20,7 @@ function Home(props) {
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
     const settings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
