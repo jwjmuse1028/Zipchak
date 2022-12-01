@@ -142,7 +142,6 @@ public class ShopController {
                 sppddto.setUserlike(likeMapper.getUserLike(likeMap));
 
             sppddto.setTotallikes(likeMapper.getTotalLikes(sppddto.getSp_num()));
-//            sppddto.setTotallikes(likeMapper.getTotalLikes(sp_num));
 
         }
 
