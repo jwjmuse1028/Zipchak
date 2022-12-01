@@ -20,8 +20,13 @@ public class CrawlingImageController {
     ExcelService excelService;
 
     @PostMapping("/insert")
-    public void insertFeed(MultipartFile file) throws IOException, InvalidFormatException {
+    public void insertFeed(MultipartFile file) throws  InvalidFormatException {
         excelService.insertFeed(file);
 
+    }
+
+    @PostMapping("/insertshop")
+    public void insertShop(MultipartFile file) throws InvalidFormatException {
+        excelService.insertShop(file);
     }
 }

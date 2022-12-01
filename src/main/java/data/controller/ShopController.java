@@ -48,7 +48,6 @@ public class ShopController {
     @PostMapping("/insert")
     public Map<String,Integer> insertShop(@RequestBody Map<String,Object> map) {
         ProductDto pddto=new ProductDto();
-        pddto.setPd_name((String)map.get("pd_name"));
         pddto.setPd_ctg((String)map.get("pd_ctg"));
         pddto.setPd_price(Integer.parseInt((String)map.get("pd_price")));
         productMapper.insertProduct(pddto);

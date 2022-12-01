@@ -140,8 +140,21 @@ function ShopList() {
             open: false,
         });
     };
+
+    const addshop=()=>{
+        let url = sessionStorage.url+"/crawling/insertshop"
+        axios({
+            method:'post',
+            url:url,
+            data:uploadFile,
+            headers:{'Content-Type':'multipart/form-data'}
+        })
+            .then()
+    }
+
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
+            <button className={"btn btn-danger"} onClick={addshop}>업데이트</button>
             <div>
                 <div style={{justifyContent:"center"}} className={'input-group'}>
                     <Select style={{width:'7%', textAlign:"center"}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>

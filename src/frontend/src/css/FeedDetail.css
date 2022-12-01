@@ -248,7 +248,7 @@ content-detail-header__bottom {
 
 @media (min-width: 768px) {
     .project-detail-metadata {
-        margin: 0 0 50px;
+        margin: 0 0 10px;
         padding: 0 24px 1px;
         background-color: #f7f8fa;
         border-radius: 4px;
