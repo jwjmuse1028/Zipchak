@@ -99,7 +99,7 @@ function ShopDetail(props) {
         arrows: true,
         speed: 500,
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
     }
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -159,7 +159,7 @@ function ShopDetail(props) {
 
     useEffect(()=>{
         getChatCnt();
-    },[sp_num])
+    },[sp_num]);
 
     return (
         <div style={{margin:"auto", width:'35%', minWidth:'660px'}}>
@@ -168,12 +168,12 @@ function ShopDetail(props) {
                     detail.images &&
                     detail.images.map((photo,idx)=>
                         <div key={{idx}} className= "banner">
-                            <img alt={''} src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status=="soldout"?'brightness(30%)':''}}/>
+                            <img alt={''} src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`} width={'100%'}  style={{borderRadius:'30px',filter:detail.pd_status==="soldout"?'brightness(30%)':''}}/>
                         </div>)
                 }
             </Slider>
             {
-                detail.pd_status=="soldout"?
+                detail.pd_status==="soldout"?
                     <p className={'soldouttxtdetail'}>판매완료</p>:''
             }
             <br/>
@@ -237,10 +237,10 @@ function ShopDetail(props) {
             <br/><br/>
             {
                 sessionStorage.ur_id === detail.ur_id?
-                    <Fab style={{backgroundColor:detail.pd_status=='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status=="soldout"?true:false}>
+                    <Fab style={{backgroundColor:detail.pd_status==='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} onClick={updateSoldOut} disabled={detail.pd_status==="soldout"?true:false}>
                         <CheckCircle/>&nbsp;판매완료
                     </Fab>:
-                    <Fab style={{backgroundColor:detail.pd_status=='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} disabled={detail.pd_status=="soldout"?true:false}
+                    <Fab style={{backgroundColor:detail.pd_status==='soldout'?'#828C94':'#35c5f0', color:"white"}} variant="extended" className={'detailbutton'} disabled={detail.pd_status==="soldout"?true:false}
                          onClick={()=>{
                         if (sessionStorage.loginok==null){
                             alert("로그인 후 이용해주세요")

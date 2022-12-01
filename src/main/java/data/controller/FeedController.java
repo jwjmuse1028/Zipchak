@@ -37,8 +37,9 @@ public class FeedController {
     }
 
     @PostMapping("/feed/update")
-    public void updateFeed(@RequestPart(required = false) MultipartFile file, @RequestPart FeedDto dto)
+    public void updateFeed(@RequestPart(required = false) MultipartFile file, @RequestPart FeedDto dto, @RequestPart String fd_txt)
     {
+        dto.setFd_txt(fd_txt);
         feedServiceInter.updateFeed(file,dto);
     }
     @GetMapping("/feed/delete")

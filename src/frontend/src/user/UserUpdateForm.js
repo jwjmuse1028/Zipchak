@@ -63,6 +63,7 @@ function UserUpdateForm(props) {
     const pre_nick=sessionStorage.prf_nick;
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
     const ur_num=sessionStorage.ur_num;
+    const prev_prf_img=sessionStorage.prf_img;
     const updateImg=()=>{
         document.getElementById('img_file').click();
     }
@@ -120,8 +121,13 @@ function UserUpdateForm(props) {
             data: formdata,
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res =>{
+            if (res.data.prf_img==null){
+                swal('프로필이 변경되었습니다.',{ icon: "success",});
+                dialogClose(res.data.prf_nick,prev_prf_img,true);
+            }
+            else {
             swal('프로필이 변경되었습니다.',{ icon: "success",});
-            dialogClose(res.data.prf_nick,res.data.prf_img,true);
+                dialogClose(res.data.prf_nick,res.data.prf_img,true);}
         } );
 
     }

@@ -49,7 +49,7 @@ function ProfileGetRvList(props) {
                         <div style={{display:"flex"}}>
                             <img alt={''} src={spURL+rv.img_name} className={'mypage_sp_img'}
                                 />
-                            <div className={'mypage_sp_title'}>
+                            <div className={'mypage_sp_title_for_rv'}>
                                 상품명 : {rv.sp_title}
                                 <br/>
                                 후기 : {rv.rv_txt}

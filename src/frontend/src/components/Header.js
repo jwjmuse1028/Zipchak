@@ -6,6 +6,7 @@ import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import mainlogo from '../image/mainlogo.png';
+import SearchIcon from '@material-ui/icons/Search';
 import {
     Avatar, Badge,
     Button,
@@ -36,7 +37,7 @@ function Header(props) {
     const [prf_img, setPrf_img]=useState('');
     const [openUp, setOpenUp] = useState('');
     const [showlist,setShowlist]=useState('');
-
+    const [searchword,setSearchword]=useState('');
     const handleOpenUp = () => {
         setOpenUp(true);
     };
@@ -132,6 +133,14 @@ function Header(props) {
             })
         }
     }
+    const seachclick=()=>{
+        navi(`/search?word=${searchword}`);
+    }
+    const seachkeydown=(e)=>{
+        if(e.key==="Enter"){
+            seachclick();
+        }
+    }
     useEffect(()=>getMsgCntNoti(),[])
     return (
         <header className={"header"}>
@@ -145,12 +154,18 @@ function Header(props) {
             <li>
                 <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
             </li>
+            <div className={'search_bar'}>
+                <input type={'text'} className={'form-control'}
+                       placeholder={'통합 검색'} onKeyDown={seachkeydown}
+                       value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
+                &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
+            </div>
             {
                 sessionStorage.loginok==null?
                     <div>
-                        <li>
-                            <NavLink to={'/register'} style={{color:(showlist===3)?'#35c5f0':''}} onClick={()=>setShowlist(3)}>회원가입</NavLink>
-                        </li>
+                        {/*<li>*/}
+                        {/*    <NavLink to={'/register'} style={{color:(showlist===3)?'#35c5f0':''}} onClick={()=>setShowlist(3)}>회원가입</NavLink>*/}
+                        {/*</li>*/}
                         <Fab variant="extended" style={{float:"right", margin:'2%', backgroundColor:'#35c5f0', color:"white"}}
                                 onClick={handleClickOpen}>
                             <AccountCircle/>&nbsp;로그인

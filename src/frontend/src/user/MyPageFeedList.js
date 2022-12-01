@@ -37,7 +37,7 @@ function MyPageFeedList(props) {
     useEffect(()=>getfeedist(),[user]);
     return (
         <div>
-            <div className={'mypage_title'}  onClick={clicktoggle}>집들이 리스트 ({cnt}) {
+            <div className={'mypage_title'}  onClick={clicktoggle}>작성한 집들이 글 ({cnt}) {
                 togglestatus?<ArrowDropUp/>:<ArrowDropDown/>} </div>
             <ul className={'mypage_ul_card'} >
                 {feedlist.map((item,i)=>

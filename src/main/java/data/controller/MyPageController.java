@@ -1,6 +1,8 @@
 package data.controller;
 
+import data.dto.FeedListDto;
 import data.dto.ReviewDto;
+import data.dto.ShopProductDto;
 import data.dto.UserDto;
 import data.mapper.MyPageMapper;
 import data.service.S3Service;
@@ -141,4 +143,16 @@ public class MyPageController {
         map.put("likeking",likeking);
         return map;
     }
+
+    @GetMapping("/getsearchtotal")
+    public Map<String,Object> getsearchtotal(String word)
+    {
+        Map<String,Object> map=new HashMap<>();
+        List<FeedListDto> fdlist=mpmapper.getSearchFeeds(word);
+        List<ShopProductDto> splist=mpmapper.getSearchShops(word);
+        map.put("fdlist",fdlist);
+        map.put("splist",splist);
+        return map;
+    }
+
 }

@@ -15,6 +15,7 @@ public class ChatRoomDto {
     private int buyer_num;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Timestamp cr_wdate;
+    private boolean cr_status;
 
     //from sp
     private String sp_title;
