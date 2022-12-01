@@ -1,6 +1,7 @@
 package data.controller;
 
 
+import com.amazonaws.services.dynamodbv2.xspec.NULL;
 import data.dto.FeedCmtDto;
 import data.dto.FeedDto;
 import data.dto.FeedListDto;
@@ -8,6 +9,7 @@ import data.mapper.FeedMapper;
 import data.service.FeedService;
 import data.service.FeedServiceInter;
 import data.service.S3Service;
+import org.apache.ibatis.javassist.expr.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -56,7 +59,20 @@ public class FeedController {
                                          @RequestParam(required = false) String search_word,
                                          @RequestParam(required = false) String order_col)
     {
-        return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
+//        System.out.println("search_col:"+search_col);
+//        System.out.println("search_col의 타입 :" +(search_col instanceof String));
+//        System.out.println("search_col의 이름 :" +(search_col.getClass().getSimpleName()));
+//        System.out.println("search_col의 isEmpty :" +(search_col.isEmpty()));
+//        System.out.println("search_col의 isBlank :" +(search_col.isBlank()));
+//        System.out.println("search_col의 길이 :" +(search_col.length()));
+//
+//        System.out.println("search_col is null? "+ Objects.isNull(search_col));
+//        System.out.println("search_word:"+search_word);
+//        System.out.println("search_word is null? "+ Objects.isNull(search_word));
+//        System.out.println("order_col:"+order_col);
+//        System.out.println("order_col is null? "+ Objects.isNull(order_col));
+
+       return feedServiceInter.getAllFeeds(search_col,search_word,order_col);
     }
 
     @GetMapping("/feed/like")

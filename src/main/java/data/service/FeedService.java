@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service @Primary
 public class FeedService implements FeedServiceInter{
@@ -77,7 +78,15 @@ public class FeedService implements FeedServiceInter{
     @Override
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col) {
 
-        System.out.println("order_col:"+order_col);
+//        System.out.println("search_col:"+search_col);
+//        System.out.println("search_col is blank :" + search_col=="");
+//
+//        System.out.println("search_col is null? "+ Objects.isNull(search_col));
+//        System.out.println("search_word:"+search_word);
+//        System.out.println("search_word is null? "+ Objects.isNull(search_word));
+//        System.out.println("order_col:"+order_col);
+//        System.out.println("order_col is null? "+ Objects.isNull(order_col));
+
         //데이터 가져오기
         Map<String,String> map=new HashMap<>();
         map.put("search_col",search_col);
