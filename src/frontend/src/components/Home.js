@@ -12,11 +12,12 @@ import room from "../image/room.png";
 import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Home(props) {
 
     const [rcfeedlist, setRcfeedlist] = useState([]);
-
+    const navi = useNavigate();
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
     const settings = {
@@ -39,6 +40,16 @@ function Home(props) {
         slidesToScroll: 1,
         initialSlide: 1
     };
+    const settings_ctg = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 10,
+        slidesToScroll: 1,
+        initialSlide: 1
+    };
     const rdcntFeed = ()=>{
         const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
         axios.get(rdcntUrl)
@@ -47,7 +58,8 @@ function Home(props) {
                 console.log(res.data);
             })
     }
-
+    let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
+        "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <ChatNotification/>
@@ -117,6 +129,7 @@ function Home(props) {
                 </div>
             </Slider>
             <br/><br/><br/>
+
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
                 <Slider {...settings_j}>
@@ -151,6 +164,22 @@ function Home(props) {
                     <Avatar/><b>좋아왕</b><span>고양이</span>
                 </div>
             </div>
+            <br/><br/><br/>
+            <div>
+                <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
+                <Slider {...settings_ctg}>
+                    {
+                        categoryArr.map((ctg,i)=>
+                            <figure>
+                                <img style={{width:'100px',height:'100px',cursor:'pointer'}}
+                                     onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
+                                     src={require(`../image/${ctg}.png`)} alt={''}/>
+                                <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
+                            </figure>)
+                    }
+                </Slider>
+            </div>
+            <br/><br/><br/>
             <div>
                 <img src={mainad3}/>
                 {/*<p className="animation">집이 최고야</p>*/}

@@ -111,7 +111,7 @@ function Header(props) {
     const actions = [
         { icon: <AccountBox onClick={()=>{navi("/mypage/1");setShowlist(0)}}/>, name: '마이페이지' },
         { icon: <ForumRounded onClick={()=>{navi("/chat/0");setShowlist(0)}}/>, name: '집톡' },
-        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list/1");setShowlist(2)}}/>, name: '스토어' },
+        { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list?category=all&currentPage=1");setShowlist(2)}}/>, name: '스토어' },
         { icon: <HomeRounded onClick={()=>{navi("/feed/list");setShowlist(1)}}/>, name: '집들이' },
     ];
     const [anchorEl2, setAnchorEl2] = React.useState(null);
@@ -155,7 +155,7 @@ function Header(props) {
                     <NavLink style={{color:(showlist===1)?'#35c5f0':''}} onClick={()=>setShowlist(1)} to={"/feed/list"}>집들이</NavLink>
                 </li>
                 <li>
-                    <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
+                    <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list?category=all&currentPage=1"}>스토어</NavLink>
                 </li>
                 <div className={'search_bar'}>
                     <input type={'text'} className={'form-control'}

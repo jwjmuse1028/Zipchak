@@ -64,7 +64,7 @@ function ShopDetail(props) {
             axios.delete(deleteUrl)
                 .then(res=>{
                     alert("삭제 되었습니다");
-                    navi(`/shop/list/${currentPage}`);
+                    navi(`/shop/list?category=all&currentPage=${currentPage}`);
                 })
         } else {
             return;
