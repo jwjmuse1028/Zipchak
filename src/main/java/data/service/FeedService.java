@@ -97,6 +97,11 @@ public class FeedService implements FeedServiceInter{
     }
 
     @Override
+    public List<FeedListDto> getBestFeeds(){
+        return feedMapper.getBestFeeds();
+    }
+
+    @Override
     public FeedDto getFeedByNum(int fd_num) {
         return feedMapper.getFeedByNum(fd_num);
     }

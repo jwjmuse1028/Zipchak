@@ -270,8 +270,8 @@ function FeedUpdateForm(props) {
     return (
         <div className={"form_container"}>
             <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
-                <h3>피드 게시글 입력 폼</h3>
-                <button type={'submit'}>게시글 저장</button>
+                <h3>피드 게시글 수정 폼</h3>
+                <button type={'submit'}>게시글 수정</button>
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}

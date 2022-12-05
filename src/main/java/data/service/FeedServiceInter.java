@@ -11,6 +11,7 @@ import java.util.Map;
 public interface FeedServiceInter {
     public void insertFeed(MultipartFile file, FeedDto dto);
     public List<FeedListDto> getAllFeeds(String search_col, String search_word, String order_col);
+    public List<FeedListDto> getBestFeeds();
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
     public void updateFeed(MultipartFile file, FeedDto dto);
