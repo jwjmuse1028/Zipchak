@@ -231,7 +231,7 @@ function Header(props) {
                 {/*onClick={()=>{navi("/chat/0"); setShowlist(4)}}*/}
                 <MenuItem onClick={(e)=>{
                     handleClose();
-                    navi("/profile/"+ur_num);
+                    navi("/profile/"+ur_num+"/1");
                     setShowlist(0);
                 }}>프로필</MenuItem>
                 <MenuItem onClick={(e)=>{

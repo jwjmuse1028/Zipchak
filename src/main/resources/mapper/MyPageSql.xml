@@ -88,14 +88,14 @@
     <select id="sellerking" resultType="int">
         select sp.ur_num from sp
         group by ur_num
-        having count(*)=(select max(cnt) from (select ur_num, count(*) cnt from sp where sp_wdate between date_format(now(), '%Y-%m-01') and date_format(now(), '%Y-%m-%d') group by ur_num  ) as mx)
+        having count(*)=(select max(cnt) from (select ur_num, count(*) cnt from sp group by ur_num  ) as mx)
     </select>
     <select id="buyerking" resultType="int">
         select rv.touser from rv
         where fromseller=1
         group by touser
         having count(*)=
-               (select max(cnt) from (select touser, count(*) cnt from rv where fromseller=1 and rv_wdate between date_format(now(), '%Y-%m-01') and date_format(now(), '%Y-%m-%d') group by touser) as mx)
+               (select max(cnt) from (select touser, count(*) cnt from rv where fromseller=1 group by touser) as mx)
     </select>
     <select id="tempking" resultType="int">
         select ur_num from ur_prf as tb1
@@ -172,7 +172,7 @@
             join ur_prf on ur_prf.ur_num=sp.ur_num
         group by ur_num
         having count(*)=
-               (select max(cnt) from (select ur_num, count(*) cnt from sp where sp_wdate between date_format(now(), '%Y-%m-01') and date_format(now(), '%Y-%m-%d') group by ur_num  ) as mx)
+               (select max(cnt) from (select ur_num, count(*) cnt from sp group by ur_num  ) as mx)
     </select>
     <select id="buyerkingWinfo" resultType="UserDto">
         select rv.touser, prf_nick, prf_img, prf_tmp from rv
@@ -180,7 +180,7 @@
         where fromseller=1
         group by touser
         having count(*)=
-               (select max(cnt) from (select touser, count(*) cnt from rv where fromseller=1 and rv_wdate between date_format(now(), '%Y-%m-01') and date_format(now(), '%Y-%m-%d') group by touser) as mx)
+               (select max(cnt) from (select touser, count(*) cnt from rv where fromseller=1  group by touser) as mx)
     </select>
     <select id="tempkingWinfo" resultType="UserDto">
         select ur_num, prf_nick, prf_img, prf_tmp from ur_prf as tb1

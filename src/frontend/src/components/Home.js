@@ -42,6 +42,27 @@ function SamplePrevArrow(props) {
         />
     );
 }
+function KingNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style , right:'12px'}}
+            onClick={onClick}
+        />
+    );
+}
+
+function KingPrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, left:'5px'}}
+            onClick={onClick}
+        />
+    );
+}
 function Home(props) {
     const navi = useNavigate();
     const [bestfdlist, setBestfdlist] = useState([]);
@@ -111,11 +132,12 @@ function Home(props) {
         lazyLoad: true,
         infinite: true,
         speed: 200,
+        autoplay:1000,
         slidesToShow: 1,
         slidesToScroll: 1,
         initialSlide: 0,
-        nextArrow: <SampleNextArrow />,
-        prevArrow: <SamplePrevArrow />,
+        nextArrow: <KingNextArrow />,
+        prevArrow: <KingPrevArrow />,
     };
 
     const bestFeed = ()=>{
