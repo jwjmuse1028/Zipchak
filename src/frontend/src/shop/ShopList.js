@@ -170,7 +170,7 @@ function ShopList() {
     let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
         "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
-        <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
+        <div className={"list_container"}>
             <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
                 <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
                     maxWidth:'250px',height:'50px'}}

@@ -9,15 +9,15 @@ a:hover{
     color: black;
 }
 
-.feed_container {
-    margin-right: auto;
-    margin-left: auto;
-    width: calc(100% - 120px);
-    max-width: 1200px;
-    min-width: 400px;
-    box-sizing: border-box;
-    min-height: 1px;
-}
+/*.feed_container {*/
+/*    margin-right: auto;*/
+/*    margin-left: auto;*/
+/*    width: calc(100% - 120px);*/
+/*    max-width: 1200px;*/
+/*    min-width: 400px;*/
+/*    box-sizing: border-box;*/
+/*    min-height: 1px;*/
+/*}*/
 
 .fsearch{
     transition: border-color .2s,box-shadow .2s,background-color .2s;
@@ -44,9 +44,9 @@ a:hover{
     transition: border-color .2s,box-shadow .2s,background-color .2s;
     display: block;
     box-sizing: border-box;
-    height: 30px;
+    height: 30px !important;
     padding: 0 15px;
-    line-height: 30px;
+    line-height: 30px !important;
     border-radius: 100px !important;
     border: 1px solid #d2d2d2;
     background-color: #fff;

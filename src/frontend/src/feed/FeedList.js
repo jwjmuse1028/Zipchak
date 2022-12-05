@@ -94,7 +94,7 @@ function FeedList(props) {
     }
 
     return (
-        <div className="feed_container">
+        <div className="list_container">
             <div className="input-group" style={{margin:"20px auto"}}>
                 <select className="form-select fsel" name="order_col" style={{width: "10%",margin:"0 20px 0 0",maxWidth:'150px'}}
                         onChange={(e)=>setOrder_col(e.target.value)} value={order_col}>
