@@ -183,9 +183,7 @@ div.updateinfo_title{
     overflow: hidden;
     margin-right: 1%;
 }
-.mypage_li_card:hover{
-    transform: scale(1.05);
-}
+
 .card_show{
     display: block;
 }
@@ -201,6 +199,9 @@ img.mypage_sp_img_card{
     margin-right: 10px;
     cursor: pointer;
     margin-bottom: 5px;
+}
+.mypage_sp_img_card:hover{
+    transform: scale(1.05);
 }
 .mypage_fd_title_card{
     margin-left: 10px;

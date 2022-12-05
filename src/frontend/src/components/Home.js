@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
@@ -13,7 +13,29 @@ import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import KingPrf from "./KingPrf";
 
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style }}
+            onClick={onClick}
+        />
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, left:'-25px'}}
+            onClick={onClick}
+        />
+    );
+}
 function Home(props) {
 
     const [rcfeedlist, setRcfeedlist] = useState([]);
@@ -48,8 +70,23 @@ function Home(props) {
         speed: 200,
         slidesToShow: 10,
         slidesToScroll: 1,
-        initialSlide: 1
+        initialSlide: 0,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />
     };
+    const settings_king = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 10,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+    };
+
     const rdcntFeed = ()=>{
         const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
         axios.get(rdcntUrl)
@@ -60,6 +97,23 @@ function Home(props) {
     }
     let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
         "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
+    const [sellerkingwinfo,setSellerkingwinfo]=useState([]);
+    const [buyerkingwinfo,setBuyerkingwinfo]=useState([]);
+    const [tempkingwinfo,setTempkingwinfo]=useState([]);
+    const [bookmarkkingwinfo,setBookmarkkingwinfo]=useState([]);
+    const [likekingwinfo,setLikekingwinfo]=useState([]);
+    const searchkingwinfo=()=>{
+        let searchkingwinfourl=localStorage.url+"/searchkingwinfo";
+        axios.get(searchkingwinfourl).then(res=>{
+            setSellerkingwinfo(res.data.sellerkingwinfo);
+            setBuyerkingwinfo(res.data.buyerkingwinfo);
+            setTempkingwinfo(res.data.tempkingwinfo);
+            setBookmarkkingwinfo(res.data.bookmarkkingwinfo);
+            setLikekingwinfo(res.data.likekingwinfo);
+            //console.log(res.data);
+        });
+    }
+    useEffect(()=>searchkingwinfo(),[]);
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <ChatNotification/>
@@ -156,12 +210,22 @@ function Home(props) {
                 <br/><br/><br/>
             <div>
                 <h4><strong>👑 이달의 왕 TOP 👑</strong></h4>
-                <div style={{display:'flex'}}>
-                    <Avatar/><b>판매왕</b><span>램지</span>
-                    <Avatar/><b>구매왕</b><span>지나</span>
-                    <Avatar/><b>온도왕</b><span>유선</span>
-                    <Avatar/><b>관심왕</b><span>재웅</span>
-                    <Avatar/><b>좋아왕</b><span>고양이</span>
+                <div >
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={sellerkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={buyerkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={tempkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={likekingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={bookmarkkingwinfo} />
+                    </Slider>
                 </div>
             </div>
             <br/><br/><br/>

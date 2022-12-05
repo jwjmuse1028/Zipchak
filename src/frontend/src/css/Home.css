@@ -138,8 +138,8 @@ h2 span {
 
     display: block;
 
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     padding: 0;
     -webkit-transform: translate(0, -50%);
     -ms-transform: translate(0, -50%);
@@ -147,7 +147,7 @@ h2 span {
 
     cursor: pointer;
 
-    color: black !important;
+    color: black;
     border: none;
     outline: none;
     background: transparent;
@@ -157,7 +157,7 @@ h2 span {
 .slick-next:hover,
 .slick-next:focus
 {
-    color: black !important;
+    color: black;
     outline: none;
     background: transparent;
 }
@@ -178,7 +178,7 @@ h2 span {
 .slick-next:before
 {
     font-family: 'slick';
-    font-size: 20px;
+    font-size: 30px !important;
     line-height: 1;
 
     opacity: .75;

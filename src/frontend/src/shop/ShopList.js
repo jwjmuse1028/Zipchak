@@ -181,7 +181,8 @@ function ShopList() {
         navi("/shop/list?category="+e.target.value+"&currentPage=1");
 
     }
-    
+    let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
+        "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <input type={"file"} className={"btn btn-danger"} onChange={addshop}/>
@@ -190,20 +191,10 @@ function ShopList() {
                     maxWidth:'250px',height:'50px'}}
                         onChange={setOptionSelect} value={category}>
                     <option value={'all'} >카테고리</option>
-                    <option value={'가구'}>가구</option>
-                    <option value={'데코·식물'}>데코·식물</option>
-                    <option value={'패브릭'}>패브릭</option>
-                    <option value={'가전·디지털'}>가전·디지털</option>
-                    <option value={'주방용품'}>주방용품</option>
-                    <option value={'조명'}>조명</option>
-                    <option value={'수납·정리'}>수납·정리</option>
-                    <option value={'생활용품'}>생활용품</option>
-                    <option value={'생필품'}>생필품</option>
-                    <option value={'유아·아동'}>유아·아동</option>
-                    <option value={'반려동물'}>반려동물</option>
-                    <option value={'실내운동'}>실내운동</option>
-                    <option value={'캠핑용품'}>캠핑용품</option>
-                    <option value={'공구·DIY'}>공구·DIY</option>
+                    {
+                        categoryArr.map((ctg,i)=>
+                            <option value={ctg}>{ctg}</option>)
+                    }
                     <option value={'기타'}>기타</option>
                 </select>
                 <div style={{height:'56px',display:'flex', width:'50%',justifyContent:"flex-end"}}>
