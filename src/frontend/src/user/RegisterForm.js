@@ -138,7 +138,7 @@ function RegisterForm(props) {
         axios.post(url, {ur_id, ur_pw, prf_nick, prf_img, info_name, info_sex, info_addr, info_hp, info_email})
             .then(res => {
                 alert(prf_nick+"님, 가입을 환영합니다!");
-                navi("/login");
+                navi("/");
             })
     }
     const onErrorImg = (e) => {

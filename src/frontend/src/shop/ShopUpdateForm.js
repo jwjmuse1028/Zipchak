@@ -127,8 +127,7 @@ function ShopUpdateForm(props) {
                             >
                                 {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택주세요"}>카테고리를 선택해주세요</MenuItem>*/}
                                 <MenuItem value={'가구'}>가구</MenuItem>
-                                <MenuItem value={'데코'}>데코</MenuItem>
-                                <MenuItem value={'식물'}>식물</MenuItem>
+                                <MenuItem value={'데코·식물'}>데코·식물</MenuItem>
                                 <MenuItem value={'패브릭'}>패브릭</MenuItem>
                                 <MenuItem value={'가전·디지털'}>가전·디지털</MenuItem>
                                 <MenuItem value={'주방용품'}>주방용품</MenuItem>
@@ -140,7 +139,7 @@ function ShopUpdateForm(props) {
                                 <MenuItem value={'반려동물'}>반려동물</MenuItem>
                                 <MenuItem value={'실내운동'}>실내운동</MenuItem>
                                 <MenuItem value={'캠핑용품'}>캠핑용품</MenuItem>
-                                <MenuItem value={'공구·DIY'}>공구·DIY</MenuItem>
+                                <MenuItem value={'공구'}>공구</MenuItem>
                                 <MenuItem value={'기타'}>기타</MenuItem>
                             </Select>
                         }
