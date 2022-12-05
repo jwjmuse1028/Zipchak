@@ -159,7 +159,7 @@ function Home(props) {
     }
 
     return (
-        <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
+        <div className={"list_container"}>
             <ChatNotification/>
             <ReviewNotification/>
             <Slider {...settings}>

@@ -1,0 +1,9 @@
+.list_container{
+    margin-right: auto;
+    margin-left: auto;
+    width: calc(100% - 120px);
+    max-width: 1256px;
+    min-width: 400px;
+    box-sizing: border-box;
+    min-height: 1px;
+}

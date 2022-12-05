@@ -70,8 +70,7 @@ function Chat(props) {
         },[roomno]
     )
     return (
-        <div className={'main-box'} style={{width:`${resize<=768?'600px':'95%'}`,
-            maxWidth:'1136px',
+        <div className={'list_container main-box'} style={{display:'grid',width:`${resize<=768?'calc(600px - 80px)':''}`,
             gridTemplateColumns:`${screenState===0?"30% 70%":screenState===1?"100% 0%":"0% 100%"}`}}
             >
             <div className={"chatroom-list"}
