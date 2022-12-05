@@ -199,7 +199,7 @@ function ShopList() {
                     >
                         <CardMedia
                             className={classes.media}
-                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/image/${row.pd_num}/${row.img_first}`} //e
+                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`} //e
                             style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
                             onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />
