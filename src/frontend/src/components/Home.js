@@ -4,6 +4,7 @@ import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
 import "../css/Home.css";
 import "../css/FeedList.css";
+import MainSlide1 from "../image/MainSlide1.png";
 import mainad from "../image/mainad.webp";
 import mainad2 from "../image/mainad2.webp";
 import mainad3 from "../image/mainad3.jpg";
@@ -159,17 +160,17 @@ function Home(props) {
             <ReviewNotification/>
             <Slider {...settings}>
                 <div>
-                    <section className={'hmbx home_box'}>
-                        <div className={'maintxt'}>
-                            <h1><strong>✨예쁜 방에서 나혼자 산다!</strong></h1>
-                            <h1>나만의 공간, 나만의 색으로🎨</h1><br/>
-                            <span>집착 집들이로</span><br/>
-                            <span>당신을 초대합니다:)</span>
-                        </div>
+                    {/*<section className={'hmbx home_box'}>*/}
+                        {/*<div className={'maintxt'}>*/}
+                        {/*    <h1><strong>✨예쁜 방에서 나혼자 산다!</strong></h1>*/}
+                        {/*    <h1>나만의 공간, 나만의 색으로🎨</h1><br/>*/}
+                        {/*    <span>집착 집들이로</span><br/>*/}
+                        {/*    <span>당신을 초대합니다:)</span>*/}
+                        {/*</div>*/}
                         <div>
-                            <img src={room} style={{width:'600px'}}/>
+                            <img src={MainSlide1} style={{width:'100%'}}/>
                         </div>
-                    </section>
+                    {/*</section>*/}
                 </div>
                 <div>
                     <section className={'hmbx home_box2'}>
@@ -292,14 +293,15 @@ function Home(props) {
                 <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
                 <Slider {...settings_ctg}>
                     {
-                        categoryArr &&
+                        categoryArr&&
                         categoryArr.map((ctg,i)=>
                             <figure>
                                 <img style={{width:'100px',height:'100px',cursor:'pointer'}}
                                      onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
                                      src={require(`../image/${ctg}.png`)} alt={''}/>
                                 <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
-                            </figure>)
+                            </figure>
+                        )
                     }
                 </Slider>
             </div>
