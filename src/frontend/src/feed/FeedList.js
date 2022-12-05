@@ -163,7 +163,7 @@ function FeedList(props) {
                                 <h1 className="project-feed__item__title">{fdto.fd_title}</h1>
                                 <address className="project-feed__item__writer-wrap">
                                     <a className="project-feed__item__writer"
-                                       onClick={()=>navi(`/profile/${fdto.ur_num}`)}>
+                                       onClick={()=>navi(`/profile/${fdto.ur_num}/1`)}>
                                         <img className="project-feed__item__writer__image" alt=""
                                              src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${fdto.prf_img}`}/>
                                         <span className="project-feed__item__writer__name">{fdto.prf_nick}</span>

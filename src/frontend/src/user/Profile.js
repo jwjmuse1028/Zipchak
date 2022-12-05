@@ -6,11 +6,11 @@ import MyPageSellList from "./MyPageSellList";
 import MyPageFeedList from "./MyPageFeedList";
 
 function Profile(props) {
-    const {user}=useParams();
+    const {user,show}=useParams();
     const [showlist,setShowlist]=useState(1);
-    const clickmenu=(num)=>{
-        setShowlist(num);
-        window.history.pushState("", null, '/mypage/'+num);
+    const clickmenu=(show)=>{
+        setShowlist(show);
+        window.history.pushState("", null, '/profile/'+user+"/"+show);
     }
     return (
         <div className={'mypage_otr_container'} >

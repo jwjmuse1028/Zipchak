@@ -183,4 +183,55 @@ h2 span {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
+.kings{
+    margin-top: 20px;
+    width:20%;
+    text-align:center;
+    border: 3px solid lightgray;
+    margin-right: 10px;
+    border-radius: 20px;
+}
+.kingtitle{
+    font-size: 20px;
+    position: relative;
+    top:-15px;
+    background-color: white;
+    width: 90px;
+    margin: auto;
+    text-decoration: underline wavy #35c5f0;
+}
+.king_prf_img_nick_tmp{
+    width: 100%;
+    text-align: center;
+}
+.king_prf_img_box{
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 1px solid #35c5f0;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+}
+.king_prf_img{
+    width: 100px;
+    height: 100px;
+}
+.king_prf_img:hover{
+    cursor: pointer;
+}
+.king_prf_nick_tmp{
+    margin:10px auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    left: 20px;
+}
+.king_prf_nick{
+    font-size:15px;
+    text-align: center;
+    margin-top: 10px;
+}

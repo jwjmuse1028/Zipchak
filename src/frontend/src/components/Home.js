@@ -21,7 +21,7 @@ function SampleNextArrow(props) {
     return (
         <div
             className={className}
-            style={{ ...style }}
+            style={{ ...style , right:'-25px'}}
             onClick={onClick}
         />
     );
@@ -95,7 +95,7 @@ function Home(props) {
         infinite: true,
         speed: 200,
         slidesToShow: 10,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
         initialSlide: 0,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />
@@ -106,7 +106,7 @@ function Home(props) {
         lazyLoad: true,
         infinite: true,
         speed: 200,
-        slidesToShow: 10,
+        slidesToShow: 1,
         slidesToScroll: 1,
         initialSlide: 0,
         nextArrow: <SampleNextArrow />,
@@ -123,11 +123,11 @@ function Home(props) {
     }
     let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
         "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
-    const [sellerkingwinfo,setSellerkingwinfo]=useState([]);
-    const [buyerkingwinfo,setBuyerkingwinfo]=useState([]);
-    const [tempkingwinfo,setTempkingwinfo]=useState([]);
-    const [bookmarkkingwinfo,setBookmarkkingwinfo]=useState([]);
-    const [likekingwinfo,setLikekingwinfo]=useState([]);
+    const [sellerkingwinfo,setSellerkingwinfo]=useState([{}]);
+    const [buyerkingwinfo,setBuyerkingwinfo]=useState([{}]);
+    const [tempkingwinfo,setTempkingwinfo]=useState([{}]);
+    const [bookmarkkingwinfo,setBookmarkkingwinfo]=useState([{}]);
+    const [likekingwinfo,setLikekingwinfo]=useState([{}]);
     const searchkingwinfo=()=>{
         let searchkingwinfourl=localStorage.url+"/searchkingwinfo";
         axios.get(searchkingwinfourl).then(res=>{
@@ -248,7 +248,7 @@ function Home(props) {
                                     </div>
                                     <div className="project-feed__item__writer-wrap">
                                         <a className="project-feed__item__writer"
-                                           onClick={()=>navi(`/profile/${data.ur_num}`)}>
+                                           onClick={()=>navi(`/profile/${data.ur_num}/1`)}>
                                             <img className="project-feed__item__writer__image" alt="" style={{display: 'inline-block'}}
                                                  src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${data.prf_img}`}/>
                                             <span className="project-feed__item__writer__name">{data.prf_nick}</span>
@@ -269,22 +269,57 @@ function Home(props) {
                 <br/><br/><br/>
             <div>
                 <h4><strong>👑 이달의 왕 TOP 👑</strong></h4>
-                <div >
+                <div style={{display:'flex'}}>
+                    <div className={'kings'}>
+                        <div className={'kingtitle'}>판매왕</div>
                     <Slider {...settings_king}>
-                        <KingPrf uinfo={sellerkingwinfo} />
+                        {
+                            sellerkingwinfo &&
+                            sellerkingwinfo.map((uinfo,i)=>
+                                <KingPrf key={i }uinfo={uinfo} />)
+                        }
                     </Slider>
+                    </div>
+                    <div className={'kings'}>
+                        <div className={'kingtitle'}>구매왕</div>
                     <Slider {...settings_king}>
-                        <KingPrf uinfo={buyerkingwinfo} />
+                        {
+                            buyerkingwinfo &&
+                            buyerkingwinfo.map((uinfo,i)=>
+                                <KingPrf key={i }uinfo={uinfo} />)
+                        }
                     </Slider>
+                    </div>
+                    <div className={'kings'}>
+                        <div className={'kingtitle'}>온도왕</div>
                     <Slider {...settings_king}>
-                        <KingPrf uinfo={tempkingwinfo} />
+                        {
+                            tempkingwinfo &&
+                            tempkingwinfo.map((uinfo,i)=>
+                                <KingPrf key={i }uinfo={uinfo} />)
+                        }
                     </Slider>
+                    </div>
+                    <div className={'kings'}>
+                        <div className={'kingtitle'}>북마크왕</div>
                     <Slider {...settings_king}>
-                        <KingPrf uinfo={likekingwinfo} />
+                        {
+                            bookmarkkingwinfo &&
+                            bookmarkkingwinfo.map((uinfo,i)=>
+                                <KingPrf key={i }uinfo={uinfo} />)
+                        }
                     </Slider>
-                    <Slider {...settings_king}>
-                        <KingPrf uinfo={bookmarkkingwinfo} />
-                    </Slider>
+                    </div>
+                    <div className={'kings'}>
+                        <div className={'kingtitle'}>좋아요왕</div>
+                        <Slider {...settings_king}>
+                            {
+                                likekingwinfo &&
+                                likekingwinfo.map((uinfo,i)=>
+                                    <KingPrf key={i }uinfo={uinfo} />)
+                            }
+                        </Slider>
+                    </div>
                 </div>
             </div>
             <br/><br/><br/>
@@ -295,7 +330,7 @@ function Home(props) {
                         categoryArr &&
                         categoryArr.map((ctg,i)=>
                             <figure>
-                                <img style={{width:'100px',height:'100px',cursor:'pointer'}}
+                                <img style={{width:'100px',height:'100px',cursor:'pointer',margin:"auto"}}
                                      onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
                                      src={require(`../image/${ctg}.png`)} alt={''}/>
                                 <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
