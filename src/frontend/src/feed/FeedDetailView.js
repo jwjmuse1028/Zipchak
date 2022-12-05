@@ -86,12 +86,17 @@ function FeedDetailView(props) {
     }
 
     const deleteFeed = () => {
+        let chk=window.confirm("삭제하시겠습니까?");
         const deleteUrl = localStorage.url + "/feed/delete?fd_num=" + fd_num;
-        axios.get(deleteUrl)
-            .then(res => {
-                console.log("feed 삭제됨");
-                navi("/feed/list");
-            })
+        if(chk)
+        {
+            axios.get(deleteUrl)
+                .then(res => {
+                    console.log("feed 삭제됨");
+                    navi("/feed/list");
+                })
+        }
+
     }
 
     const [sp_num, setSp_num] = useState('')

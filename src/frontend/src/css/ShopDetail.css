@@ -84,7 +84,7 @@ span.detailavt{
 
 .slick-prev
 {
-    left: 3%;
+    left: 3% ;
     z-index: 1;
 }
 [dir='rtl'] .slick-prev

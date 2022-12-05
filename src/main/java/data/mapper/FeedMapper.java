@@ -12,6 +12,7 @@ import java.util.Map;
 public interface FeedMapper {
     public void insertFeed(FeedDto dto);
     public List<FeedListDto> getAllFeeds(Map<String,String> map);
+    public List<FeedListDto> getBestFeeds();
     public FeedDto getFeedByNum(int fd_num);
     public void deleteFeed(int fd_num);
     public void updateFeed(FeedDto dto);

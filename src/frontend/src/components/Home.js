@@ -3,6 +3,7 @@ import ChatNotification from "../chat/ChatNotification";
 import ReviewNotification from "../shop/ReviewNotification";
 import Slider from "react-slick";
 import "../css/Home.css";
+import "../css/FeedList.css";
 import mainad from "../image/mainad.webp";
 import mainad2 from "../image/mainad2.webp";
 import mainad3 from "../image/mainad3.jpg";
@@ -37,13 +38,35 @@ function SamplePrevArrow(props) {
     );
 }
 function Home(props) {
-
-    const [rcfeedlist, setRcfeedlist] = useState([]);
     const navi = useNavigate();
+    const [bestfdlist, setBestfdlist] = useState([]);
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
+
+    function BestfdNextArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, right:'-5%'}}
+                onClick={onClick}
+            />
+        );
+    }
+
+    function BestfdPrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, left:'-5%'}}
+                onClick={onClick}
+            />
+        );
+    }
+
     const settings = {
-        dots: false,
+        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -59,8 +82,11 @@ function Home(props) {
         infinite: true,
         speed: 200,
         slidesToShow: 4,
-        slidesToScroll: 1,
-        initialSlide: 1
+        slidesToScroll: 2,
+        initialSlide: 0,
+        nextArrow: <BestfdNextArrow />,
+        prevArrow: <BestfdPrevArrow />
+
     };
     const settings_ctg = {
         arrows: true,
@@ -87,11 +113,11 @@ function Home(props) {
         prevArrow: <SamplePrevArrow />,
     };
 
-    const rdcntFeed = ()=>{
-        const rdcntUrl = localStorage.url + "/feed/list?order_col=fd_rdcnt";
-        axios.get(rdcntUrl)
+    const bestFeed = ()=>{
+        const bestfdUrl = localStorage.url + "/feed/bestfd";
+        axios.get(bestfdUrl)
             .then(res => {
-                setRcfeedlist(res.data);
+                setBestfdlist(res.data);
                 console.log(res.data);
             })
     }
@@ -114,6 +140,19 @@ function Home(props) {
         });
     }
     useEffect(()=>searchkingwinfo(),[]);
+    useEffect(() => {
+        bestFeed();
+    }, []);
+
+    const updaterdcnt=(fd_num)=>{
+
+        const rdcntUrl=localStorage.url+"/feed/uprdcnt?fd_num="+fd_num;
+
+        axios.get(rdcntUrl)
+            .then(res=>{
+            })
+    }
+
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <ChatNotification/>
@@ -122,10 +161,10 @@ function Home(props) {
                 <div>
                     <section className={'hmbx home_box'}>
                         <div className={'maintxt'}>
-                            <h1><strong>예쁜 방에서 나혼자 산다! 🧡</strong></h1>
+                            <h1><strong>✨예쁜 방에서 나혼자 산다!</strong></h1>
                             <h1>나만의 공간, 나만의 색으로🎨</h1><br/>
-                            <span>혼자 보기 아까운</span><br/>
-                            <span>인스타감성의</span>
+                            <span>집착 집들이로</span><br/>
+                            <span>당신을 초대합니다:)</span>
                         </div>
                         <div>
                             <img src={room} style={{width:'600px'}}/>
@@ -135,10 +174,10 @@ function Home(props) {
                 <div>
                     <section className={'hmbx home_box2'}>
                         <div className={'maintxt'}>
-                            <h1><strong>진아가문제야😒</strong></h1>
-                            <h1>문제야 문제 온 세상속에</h1><br/>
-                            <span>사고좀 그만치고다녀요</span><br/>
-                            <span>학원좀 나와요</span>
+                            <h1><strong>🏠집들이와 함께하는 중고 스토어</strong></h1>
+                            <h1>집착으로 인테리어 소품 사고팔자💸</h1><br/>
+                            <span>인테리어 소품 중고 스토어</span><br/>
+                            <span>집착에서 만나요</span>
                         </div>
                         <div>
                             <img src={mainad} style={{width:'650px'}}/>
@@ -160,9 +199,10 @@ function Home(props) {
                 <div>
                     <section className={'hmbx home_box4'}>
                         <div className={'maintxt'}>
-                            <h1><strong>🌈집톡으로 바로바로</strong></h1>
-                            <h1>ㅇㅇㅇㅇ</h1><br/>
-                            <span>욕금지</span><br/>
+                            <h1><strong>📲집톡으로 바로바로</strong></h1>
+                            <h1>판매자와 채팅하기👌🏻</h1><br/>
+                            <span>매너있는 챗으로</span><br/>
+                            <span>거래까지 성공하자-</span><br/>
                         </div>
                         <div>
                             <img src={chat} style={{width:'50%'}}/>
@@ -172,9 +212,10 @@ function Home(props) {
                 <div>
                     <section className={'hmbx home_box5'}>
                         <div className={'maintxt'}>
-                            <h1><strong>착한 사람들만 있어요😊</strong></h1>
-                            <h1>믿으세요</h1><br/>
-                            <span>우리는 모두 친구</span><br/>
+                            <h1><strong>집착 온도 시스템으로🌡️</strong></h1>
+                            <h1>🤝믿을수 있는 중고거래</h1><br/>
+                            <span>뜨거울수록</span><br/>
+                            <span>믿음직한 판매자</span><br/>
                         </div>
                         <div>
                             <img src={friends} style={{width:'50%', margin:'auto'}}/>
@@ -186,25 +227,43 @@ function Home(props) {
 
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
+                <br/>
                 <Slider {...settings_j}>
-                    <div>
-                        <h3>1</h3>
-                    </div>
-                    <div>
-                        <h3>2</h3>
-                    </div>
-                    <div>
-                        <h3>3</h3>
-                    </div>
-                    <div>
-                        <h3>4</h3>
-                    </div>
-                    <div>
-                        <h3>5</h3>
-                    </div>
-                    <div>
-                        <h3>6</h3>
-                    </div>
+                    {
+                        bestfdlist &&
+                        bestfdlist.map((data,idx)=>
+                            <div>
+                                <article className="project-feed__item" style={{width:'90%', margin:"auto"}}>
+                                    <a className="project-feed__item__link"
+                                       onClick={()=>{
+                                           updaterdcnt(data.fd_num);
+                                           navi(`/feed/detail/${data.fd_num}`);
+                                       }}></a>
+                                    <div className="project-feed__item__image">
+                                        <img className="image" alt=""
+                                             src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/fd_img/${data.fd_num}/${data.fd_img}`}/>
+                                    </div>
+                                    <div className="project-feed__item__title" style={{fontSize:"15px", height:'50px', lineHeight:'150%'}}>
+                                        {data.fd_title}
+                                    </div>
+                                    <div className="project-feed__item__writer-wrap">
+                                        <a className="project-feed__item__writer"
+                                           onClick={()=>navi(`/profile/${data.ur_num}`)}>
+                                            <img className="project-feed__item__writer__image" alt="" style={{display: 'inline-block'}}
+                                                 src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/${data.prf_img}`}/>
+                                            <span className="project-feed__item__writer__name">{data.prf_nick}</span>
+                                        </a>
+                                    </div>
+
+                                    {/* 스크랩 수, 조회 수 */}
+                                    {/*<footer className="project-feed__item__status">*/}
+                                    {/*    <span className="entry" style={{marginRight: '10px'}}>좋아요 {data.fd_likes}</span>*/}
+                                    {/*    <span className="entry">조회 {data.fd_rdcnt}</span>*/}
+                                    {/*</footer>*/}
+                                </article>
+                            </div>
+                        )
+                    }
                 </Slider>
             </div>
                 <br/><br/><br/>
