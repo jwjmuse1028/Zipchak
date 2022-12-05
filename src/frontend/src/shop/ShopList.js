@@ -162,20 +162,6 @@ function ShopList() {
         });
     };
 
-    const addshop=(e)=>{
-        const uploadFile = new FormData();
-        uploadFile.append("uploadfile",e.target.files[0])
-
-        let url = sessionStorage.url+"/crawling/insertshop"
-        axios({
-            method:'post',
-            url:url,
-            data:uploadFile,
-            headers:{'Content-Type':'multipart/form-data'}
-        })
-            .then()
-    }
-
     const setOptionSelect=(e)=>{
         setCategorychange(true);
         navi("/shop/list?category="+e.target.value+"&currentPage=1");
@@ -185,7 +171,6 @@ function ShopList() {
         "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
-            <input type={"file"} className={"btn btn-danger"} onChange={addshop}/>
             <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
                 <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
                     maxWidth:'250px',height:'50px'}}
@@ -214,7 +199,7 @@ function ShopList() {
                     >
                         <CardMedia
                             className={classes.media}
-                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${row.img_first}`} //e
+                            image={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/image/${row.pd_num}/${row.img_first}`} //e
                             style={{width:'300px',height:'220px', cursor:'pointer', filter:row.pd_status=="soldout"?'brightness(40%)':''}}
                             onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}
                         />

@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tomcat.jni.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +15,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CrawlingImageUpload{
@@ -22,7 +22,7 @@ public class CrawlingImageUpload{
     public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
     public static final String WEB_DRIVER_PATH = "C:\\chromedriver.exe";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         File file = new File("C:\\Users\\bitcamp\\Desktop\\crawlingdata.xlsx");
 
@@ -49,22 +49,31 @@ public class CrawlingImageUpload{
         String url="https://store.ohou.se/today_deals";
         driver.get(url);
 
-        WebElement item = driver.findElement(By.className("css-mga9c9"));
+        int idx=16;
 
         try{
-            Thread.sleep(2000);
 
-            int num=1;
+            int num=31;
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 8000)");
+            Thread.sleep(1000);
+            /*((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 5000)");
+            Thread.sleep(1000);*/
 
-            while (num<101){
+            while (num<51){
+
+                if (idx==24) {
+                    ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 3000)");
+                    idx-=6;
+                    Thread.sleep(1000);
+                }
 
                 List<WebElement> el1 = driver.findElements(By.className("css-9af4ho"));
 
-                el1.get(num).click();
+                el1.get(idx).click();
 
                 List<String> excelData = new ArrayList<>();
 
-                try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
+                Thread.sleep(1000);
 
                 WebElement el2 = driver.findElement(By.className("production-selling-overview"));
 
@@ -96,7 +105,7 @@ public class CrawlingImageUpload{
 
                     URL iUrl=new URL(img_info);
                     is=iUrl.openStream();
-                    int sidx = img_info.lastIndexOf('/');
+                    int sidx = img_info.lastIndexOf('/')+1;
                     img_info = img_info.substring(sidx);
 
                     img_name+=img_info+",";
@@ -112,7 +121,6 @@ public class CrawlingImageUpload{
                 img_name = img_name.substring(0,img_name.length()-1);
 
                 Row newRow = sheet.createRow(rowCount+1);
-                Row row = sheet.getRow(0);
 
                 excelData.add(sp_title);
                 excelData.add(pd_price);
@@ -126,15 +134,13 @@ public class CrawlingImageUpload{
                 }
 
                 rowCount++;
-                num++;
 
                 driver.navigate().back();
 
-                if(num%8==0){
-                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 1000)",item);
-                }
+                num++;
+                idx++;
+                Thread.sleep(1000);
 
-                try{Thread.sleep(2000);} catch (InterruptedException e1 ){}
             }
 
             inputStream.close();
