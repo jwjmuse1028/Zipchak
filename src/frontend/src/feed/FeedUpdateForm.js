@@ -418,7 +418,7 @@ function FeedUpdateForm(props) {
                         ref={editorRef}
                     />
             }
-            <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
+            <button type={"button"} style={{backgroundColor:'rgb(53, 197, 240)',border:"none",color:"white",height:'40px'}} onClick={addtag}>태그 추가</button>
             <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose} sp_num={sp_num} tagpdnum={tagpdnum}
                             detail={detail}/>
         </div>
