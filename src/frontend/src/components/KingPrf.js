@@ -14,7 +14,7 @@ function KingPrf(props) {
                      onClick={()=>navi(`/profile/${uinfo.ur_num}/1`)}
                 />
             </div>
-            <img src={crown} style={{position:"relative",top:'-120px',width:'50px',left:'90px',rotate:'30deg'}}/>
+            <img src={crown} style={{position:"relative",top:'-130px',width:'50px',left:'50%',rotate:'30deg'}}/>
             <div style={{position:"relative",top:'-30px'}}>
                 <div className={'king_prf_nick_tmp'} >
                     <div className={'king_prf_nick'}>{uinfo.prf_nick}님</div>
