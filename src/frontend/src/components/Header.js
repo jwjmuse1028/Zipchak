@@ -12,7 +12,6 @@ import {
     Button,
     Dialog, DialogActions,
     DialogContent,
-    DialogTitle,
     Fab,
     Menu,
     MenuItem, Slide, TextField,
@@ -158,7 +157,7 @@ function Header(props) {
                     <NavLink style={{color:(showlist===2)?'#35c5f0':''}} onClick={()=>setShowlist(2)} to={"/shop/list/1"}>스토어</NavLink>
                 </li>
                 <div className={'search_bar'}>
-                    <input type={'text'} className={'form-control'}
+                    <input type={'text'} className={'form-control totalsearch'}
                            placeholder={'통합 검색'} onKeyDown={seachkeydown}
                            value={searchword} onChange={(e)=>setSearchword(e.target.value)}/>
                     &nbsp;&nbsp;<button className={'btn_search_bar'} onClick={seachclick} ><SearchIcon/></button>
