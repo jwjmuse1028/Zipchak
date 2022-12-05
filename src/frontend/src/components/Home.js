@@ -292,6 +292,7 @@ function Home(props) {
                 <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
                 <Slider {...settings_ctg}>
                     {
+                        categoryArr &&
                         categoryArr.map((ctg,i)=>
                             <figure>
                                 <img style={{width:'100px',height:'100px',cursor:'pointer'}}
