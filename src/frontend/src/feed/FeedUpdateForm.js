@@ -403,8 +403,9 @@ function FeedUpdateForm(props) {
 
                                 const formData = new FormData()
                                 formData.append('file', blob)
+                                formData.append("fd_num",fd_num)
 
-                                let url = localStorage.url + "/image/insert"
+                                let url = localStorage.url + "/image/update"
 
                                 axios.post(url, formData, {
                                     header: {"content-type": "multipart/formdata"}

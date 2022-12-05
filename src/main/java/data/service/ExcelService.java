@@ -64,7 +64,7 @@ public class ExcelService {
             ShopDto shopDto = new ShopDto();
             shopDto.setSp_title(data.get("sp_title"));
             shopDto.setPd_num(productDto.getPd_num());
-            shopDto.setUr_num((int)Math.ceil(Math.random()));
+            shopDto.setUr_num((int)Math.ceil(Math.random())*10+40);
             shopMapper.insertShop(shopDto);
 
             String pdimg = data.get("pd_img");

@@ -32,5 +32,13 @@ public class ImageController {
         return s3Service.getUrl(filename,dir);
     }
 
+    @PostMapping("/update")
+    public String updateImg(@RequestParam("file") MultipartFile multipartFile, @RequestParam("fd_num") int fd_num) throws IOException{
 
+        String dir = "fd_img/"+fd_num;
+        String filename=s3Service.upload(multipartFile, dir);
+
+        return s3Service.getUrl(filename,dir);
+
+    }
 }
