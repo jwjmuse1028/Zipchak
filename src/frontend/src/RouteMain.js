@@ -33,7 +33,7 @@ function RouteMain(props) {
                 <Route path='/' element={<Home/>}/>
                 <Route path={'/register'} element={<RegisterForm/>}/>
                 <Route path={'/login'} element={<LoginForm/>}/>
-                <Route path={'/profile/:user'} element={<Profile/>}/>
+                <Route path={'/profile/:user/:show'} element={<Profile/>}/>
                 <Route path={'/mypage/:show'} element={<MyPage/>}/>
                 {/*<Route path='/login' element={<LoginForm/>}/>*/}
 

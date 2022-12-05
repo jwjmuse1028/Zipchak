@@ -52,7 +52,7 @@ function ChatMessageInfo(props) {
             <div className={'uInfoBox'} >
                 <div className={'uInfoBox_user'} >
                 <Avatar className={classes.avatar}>
-                    <img alt={''} src={prfUrl+uInfo.prf_img} onClick={()=>navi('/profile/'+u_numfinal)}
+                    <img alt={''} src={prfUrl+uInfo.prf_img} onClick={()=>navi('/profile/'+u_numfinal+'/1')}
                          className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}
                         style={{cursor:'pointer'}}
                     />
