@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/ShopList.css";
 import {Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
@@ -46,20 +46,23 @@ const useStyles = makeStyles((theme) => ({
         transform: 'rotate(180deg)',
     },
 }));
+function useQuery() {
+    return new URLSearchParams(useLocation().search);}
 
 function ShopList() {
     const classes = useStyles();
     const navi = useNavigate();
-    const {currentPage,sp_num}=useParams();
+    const {sp_num}=useParams();
     const [data, setData]=useState('');
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
     const [viewPaging,setViewPaging]=useState(true);
-    const [category, setCategory] = useState('all')
     const [categorychange,setCategorychange]=useState(false);
     //채팅 수
     const [chatCnt,setChatCnt]=useState(0);
-
+    let query=useQuery();
+    const category=query.get("category");
+    const currentPage=query.get("currentPage");
     //함수
     //채팅 수 출력
     const getChatCnt=()=>{
@@ -77,7 +80,7 @@ function ShopList() {
 
     const getList=()=>{
         let newcurrentPage=1
-        if (categorychange==false){newcurrentPage=currentPage;}
+        if (categorychange===false){newcurrentPage=currentPage;}
         let ur_num=sessionStorage.ur_num;
         let url = sessionStorage.url+"/shop/list?currentPage="+newcurrentPage+"&ur_num="+ur_num+"&pd_ctg="+category;
         axios.get(url)
@@ -86,7 +89,7 @@ function ShopList() {
                 setViewPaging(true);
                 setSearch_word('');
                 setCategorychange(false);
-                window.history.pushState("", null, '/shop/list/'+newcurrentPage);
+                //window.history.pushState("", null, '/shop/list/'+newcurrentPage);
             })
     }
     const searchbutton=()=>{
@@ -175,9 +178,11 @@ function ShopList() {
 
     const setOptionSelect=(e)=>{
         setCategorychange(true);
-        setCategory(e.target.value);
+        navi("/shop/list?category="+e.target.value+"&currentPage=1");
+
     }
-    
+    let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
+        "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
         <div style={{margin:"auto", width:'70%', minWidth:'1000px'}}>
             <input type={"file"} className={"btn btn-danger"} onChange={addshop}/>
@@ -186,21 +191,10 @@ function ShopList() {
                     maxWidth:'250px',height:'50px'}}
                         onChange={setOptionSelect} value={category}>
                     <option value={'all'} >카테고리</option>
-                    <option value={'가구'}>가구</option>
-                    <option value={'데코'}>데코</option>
-                    <option value={'식물'}>식물</option>
-                    <option value={'패브릭'}>패브릭</option>
-                    <option value={'가전·디지털'}>가전·디지털</option>
-                    <option value={'주방용품'}>주방용품</option>
-                    <option value={'조명'}>조명</option>
-                    <option value={'수납·정리'}>수납·정리</option>
-                    <option value={'생활용품'}>생활용품</option>
-                    <option value={'생필품'}>생필품</option>
-                    <option value={'유아·아동'}>유아·아동</option>
-                    <option value={'반려동물'}>반려동물</option>
-                    <option value={'실내운동'}>실내운동</option>
-                    <option value={'캠핑용품'}>캠핑용품</option>
-                    <option value={'공구·DIY'}>공구·DIY</option>
+                    {
+                        categoryArr.map((ctg,i)=>
+                            <option value={ctg}>{ctg}</option>)
+                    }
                     <option value={'기타'}>기타</option>
                 </select>
                 <div style={{height:'56px',display:'flex', width:'50%',justifyContent:"flex-end"}}>
@@ -272,17 +266,17 @@ function ShopList() {
                 <div className={'page'} variant="outlined" shape="rounded" style={{clear: 'both'}}>
                     {
                         data.startPage > 1 ?
-                            <Link to={`/shop/list/${data.startPage - 1}`} className={'pageprev'}>이전</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.startPage - 1}`} className={'pageprev'}>이전</Link> : ''
                     }
                     {
                         data.parr &&
                         data.parr.map((n, i) =>
-                            <Link to={`/shop/list/${n}`} className={'pagenum'} key={i}>
+                            <Link to={`/shop/list?category=${category}&currentPage=${n}`} className={'pagenum'} key={i}>
                                 <b style={{color: n == currentPage ? '#35c5f0' : 'black'}}>{n}</b></Link>)
                     }
                     {
                         data.endPage < data.totalPage ?
-                            <Link to={`/shop/list/${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
                     }
                 </div>
             }

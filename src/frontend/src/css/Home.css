@@ -137,11 +137,12 @@ h2 span {
     top: 50%;
 
     display: block;
+
     padding: 0;
 
     cursor: pointer;
 
-    color: black !important;
+    color: black;
     border: none;
     outline: none;
     background: transparent;
@@ -151,7 +152,7 @@ h2 span {
 .slick-next:hover,
 .slick-next:focus
 {
-    color: black !important;
+    color: black;
     outline: none;
     background: transparent;
 }

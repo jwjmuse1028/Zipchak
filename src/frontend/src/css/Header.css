@@ -137,17 +137,3 @@ div.loginavt{
     }
 
 }
-/*폰*/
-@media screen and (max-width: 375px) {
-    .header {
-        height: 200px;
-    }
-    ul.menu{
-        width: 95%;
-        margin: auto;
-        max-width: 375px;
-        display: grid;
-        grid-template-rows: 100px 100px;
-    }
-
-}

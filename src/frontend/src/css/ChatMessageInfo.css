@@ -6,6 +6,7 @@ div.msg_list_box_top{
 span.to_chat_room{
     font-size: 30px;
     color: #35C5F0;
+    cursor: pointer;
 }
 div.uInfoBox{
     display: flex;
@@ -13,6 +14,20 @@ div.uInfoBox{
     gap: 10px;
     align-items: center;
     justify-content: center;
+}
+div.uInfoBox_user{
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+div.uInfoBox_sp{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
 }
 div.prf_box{
     width: 55px;
@@ -36,8 +51,8 @@ div.spinfo_title{
     position:relative;
     left: -40px;
     height: 30px;
-    /*max-width: 200px;*/
-    /*overflow: hidden;*/
+    width: 80%;
+    overflow: hidden;
     /*white-space: nowrap;*/
 }
 .cr_exit{

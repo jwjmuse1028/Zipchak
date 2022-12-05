@@ -14,11 +14,32 @@ import chat from "../image/chat.png";
 import {Avatar} from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import KingPrf from "./KingPrf";
 
+function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style }}
+            onClick={onClick}
+        />
+    );
+}
+
+function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={className}
+            style={{ ...style, left:'-25px'}}
+            onClick={onClick}
+        />
+    );
+}
 function Home(props) {
     const navi = useNavigate();
     const [bestfdlist, setBestfdlist] = useState([]);
-
     localStorage.url=process.env.REACT_APP_BACK_URL;
     // console.log(localStorage.url);
 
@@ -67,6 +88,31 @@ function Home(props) {
         prevArrow: <BestfdPrevArrow />
 
     };
+    const settings_ctg = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 10,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />
+    };
+    const settings_king = {
+        arrows: true,
+        dots: false,
+        lazyLoad: true,
+        infinite: true,
+        speed: 200,
+        slidesToShow: 10,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+    };
+
     const bestFeed = ()=>{
         const bestfdUrl = localStorage.url + "/feed/bestfd";
         axios.get(bestfdUrl)
@@ -75,6 +121,25 @@ function Home(props) {
                 console.log(res.data);
             })
     }
+    let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
+        "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
+    const [sellerkingwinfo,setSellerkingwinfo]=useState([]);
+    const [buyerkingwinfo,setBuyerkingwinfo]=useState([]);
+    const [tempkingwinfo,setTempkingwinfo]=useState([]);
+    const [bookmarkkingwinfo,setBookmarkkingwinfo]=useState([]);
+    const [likekingwinfo,setLikekingwinfo]=useState([]);
+    const searchkingwinfo=()=>{
+        let searchkingwinfourl=localStorage.url+"/searchkingwinfo";
+        axios.get(searchkingwinfourl).then(res=>{
+            setSellerkingwinfo(res.data.sellerkingwinfo);
+            setBuyerkingwinfo(res.data.buyerkingwinfo);
+            setTempkingwinfo(res.data.tempkingwinfo);
+            setBookmarkkingwinfo(res.data.bookmarkkingwinfo);
+            setLikekingwinfo(res.data.likekingwinfo);
+            //console.log(res.data);
+        });
+    }
+    useEffect(()=>searchkingwinfo(),[]);
     useEffect(() => {
         bestFeed();
     }, []);
@@ -159,6 +224,7 @@ function Home(props) {
                 </div>
             </Slider>
             <br/><br/><br/>
+
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
                 <br/>
@@ -203,14 +269,40 @@ function Home(props) {
                 <br/><br/><br/>
             <div>
                 <h4><strong>👑 이달의 왕 TOP 👑</strong></h4>
-                <div style={{display:'flex'}}>
-                    <Avatar/><b>판매왕</b><span>램지</span>
-                    <Avatar/><b>구매왕</b><span>지나</span>
-                    <Avatar/><b>온도왕</b><span>유선</span>
-                    <Avatar/><b>관심왕</b><span>재웅</span>
-                    <Avatar/><b>좋아왕</b><span>고양이</span>
+                <div >
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={sellerkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={buyerkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={tempkingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={likekingwinfo} />
+                    </Slider>
+                    <Slider {...settings_king}>
+                        <KingPrf uinfo={bookmarkkingwinfo} />
+                    </Slider>
                 </div>
             </div>
+            <br/><br/><br/>
+            <div>
+                <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
+                <Slider {...settings_ctg}>
+                    {
+                        categoryArr.map((ctg,i)=>
+                            <figure>
+                                <img style={{width:'100px',height:'100px',cursor:'pointer'}}
+                                     onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
+                                     src={require(`../image/${ctg}.png`)} alt={''}/>
+                                <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
+                            </figure>)
+                    }
+                </Slider>
+            </div>
+            <br/><br/><br/>
             <div>
                 <img src={mainad3}/>
                 {/*<p className="animation">집이 최고야</p>*/}

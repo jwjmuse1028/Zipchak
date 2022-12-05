@@ -64,7 +64,7 @@ function ShopDetail(props) {
             axios.delete(deleteUrl)
                 .then(res=>{
                     alert("삭제 되었습니다");
-                    navi(`/shop/list/${currentPage}`);
+                    navi(`/shop/list?category=all&currentPage=${currentPage}`);
                 })
         } else {
             return;
@@ -93,6 +93,27 @@ function ShopDetail(props) {
                 window.location.reload();
             })
     };
+    function SampleNextArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style,right:'3%'}}
+                onClick={onClick}
+            />
+        );
+    }
+
+    function SamplePrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, left:'3%'}}
+                onClick={onClick}
+            />
+        );
+    }
     const settings = {
         dots: true,
         infinite: true,
@@ -100,6 +121,8 @@ function ShopDetail(props) {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />
     }
     const [anchorEl, setAnchorEl] = React.useState(null);
 

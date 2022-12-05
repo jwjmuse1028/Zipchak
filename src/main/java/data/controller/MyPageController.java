@@ -154,5 +154,19 @@ public class MyPageController {
         map.put("splist",splist);
         return map;
     }
-
+    @GetMapping("/searchkingwinfo")
+    public Map<String, List<UserDto>> searchkingwinfo(){
+        List<UserDto> sellerkingwinfo=mpmapper.sellerkingWinfo();
+        List<UserDto> buyerkingwinfo=mpmapper.buyerkingWinfo();
+        List<UserDto> tempkingwinfo=mpmapper.tempkingWinfo();
+        List<UserDto> bookmarkkingwinfo=mpmapper.bookmarkkingWinfo();
+        List<UserDto> likekingwinfo=mpmapper.likekingWinfo();
+        Map<String, List<UserDto>> map= new HashMap<>();
+        map.put("sellerkingwinfo",sellerkingwinfo);
+        map.put("buyerkingwinfo",buyerkingwinfo);
+        map.put("tempkingwinfo",tempkingwinfo);
+        map.put("bookmarkkingwinfo",bookmarkkingwinfo);
+        map.put("likekingwinfo",likekingwinfo);
+        return map;
+    }
 }

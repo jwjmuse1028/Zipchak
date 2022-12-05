@@ -28,4 +28,9 @@ public interface MyPageMapper {
     public List<Integer> likeking();
     public List<FeedListDto> getSearchFeeds(String search_word);
     public List<ShopProductDto> getSearchShops(String search_word);
+    public List<UserDto> sellerkingWinfo();
+    public List<UserDto> buyerkingWinfo();
+    public List<UserDto> tempkingWinfo();
+    public List<UserDto> bookmarkkingWinfo();
+    public List<UserDto> likekingWinfo();
 }

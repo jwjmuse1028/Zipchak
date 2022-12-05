@@ -23,6 +23,7 @@ function Chat(props) {
     }
     const screenStatef=(state)=>{
         setScreenState(state);
+        //console.log(state);
     }
     const handleResize = () => {
         setResize(window.innerWidth);
@@ -61,7 +62,7 @@ function Chat(props) {
         reactsize();
     },[resize])
     useEffect(()=>{
-        if (roomno!=0){
+        if (Number(roomno)!==0){
             let readUrl=localStorage.url+"/chat/read?cr_num="+roomno+"&ur_num="+ur_num;
             axios.get(readUrl).then(res=>sendnoti('연결:'+roomno+'번 방' ));
             //console.log("url로 읽음처리")
@@ -87,8 +88,8 @@ function Chat(props) {
                         <ChatMessageList cr_num={cr_num} ur_num={ur_num} u_num={u_num} roomno={roomno}
                              sendnoti={sendnoti} noti={noti} screenStatef={screenStatef} screenState={screenState}/>
                 }
+                <MessageNotification noti={noti}/>
             </div>
-            <MessageNotification noti={noti}/>
         </div>
     );
 }

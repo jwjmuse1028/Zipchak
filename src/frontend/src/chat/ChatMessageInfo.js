@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ArrowBackRounded} from "@mui/icons-material";
-import noprfpic from "../image/noprofilepicture.webp";
-import tmp from "../image/tmp.png";
 import noimage from "../image/noimg.jpg";
 import axios from "axios";
 import '../css/ChatMessageInfo.css';
@@ -20,7 +18,6 @@ const useStyles = makeStyles({
 function ChatMessageInfo(props) {
     const {cr_num,screenStatef,uInfo,u_numfinal}=props;
     const [spInfo,setSpinfo]=useState({});
-    const [exitsignal,setExitsignal]=useState(0);
     const navi=useNavigate();
     const classes = useStyles();
     const spURL='https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
@@ -53,6 +50,7 @@ function ChatMessageInfo(props) {
             <span className={'to_chat_room'} onClick={()=>screenStatef(1)}
             ><ArrowBackRounded/></span>
             <div className={'uInfoBox'} >
+                <div className={'uInfoBox_user'} >
                 <Avatar className={classes.avatar}>
                     <img alt={''} src={prfUrl+uInfo.prf_img} onClick={()=>navi('/profile/'+u_numfinal)}
                          className={'MuiAvatar-img css-1pqm26d-MuiAvatar-img'}
@@ -62,14 +60,17 @@ function ChatMessageInfo(props) {
                 <div className={'prf_nick'}>{uInfo.prf_nick}님</div>
                 <UserTemp prf_tmp={uInfo.prf_tmp}/>
                 <div className={'uinfobox_vline'}>  </div>
+                </div>
+                <div className={'uInfoBox_sp'} >
                 <div className={'spinfo_img'} onClick={spinfoClick}
                      style={{backgroundImage:`url('${spURL+spInfo.img_name}'),url('${noimage}')`}}/>
                 <div className={'spinfo_title'}>{spInfo.sp_title}
                     <span>{spInfo.pd_status==='soldout'?" (판매완료)":""}</span></div>
+            </div>
             </div>
             <div className={'cr_exit'} onClick={changeCrstatus}>나가기</div>
         </div>
     );
 }
 
-export default React.memo(ChatMessageInfo);
+export default ChatMessageInfo;
