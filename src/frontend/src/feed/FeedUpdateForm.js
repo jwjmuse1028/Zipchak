@@ -415,8 +415,7 @@ function FeedUpdateForm(props) {
                             hideModeSwitch={true}
                             toolbarItems={[
                                 // 툴바 옵션 설정
-                                ['heading', 'bold', 'italic', 'strike'],
-                                ['hr', 'quote'],
+                                ['heading', 'bold', 'italic', 'strike','hr'],
                                 ['ul', 'ol', 'task', 'indent', 'outdent'],
                                 ['table', 'image', 'link'],
                             ]}
