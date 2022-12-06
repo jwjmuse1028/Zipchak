@@ -7,14 +7,13 @@
     top: 45%;
     left: 45%;
 }
-span.detailavt{
+div.detailavt{
     display: flex;
-    margin-left: 3%;
-    /*width: 22%;*/
-    gap: 10px;
-    align-items: center;
-    justify-content: left;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 5px;
 }
+
 .detailbutton {
     display: flex;
     float: right;

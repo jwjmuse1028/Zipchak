@@ -28,7 +28,7 @@
     </select>
 
     <delete id="deleteCmtByNum" parameterType="int">
-        delete from fd_cmt where fd_num=#{fd_num}
+        delete from fd_cmt where cmt_num=#{cmt_num}
     </delete>
 
 </mapper>
