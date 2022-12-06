@@ -209,14 +209,14 @@ function ShopDetail(props) {
                     <UserTemp prf_tmp={detail.prf_tmp}/>
                 </div>
                 <hr style={{width:'100%', marginTop:'0px',position:"relative",top:'-20px'}}/>
-                <div className={'input-group'}>
+                <div style={{display:"flex"}}>
                 <IconButton style={{color:'#35c5f0'}} onClick={onClickLike(SlideTransition)}>
                     {
                         // <Bookmark fontSize={"large"}/>
                         detail.userlike===0?<BookmarkBorder fontSize={"large"}/>:<Bookmark fontSize={"large"}/>
                     }
                 </IconButton>
-                <b style={{fontSize:'2.2em'}}>{detail.sp_title}</b>
+                <b style={{fontSize:'2.0em'}}>{detail.sp_title}</b>
                     {
                         sessionStorage.ur_id === detail.ur_id?
                             <IconButton style={{float: "right"}}
@@ -228,7 +228,7 @@ function ShopDetail(props) {
                                 <MoreVert/>
                             </IconButton> : ''
                     }
-                </div>
+                </div><br/>
             <span style={{color:"gray"}}>{detail.pd_ctg}·{detail.sp_wdate}</span>
 
 
@@ -274,7 +274,7 @@ function ShopDetail(props) {
                         }
                     }
                     }>
-                        <Chat/>&nbsp;얘한테 채팅하기
+                        <Chat/>&nbsp;판매자에게 채팅하기
                     </Fab>
             }
                 <b style={{fontSize:'1.25em'}}>{detail.pd_price?numberFormat(detail.pd_price):''}원</b><br/><br/>

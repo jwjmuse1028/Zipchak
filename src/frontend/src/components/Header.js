@@ -164,7 +164,6 @@ function Header(props) {
     return (
         <header className={"header"}>
         <ul className='menu'>
-
             <div className='menu_left'>
                 <li>
                     <img src={mainlogo} style={{width:'80px', cursor:"pointer"}} onClick={()=>{navi("/"); setShowlist(0)}}/>
@@ -194,7 +193,7 @@ function Header(props) {
                              backgroundColor:'#35c5f0', color:"white"}}
                             onClick={handleClickOpen}>
                         <AccountCircle/>&nbsp;로그인
-                    </Fab>
+                        </Fab>
                     </div>
                     :
                     <div className={'loginavt'}>
