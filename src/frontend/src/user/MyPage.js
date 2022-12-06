@@ -19,6 +19,7 @@ function MyPage(props) {
         setShowlist(num);
         window.history.pushState("", null, '/mypage/'+num);
     }
+
     return (
         <div className={'mypage_otr_container list_container'} >
             <div className={'mypage_prf_subject'} >마이페이지</div>

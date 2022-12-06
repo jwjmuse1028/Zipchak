@@ -83,13 +83,13 @@
 /*    }*/
 /*}*/
 
-h2 {
+h2.homebest{
     position: relative;
     text-align: center;
     top: -670px;
 }
 
-h2 span {
+h2.homebest span {
     position: relative;
     top: 20px;
     display: inline-block;

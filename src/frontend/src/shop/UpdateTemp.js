@@ -56,6 +56,7 @@ function UpdateTemp(props) {
     const [rv_txt,setRv_txt]=useState();
     const classes = useStyles();
     const prfUrl="https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/prf_img/";
+    const fromuser=sessionStorage.ur_num;
     const getUInfo=()=>{
         //console.log(touser+","+sp_num+","+fromseller);
         let uinfoUrl=localStorage.url+"/chat/u_info?u_num="+touser;
@@ -67,7 +68,7 @@ function UpdateTemp(props) {
         let updateTempUrl=localStorage.url+"/updatetmp";
         //console.log(rv_tmp);
         //console.log(rv_txt);
-        axios.post(updateTempUrl,{sp_num,touser,rv_tmp,rv_txt,fromseller})
+        axios.post(updateTempUrl,{sp_num,touser,rv_tmp,rv_txt,fromseller,fromuser})
        .then(res=>{
            updatetemprate(sp_num);
        });

@@ -274,7 +274,7 @@ function FeedUpdateForm(props) {
     }
 
     return (
-        <div className={"form_container"}>
+        <div className={"detail_container"}>
             <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
                 <button type={'submit'} style={{visibility: "hidden"}} id={'submitbtn'}></button>
                 <br/><br/>

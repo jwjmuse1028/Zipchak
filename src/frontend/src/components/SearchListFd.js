@@ -16,7 +16,9 @@ function SearchListFd(props) {
                      className={'search_sp_img_card'}
                      onClick={()=>fdinfoClick(item)}/>
                 <div className={'search_fd_title_card'}>{item.fd_title}</div>
-                <div className={'search_prf_box'}>
+                <div className={'search_prf_box'}
+                     style={{cursor:'pointer'}}
+                     onClick={()=>navi(`/profile/${item.ur_num}/1`)}>
                     <div className={'search_prf_img_box'}>
                         <img className={'search_prf_img'}
                              src={prfUrl+item.prf_img}/>
