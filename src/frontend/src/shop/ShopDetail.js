@@ -189,6 +189,7 @@ function ShopDetail(props) {
     }, [sp_num]);
 
     return (
+
         <div className={'shop_detail_container'}>
             <span style={{color: "gray"}}>카테고리>{detail.pd_ctg}</span>
             <br/><br/>
@@ -208,10 +209,12 @@ function ShopDetail(props) {
                                 </div>)
                         }
                     </Slider>
+
                     {
                         detail.pd_status === "soldout" ?
                             <p className={'soldouttxtdetail'}>판매완료</p> : ''
                     }
+
                     <br/>
                 </div>
                 <div style={{width: '100%', marginLeft: '40px'}}>
@@ -223,6 +226,7 @@ function ShopDetail(props) {
                         <div style={{position: "relative", transform: 'scale(0.7)'}}>
                             <UserTemp prf_tmp={detail.prf_tmp}/>
                         </div>
+
 
                     </div>
                     <div style={{display: "flex", margin: "10px 0 20px 0"}}>
@@ -317,6 +321,7 @@ function ShopDetail(props) {
                     }}><BuildOutlined/>&nbsp;수정하기</MenuItem>
                     <MenuItem style={{color: 'red'}} onClick={deleteShop}><DeleteOutline/>&nbsp;삭제하기</MenuItem>
                 </Menu>
+
             </div>
             <BuyerList selectedValue={selectedValue} buyerlistOpen={buyerlistOpen} buyerlistClose={buyerlistClose}
                        sp_num={sp_num}/>

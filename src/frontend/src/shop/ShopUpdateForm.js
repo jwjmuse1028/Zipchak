@@ -93,13 +93,13 @@ function ShopUpdateForm(props) {
         <div>
             <form onSubmit={onSubmit}>
                 <table className={'table table-bordered'} style={{width:'40%',minWidth:'500px', margin:"auto", borderColor:"white"}}>
-                    <caption align={'top'}><h2>상품수정</h2></caption>
+                    <caption align={'top'}><h3>상품수정</h3></caption>
                     <tbody>
                     <tr><th></th></tr>
                     <tr>
                         <th style={{width:'20%'}}>제목&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                         <td style={{width:'80%'}}>
-                            <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 20자)"} inputProps={{ maxLength: 20 }} variant={"standard"} style={{width:'100%'}}
+                            <TextField type={"text"} required placeholder={"상품 제목을 등록해주세요 (최대 30자)"} inputProps={{ maxLength: 30 }} variant={"standard"} style={{width:'100%'}}
                                        value={shopdata.sp_title}
                                        onChange={(e)=>{
                                            setShopdata({

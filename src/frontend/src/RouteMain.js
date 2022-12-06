@@ -50,11 +50,6 @@ function RouteMain(props) {
                     <Route path=':roomno' element={<Chat/>}/>
                     <Route path='list/' element={<ChatRoomList/>}/>
                 </Route>
-                {/*<Route path='/board'>*/}
-                {/*    <Route path='form' element={<BoardForm/>}/>*/}
-                {/*    <Route path='list' element={<BoardList/>}/>*/}
-                {/*    <Route path='list/:currentPage' element={<BoardList/>}/>*/}
-                {/*</Route>*/}
                 <Route path='/feed'>
                     <Route path='insertform' element={<FeedInsertForm/>}/>
                     <Route path='list' element={<FeedList/>}/>
