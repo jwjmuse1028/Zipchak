@@ -22,7 +22,8 @@ ul.menu{
 }
 ul.menu li{
     float: left;
-    width: 80px;
+    width: 15%;
+    min-width: 80px;
     height: 100px;
     line-height: 100px;
     text-align: center;
@@ -45,14 +46,14 @@ ul.menu div.search_bar{
     display: flex;
     /*float: left;*/
     /*width: 20%;*/
-    margin-top: 25px;
-    height: 50px;
+    margin-top: 30px;
+    height: 40px;
     text-align: center;
     /*margin-right: 30px;*/
     /*margin-left: 10%;*/
 }
 .btn_search_bar{
-    height: 50px;
+    height: 40px;
     background-color: white;
     color: #35c5f0;
     border: white;
@@ -81,6 +82,9 @@ div.loginavt{
     transform: scale(1.1);
     color: #35c5f0;
 }
+.totalsearch{
+    margin-left: 10%;
+}
 .totalsearch:focus {
     border-color: #35C5F0;
     box-shadow: none;
@@ -98,16 +102,16 @@ div.loginavt{
 
 /*반응형*/
 /*폭클경우*/
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 940px) {
     .header {
         height: 100px;
     }
     ul.menu{
-        width: 90%;
+        width: calc(100% - 120px);
         margin: auto;
-        max-width: 1136px;
+        max-width: 1256px;
         display: grid;
-        grid-template-columns: 600px 500px;
+        grid-template-columns: 50% 50%;
     }
     .menu_left{
         justify-content: space-around;
@@ -124,7 +128,7 @@ div.loginavt{
         height: 100px;
     }
     ul.menu{
-        width: 90%;
+        width: calc(100% - 120px);
         margin: auto;
         max-width: 1136px;
         display: grid;

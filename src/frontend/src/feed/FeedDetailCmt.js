@@ -76,7 +76,6 @@ function FeedDetailCmt({fd_num}) {
 
         axios.post(cmtinsertUrl, {cmt_num, fd_num, ur_num, cmt_txt, cmt_rg, cmt_rs, cmt_rl})
             .then(res => {
-                alert("insert 성공");
                 getAllCmt();
                 setCmt_txt('');
                 }

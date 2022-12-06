@@ -31,4 +31,5 @@ public class ShopProductDto {
     private double prf_tmp;
     private int totallikes;
     private int userlike;
+    private int chatcnt;
 }

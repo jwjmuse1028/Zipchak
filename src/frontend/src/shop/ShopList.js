@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/ShopList.css";
-import {Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
+import {ArrowForwardIosRounded, Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -20,6 +20,7 @@ import {
     Select,
     TextField
 } from "@mui/material";
+import {ArrowBackIosNewRounded} from "@mui/icons-material";
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
@@ -52,27 +53,17 @@ function useQuery() {
 function ShopList() {
     const classes = useStyles();
     const navi = useNavigate();
-    const {sp_num}=useParams();
     const [data, setData]=useState('');
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
     const [viewPaging,setViewPaging]=useState(true);
     const [categorychange,setCategorychange]=useState(false);
     //채팅 수
-    const [chatCnt,setChatCnt]=useState(0);
     let query=useQuery();
     const category=query.get("category");
     const currentPage=query.get("currentPage");
     //함수
-    //채팅 수 출력
-    const getChatCnt=()=>{
-        let getChatCntUrl=sessionStorage.url+"/shop/getchatcnt?sp_num="+sp_num;
-        axios.get(getChatCntUrl).
-        then(res=>setChatCnt(res.data))
-    }
-    useEffect(()=>{
-        getChatCnt();
-    },[sp_num]);
+
 
     // const [chkSoldOut,setChkSoldOut]=useState(true);
      const [like, setLike]=useState(false);
@@ -239,7 +230,7 @@ function ShopList() {
                                 <b className={'list-title'}
                                    onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
                                 <span>{numberFormat(row.pd_price)}원</span><br/>
-                                <span style={{color:"gray", fontSize:'0.9em'}}>관심&nbsp;{row.totallikes}·채팅&nbsp;{chatCnt}</span>
+                                <span style={{color:"gray", fontSize:'0.9em'}}>관심&nbsp;{row.totallikes}·채팅&nbsp;{row.chatcnt}</span>
                             </CardContent>
                         </div>
                     </Card>
@@ -268,7 +259,7 @@ function ShopList() {
                 <div className={'page'} variant="outlined" shape="rounded" style={{clear: 'both'}}>
                     {
                         data.startPage > 1 ?
-                            <Link to={`/shop/list?category=${category}&currentPage=${data.startPage - 1}`} className={'pageprev'}>이전</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.startPage - 1}`} className={'pageprev'}><ArrowBackIosNewRounded/></Link> : ''
                     }
                     {
                         data.parr &&
@@ -278,7 +269,7 @@ function ShopList() {
                     }
                     {
                         data.endPage < data.totalPage ?
-                            <Link to={`/shop/list?category=${category}&currentPage=${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.endPage + 1}`} className={'pagenext'}><ArrowForwardIosRounded/></Link> : ''
                     }
                 </div>
             }

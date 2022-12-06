@@ -68,7 +68,7 @@ function Home(props) {
         return (
             <div
                 className={className}
-                style={{ ...style, right:'-5%'}}
+                style={{ ...style, right:'-3%'}}
                 onClick={onClick}
             />
         );
@@ -79,7 +79,7 @@ function Home(props) {
         return (
             <div
                 className={className}
-                style={{ ...style, left:'-5%'}}
+                style={{ ...style, left:'-3%'}}
                 onClick={onClick}
             />
         );
@@ -280,7 +280,6 @@ function Home(props) {
                 </div>
             </Slider>
             <br/><br/><br/>
-
             <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
                 <br/>
@@ -322,7 +321,7 @@ function Home(props) {
                     }
                 </Slider>
             </div>
-                <br/><br/><br/>
+                <br/><br/>
             <div>
                 <h4><strong>👑 집착 어워드 👑</strong></h4>
                 <div style={{display:'flex'}}>
@@ -397,7 +396,7 @@ function Home(props) {
             </div>
             <br/><br/><br/>
             <div>
-                <img src={mainad3}/>
+                <img src={mainad3} style={{width:'50%'}}/>
                 {/*<p className="animation">집이 최고야</p>*/}
                 <h2 className={'homebest'}>
                     <span>집</span>
