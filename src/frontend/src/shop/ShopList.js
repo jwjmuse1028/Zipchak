@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "../css/ShopList.css";
-import {Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
+import {ArrowForwardIosRounded, Bookmark, BookmarkBorder, SearchRounded} from "@material-ui/icons";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -20,6 +20,7 @@ import {
     Select,
     TextField
 } from "@mui/material";
+import {ArrowBackIosNewRounded} from "@mui/icons-material";
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
@@ -258,7 +259,7 @@ function ShopList() {
                 <div className={'page'} variant="outlined" shape="rounded" style={{clear: 'both'}}>
                     {
                         data.startPage > 1 ?
-                            <Link to={`/shop/list?category=${category}&currentPage=${data.startPage - 1}`} className={'pageprev'}>이전</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.startPage - 1}`} className={'pageprev'}><ArrowBackIosNewRounded/></Link> : ''
                     }
                     {
                         data.parr &&
@@ -268,7 +269,7 @@ function ShopList() {
                     }
                     {
                         data.endPage < data.totalPage ?
-                            <Link to={`/shop/list?category=${category}&currentPage=${data.endPage + 1}`} className={'pagenext'}>다음</Link> : ''
+                            <Link to={`/shop/list?category=${category}&currentPage=${data.endPage + 1}`} className={'pagenext'}><ArrowForwardIosRounded/></Link> : ''
                     }
                 </div>
             }
