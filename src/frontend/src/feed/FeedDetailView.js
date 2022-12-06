@@ -192,7 +192,7 @@ function FeedDetailView(props) {
                                 }
 
                             </header>
-                            <section className="project-detail-metadata">
+                            <section className="project-detail-metadata" style={{marginBottom: '60px'}}>
                                 <dl className="project-detail-metadata-overview">
                                     <div className="project-detail-metadata-overview-item">
                                         <dt className="project-detail-metadata-detail-item">공간</dt>
