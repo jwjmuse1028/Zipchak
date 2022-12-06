@@ -122,3 +122,12 @@ div.form_container {
     cursor: pointer;
     visibility: visible;
 }
+
+.insertformbtn{
+    float: right;
+}
+
+.insertformbtn button{
+    margin-left: 15px;
+    margin-top: 15px;
+}

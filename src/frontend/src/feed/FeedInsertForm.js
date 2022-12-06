@@ -123,6 +123,11 @@ function FeedInsertForm(props) {
             return;
         }
 
+        if (!submit) {
+            alert("태그를 추가해 주세요")
+            return;
+        }
+
         let fdtxt = document.getElementsByClassName("toastui-editor-contents").item(0).firstElementChild
         let fdbtn = fdtxt.getElementsByTagName("button").length
         for (let i = 0; i < fdbtn; i++) {
@@ -167,7 +172,7 @@ function FeedInsertForm(props) {
 
     const [tagtarget, setTagtarget] = useState()
 
-    const [detail,setDetail] = useState(true)
+    const [detail, setDetail] = useState(true)
 
     const tagpdnum = (x) => {
         document.getElementsByClassName(tagtarget).item(0).setAttribute("id", x)
@@ -194,7 +199,7 @@ function FeedInsertForm(props) {
 
     const deletetag = () => {
         let tag = document.getElementsByClassName(tagtarget).item(0)
-        if (tag!=null && tag.getAttribute("id") === "0") {
+        if (tag != null && tag.getAttribute("id") === "0") {
             tag.remove()
         }
     }
@@ -225,7 +230,7 @@ function FeedInsertForm(props) {
                 const divtag = document.createElement("div")
                 divtag.innerHTML = imgtag.item(i).outerHTML
                 divtag.setAttribute("style", "position:relative")
-                divtag.setAttribute("class","img_tag")
+                divtag.setAttribute("class", "img_tag")
                 divtag.insertAdjacentHTML("beforeend",
                     "<button class='btn editbtn' id='editbtn' style='background-color: rgba(0,0,0,0.7); opacity:1; position: absolute; color: white; right: 10px; bottom: 20px'>태그 편집</button>")
                 divtag.getElementsByTagName("button").item(0).addEventListener("click", changebtn)
@@ -279,8 +284,7 @@ function FeedInsertForm(props) {
     return (
         <div className={"form_container"}>
             <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
-                <h3>피드 게시글 입력 폼</h3>
-                <button type={'submit'}>게시글 저장</button>
+                <button type={'submit'} style={{visibility: "hidden"}} id={'submitbtn'}></button>
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}
@@ -404,41 +408,66 @@ function FeedInsertForm(props) {
             </div>
 
             {
-                submit ? <Viewer initialValue={dto.fd_txt}/>
+                submit ?
+                    <Viewer initialValue={dto.fd_txt}/>
                     :
-                    <Editor
-                        previewStyle="vertical" // 미리보기 스타일 지정
-                        height="1000px" // 에디터 창 높이
-                        initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-                        plugins={[colorSyntax]}
-                        hideModeSwitch={true}
-                        toolbarItems={[
-                            // 툴바 옵션 설정
-                            ['heading', 'bold', 'italic', 'strike'],
-                            ['hr', 'quote'],
-                            ['ul', 'ol', 'task', 'indent', 'outdent'],
-                            ['table', 'image', 'link'],
-                        ]}
-                        hooks={{
-                            addImageBlobHook: async (blob, callback) => {
+                    <>
+                        <Editor
+                            previewStyle="vertical" // 미리보기 스타일 지정
+                            height="1000px" // 에디터 창 높이
+                            initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+                            plugins={[colorSyntax]}
+                            hideModeSwitch={true}
+                            toolbarItems={[
+                                // 툴바 옵션 설정
+                                ['heading', 'bold', 'italic', 'strike'],
+                                ['hr', 'quote'],
+                                ['ul', 'ol', 'task', 'indent', 'outdent'],
+                                ['table', 'image', 'link'],
+                            ]}
+                            hooks={{
+                                addImageBlobHook: async (blob, callback) => {
 
-                                const formData = new FormData()
-                                formData.append('file', blob)
+                                    const formData = new FormData()
+                                    formData.append('file', blob)
 
-                                let url = localStorage.url + "/image/insert"
+                                    let url = localStorage.url + "/image/insert"
 
-                                axios.post(url, formData, {
-                                    header: {"content-type": "multipart/formdata"}
-                                }).then(res => {
-                                    callback(res.data)
-                                })
-                            }
-                        }}
-                        onChange={onChange}
-                        ref={editorRef}
-                    />
+                                    axios.post(url, formData, {
+                                        header: {"content-type": "multipart/formdata"}
+                                    }).then(res => {
+                                        callback(res.data)
+                                    })
+                                }
+                            }}
+                            onChange={onChange}
+                            ref={editorRef}
+                        />
+                        <div className={"insertformbtn"}>
+                            <button type={"button"} style={{
+                                backgroundColor: 'rgb(53, 197, 240)',
+                                border: "none",
+                                color: "white",
+                                height: '40px',
+                                borderRadius: '5px',
+                                width: '100px'
+                            }} onClick={addtag}>태그 추가
+                            </button>
+                            <button type={"button"} style={{
+                                backgroundColor: 'rgb(53, 197, 240)',
+                                border: "none",
+                                color: "white",
+                                height: '40px',
+                                borderRadius: '5px',
+                                width: '100px'
+                            }} onClick={() => {
+                                document.getElementById('submitbtn').click()
+                            }}>게시물 저장
+                            </button>
+                        </div>
+                    </>
+
             }
-            <button type={"button"} className={"btn btn-info"} onClick={addtag}>태그 추가</button>
             <FeedTagPopover anchorEl={anchorEl} popoverclose={popoverclose} sp_num={sp_num} tagpdnum={tagpdnum}
                             detail={detail}/>
         </div>

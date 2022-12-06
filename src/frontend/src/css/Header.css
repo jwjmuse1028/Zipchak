@@ -77,9 +77,6 @@ div.loginavt{
     /*justify-content: right;*/
     font-size: 1.1em;
 }
-.insertformbtn:hover{
-    background-color: red;
-}
 .ziptalk:hover {
     transform: scale(1.1);
     color: #35c5f0;
