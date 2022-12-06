@@ -44,7 +44,7 @@ function SearchList(props) {
     }
     useEffect(()=>searchtotal(),[word]);
     return (
-        <div className={'search_box'}>
+        <div className={'list_container'}>
             <div className={'mypage_menu'}>
                 <div className={'mypage_menu_each'}
                      style={{textDecoration: (more === 1 ) ?'underline wavy #35c5f0 3px':"none"}}
@@ -72,7 +72,7 @@ function SearchList(props) {
                     splist.map((item,i)=>  <SearchListSp item={item} key={i}/>)
                 }
             </ul>
-                <hr/>
+                <br/>
             </div>
             <div className={more===1 || more===3?"list_show":"list_hide"}>
             <ul className={'search_ul_card'} >
@@ -88,7 +88,7 @@ function SearchList(props) {
                     fdlist.map((item,i)=> <SearchListFd item={item} key={i}/>)
                 }
             </ul>
-                <hr/>
+                <br/>
             </div>
         </div>
     );

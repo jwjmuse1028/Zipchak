@@ -8,7 +8,7 @@
         update ur_prf set prf_tmp=#{avgtmp} where ur_num=#{ur_num}
     </update>
     <insert id="insertRv" parameterType="rvdto">
-        insert into rv values (null,#{sp_num},#{touser},#{rv_tmp},#{rv_txt},now(),#{fromseller})
+        insert into rv values (null,#{sp_num},#{fromuser},#{touser},#{rv_tmp},#{rv_txt},now(),#{fromseller})
     </insert>
     <select id="checkRv" parameterType="int" resultType="int">
         select count(*) from
@@ -26,20 +26,20 @@
         select * from
             (select sp.sp_title, pd_img.img_name, rv.touser, sp.pd_num,
                     sp.ur_num, sp.sp_num, min(fromseller) fromseller from rv
-                        join sp on sp.sp_num=rv.sp_num                                                                                                            join pd_img on pd_img.pd_num=sp.pd_num
+                        join sp on sp.sp_num=rv.sp_num
+                        join pd_img on pd_img.pd_num=sp.pd_num
              where touser=#{ur_num} or
-                     touser= ANY (select sp.ur_num from sp
-                         join rv on rv.sp_num= sp.sp_num
-                                  where touser=#{ur_num} group by sp.ur_num)
+                 fromuser=#{ur_num}
              group by sp_num) as rvlist
         where rvlist.touser=#{ur_num} and rvlist.ur_num !=#{ur_num} order by fromseller desc
     </select>
     <select id="getRvList" parameterType="int" resultType="rvdto">
-        select sp.sp_num, sp.sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num
+        select sp.sp_num, sp.sp_title, pd_img.img_name, rv.rv_num, rv.touser, rv.rv_txt,rv.rv_tmp, sp.pd_num,fromuser,ur_prf.prf_nick,ur_prf.prf_img
         from cr
-            join sp on sp.sp_num=cr.sp_num
-            join pd_img on pd_img.pd_num=sp.pd_num
-            join rv on rv.sp_num=sp.sp_num
+                 join sp on sp.sp_num=cr.sp_num
+                 join pd_img on pd_img.pd_num=sp.pd_num
+                 join rv on rv.sp_num=sp.sp_num
+                 join ur_prf on ur_prf.ur_num=rv.fromuser
         where touser=#{ur_num}
         group by rv_num
         order by rv_wdate desc
@@ -114,7 +114,7 @@
                (select max(cnt) from (select ur_num, count(*) cnt from fd_like group by ur_num ) as mx)
     </select>
     <select id="getSearchFeeds" parameterType="String" resultType="FeedListDto">
-        SELECT a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
+        SELECT a.ur_num,a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
         from fd a
                  left outer join ur_prf c
                                  on a.ur_num=c.ur_num
@@ -122,7 +122,7 @@
                                  on a.fd_num=b.fd_num
         where fd_title like concat('%',#{search_word},'%')
         union
-        SELECT a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
+        SELECT a.ur_num,a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
         from fd a
                  left outer join ur_prf c
                                  on a.ur_num=c.ur_num
@@ -130,7 +130,7 @@
                                  on a.fd_num=b.fd_num
         where fd_txt like concat('%',#{search_word},'%')
         union
-        SELECT a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
+        SELECT a.ur_num,a.fd_num, a.fd_title, c.prf_nick, c.prf_img, a.fd_img, a.fd_wdate,a.fd_rdcnt, a.fd_style, b.likes fd_likes
         from fd a
                  left outer join ur_prf c
                                  on a.ur_num=c.ur_num
@@ -139,7 +139,7 @@
         where prf_nick like concat('%',#{search_word},'%')
     </select>
     <select id="getSearchShops" parameterType="String" resultType="ShopProductDto">
-        select sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
+        select sp.ur_num,sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
                pd_price, pd_status
         from sp
             join ur_prf on ur_prf.ur_num=sp.ur_num
@@ -148,7 +148,7 @@
         where sp_title like concat('%',#{search_word} ,'%')
         group by sp.sp_num
         union
-        select sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
+        select sp.ur_num,sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
                pd_price, pd_status
         from sp
             join ur_prf on ur_prf.ur_num=sp.ur_num
@@ -157,7 +157,7 @@
         where sp_txt like concat('%',#{search_word} ,'%')
         group by sp.sp_num
         union
-        select sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
+        select sp.ur_num,sp.sp_num, sp.pd_num, sp.sp_title, prf_nick, prf_img, img_name img_first,
                pd_price, pd_status
         from sp
             join ur_prf on ur_prf.ur_num=sp.ur_num
@@ -175,7 +175,7 @@
                (select max(cnt) from (select ur_num, count(*) cnt from sp group by ur_num  ) as mx)
     </select>
     <select id="buyerkingWinfo" resultType="UserDto">
-        select rv.touser, prf_nick, prf_img, prf_tmp from rv
+        select rv.touser ur_num, prf_nick, prf_img, prf_tmp from rv
             join ur_prf on ur_prf.ur_num=rv.touser
         where fromseller=1
         group by touser

@@ -140,7 +140,7 @@ function FeedDetailCmt({fd_num}) {
     }
 
     return (
-        <div className={"cmt_container"}>
+        <div className={"detail_container"}>
             {ur_num &&
                 <form className="css-blglsf e1lhpdsz3" onSubmit={onCmtSubmit}>
                     <img src={`${imgUrl}/prf_img/${prf_img}`}

@@ -123,7 +123,7 @@ function FeedDetailView(props) {
     };
 
     return (
-        <div className={'detail_container'}>
+        <div >
 
             {fdata &&
                 <div className="content-detail">
@@ -136,7 +136,7 @@ function FeedDetailView(props) {
                         </div>
                     </div>
                     <div className="content-detail-content-section">
-                        <div className="content-detail-content-section__content">
+                        <div className="detail_container">
                             <header className="content-detail-header">
                                 <div className="content-detail-header__top"><p
                                     className="content-detail-header__category">인테리어 구경하기</p></div>

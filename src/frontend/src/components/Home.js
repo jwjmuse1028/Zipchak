@@ -399,7 +399,7 @@ function Home(props) {
             <div>
                 <img src={mainad3}/>
                 {/*<p className="animation">집이 최고야</p>*/}
-                <h2>
+                <h2 className={'homebest'}>
                     <span>집</span>
                     <span>이</span>
                     <span>최</span>
