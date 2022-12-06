@@ -42,7 +42,7 @@ function MyPageBookmarkList(props) {
             <ul className={'mypage_ul_card'} >
                 {bookmarklist.map((item,i)=>
                     <div key={i} className={((i<(resize<768?2:3))?'card_show':togglestatus?'card_show':'card_hide')+' mypage_li_card'} >
-                        <img alt={''} src={spURL+"image/"+item.sp_num+"/"+item.img_name}
+                        <img alt={''} src={spURL+item.img_name}
                              onClick={()=>spinfoClick(item)} className={'mypage_sp_img_card'} />
                         <div className={'mypage_sp_title_card'}>{item.sp_title}</div>
                         <div className={'mypage_pd_status_card'}>{

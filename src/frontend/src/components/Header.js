@@ -135,6 +135,7 @@ function Header(props) {
     const seachclick=()=>{
         navi(`/search?word=${searchword}`);
         setShowlist(0);
+        setSearchword('');
     }
     const seachkeydown=(e)=>{
         if(e.key==="Enter"){

@@ -1,9 +1,9 @@
-div.mypage_otr_container{
-    width:95%;
-    max-width:1136px;
-    margin:auto;
-    min-height: 620px;
-}
+/*div.mypage_otr_container{*/
+/*    width:95%;*/
+/*    max-width:1136px;*/
+/*    margin:auto;*/
+/*    min-height: 620px;*/
+/*}*/
 div.mypage_container{
     display: grid;
     height: 100%;

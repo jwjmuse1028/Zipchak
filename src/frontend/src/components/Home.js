@@ -330,7 +330,7 @@ function Home(props) {
             </div>
                 <br/><br/><br/>
             <div>
-                <h4><strong>👑 이달의 왕 TOP 👑</strong></h4>
+                <h4><strong>👑 집착 어워드 👑</strong></h4>
                 <div style={{display:'flex'}}>
                     <div className={'kings'}>
                         <div className={'kingtitle'}>판매왕</div>

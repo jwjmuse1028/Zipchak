@@ -123,7 +123,7 @@ function FeedDetailView(props) {
     };
 
     return (
-        <div>
+        <div className={'detail_container'}>
 
             {fdata &&
                 <div className="content-detail">
