@@ -98,23 +98,29 @@ public class FeedController {
         return feedServiceInter.getFeedDetail(fd_num,ur_num);
     }
 
-    @PostMapping("/feed/loginur")
-    public Map<String,Object> getProfileByNum(int ur_num) {
-        return feedServiceInter.getProfileByNum(ur_num);
-    }
-
-
     //  댓글관련
 
-    @PostMapping("fdcmt/insert")
+    @PostMapping("/fdcmt/insert")
     public void insertFeedCmt(@RequestBody FeedCmtDto dto)
     {
         feedServiceInter.insertFeedCmt(dto);
     }
 
-    @GetMapping("fdcmt/list")
+    @GetMapping("/fdcmt/list")
     public List<FeedCmtDto> getAllCmtByFdNum(int fd_num) {
         return feedServiceInter.getAllCmtByFdNum(fd_num);
     }
+
+    @PostMapping("/fdcmt/prfur")
+    public Map<String,Object> getProfileByNum(int ur_num) {
+        return feedServiceInter.getProfileByNum(ur_num);
+    }
+
+    @GetMapping("/fdcmt/delete")
+    public void deleteCmtByNum(int cmt_num)
+    {
+        feedServiceInter.deleteCmtByNum(cmt_num);
+    }
+
 
 }

@@ -267,6 +267,23 @@ div.mypage_sp_title{
 div.mypage_sp_title_for_rv{
     height: 50px;
 }
+div.mypage_fromuser_for_rv{
+    height: 50px;
+    line-height: 50px;
+    margin-right: 20px;
+    display: flex;
+}
+.fromuser_prf{
+    line-height: 45px;
+    margin-left: 10px;
+}
+.fromuser_prf_img{
+    background-color: #ededed;
+    width: 25px;
+    height: 25px;
+    border-radius: 100px;
+}
+
 .mypage_pd_status{
     width: 100px;
     color: #35C5F0;

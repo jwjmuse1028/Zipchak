@@ -21,7 +21,9 @@ function SearchListSp(props) {
                     {
                     item.pd_status==='onsale'?'판매중':'판매완료'
                 }</div>
-                <div className={'search_prf_box'}>
+                <div className={'search_prf_box'}
+                     style={{cursor:'pointer'}}
+                     onClick={()=>navi(`/profile/${item.ur_num}/1`)}>
                     <div className={'search_prf_img_box'}>
                         <img className={'search_prf_img'}
                              src={prfUrl+item.prf_img}/>

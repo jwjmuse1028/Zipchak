@@ -282,7 +282,7 @@ function FeedInsertForm(props) {
     }
 
     return (
-        <div className={"form_container"}>
+        <div className={"detail_container"}>
             <form onSubmit={onSubmitEvent} encType={"multipart/form-data"}>
                 <button type={'submit'} style={{visibility: "hidden"}} id={'submitbtn'}></button>
                 <br/><br/>
@@ -406,10 +406,24 @@ function FeedInsertForm(props) {
                         </div>
                 }
             </div>
-
             {
                 submit ?
-                    <Viewer initialValue={dto.fd_txt}/>
+                    <>
+                        <Viewer initialValue={dto.fd_txt}/>
+                        <div className={"insertformbtn"}>
+                            <button type={"button"} style={{
+                                backgroundColor: 'rgb(53, 197, 240)',
+                                border: "none",
+                                color: "white",
+                                height: '40px',
+                                borderRadius: '5px',
+                                width: '100px'
+                            }} onClick={() => {
+                                document.getElementById('submitbtn').click()
+                            }}>게시물 저장
+                            </button>
+                        </div>
+                    </>
                     :
                     <>
                         <Editor
@@ -452,17 +466,6 @@ function FeedInsertForm(props) {
                                 borderRadius: '5px',
                                 width: '100px'
                             }} onClick={addtag}>태그 추가
-                            </button>
-                            <button type={"button"} style={{
-                                backgroundColor: 'rgb(53, 197, 240)',
-                                border: "none",
-                                color: "white",
-                                height: '40px',
-                                borderRadius: '5px',
-                                width: '100px'
-                            }} onClick={() => {
-                                document.getElementById('submitbtn').click()
-                            }}>게시물 저장
                             </button>
                         </div>
                     </>

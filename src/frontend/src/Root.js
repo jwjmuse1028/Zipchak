@@ -6,7 +6,7 @@ import "./css/Layout.css";
 function Root(props) {
     sessionStorage.url=process.env.REACT_APP_BACK_URL;
     return (
-        <div>
+        <div className={'rootdiv'}>
             <BrowserRouter>
                 <RouteMain/>
             </BrowserRouter>

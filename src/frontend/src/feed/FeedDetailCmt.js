@@ -3,6 +3,7 @@ import axios from "axios";
 import "../css/FeedCmt.css";
 import Paging from "./Paging";
 import {useNavigate} from "react-router-dom";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 function FeedDetailCmt({fd_num}) {
 
@@ -106,6 +107,21 @@ function FeedDetailCmt({fd_num}) {
             )
     }
 
+    const onCmtDelete = (cmt_num) => {
+        console.log("cmt_num:"+cmt_num);
+        const cmtdeleteUrl = localStorage.url + "/fdcmt/delete?cmt_num="+cmt_num;
+
+        let chk=window.confirm("삭제하시겠습니까?");
+        if(chk)
+        {
+            axios.get(cmtdeleteUrl)
+                .then(res => {
+                        getAllCmt();
+                    }
+                )
+        }
+    }
+
     const onFocus=(e)=>{
         setCmt_fr_cls("css-vg56");
         setCmt_btn_cls("css-fw3oix");
@@ -124,7 +140,7 @@ function FeedDetailCmt({fd_num}) {
     }
 
     return (
-        <div className={"cmt_container"}>
+        <div className={"detail_container"}>
             {ur_num &&
                 <form className="css-blglsf e1lhpdsz3" onSubmit={onCmtSubmit}>
                     <img src={`${imgUrl}/prf_img/${prf_img}`}
@@ -171,6 +187,11 @@ function FeedDetailCmt({fd_num}) {
                                                     setCmtre_txt("@"+cdto.prf_nick+"  ");
                                                 }} className={"css-lw9a6t"} style={{marginLeft:'10px'}}>답글달기</button>
                                                 &nbsp;·&nbsp;{cdto.cmt_wdate}
+                                                { cdto.ur_num==ur_num &&
+                                                    <button type={'button'} className={"css-lw9a6t"} onClick={(e)=>onCmtDelete(cdto.cmt_num)}>
+                                                        &nbsp;·&nbsp;삭제&nbsp;<HighlightOffIcon style={{fontSize: '16px'}}/>
+                                                    </button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -191,6 +212,11 @@ function FeedDetailCmt({fd_num}) {
                                                     setCmtre_txt("@"+cdto.prf_nick+"  ");
                                                 }} className={"css-lw9a6t"} style={{marginLeft:'10px'}}>답글달기</button>
                                                 &nbsp;·&nbsp;{cdto.cmt_wdate}
+                                                { cdto.ur_num==ur_num &&
+                                                    <button type={'button'} className={"css-lw9a6t"} onClick={(e)=>onCmtDelete(cdto.cmt_num)}>
+                                                        &nbsp;·&nbsp;삭제&nbsp;<HighlightOffIcon style={{fontSize: '16px'}}/>
+                                                    </button>
+                                                }
                                             </div>
                                         </div>
                                     </div>

@@ -25,10 +25,11 @@ import SearchList from "./components/SearchList";
 
 function RouteMain(props) {
     return (
-        <div>
+        <div className={'route_main'}>
             {/* 항상 나오게 할 컴포넌트는 Routes 밖에 넣는다 */}
             <Header/>
             <br style={{clear:'both'}}/><br/><br/><br/><br/><br/>
+            <div className={'route_main_div'}>
             <Routes>
                 <Route path='/' element={<Home/>}/>
                 <Route path={'/register'} element={<RegisterForm/>}/>
@@ -64,6 +65,7 @@ function RouteMain(props) {
                     </div>
                 }/>
             </Routes><br/><br/><br/>
+            </div>
             <Footer/>
         </div>
     );
