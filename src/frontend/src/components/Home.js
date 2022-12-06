@@ -68,7 +68,7 @@ function Home(props) {
         return (
             <div
                 className={className}
-                style={{ ...style, right:'-5%'}}
+                style={{ ...style, right:'-3%'}}
                 onClick={onClick}
             />
         );
@@ -79,7 +79,7 @@ function Home(props) {
         return (
             <div
                 className={className}
-                style={{ ...style, left:'-5%'}}
+                style={{ ...style, left:'-3%'}}
                 onClick={onClick}
             />
         );
