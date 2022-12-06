@@ -189,9 +189,6 @@ function Header(props) {
                         <Avatar src={prfUrl+prf_img} onClick={handleClick} className={'profilehover'} style={{cursor:"pointer"}}/>&nbsp;&nbsp;
                         <b>{prf_nick}님이 로그인중</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button variant={"contained"} style={{backgroundColor:'#35c5f0', height:'40px'}} onClick={handleClick2}>글쓰기<KeyboardArrowDown/></Button>
-                        {/*<Fab className={'insertformbtn'} style={{backgroundColor:'#35c5f0', color:'white'}} variant="extended" onClick={handleClick2}>*/}
-                        {/*    글쓰기<KeyboardArrowDown/>*/}
-                        {/*</Fab>*/}
                     </div>
                 }
             </div>
