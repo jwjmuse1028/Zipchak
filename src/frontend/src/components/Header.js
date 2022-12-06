@@ -108,8 +108,26 @@ function Header(props) {
     }
 
     const actions = [
-        { icon: <AccountBox onClick={()=>{navi("/mypage/1");setShowlist(0)}}/>, name: '마이페이지' },
-        { icon: <ForumRounded onClick={()=>{navi("/chat/0");setShowlist(0)}}/>, name: '집톡' },
+        { icon: <AccountBox onClick={()=>{
+            if (sessionStorage.loginok==null) {
+                alert("로그인 후 이용해주세요");
+                return;
+            }
+            else {
+                navi("/mypage/1");
+            setShowlist(0);
+            }}}
+            />, name: '마이페이지' },
+        {
+            icon: <ForumRounded onClick={() => {
+                if (sessionStorage.loginok == null) {
+                    alert("로그인 후 이용해주세요");
+                    return;
+                } else {
+                    navi("/chat/0");
+                    setShowlist(0);
+                }}}
+            />, name: '집톡' },
         { icon: <ShoppingCartRounded onClick={()=>{navi("/shop/list?category=all&currentPage=1");setShowlist(2)}}/>, name: '스토어' },
         { icon: <HomeRounded onClick={()=>{navi("/feed/list");setShowlist(1)}}/>, name: '집들이' },
     ];
