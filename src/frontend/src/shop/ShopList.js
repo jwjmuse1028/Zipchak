@@ -212,7 +212,7 @@ function ShopList() {
                 <br/>
             {
                 data.list && data.list.map((row,idx)=>
-                    <Card className={classes.root} style={{float:'left',margin:'2%'}} key={idx}
+                    <Card className={classes.root} style={{float:'left',margin:'2%',position:'relative'}} key={idx}
                     >
                         <CardMedia
                             className={classes.media}

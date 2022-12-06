@@ -196,7 +196,7 @@ function ShopDetail(props) {
             <span style={{color: "gray"}}>카테고리>{detail.pd_ctg}</span>
             <br/><br/>
             <div style={{display: "flex", flexDirection: "row"}}>
-                <div>
+                <div style={{position:'relative'}}>
                     {
                         detail.images && detail.images.length==1?
                             <img alt={''}
