@@ -702,7 +702,8 @@ img{
     cursor: pointer;
     visibility: visible;
 }
-.project-detail__content-bpd p,div{
+.project-detail__content-bpd p,.project-detail__content-bpd div{
     font-size: 15px;
     color: #2f3438;
 }
+
