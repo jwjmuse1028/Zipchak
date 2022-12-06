@@ -8,7 +8,7 @@
         update ur_prf set prf_tmp=#{avgtmp} where ur_num=#{ur_num}
     </update>
     <insert id="insertRv" parameterType="rvdto">
-        insert into rv values (null,#{sp_num},#{fromuser},#{touser},#{rv_tmp},#{rv_txt},now(),#{fromseller})
+        insert into rv values (null,#{sp_num},#{touser},#{fromuser},#{rv_tmp},#{rv_txt},now(),#{fromseller})
     </insert>
     <select id="checkRv" parameterType="int" resultType="int">
         select count(*) from

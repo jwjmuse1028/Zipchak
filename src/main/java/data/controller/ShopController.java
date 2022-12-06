@@ -144,7 +144,7 @@ public class ShopController {
                 sppddto.setUserlike(likeMapper.getUserLike(likeMap));
 
             sppddto.setTotallikes(likeMapper.getTotalLikes(sppddto.getSp_num()));
-
+            sppddto.setChatcnt(crmapper.getChatCnt(sppddto.getSp_num()));
         }
 
         Vector<Integer> parr=new Vector<>();

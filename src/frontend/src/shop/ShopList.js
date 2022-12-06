@@ -52,27 +52,17 @@ function useQuery() {
 function ShopList() {
     const classes = useStyles();
     const navi = useNavigate();
-    const {sp_num}=useParams();
     const [data, setData]=useState('');
     const [search_col, setSearch_col]=useState('sp_title');
     const [search_word, setSearch_word]=useState('');
     const [viewPaging,setViewPaging]=useState(true);
     const [categorychange,setCategorychange]=useState(false);
     //채팅 수
-    const [chatCnt,setChatCnt]=useState(0);
     let query=useQuery();
     const category=query.get("category");
     const currentPage=query.get("currentPage");
     //함수
-    //채팅 수 출력
-    const getChatCnt=()=>{
-        let getChatCntUrl=sessionStorage.url+"/shop/getchatcnt?sp_num="+sp_num;
-        axios.get(getChatCntUrl).
-        then(res=>setChatCnt(res.data))
-    }
-    useEffect(()=>{
-        getChatCnt();
-    },[sp_num]);
+
 
     // const [chkSoldOut,setChkSoldOut]=useState(true);
      const [like, setLike]=useState(false);
@@ -239,7 +229,7 @@ function ShopList() {
                                 <b className={'list-title'}
                                    onClick={()=>navi(`/shop/detail/${row.pd_num}/${row.sp_num}/${currentPage}`)}>{row.sp_title}</b>
                                 <span>{numberFormat(row.pd_price)}원</span><br/>
-                                <span style={{color:"gray", fontSize:'0.9em'}}>관심&nbsp;{row.totallikes}·채팅&nbsp;{chatCnt}</span>
+                                <span style={{color:"gray", fontSize:'0.9em'}}>관심&nbsp;{row.totallikes}·채팅&nbsp;{row.chatcnt}</span>
                             </CardContent>
                         </div>
                     </Card>
