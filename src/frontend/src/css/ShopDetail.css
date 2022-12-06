@@ -4,9 +4,10 @@
     position: absolute;
     text-align: center;
     z-index: 100;
-    top: 41%;
-    left: 34%;
+    top: 45%;
+    left: 30%;
 }
+
 div.detailavt{
     display: flex;
     height: 40px;
