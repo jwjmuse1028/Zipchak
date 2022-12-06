@@ -13,7 +13,7 @@ function Profile(props) {
         window.history.pushState("", null, '/profile/'+user+"/"+show);
     }
     return (
-        <div className={'mypage_otr_container'} >
+        <div className={'mypage_otr_container list_container'} >
             <div className={'mypage_prf_subject'}>프로필</div>
             <br/>
             <div className={'mypage_menu'}>

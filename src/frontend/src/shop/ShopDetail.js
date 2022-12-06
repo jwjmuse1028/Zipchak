@@ -185,7 +185,7 @@ function ShopDetail(props) {
     },[sp_num]);
 
     return (
-        <div style={{margin:"auto", width:'35%', minWidth:'660px'}}>
+        <div className={'detail_container'}>
             <Slider {...settings}>
                 {
                     detail.images &&
