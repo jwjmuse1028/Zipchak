@@ -38,6 +38,12 @@ function FeedTagPopover(props) {
         popoverclose()
     }
 
+    const deleteItem = (e) =>{
+        let tagsp = e.target.getAttribute("id")
+        tagpdnum(tagsp)
+        popoverclose()
+    }
+
     return (
         <Popover
             id={id}
@@ -88,7 +94,7 @@ function FeedTagPopover(props) {
                                         </div>
                                         {!detail ?
                                             <div className={'tag_btn_div'}>
-                                                <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"} style={{margin:"auto"}}/>
+                                                <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"} style={{margin:"auto", cursor:"pointer"}} id={"0"} onClick={deleteItem}/>
                                             </div>
                                             :''
                                         }

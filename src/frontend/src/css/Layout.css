@@ -14,3 +14,10 @@
     padding: 0 16px;
     box-sizing: border-box;
 }
+
+.shop_detail_container{
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
