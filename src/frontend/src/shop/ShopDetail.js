@@ -118,6 +118,7 @@ function ShopDetail(props) {
     }
 
     const settings = {
+        initialSlide:0,
         dots: true,
         infinite: true,
         arrows: true,
@@ -127,6 +128,7 @@ function ShopDetail(props) {
         nextArrow: <SampleNextArrow/>,
         prevArrow: <SamplePrevArrow/>
     }
+
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -195,21 +197,30 @@ function ShopDetail(props) {
             <br/><br/>
             <div style={{display: "flex", flexDirection: "row"}}>
                 <div>
-                    <Slider {...settings} style={{width: "500px"}}>
-                        {
-                            detail.images &&
-                            detail.images.map((photo, idx) =>
-                                <div key={{idx}} className="banner">
-                                    <img alt={''}
-                                         src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`}
-                                         width={'100%'} style={{
-                                        borderRadius: '30px',
-                                        filter: detail.pd_status === "soldout" ? 'brightness(30%)' : ''
-                                    }}/>
-                                </div>)
-                        }
-                    </Slider>
-
+                    {
+                        detail.images && detail.images.length==1?
+                            <img alt={''}
+                                 src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${detail.images}`}
+                                 width={'100%'} style={{
+                                borderRadius: '30px',
+                                filter: detail.pd_status === "soldout" ? 'brightness(30%)' : ''
+                            }}/>
+                            :
+                            <Slider {...settings} style={{width: "500px"}}>
+                                {
+                                    detail.images &&
+                                    detail.images.map((photo, idx) =>
+                                        <div key={idx} className="banner">
+                                            <img alt={''}
+                                                 src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`}
+                                                 width={'100%'} style={{
+                                                borderRadius: '30px',
+                                                filter: detail.pd_status === "soldout" ? 'brightness(30%)' : ''
+                                            }}/>
+                                        </div>)
+                                }
+                            </Slider>
+                    }
                     {
                         detail.pd_status === "soldout" ?
                             <p className={'soldouttxtdetail'}>판매완료</p> : ''

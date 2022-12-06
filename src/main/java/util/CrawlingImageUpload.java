@@ -5,7 +5,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.tomcat.jni.Time;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -46,28 +45,26 @@ public class CrawlingImageUpload{
 
         WebDriver driver = new ChromeDriver();
 
-        String url="https://store.ohou.se/today_deals";
+        String url="https://store.ohou.se/ranks?type=best";
         driver.get(url);
 
-        int idx=16;
+        int idx=1;
 
         try{
+            int num=51;
 
-            int num=31;
-            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 8000)");
             Thread.sleep(1000);
             /*((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 5000)");
             Thread.sleep(1000);*/
 
-            while (num<51){
+            while (num<71){
 
-                if (idx==24) {
-                    ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 3000)");
-                    idx-=6;
+                if (idx%12==0) {
+                    ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 1000)");
                     Thread.sleep(1000);
                 }
 
-                List<WebElement> el1 = driver.findElements(By.className("css-9af4ho"));
+                List<WebElement> el1 = driver.findElements(By.className("css-b54ynu"));
 
                 el1.get(idx).click();
 
@@ -98,11 +95,6 @@ public class CrawlingImageUpload{
                     int qidx = wimg.findElement(By.className("image")).getAttribute("src").indexOf('?');
                     String img_info = wimg.findElement(By.className("image")).getAttribute("src").substring(0,qidx);
 
-                    File iFolder = new File("D:/image/"+num);
-                    if(!iFolder.exists()) {
-                        iFolder.mkdirs();
-                    }
-
                     URL iUrl=new URL(img_info);
                     is=iUrl.openStream();
                     int sidx = img_info.lastIndexOf('/')+1;
@@ -110,7 +102,7 @@ public class CrawlingImageUpload{
 
                     img_name+=img_info+",";
 
-                    fos=new FileOutputStream("D:/image/"+num+"/"+img_info);
+                    fos=new FileOutputStream("D:/image/"+img_info);
                     int b;
                     while((b=is.read())!=-1)
                         fos.write(b);
