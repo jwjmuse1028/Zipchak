@@ -4,12 +4,14 @@ import axios from "axios";
 import {makeStyles} from "@material-ui/core/styles";
 import '../css/FeedTag.css'
 import {MdOutlineDeleteOutline} from "react-icons/md";
+import {useNavigate} from "react-router-dom";
 
 function FeedTagPopover(props) {
     const {anchorEl, popoverclose, tagpdnum, sp_num, detail, fd_ur_num} = props;
     const ur_num = sessionStorage.ur_num;
     const [selllist, setSelllist] = useState([]);
     const spURL = 'https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/';
+    const navi = useNavigate()
 
     const useStyles = makeStyles((theme) => ({
         popover: {
@@ -82,7 +84,9 @@ function FeedTagPopover(props) {
                         </ul>
                     </div>
                     :
-                    <div className={"tag_detail"} style={{margin:"5px"}}>
+                    <div className={"tag_detail"} style={{margin:"5px", cursor:"pointer"}} onClick={() => {
+                        navi(`/shop/detail/${sp_num}`);
+                    }}>
                             {selllist && selllist.map((item, i) =>
                                 item.sp_num == sp_num &&
                                 <div key={i}>

@@ -167,11 +167,26 @@ function ShopList() {
         navi("/shop/list?category="+e.target.value+"&currentPage=1");
 
     }
+
+/*    const addshop=(e)=>{
+        const uploadFile = new FormData();
+        uploadFile.append("file",e.target.files[0])
+
+        let url = sessionStorage.url+"/crawling/insertshop"
+        axios({
+            method:'post',
+            url:url,
+            data:uploadFile,
+            headers:{'Content-Type':'multipart/form-data'}
+        })
+            .then()
+    }*/
+
     let categoryArr=["가구","데코·식물","패브릭","가전·디지털","주방용품","조명","수납·정리",
         "생활용품","생필품","유아·아동","반려동물","실내운동","캠핑용품","공구·DIY"];
     return (
         <div className={"list_container"}>
-            <div style={{display:'flex',alignItems:"center", justifyContent:'space-between'}}>
+            <div style={{display:'flex',alignItems:"center", justifyContent:'space-between', padding:'0 25px 0 25px'}}>
                 <select className="form-select fsel" style={{width: "15%",margin:"0 30px 0 0",
                     maxWidth:'250px',height:'50px'}}
                         onChange={setOptionSelect} value={category}>
@@ -182,13 +197,15 @@ function ShopList() {
                     }
                     <option value={'기타'}>기타</option>
                 </select>
-                <div style={{height:'56px',display:'flex', width:'50%',justifyContent:"flex-end"}}>
+                <div style={{height:'40px',display:'flex', width:'50%',justifyContent:"flex-end"}}>
                     <Select style={{width:'20%', textAlign:"center", height:'100%'}} defaultValue={'sp_title'} name={'search_col'} onChange={(e)=>setSearch_col(e.target.value)}>
                         <MenuItem value={'sp_title'}>제목</MenuItem>
                         <MenuItem value={'sp_txt'}>내용</MenuItem>
                     </Select>
-                    <TextField placeholder={'검색어'} inputProps={{style:{borderColor:'#35c5f0'}}} style={{width:'50%'}}
-                               value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>
+                    <input type="text" name="search_word" className="form-control fsearch" style={{width: "50%"}} value={search_word}
+                           placeholder="검색단어" onChange={(e)=>setSearch_word(e.target.value)}/>
+                    {/*<TextField placeholder={'검색어'} inputProps={{style:{borderColor:'#35c5f0'}}} style={{width:'50%', height:'40px'}}
+                               value={search_word} onChange={(e)=>setSearch_word(e.target.value)}/>*/}
                     <Button variant="contained" style={{width:'7%', height:'100%', backgroundColor:'#35c5f0'}} onClick={searchbutton}><SearchRounded/></Button>
                 </div>
             </div>

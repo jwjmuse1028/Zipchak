@@ -44,6 +44,7 @@ function RouteMain(props) {
                     <Route path='insert' element={<ShopInsertForm/>}/>
                     <Route path='update/:pd_num/:sp_num/:currentPage' element={<ShopUpdateForm/>}/>
                     <Route path='detail/:pd_num/:sp_num/:currentPage' element={<ShopDetail/>}/>
+                    <Route path='detail/:sp_num' element={<ShopDetail/>}/>
                 </Route>
 
                 <Route path='/chat'>
