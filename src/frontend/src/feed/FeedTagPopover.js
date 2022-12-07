@@ -40,7 +40,7 @@ function FeedTagPopover(props) {
         popoverclose()
     }
 
-    const deleteItem = (e) =>{
+    const deleteItem = (e) => {
         let tagsp = e.target.getAttribute("id")
         tagpdnum(tagsp)
         popoverclose()
@@ -84,27 +84,29 @@ function FeedTagPopover(props) {
                         </ul>
                     </div>
                     :
-                    <div className={"tag_detail"} style={{margin:"5px", cursor:"pointer"}} onClick={() => {
-                        navi(`/shop/detail/${sp_num}`);
-                    }}>
-                            {selllist && selllist.map((item, i) =>
-                                item.sp_num == sp_num &&
-                                <div key={i}>
-                                    <div style={{display: "flex"}}>
+                    <div className={"tag_detail"} style={{margin: "5px", cursor: "pointer"}}>
+                        {selllist && selllist.map((item, i) =>
+                            item.sp_num == sp_num &&
+                            <div key={i}>
+                                <div style={{display: "flex"}}>
+                                    <a href={`/shop/detail/${item.sp_num}`} target={"_blank"} style={{display:"flex"}}>
                                         <img alt={''} src={spURL + item.img_name}
                                              className={'tag_sp_img'}/>
                                         <div className={'tag_sp_title'}>
                                             <span>{item.sp_title}</span>
                                         </div>
-                                        {!detail ?
-                                            <div className={'tag_btn_div'}>
-                                                <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"} style={{margin:"auto", cursor:"pointer"}} id={"0"} onClick={deleteItem}/>
-                                            </div>
-                                            :''
-                                        }
-                                    </div>
+                                    </a>
+                                    {!detail ?
+                                        <div className={'tag_btn_div'}>
+                                            <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"}
+                                                                    style={{margin: "auto", cursor: "pointer"}} id={"0"}
+                                                                    onClick={deleteItem}/>
+                                        </div>
+                                        : ''
+                                    }
                                 </div>
-                            )}
+                            </div>
+                        )}
                     </div>
             }
         </Popover>
