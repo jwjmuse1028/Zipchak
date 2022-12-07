@@ -77,7 +77,7 @@ function Chat(props) {
             style={{display:`${screenState===0?"block":screenState===1?"block":resize<=768?"none":"block"}`}}>
                 <ChatRoomList ur_num={ur_num} cr_click={cr_click} sendnoti={sendnoti} roomno={roomno}
                               cr_num={cr_num} noti={noti} screenStatef={screenStatef} screenState={screenState} /></div>
-            <div id={"chat_message"} style={{width:`${resize<=768?"590px":"100%"}`,
+            <div id={"chat_message"} style={{width:`${resize<=768?"520px":"100%"}`,
                 display:`${screenState===0?"block":screenState===1?"none":"block"}`}}>
                 {
                     roomno==0

@@ -58,9 +58,10 @@ function ProfileGetRvList(props) {
                                 &nbsp; ({marks[rv.rv_tmp/10].label + rv.rv_tmp}℃)
                             </div>
                             </div>
+                            <a href={`/profile/${rv.fromuser}/1`}>
                             <div className={'mypage_fromuser_for_rv'}
                                  style={{cursor:'pointer'}}
-                            onClick={()=>navi(`/profile/${rv.fromuser}/1`)}
+                            //onClick={()=>navi(`/profile/${rv.fromuser}/1`)}
                             >
                                 From.
                                 <div className={'fromuser_prf'}>
@@ -69,7 +70,7 @@ function ProfileGetRvList(props) {
                                 </div>
                                 <div >{rv.prf_nick}님</div>
                             </div>
-
+                            </a>
                         </div>
                 </li> </div>)
             }

@@ -20,7 +20,7 @@ div.uInfoBox_user{
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    width: 50%;
+    width: 60%;
 }
 div.uInfoBox_sp{
     display:flex;

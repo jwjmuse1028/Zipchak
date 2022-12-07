@@ -118,11 +118,43 @@ div.each_msg_box{
     display: block;
     width: 100%;
     min-height: 70px;
+    min-width: 520px;
 }
 
 div.i_msg_box_w_read{
     position: relative;
-    right: -65%;
+}
+/*반응형*/
+/*폭클경우*/
+@media screen and (min-width: 768px) {
+    div.i_msg_box_w_read{
+        right: -65%;
+    }
+    .i_msg_box:after {
+        content: "";
+        position: absolute;
+        bottom: 20px;
+        left:30%;
+        margin-top: -10px;
+        border: 10px solid transparent;
+        border-left: 15px solid #35C5F0;
+    }
+}
+
+/*폭작을경우*/
+@media screen and (max-width: 768px) {
+    div.i_msg_box_w_read{
+        right: -285px;
+    }
+    .i_msg_box:after {
+        content: "";
+        position: absolute;
+        bottom: 20px;
+        left:200px;
+        margin-top: -10px;
+        border: 10px solid transparent;
+        border-left: 15px solid #35C5F0;
+    }
 }
 div.i_read{
     position: absolute;
@@ -143,15 +175,7 @@ div.i_msg_box{
     padding: 5px 15px;
     color: white;
 }
-.i_msg_box:after {
-    content: "";
-    position: absolute;
-    bottom: 20px;
-    left:30%;
-    margin-top: -10px;
-    border: 10px solid transparent;
-    border-left: 15px solid #35C5F0;
-}
+
 div.u_msg_box_w_prf{
     position: relative;
     margin-left: 10px;
