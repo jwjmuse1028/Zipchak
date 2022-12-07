@@ -175,7 +175,7 @@ function ShopUpdateForm(props) {
                                 img_name.map((img,idx)=>
                                     <figure className={'photos'} key={idx}>
                                         <img alt={''}
-                                             src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${img}`} width={'80px'} height={'80px'}/>
+                                             src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${img}`} style={{width:'80px', height:'80px'}} />
                                         {/*<figcaption>*/}
                                         {/*    <CancelRounded className={'imageclose'} style={{color:'gray'}}*/}
                                         {/*                   onClick={()=>{*/}

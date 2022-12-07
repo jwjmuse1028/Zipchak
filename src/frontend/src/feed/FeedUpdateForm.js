@@ -280,7 +280,7 @@ function FeedUpdateForm(props) {
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}
-                       style={{height: '60px', fontSize: '25px'}}
+                       style={{height: '60px', fontSize: '25px', boxShadow:"none"}}
                        placeholder={'제목을 입력하세요.'} name={"fd_title"} value={dto.fd_title} required
                        onChange={onChangeData} onClick={onClickData}/>
                 {touched.fd_title && errors.fd_title &&
@@ -292,6 +292,7 @@ function FeedUpdateForm(props) {
                         <div className="form_row_title">주거형태<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '130px', marginRight: '80px'}}>
                             <select className={`form-select ${errors.fd_lvtp}`} required
+                                    style={{boxShadow:"none"}}
                                     name={"fd_lvtp"} value={dto.fd_lvtp} onChange={onChangeData} onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="본인 방">본인 방</option>
@@ -313,6 +314,7 @@ function FeedUpdateForm(props) {
                         <div style={{width: '220px'}}>
                             {/* 필수 입력항목 입력 안했을 시 에러 */}
                             <select className={`form-select ${errors.fd_fml}`} required
+                                    style={{boxShadow:"none"}}
                                     name={"fd_fml"} value={dto.fd_fml} onChange={onChangeData} onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="싱글라이프">싱글라이프</option>
@@ -332,6 +334,7 @@ function FeedUpdateForm(props) {
                         <div className="form_row_title">평수<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '130px', marginRight: '80px', display: 'block'}}>
                             <input type={'text'} className={`form-control ${errors.fd_spc}`} required
+                                   style={{boxShadow:"none"}}
                                    name={"fd_spc"} value={dto.fd_spc} onChange={onChangeData} onClick={onClickData}/>
                             {!touched.fd_spc ? '' : errors.fd_spc == "empty error" ?
                                 <div className="form_empty_msg">필수 입력 항목입니다.</div>
@@ -342,6 +345,7 @@ function FeedUpdateForm(props) {
                         <div className="form_row_title">스타일<span style={{color: 'rgb(255, 119, 119)'}}>*</span></div>
                         <div style={{width: '220px'}}>
                             <select className={`form-select ${errors.fd_style}`} required
+                                    style={{boxShadow:"none"}}
                                     name={"fd_style"} value={dto.fd_style} onChange={onChangeData}
                                     onClick={onClickData}>
                                 <option value="" selected disabled></option>

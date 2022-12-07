@@ -84,9 +84,10 @@
 /*}*/
 
 h2.homebest{
-    position: relative;
-    text-align: center;
-    top: -550px;
+    position: absolute;
+    top: 40px;
+    left: 500px;
+    /*top: -600px;*/
 }
 
 h2.homebest span {
