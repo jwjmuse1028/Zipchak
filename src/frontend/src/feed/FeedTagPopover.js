@@ -89,13 +89,14 @@ function FeedTagPopover(props) {
                             item.sp_num == sp_num &&
                             <div key={i}>
                                 <div style={{display: "flex"}}>
-                                    <a href={`/shop/detail/${item.sp_num}`} target={"_blank"} style={{display:"flex"}}>
-                                        <img alt={''} src={spURL + item.img_name}
+                                    <div style={{display:"flex"}}
+                                         onClick={() => window.open(`/shop/detail/${item.sp_num}`, '_blank')}>
+                                    <img alt={''} src={spURL + item.img_name}
                                              className={'tag_sp_img'}/>
                                         <div className={'tag_sp_title'}>
                                             <span>{item.sp_title}</span>
                                         </div>
-                                    </a>
+                                    </div>
                                     {!detail ?
                                         <div className={'tag_btn_div'}>
                                             <MdOutlineDeleteOutline color={"#35C5F0"} fontSize={"20px"}
