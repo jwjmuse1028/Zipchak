@@ -175,7 +175,7 @@ function FeedDetailCmt({fd_num}) {
                             <div style={{marginLeft: "20px"}} class="css-f9yozn ewncmdz14">
                                 <li className="css-1fzkxhd ec4queb0">
                                     <div className="css-ame6mi ewncmdz14">
-                                        <div className="css-eayw7z ewncmdz13"><a onClick={()=>navi(`/profile/${cdto.ur_num}`)}>
+                                        <div className="css-eayw7z ewncmdz13"><a onClick={()=>navi(`/profile/${cdto.ur_num}/1`)}>
                                             <img className="css-50jqym ewncmdz12" src={`${imgUrl}/prf_img/${cdto.prf_img}`}/>
                                             <span className="css-nltycz ewncmdz11">{cdto.prf_nick}</span></a></div>
                                         <div className={"input-group"}>
@@ -200,7 +200,7 @@ function FeedDetailCmt({fd_num}) {
                             <div>
                                 <li className="css-1fzkxhd ec4queb0">
                                     <div className="css-ame6mi ewncmdz14">
-                                        <div className="css-eayw7z ewncmdz13"><a onClick={()=>navi(`/profile/${cdto.ur_num}`)}>
+                                        <div className="css-eayw7z ewncmdz13"><a onClick={()=>navi(`/profile/${cdto.ur_num}/1`)}>
                                             <img className="css-50jqym ewncmdz12" src={`${imgUrl}/prf_img/${cdto.prf_img}`}/>
                                             <span className="css-nltycz ewncmdz11">{cdto.prf_nick}</span></a></div>
                                         <div className={"input-group"}>
