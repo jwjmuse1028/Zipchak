@@ -25,7 +25,7 @@ function MypagePrfBox(props) {
 
     const dialogClose = (prf_nick,prf_img,ischangeprf) => {
         setOpen(false);
-        if(ischangeprf){
+        if(ischangeprf===1){
             sessionStorage.prf_nick=prf_nick;
             if (prf_img==="no"){
                 return;

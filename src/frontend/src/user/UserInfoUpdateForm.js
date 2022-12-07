@@ -56,7 +56,7 @@ const DialogActions = withStyles((theme) => ({
 function UserInfoUpdateForm(props) {
     const {open, dialogClose,uinfo}=props;
     const [prf_nick,setPrf_nick]=useState(sessionStorage.prf_nick);
-    const [chknickstatus,setChknickstatus]=useState(0);
+    const [chknickstatus,setChknickstatus]=useState(-1);
     const [ischangenick,setIschangenick]=useState(false);
     const [ischangeimg,setIschangeimg]=useState(0);
     const [preimg,setPreimg]=useState('');
@@ -117,11 +117,12 @@ function UserInfoUpdateForm(props) {
         setIschangenick(false);
     }
     const noupdateDialogClose=()=>{
+        setChknickstatus(-1);
         getpersonaldata();
-        dialogClose(pre_nick,uinfo.prf_img,false);
+        dialogClose(pre_nick,uinfo.prf_img,-1);
     }
     const updateinfo=()=>{
-        if (ischangenick===false ){
+        if (chknickstatus===-1 ){
             swal('닉네임 중복체크를 해주세요',{ icon: "warning",});
             return;}
         if (chknickstatus===1){
@@ -143,11 +144,11 @@ function UserInfoUpdateForm(props) {
         }).then(res =>{
             if (res.data.prf_img==null){
                 swal('나의 정보가 변경되었습니다.',{ icon: "success",});
-                dialogClose(res.data.prf_nick,prev_prf_img,true);
+                dialogClose(res.data.prf_nick,prev_prf_img,1);
             }
             else {
                 swal('나의 정보가 변경되었습니다.',{ icon: "success",});
-                dialogClose(res.data.prf_nick,res.data.prf_img,true);
+                dialogClose(res.data.prf_nick,res.data.prf_img,1);
             }
         } );
 
@@ -189,8 +190,8 @@ function UserInfoUpdateForm(props) {
                                 onChange={changenick} />
                             <Button color="primary" onClick={chknick} style={{width:'70px',color:'#35c5f0'}}>중복체크</Button>
                         </div>
-                        <div style={{color:chknickstatus===1?"red":"green", fontSize:'12px', marginLeft:'85px'}}>
-                            {chknickstatus===1?"이미 존재하는 닉네임입니다":"사용 가능한 닉네임입니다"}
+                        <div style={{color:chknickstatus===1?"red":"green", fontSize:'12px', marginLeft:'5px'}}>
+                            {chknickstatus===-1?"":chknickstatus===1?"이미 존재하는 닉네임입니다":"사용 가능한 닉네임입니다"}
                         </div>
                     </div>
                     <div className={'mypage-row'}>
