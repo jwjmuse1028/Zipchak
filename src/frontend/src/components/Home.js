@@ -281,6 +281,23 @@ function Home(props) {
             </Slider>
             <br/><br/><br/>
             <div>
+                <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
+                <Slider {...settings_ctg}>
+                    {
+                        categoryArr&&
+                        categoryArr.map((ctg,i)=>
+                            <figure>
+                                <img style={{width:'100px',height:'100px',cursor:'pointer',margin:"auto"}}
+                                     onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
+                                     src={require(`../image/${ctg}.png`)} alt={''}/>
+                                <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
+                            </figure>
+                        )
+                    }
+                </Slider>
+            </div>
+            <br/><br/><br/>
+            <div>
                 <h4><strong>🏅 12월 인기 집들이 BEST 🏅</strong></h4>
                 <br/>
                 <Slider {...settings_j}>
@@ -321,7 +338,7 @@ function Home(props) {
                     }
                 </Slider>
             </div>
-                <br/><br/>
+                <br/>
             <div>
                 <h4><strong>👑 집착 어워드 👑</strong></h4>
                 <div style={{display:'flex'}}>
@@ -378,24 +395,8 @@ function Home(props) {
                 </div>
             </div>
             <br/><br/><br/>
-            <div>
-                <h4><strong>🔍 카테고리별 상품 찾기 🔍</strong></h4>
-                <Slider {...settings_ctg}>
-                    {
-                        categoryArr&&
-                        categoryArr.map((ctg,i)=>
-                            <figure>
-                                <img style={{width:'100px',height:'100px',cursor:'pointer',margin:"auto"}}
-                                     onClick={()=>navi(`/shop/list?category=${ctg}&currentPage=1`)}
-                                     src={require(`../image/${ctg}.png`)} alt={''}/>
-                                <figcaption style={{textAlign:"center"}}>{ctg}</figcaption>
-                            </figure>
-                        )
-                    }
-                </Slider>
-            </div>
-            <br/><br/><br/>
-            <div>
+
+            <div style={{textAlign:"center", position:"relative"}}>
                 <img src={mainad3} style={{width:'50%'}}/>
                 {/*<p className="animation">집이 최고야</p>*/}
                 <h2 className={'homebest'}>

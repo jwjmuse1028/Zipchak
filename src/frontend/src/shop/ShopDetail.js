@@ -215,6 +215,8 @@ function ShopDetail(props) {
                                                  src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${photo}`}
                                                  width={'100%'} style={{
                                                 borderRadius: '30px',
+                                                // width: '500px',
+                                                height: '500px',
                                                 filter: detail.pd_status === "soldout" ? 'brightness(30%)' : ''
                                             }}/>
                                         </div>)

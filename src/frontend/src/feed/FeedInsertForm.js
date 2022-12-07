@@ -288,7 +288,7 @@ function FeedInsertForm(props) {
                 <br/><br/>
                 {/* 제목입력 */}
                 <input type={'text'} className={`form-control ${errors.fd_title}`}
-                       style={{height: '60px', fontSize: '25px'}}
+                       style={{height: '60px', fontSize: '25px', boxShadow:"none"}}
                        placeholder={'제목을 입력하세요.'} name={"fd_title"} value={dto.fd_title} required
                        onChange={onChangeData} onClick={onClickData}/>
                 {touched.fd_title && errors.fd_title &&
@@ -302,6 +302,7 @@ function FeedInsertForm(props) {
                         </div>
                         <div style={{width: '130px', marginRight: '80px'}}>
                             <select className={`form-select ${errors.fd_lvtp}`} required
+                                    style={{boxShadow:"none"}}
                                     name={"fd_lvtp"} value={dto.fd_lvtp} onChange={onChangeData}
                                     onClick={onClickData}>
                                 <option value="" selected disabled></option>
@@ -327,6 +328,7 @@ function FeedInsertForm(props) {
                             {/* 필수 입력항목 입력 안했을 시 에러 */}
                             <select className={`form-select ${errors.fd_fml}`} required
                                     name={"fd_fml"} value={dto.fd_fml} onChange={onChangeData}
+                                    style={{boxShadow:"none"}}
                                     onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="싱글라이프">싱글라이프</option>
@@ -348,6 +350,7 @@ function FeedInsertForm(props) {
                         <div style={{width: '130px', marginRight: '80px', display: 'block'}}>
                             <input type={'text'} className={`form-control ${errors.fd_spc}`} required
                                    name={"fd_spc"} value={dto.fd_spc} onChange={onChangeData}
+                                   style={{boxShadow:"none"}}
                                    onClick={onClickData}/>
                             {!touched.fd_spc ? '' : errors.fd_spc == "empty error" ?
                                 <div className="form_empty_msg">필수 입력 항목입니다.</div>
@@ -362,6 +365,7 @@ function FeedInsertForm(props) {
                         <div style={{width: '220px'}}>
                             <select className={`form-select ${errors.fd_style}`} required
                                     name={"fd_style"} value={dto.fd_style} onChange={onChangeData}
+                                    style={{boxShadow:"none"}}
                                     onClick={onClickData}>
                                 <option value="" selected disabled></option>
                                 <option value="모던">모던</option>
