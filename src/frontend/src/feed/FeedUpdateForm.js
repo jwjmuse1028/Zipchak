@@ -153,7 +153,7 @@ function FeedUpdateForm(props) {
             data: formData,
             headers: {'Content-Type': 'multipart/form-data'}
         }).then(res => {
-            navi("/feed/list");
+            navi(`/feed/detail/${fd_num}`);
         });
     }
 
