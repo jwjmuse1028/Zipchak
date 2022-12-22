@@ -46,6 +46,14 @@ A) 모든 수업은 오프라인이고, 마치 상품을 구입 하듯이 온라
   * 좋아요 한 글 출력
   * 댓글 단 글 출력
   * 클릭시 해당글로 이동
+    
+<img width="800" alt="image6" src="https://user-images.githubusercontent.com/111737716/209136456-ebcb4fa8-acf8-4f3c-b479-b7bec511a33c.png">
+<img width="800" alt="image7" src="https://user-images.githubusercontent.com/111737716/209136721-62628171-a3e3-423b-b317-a5019ac4147f.png">
+<img width="800" alt="image8" src="https://user-images.githubusercontent.com/111737716/209136727-c8dc42c5-a238-4f3a-bac0-df9fb5f195f9.png">
+<img width="800" alt="image9" src="https://user-images.githubusercontent.com/111737716/209136730-cbe6b90c-8d9d-4ad0-b958-12dab850fe72.png">
+<img width="370" alt="image10" src="https://user-images.githubusercontent.com/111737716/209136732-31f42480-ba1e-4f63-9b84-806a530f12e1.png">
+<img width="800" alt="image11" src="https://user-images.githubusercontent.com/111737716/209136735-4583df39-9272-4c23-8873-c5cc6eaa9504.png">
+<img width="800" alt="image12" src="https://user-images.githubusercontent.com/111737716/209136739-54e74636-de8c-49d4-839e-5d21ec87ba7e.png">
 
 ---
 
