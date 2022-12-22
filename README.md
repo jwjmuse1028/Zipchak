@@ -103,4 +103,4 @@ A) 모든 수업은 오프라인이고, 마치 상품을 구입 하듯이 온라
 
 ## ERD
 
-<img width="554" alt="2022-12-22 214720" src="https://user-images.githubusercontent.com/111737716/209137688-ea088ec8-cb79-41b5-8436-662de6c08b97.png">
+<img width="800" alt="2022-12-22 214720" src="https://user-images.githubusercontent.com/111737716/209137688-ea088ec8-cb79-41b5-8436-662de6c08b97.png">
