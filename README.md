@@ -16,15 +16,13 @@ A) 모든 수업은 오프라인이고, 마치 상품을 구입 하듯이 온라
 
 ## 주요 페이지
 
-1. **강의** : 찾고자하는 과목의 수업을 한눈에 보기 쉽게 찾을 수 있고, 강좌의 정보와 강사의 평점을 확인 할 수 있습니다.
+1. **집들이** : 찾고자하는 과목의 수업을 한눈에 보기 쉽게 찾을 수 있고, 강좌의 정보와 강사의 평점을 확인 할 수 있습니다.
 
-2. **커뮤니티** : 회원들끼리 자유롭게 질문을 하거나 정보를 공유 할 수 있고, 좋아요와 댓글 등으로 더욱 원활한 소통을 할 수 있습니다.
+2. **스토어** : 회원들끼리 자유롭게 질문을 하거나 정보를 공유 할 수 있고, 좋아요와 댓글 등으로 더욱 원활한 소통을 할 수 있습니다.
 
-3. **QnA** : 관리자에게 문의하고 답변을 받을 수 있습니다.
+3. **채팅** : 관리자에게 문의하고 답변을 받을 수 있습니다.
 
 4. **마이페이지** : 회원이 장바구니에 담아놓은 강좌들을 확인 할 수 있고, 직접 작성한 글이나 회원정보 및 비밀번호 등을 확인하고 수정 할 수 있습니다.
-
-5. **관리자페이지** : 월 단위로 매출을 확인 할 수 있고, 강좌관리, 회원관리, 게시글관리 등의 것들을 할 수 있습니다.
 
 ---
 
@@ -48,11 +46,6 @@ A) 모든 수업은 오프라인이고, 마치 상품을 구입 하듯이 온라
   * 좋아요 한 글 출력
   * 댓글 단 글 출력
   * 클릭시 해당글로 이동
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/image.png" width="600">
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/image2.png" width="600">
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/image3.png" width="600">
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/image4.png" width="600">
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/image5.png" width="600">
 
 ---
 
@@ -101,5 +94,3 @@ A) 모든 수업은 오프라인이고, 마치 상품을 구입 하듯이 온라
 ---
 
 ## ERD
-
-<img src="https://github.com/jwjmuse1028/TeachMe/blob/main/207294196-cc1379e5-9762-4c01-a1c7-6f8fffa38f5d.png" width="600">
