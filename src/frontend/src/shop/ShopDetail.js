@@ -193,17 +193,18 @@ function ShopDetail(props) {
     return (
 
         <div className={'shop_detail_container'}>
-            <span style={{color: "gray"}}>카테고리>{detail.pd_ctg}</span>
+            <span style={{color: "gray"}}>카테고리 > {detail.pd_ctg}</span>
             <br/><br/>
             <div style={{display: "flex", flexDirection: "row"}}>
                 <div style={{position:'relative'}}>
                     {
+                        // 상품사진
                         detail.images && detail.images.length==1?
                             <img alt={''}
                                  src={`https://s3.ap-northeast-2.amazonaws.com/bitcampteam2/sp_img/${detail.images}`}
                                  width={'100%'} style={{
                                 borderRadius: '30px',
-                                filter: detail.pd_status === "soldout" ? 'brightness(30%)' : ''
+                                filter: detail.pd_status === "soldout" ? 'brightness(30%)' : '' //판매완료 상태일시 어두워지는 필터적용
                             }}/>
                             :
                             <Slider {...settings} style={{width: "500px"}}>
@@ -224,7 +225,7 @@ function ShopDetail(props) {
                             </Slider>
                     }
                     {
-                        detail.pd_status === "soldout" ?
+                        detail.pd_status === "soldout" ? //판매완료 상태일시 사진위에 "판매완료"
                             <p className={'soldouttxtdetail'}>판매완료</p> : ''
                     }
 
@@ -239,8 +240,6 @@ function ShopDetail(props) {
                         <div style={{position: "relative", transform: 'scale(0.7)'}}>
                             <UserTemp prf_tmp={detail.prf_tmp}/>
                         </div>
-
-
                     </div>
                     <div style={{display: "flex", margin: "10px 0 20px 0"}}>
                         <span style={{fontSize: '1.5em'}}>{detail.sp_title}</span>
@@ -269,7 +268,7 @@ function ShopDetail(props) {
                             <IconButton style={{color: '#35c5f0'}} onClick={onClickLike(SlideTransition)}>
                                 {
                                     detail.userlike === 0 ? <BookmarkBorder fontSize={"large"}/> :
-                                        <Bookmark fontSize={"large"}/>
+                                        <Bookmark fontSize={"large"}/> //좋아요 클릭 + 취소시 북마크 아이콘 변경
                                 }
                             </IconButton>
                             {

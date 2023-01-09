@@ -16,18 +16,8 @@ function ShopInsertForm(props) {
 
     const navi = useNavigate();
 
-    // const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
-    //     const value: string = e.target.value;
-    //     const removedCommaValue: number = Number(value.replaceAll(",", ""));
-    //     setPd_price(removedCommaValue.toLocaleString());
-    // };
-
-    // const imageUrl = sessionStorage.url+"/image/";
     const uploadPhoto=(e)=>{
-        // if(img_name.length==10){
-        //     alert("사진은 10장까지만 첨부 가능합니다");
-        //     return;
-        // }
+
         let uploadUrl = sessionStorage.url+"/shop/upload";
 
         let total=img_name.length+e.target.files.length; //사진 10장 제한
@@ -87,9 +77,7 @@ function ShopInsertForm(props) {
 
            })
    }
-    // const imgerror = (e) => {
-    //     e.target.src = white
-    // }
+
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -110,7 +98,6 @@ function ShopInsertForm(props) {
                                 <Select value={pd_ctg} variant={"standard"} style={{width:'50%'}} required displayEmpty
                                         renderValue={pd_ctg !== "" ? undefined : () => "카테고리를 선택해주세요"}
                                 onChange={(e)=>setPd_ctg(e.target.value)}>
-                                    {/*<MenuItem value={'선택해주세요'} selected disabled placeholder={"선택해주세요"}>카테고리를 선택해주세요</MenuItem>*/}
                                     <MenuItem value={'가구'}>가구</MenuItem>
                                     <MenuItem value={'데코·식물'}>데코·식물</MenuItem>
                                     <MenuItem value={'패브릭'}>패브릭</MenuItem>
@@ -132,7 +119,6 @@ function ShopInsertForm(props) {
                         <tr>
                             <th>가격&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
-                                {/*<TextField type={"number"} required placeholder={"숫자만 입력해주세요"} variant={"standard"} style={{width:'50%'}}/><b>원</b>*/}
                                 <TextField type="number" max value={pd_price} required placeholder={"숫자만 입력해주세요 (최대 9자)"} variant={"standard"} style={{width:'50%'}}
                                            onChange={e => setPd_price(e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,9))}/><b>원</b>
 
@@ -183,8 +169,7 @@ function ShopInsertForm(props) {
                             <th><br/>내용&nbsp;<span style={{color:'rgb(255, 119, 119)'}}>*</span></th>
                             <td>
                                 <textarea className={'form-control'} ref={sp_txtRef} style={{width:'100%', height:'200px', boxShadow:"none"}} required
-                                           placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)\n" +
-                                    "안전하고 건전한 거래 환경을 위해 과학기술정보통신부, 한국인터넷진흥원과 함께 합니다."}/>
+                                           placeholder={"여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"}/>
                             </td>
                         </tr>
                         <tr>
